@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/auth_services/google_sign_service.dart';
+
+import 'google_sign_service.dart';
 
 class FacebookLoginService with ChangeNotifier {
   bool isloading = false;

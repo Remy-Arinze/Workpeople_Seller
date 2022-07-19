@@ -1,12 +1,12 @@
-import 'package:connectivity/connectivity.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/common_service.dart';
-import 'package:qixer/service/profile_service.dart';
-import 'package:qixer/view/auth/login/login.dart';
-import 'package:qixer/view/utils/others_helper.dart';
+import 'package:qixer_seller/services/profile_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../utils/others_helper.dart';
+import '../../view/auth/login/login.dart';
+import '../common_service.dart';
 
 class LogoutService with ChangeNotifier {
   bool isloading = false;

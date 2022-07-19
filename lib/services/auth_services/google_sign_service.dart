@@ -3,11 +3,9 @@ import 'dart:convert';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:qixer_seller/view/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../view/home/landing_page.dart';
-import '../../view/utils/constant_colors.dart';
-import '../../view/utils/others_helper.dart';
+import '../../utils/others_helper.dart';
 import '../common_service.dart';
 import 'package:http/http.dart' as http;
 
@@ -94,7 +92,7 @@ class GoogleSignInService with ChangeNotifier {
         Navigator.pushReplacement<void, void>(
           context,
           MaterialPageRoute<void>(
-            builder: (BuildContext context) => const LandingPage(),
+            builder: (BuildContext context) => const Homepage(),
           ),
         );
         print(response.body);

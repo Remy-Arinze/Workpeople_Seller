@@ -3,12 +3,13 @@ import 'dart:convert';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/auth_services/login_service.dart';
-import 'package:qixer/service/auth_services/reset_password_service.dart';
-import 'package:qixer/view/home/landing_page.dart';
-import 'package:qixer/view/utils/others_helper.dart';
+
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:qixer_seller/services/auth_services/login_service.dart';
+import 'package:qixer_seller/services/auth_services/reset_password_service.dart';
+import 'package:qixer_seller/view/home/home.dart';
+
+import '../../utils/others_helper.dart';
 
 class EmailVerifyService with ChangeNotifier {
   bool isloading = false;
@@ -94,7 +95,7 @@ class EmailVerifyService with ChangeNotifier {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute<void>(
-              builder: (BuildContext context) => const LandingPage(),
+              builder: (BuildContext context) => const Homepage(),
             ),
           );
 
