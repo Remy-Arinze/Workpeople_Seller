@@ -4,6 +4,7 @@ import 'package:qixer_seller/services/auth_services/reset_password_service.dart'
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/view/auth/login/login.dart';
 
 class ResetPasswordPage extends StatefulWidget {
   const ResetPasswordPage({Key? key, this.email}) : super(key: key);
@@ -235,6 +236,13 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                                   widget.email,
                                   context);
                             }
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) =>
+                                    const LoginPage(),
+                              ),
+                            );
                           }
                         },
                                 isloading:

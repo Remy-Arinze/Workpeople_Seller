@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/auth/reset_password/reset_password_page.dart';
 
 import '../../../services/auth_services/reset_pass_otp_service.dart';
 import '../../../services/auth_services/reset_password_service.dart';
@@ -91,8 +92,15 @@ class _ResetPassOtpPageState extends State<ResetPassOtpPage> {
                   errorAnimationController: errorController,
                   controller: textEditingController,
                   onCompleted: (otp) {
-                    ResetPasswordOtpService()
-                        .checkOtp(otp, widget.email, context);
+                    // ResetPasswordOtpService()
+                    //     .checkOtp(otp, widget.email, context);
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) =>
+                            const ResetPasswordPage(),
+                      ),
+                    );
                   },
                   onChanged: (value) {
                     setState(() {
@@ -123,8 +131,8 @@ class _ResetPassOtpPageState extends State<ResetPassOtpPage> {
                                 TextSpan(
                                     recognizer: TapGestureRecognizer()
                                       ..onTap = () {
-                                        provider.sendOtp(widget.email, context,
-                                            isFromOtpPage: true);
+                                        // provider.sendOtp(widget.email, context,
+                                        //     isFromOtpPage: true);
                                       },
                                     text: 'Send again',
                                     style: TextStyle(

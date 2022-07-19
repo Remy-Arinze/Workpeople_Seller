@@ -7,6 +7,7 @@ import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/custom_input.dart';
 import 'package:qixer_seller/view/home/home.dart';
 import '../../../services/auth_services/login_service.dart';
+import '../reset_password/reset_pass_email_page.dart';
 import '../signup/signup.dart';
 
 class LoginPage extends StatefulWidget {
@@ -206,16 +207,18 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                           InkWell(
                             onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute<void>(
-                              //     builder: (BuildContext context) =>
-                              //         const ResetPassEmailPage(),
-                              //   ),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      const ResetPassEmailPage(),
+                                ),
+                              );
                             },
-                            child: SizedBox(
+                            child: Container(
+                              alignment: Alignment.center,
                               width: 122,
+                              height: 40,
                               child: Text(
                                 "Forgot Password?",
                                 style: TextStyle(

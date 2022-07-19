@@ -132,6 +132,10 @@ class _SignupPageState extends State<SignupPage> {
 
                           //Country dropdown =====>
                           const CountryStatesDropdowns(),
+
+                          const SizedBox(
+                            height: 8,
+                          ),
                           //Agreement checkbox ===========>
 
                           CheckboxListTile(
@@ -158,7 +162,7 @@ class _SignupPageState extends State<SignupPage> {
                           ),
                           // sign up button
                           const SizedBox(
-                            height: 13,
+                            height: 10,
                           ),
                           CommonHelper().buttonPrimary("Sign up", () {
                             if (termsAgree == false) {
