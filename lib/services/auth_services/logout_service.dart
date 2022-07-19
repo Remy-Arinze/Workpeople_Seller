@@ -45,9 +45,7 @@ class LogoutService with ChangeNotifier {
         Navigator.pushAndRemoveUntil<dynamic>(
           context,
           MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => const LoginPage(
-              hasBackButton: false,
-            ),
+            builder: (BuildContext context) => const LoginPage(),
           ),
           (route) => false,
         );

@@ -30,7 +30,7 @@ class CommonHelper {
   }
 
   //common orange button =======>
-  buttonOrange(String title, VoidCallback pressed, {isloading = false}) {
+  buttonPrimary(String title, VoidCallback pressed, {isloading = false}) {
     return InkWell(
       onTap: pressed,
       child: Container(
@@ -51,7 +51,7 @@ class CommonHelper {
     );
   }
 
-  borderButtonOrange(String title, VoidCallback pressed) {
+  borderButtonPrimary(String title, VoidCallback pressed) {
     return InkWell(
       onTap: pressed,
       child: Container(

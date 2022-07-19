@@ -7,12 +7,16 @@ class EmailNameFields extends StatelessWidget {
       {Key? key,
       this.fullNameController,
       this.userNameController,
-      this.emailController})
+      this.emailController,
+      this.passController,
+      this.confirmPassController})
       : super(key: key);
 
   final fullNameController;
   final userNameController;
   final emailController;
+  final passController;
+  final confirmPassController;
 
   @override
   Widget build(BuildContext context) {

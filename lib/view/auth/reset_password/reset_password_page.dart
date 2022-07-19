@@ -226,7 +226,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                       ),
                       Consumer<ResetPasswordService>(
                         builder: (context, provider, child) => CommonHelper()
-                            .buttonOrange("Change password", () {
+                            .buttonPrimary("Change password", () {
                           if (provider.isloading == false) {
                             if (_formKey.currentState!.validate()) {
                               provider.resetPassword(

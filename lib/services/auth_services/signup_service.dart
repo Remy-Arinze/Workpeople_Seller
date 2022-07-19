@@ -11,8 +11,6 @@ import '../country_states_service.dart';
 import 'email_verify_service.dart';
 
 class SignupService with ChangeNotifier {
-  int selectedPage = 0;
-  var pagecontroller;
   bool isloading = false;
 
   String phoneNumber = '0';
@@ -28,23 +26,6 @@ class SignupService with ChangeNotifier {
     notifyListeners();
   }
 
-  setPageController(p) {
-    pagecontroller = p;
-    Future.delayed(const Duration(milliseconds: 400), () {
-      notifyListeners();
-    });
-  }
-
-  setSelectedPage(int i) {
-    selectedPage = i;
-    notifyListeners();
-  }
-
-  prevPage(int i) {
-    selectedPage = i;
-    notifyListeners();
-  }
-
   setLoadingTrue() {
     isloading = true;
     notifyListeners();
@@ -57,31 +38,32 @@ class SignupService with ChangeNotifier {
 
   Future signup(
     String fullName,
-    String email,
     String userName,
+    String email,
+    String phoneNumber,
     String password,
     BuildContext context,
   ) async {
     var connection = await checkConnection();
 
+    var selectedCountryId =
+        Provider.of<CountryStatesService>(context, listen: false)
+            .selectedCountryId;
+    var selectedStateId =
+        Provider.of<CountryStatesService>(context, listen: false)
+            .selectedStateId;
     if (connection) {
       setLoadingTrue();
       var data = jsonEncode({
-        'name': fullName,
-        'email': email,
+        'full_name': fullName,
         'username': userName,
+        'email': email,
+        'country_id': selectedCountryId,
+        'country_code': countryCode,
+        'state_id': selectedStateId,
         'phone': phoneNumber,
         'password': password,
-        'service_city':
-            Provider.of<CountryStatesService>(context, listen: false)
-                .selectedStateId,
-        'service_area':
-            Provider.of<CountryStatesService>(context, listen: false)
-                .selectedAreaId,
-        'country_id': Provider.of<CountryStatesService>(context, listen: false)
-            .selectedCountryId,
         'terms_conditions': 1,
-        'country_code': countryCode
       });
       var header = {
         //if header type is application/json then the data should be in jsonEncode method
@@ -95,7 +77,6 @@ class SignupService with ChangeNotifier {
       if (response.statusCode == 201) {
         OthersHelper().showToast(
             "Registration successful", ConstantColors().successColor);
-        print(response.body);
 
         // Navigator.pushReplacement<void, void>(
         //   context,
@@ -106,9 +87,6 @@ class SignupService with ChangeNotifier {
 
         String token = jsonDecode(response.body)['token'];
         int userId = jsonDecode(response.body)['users']['id'];
-        String state = jsonDecode(response.body)['users']['state'].toString();
-        String country_id =
-            jsonDecode(response.body)['users']['country_id'].toString();
 
         //Send otp
         var isOtepSent =
@@ -124,8 +102,8 @@ class SignupService with ChangeNotifier {
                 pass: password,
                 token: token,
                 userId: userId,
-                state: state,
-                countryId: country_id,
+                state: selectedStateId,
+                countryId: selectedCountryId,
               ),
             ),
           );
@@ -136,14 +114,8 @@ class SignupService with ChangeNotifier {
         return true;
       } else {
         //Sign up unsuccessful ==========>
-        print('sign up failed ${response.body}');
-        if (jsonDecode(response.body).containsKey('errors')) {
-          showError(jsonDecode(response.body)['errors']);
-        } else {
-          OthersHelper()
-              .showToast(jsonDecode(response.body)['message'], Colors.black);
-        }
-
+        print(response.body);
+        showError(jsonDecode(response.body)['validation_errors']);
         setLoadingFalse();
         return false;
       }

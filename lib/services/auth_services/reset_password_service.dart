@@ -104,9 +104,7 @@ class ResetPasswordService with ChangeNotifier {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute<void>(
-              builder: (BuildContext context) => const LoginPage(
-                hasBackButton: false,
-              ),
+              builder: (BuildContext context) => const LoginPage(),
             ),
           );
         } else {

@@ -90,7 +90,7 @@ class _ResetPassEmailPageState extends State<ResetPassEmailPage> {
                       ),
                       Consumer<ResetPasswordService>(
                         builder: (context, provider, child) => CommonHelper()
-                            .buttonOrange("Send Instructions", () {
+                            .buttonPrimary("Send Instructions", () {
                           if (provider.isloading == false) {
                             if (_formKey.currentState!.validate()) {
                               provider.sendOtp(

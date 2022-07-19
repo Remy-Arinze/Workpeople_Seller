@@ -5,17 +5,12 @@ import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/custom_input.dart';
-import 'package:qixer_seller/view/auth/login/login_helper.dart';
-
-import '../../../services/auth_services/facebook_login_service.dart';
-import '../../../services/auth_services/google_sign_service.dart';
+import 'package:qixer_seller/view/home/home.dart';
 import '../../../services/auth_services/login_service.dart';
 import '../signup/signup.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key, this.hasBackButton = true}) : super(key: key);
-
-  final hasBackButton;
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -53,64 +48,23 @@ class _LoginPageState extends State<LoginPage> {
           physics: physicsCommon,
           child: Column(
             children: [
-              Stack(
-                children: [
-                  Container(
-                    height: 230.0,
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('assets/images/login-slider.png'),
-                        fit: BoxFit.cover,
-                      ),
+              ClipRRect(
+                borderRadius: const BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+                child: Container(
+                  height: 230.0,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/images/login-slider.png'),
+                      fit: BoxFit.cover,
                     ),
                   ),
-                  // widget.hasBackButton == true
-                  //     ? Positioned(
-                  //         top: 30,
-                  //         left: 10,
-                  //         child: InkWell(
-                  //           onTap: () {
-                  //             Navigator.pop(context);
-                  //           },
-                  //           child: Container(
-                  //             padding: const EdgeInsets.all(20),
-                  //             child: Icon(
-                  //               Icons.arrow_back_ios,
-                  //               color: cc.greyPrimary,
-                  //               size: 20,
-                  //             ),
-                  //           ),
-                  //         ))
-                  //     : Container(),
-                ],
+                ),
               ),
-              // StreamBuilder(
-              // stream: FirebaseAuth.instance.authStateChanges(),
-              // builder: (context, snapshot) {
-              //   if (snapshot.connectionState == ConnectionState.waiting) {
-              //     return const Center(
-              //       child: CircularProgressIndicator(),
-              //     );
-              //   } else if (snapshot.hasData) {
-              //     Future.delayed(Duration(microseconds: 600), () {
-              //       Navigator.pushReplacement<void, void>(
-              //         context,
-              //         MaterialPageRoute<void>(
-              //           builder: (BuildContext context) =>
-              //               const LandingPage(),
-              //         ),
-              //       );
-              //     });
-              //     return Center(
-              //       child: OthersHelper().showLoading(cc.primaryColor),
-              //     );
-              //   } else if (snapshot.hasError) {
-              //     return const Center(
-              //       child: Text('something went wrong'),
-              //     );
-              //   } else {
-              // return
+
               Container(
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Form(
@@ -281,23 +235,23 @@ class _LoginPageState extends State<LoginPage> {
 
                       Consumer<LoginService>(
                         builder: (context, provider, child) => CommonHelper()
-                            .buttonOrange("Login", () {
+                            .buttonPrimary("Login", () {
                           if (provider.isloading == false) {
-                            if (_formKey.currentState!.validate()) {
-                              provider.login(
-                                  emailController.text.trim(),
-                                  passwordController.text,
-                                  context,
-                                  keepLoggedIn);
+                            // if (_formKey.currentState!.validate()) {
+                            // provider.login(
+                            //     emailController.text.trim(),
+                            //     passwordController.text,
+                            //     context,
+                            //     keepLoggedIn);
 
-                              // Navigator.pushReplacement<void, void>(
-                              //   context,
-                              //   MaterialPageRoute<void>(
-                              //     builder: (BuildContext context) =>
-                              //         const LandingPage(),
-                              //   ),
-                              // );
-                            }
+                            Navigator.pushReplacement<void, void>(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) =>
+                                    const Homepage(),
+                              ),
+                            );
+                            // }
                           }
                         },
                                 isloading:
@@ -335,74 +289,6 @@ class _LoginPageState extends State<LoginPage> {
                             ),
                           ),
                         ],
-                      ),
-
-                      // Divider (or)
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Expanded(
-                              child: Container(
-                            height: 1,
-                            color: cc.greyFive,
-                          )),
-                          Container(
-                            width: 40,
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(bottom: 25),
-                            child: Text(
-                              "OR",
-                              style: TextStyle(
-                                  color: cc.greyPrimary,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w600),
-                            ),
-                          ),
-                          Expanded(
-                              child: Container(
-                            height: 1,
-                            color: cc.greyFive,
-                          )),
-                        ],
-                      ),
-
-                      // login with google, facebook button ===========>
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Consumer<GoogleSignInService>(
-                        builder: (context, gProvider, child) => InkWell(
-                            onTap: () {
-                              if (gProvider.isloading == false) {
-                                gProvider.googleLogin(context);
-                              }
-                            },
-                            child: LoginHelper().commonButton(
-                                'assets/icons/google.png', "Login with Google",
-                                isloading: gProvider.isloading == false
-                                    ? false
-                                    : true)),
-                      ),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Consumer<FacebookLoginService>(
-                        builder: (context, fProvider, child) => InkWell(
-                          onTap: () {
-                            if (fProvider.isloading == false) {
-                              fProvider.checkIfLoggedIn(context);
-                            }
-                          },
-                          child: LoginHelper().commonButton(
-                              'assets/icons/facebook.png',
-                              "Login with Facebook",
-                              isloading:
-                                  fProvider.isloading == false ? false : true),
-                        ),
                       ),
 
                       const SizedBox(
