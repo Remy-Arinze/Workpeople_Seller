@@ -10,7 +10,8 @@ import 'package:qixer_seller/services/auth_services/signup_service.dart';
 import 'package:qixer_seller/services/country_states_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
-import 'package:qixer_seller/view/auth/login/login.dart';
+import 'package:qixer_seller/services/ticket_services/support_ticket_service.dart';
+import 'package:qixer_seller/view/intro/splash.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => LoginService()),
         ChangeNotifierProvider(create: (_) => CountryStatesService()),
         ChangeNotifierProvider(create: (_) => RtlService()),
+        ChangeNotifierProvider(create: (_) => SupportTicketService()),
       ],
       child: MaterialApp(
         title: 'Qixer seller',
@@ -43,7 +45,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const LoginPage(),
+        home: const SplashScreen(),
       ),
     );
   }
