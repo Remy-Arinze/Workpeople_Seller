@@ -6,9 +6,7 @@ import 'package:qixer_seller/services/ticket_services/support_ticket_service.dar
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/responsive.dart';
 import 'package:qixer_seller/view/orders/orders_helper.dart';
-import 'package:qixer_seller/view/supports/create_ticket_page.dart';
 
 class MyTicketsPage extends StatefulWidget {
   const MyTicketsPage({Key? key}) : super(key: key);
@@ -32,65 +30,9 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
 
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: AppBar(
-          iconTheme: IconThemeData(color: cc.greyPrimary),
-          title: Text(
-            'Support tickets',
-            style: TextStyle(
-                color: cc.greyPrimary,
-                fontSize: 16,
-                fontWeight: FontWeight.w600),
-          ),
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: InkWell(
-            onTap: () {
-              Navigator.pop(context);
-            },
-            child: const Icon(
-              Icons.arrow_back_ios,
-              size: 18,
-            ),
-          ),
-          actions: [
-            Container(
-              width: screenWidth / 4,
-              padding: const EdgeInsets.symmetric(
-                vertical: 9,
-              ),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) =>
-                          const CreateTicketPage(),
-                    ),
-                  );
-                },
-                child: Container(
-                    // width: double.infinity,
-
-                    alignment: Alignment.center,
-                    // padding: const EdgeInsets.symmetric(vertical: 10),
-                    decoration: BoxDecoration(
-                        color: cc.primaryColor,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: const AutoSizeText(
-                      'Create',
-                      maxLines: 1,
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                      ),
-                    )),
-              ),
-            ),
-            const SizedBox(
-              width: 25,
-            ),
-          ],
-        ),
+        appBar: CommonHelper().appbarCommon('Support ticket', context, () {
+          Navigator.pop(context);
+        }),
         body: SmartRefresher(
           controller: refreshController,
           enablePullUp: true,
