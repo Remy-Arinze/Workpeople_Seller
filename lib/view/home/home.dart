@@ -4,6 +4,7 @@ import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/view/home/components/sidebar_drawer.dart';
 import 'package:qixer_seller/view/home/home_helper.dart';
+import 'package:qixer_seller/view/orders/all_orders_page.dart';
 
 import 'components/section_title.dart';
 
@@ -118,13 +119,13 @@ class _HomepageState extends State<Homepage> {
                       cc: cc,
                       title: 'Recent Orders',
                       pressed: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute<void>(
-                        //     builder: (BuildContext context) =>
-                        //         const AllCategoriesPage(),
-                        //   ),
-                        // );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute<void>(
+                            builder: (BuildContext context) =>
+                                const AllOrdersPage(),
+                          ),
+                        );
                       },
                     ),
 

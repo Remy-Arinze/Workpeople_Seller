@@ -18,7 +18,7 @@ class OrdersService with ChangeNotifier {
     });
   }
 
-  fetchMyOrders() async {
+  fetchAllOrders() async {
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
     int? userId = prefs.getInt('userId');
