@@ -76,7 +76,7 @@ class _HomepageState extends State<Homepage> {
                           crossAxisSpacing: 19,
                           height: 100),
                       padding: const EdgeInsets.only(top: 12),
-                      itemCount: 4,
+                      itemCount: HomeHelper().cardTitles.length,
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
@@ -88,20 +88,22 @@ class _HomepageState extends State<Homepage> {
                           child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
-                              children: const [
-                                Text(
+                              children: [
+                                const Text(
                                   '50',
                                   style: TextStyle(
                                       color: Colors.white,
                                       fontWeight: FontWeight.bold,
                                       fontSize: 25),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 3,
                                 ),
                                 Text(
-                                  'Total pending',
-                                  style: TextStyle(
+                                  HomeHelper().cardTitles[index],
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: const TextStyle(
                                       color: Colors.white, fontSize: 15),
                                 )
                               ]),
@@ -153,7 +155,7 @@ class _HomepageState extends State<Homepage> {
                                 children: [
                                   Expanded(
                                     child: Text(
-                                      'Total pending',
+                                      'SM Saleheen',
                                       maxLines: 1,
                                       overflow: TextOverflow.ellipsis,
                                       style: TextStyle(

@@ -9,4 +9,11 @@ class HomeHelper {
     const Color(0xffff6b2c),
     const Color(0xffff6b2c),
   ];
+
+  List cardTitles = [
+    'Total Pending',
+    'Order Completed',
+    'Total Withdraw',
+    'Remaining Balance'
+  ];
 }

@@ -1,37 +1,43 @@
 import 'package:flutter/material.dart';
+import 'package:qixer_seller/utils/constant_colors.dart';
+import 'package:qixer_seller/utils/others_helper.dart';
+
+import '../../../utils/common_helper.dart';
 
 class SidebarDrawer extends StatelessWidget {
   const SidebarDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    ConstantColors cc = ConstantColors();
     return Drawer(
-      // Add a ListView to the drawer. This ensures the user can scroll
-      // through the options in the drawer if there isn't enough vertical
-      // space to fit everything.
       child: ListView(
-        // Important: Remove any padding from the ListView.
         padding: EdgeInsets.zero,
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-            child: Text('Drawer Header'),
+          DrawerHeader(
+              decoration: BoxDecoration(color: cc.primaryColor),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CommonHelper().profileImage(placeHolderUrl, 60, 60),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    'SM Saleheen',
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: Colors.white, fontSize: 19),
+                  ),
+                ],
+              )),
+          ListTile(
+            title: const Text('Support ticket'),
+            onTap: () {},
           ),
           ListTile(
-            title: const Text('Item 1'),
-            onTap: () {
-              // Update the state of the app.
-              // ...
-            },
-          ),
-          ListTile(
-            title: const Text('Item 2'),
-            onTap: () {
-              // Update the state of the app.
-              // ...
-            },
+            title: const Text('Payout history'),
+            onTap: () {},
           ),
         ],
       ),
