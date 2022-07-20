@@ -45,7 +45,7 @@ class PayoutPage extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 10, vertical: 13),
                       child: const Text(
-                        'Request Date',
+                        'Request date',
                         style: TextStyle(fontSize: 15.0, color: Colors.white),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

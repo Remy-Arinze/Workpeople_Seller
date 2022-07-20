@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/responsive.dart';
+import 'package:qixer_seller/view/payout/withdraw_page.dart';
 
 class PayoutPageAppbar extends StatelessWidget {
   const PayoutPageAppbar({Key? key}) : super(key: key);
@@ -35,13 +36,12 @@ class PayoutPageAppbar extends StatelessWidget {
           ),
           child: InkWell(
             onTap: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute<void>(
-              //     builder: (BuildContext context) =>
-              //         const CreateTicketPage(),
-              //   ),
-              // );
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const WithdrawPage(),
+                ),
+              );
             },
             child: Container(
                 // width: double.infinity,
