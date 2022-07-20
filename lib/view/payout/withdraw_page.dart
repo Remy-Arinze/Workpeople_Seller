@@ -128,9 +128,17 @@ class _WithdrawPageState extends State<WithdrawPage> {
                             height: 7,
                           ),
                           CommonHelper().labelCommon("Note"),
+
                           TextareaField(
                             hintText: 'your payment account details',
                             notesController: descController,
+                          ),
+
+                          sizedBox20(),
+                          const Text(
+                            'You can make a request only if your remaining balance in a range set by the site admin. Like admin set minimum request amount 50 and maximum request amount 500. then you can request a payment between 50 to 500.',
+                            style: TextStyle(
+                                color: Colors.red, fontSize: 13, height: 1.4),
                           ),
 
                           //Save button =========>
