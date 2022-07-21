@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/view/payout/payout_page.dart';
+import 'package:qixer_seller/view/profile/profile_page.dart';
 import 'package:qixer_seller/view/profile/profile_verify_page.dart';
 import 'package:qixer_seller/view/supports/my_tickets_page.dart';
 
@@ -70,12 +71,12 @@ class SidebarDrawer extends StatelessWidget {
             },
           ),
           ListTile(
-            title: const Text('Profile settings'),
+            title: const Text('Profile'),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const PayoutPage(),
+                  builder: (BuildContext context) => const ProfilePage(),
                 ),
               );
             },
