@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/view/payout/payout_page.dart';
-import 'package:qixer_seller/view/profile/account_settings_page.dart';
+import 'package:qixer_seller/view/profile/change_password_page.dart';
+import 'package:qixer_seller/view/profile/components/deactivate_account_page.dart';
 import 'package:qixer_seller/view/profile/profile_page.dart';
 import 'package:qixer_seller/view/profile/profile_verify_page.dart';
 import 'package:qixer_seller/view/supports/my_tickets_page.dart';
@@ -110,13 +111,25 @@ class SidebarDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: const Icon(Icons.settings_suggest_outlined),
-            title: const Text('Account settings'),
+            title: const Text('Change password'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const ChangePasswordPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: const Icon(Icons.close),
+            title: const Text('Deactivate account'),
             onTap: () {
               Navigator.push(
                 context,
                 MaterialPageRoute<void>(
                   builder: (BuildContext context) =>
-                      const AccountSettingsPage(),
+                      const DeactivateAccountPage(),
                 ),
               );
             },

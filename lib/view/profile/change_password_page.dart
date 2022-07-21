@@ -4,16 +4,16 @@ import 'package:qixer_seller/services/auth_services/change_pass_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/view/profile/components/deactivate_account.dart';
+import 'package:qixer_seller/utils/responsive.dart';
 
-class AccountSettingsPage extends StatefulWidget {
-  const AccountSettingsPage({Key? key}) : super(key: key);
+class ChangePasswordPage extends StatefulWidget {
+  const ChangePasswordPage({Key? key}) : super(key: key);
 
   @override
-  _AccountSettingsPageState createState() => _AccountSettingsPageState();
+  _ChangePasswordPageState createState() => _ChangePasswordPageState();
 }
 
-class _AccountSettingsPageState extends State<AccountSettingsPage> {
+class _ChangePasswordPageState extends State<ChangePasswordPage> {
   late bool _newpasswordVisible;
   late bool _repeatnewpasswordVisible;
   late bool _oldpasswordVisible;
@@ -52,7 +52,9 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
         child: SingleChildScrollView(
           physics: physicsCommon,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+            padding:
+                EdgeInsets.symmetric(horizontal: screenPadding, vertical: 10),
+            height: screenHeight - 100,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -61,8 +63,6 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CommonHelper().titleCommon('Change password'),
-                      sizedBox20(),
                       //New password =========================>
                       CommonHelper().labelCommon("Enter current password"),
 
@@ -304,7 +304,6 @@ class _AccountSettingsPageState extends State<AccountSettingsPage> {
                     ],
                   ),
                 ),
-                const DeactivateAccount(),
               ],
             ),
           ),
