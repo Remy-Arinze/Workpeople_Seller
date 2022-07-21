@@ -56,6 +56,7 @@ class OrderDetailsService with ChangeNotifier {
         return orderDetails;
       } else {
         //Something went wrong
+        print('error fetching order details ' + response.body);
         orderDetails = 'error';
         isLoading = false;
         notifyListeners();

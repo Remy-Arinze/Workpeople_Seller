@@ -11,7 +11,7 @@ class HomeHelper {
   ];
 
   List cardTitles = [
-    'Total Pending',
+    'Order Pending',
     'Order Completed',
     'Total Withdraw',
     'Remaining Balance'

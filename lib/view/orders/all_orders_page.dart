@@ -7,6 +7,7 @@ import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/view/orders/order_details_page.dart';
 
 import 'orders_helper.dart';
 
@@ -44,13 +45,12 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                       for (int i = 0; i < 2; i++)
                         InkWell(
                           onTap: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute<void>(
-                            //       builder: (BuildContext context) =>
-                            //           const OrderDetailsPage(orderId: 1),
-                            //     ));
-                            //             );
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      const OrderDetailsPage(orderId: 56),
+                                ));
                           },
                           child: Container(
                             alignment: Alignment.center,

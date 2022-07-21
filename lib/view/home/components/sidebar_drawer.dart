@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:qixer_seller/view/payout/payout_page.dart';
+import 'package:qixer_seller/view/profile/profile_verify_page.dart';
 import 'package:qixer_seller/view/supports/my_tickets_page.dart';
 
 import '../../../utils/common_helper.dart';
@@ -21,7 +21,10 @@ class SidebarDrawer extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CommonHelper().profileImage(placeHolderUrl, 60, 60),
+                  CommonHelper().profileImage(
+                      'https://bytesed.com/laravel/qixer/assets/uploads/media-uploader/seller-s21644057790.jpg',
+                      60,
+                      60),
                   const SizedBox(
                     height: 20,
                   ),
@@ -51,6 +54,39 @@ class SidebarDrawer extends StatelessWidget {
                 context,
                 MaterialPageRoute<void>(
                   builder: (BuildContext context) => const PayoutPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('All orders'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const PayoutPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Profile settings'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const PayoutPage(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            title: const Text('Profile verify'),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const ProfileVerifyPage(),
                 ),
               );
             },
