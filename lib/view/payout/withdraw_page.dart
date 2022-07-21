@@ -57,7 +57,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          //Priority dropdown ======>
+                          // dropdown ======>
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
