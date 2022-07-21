@@ -23,7 +23,7 @@ import '../../utils/custom_input.dart';
 import '../auth/signup/components/country_states_dropdowns.dart';
 
 class ProfileEditPage extends StatefulWidget {
-  ProfileEditPage({Key? key}) : super(key: key);
+  const ProfileEditPage({Key? key}) : super(key: key);
 
   @override
   State<ProfileEditPage> createState() => _ProfileEditPageState();
@@ -42,44 +42,44 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   @override
   void initState() {
     super.initState();
-    countryCode = Provider.of<ProfileService>(context, listen: false)
-        .profileDetails
-        .userDetails
-        .countryCode;
-    //set country code
-    Future.delayed(const Duration(milliseconds: 600), () {
-      Provider.of<ProfileEditService>(context, listen: false)
-          .setCountryCode(countryCode);
-    });
+    // countryCode = Provider.of<ProfileService>(context, listen: false)
+    //     .profileDetails
+    //     .userDetails
+    //     .countryCode;
+    // //set country code
+    // Future.delayed(const Duration(milliseconds: 600), () {
+    //   Provider.of<ProfileEditService>(context, listen: false)
+    //       .setCountryCode(countryCode);
+    // });
 
-    fullNameController.text =
-        Provider.of<ProfileService>(context, listen: false)
-                .profileDetails
-                .userDetails
-                .name ??
-            '';
-    emailController.text = Provider.of<ProfileService>(context, listen: false)
-            .profileDetails
-            .userDetails
-            .email ??
-        '';
+    // fullNameController.text =
+    //     Provider.of<ProfileService>(context, listen: false)
+    //             .profileDetails
+    //             .userDetails
+    //             .name ??
+    //         '';
+    // emailController.text = Provider.of<ProfileService>(context, listen: false)
+    //         .profileDetails
+    //         .userDetails
+    //         .email ??
+    //     '';
 
-    phoneController.text = Provider.of<ProfileService>(context, listen: false)
-            .profileDetails
-            .userDetails
-            .phone ??
-        '';
-    postCodeController.text =
-        Provider.of<ProfileService>(context, listen: false)
-                .profileDetails
-                .userDetails
-                .postCode ??
-            '';
-    addressController.text = Provider.of<ProfileService>(context, listen: false)
-            .profileDetails
-            .userDetails
-            .address ??
-        '';
+    // phoneController.text = Provider.of<ProfileService>(context, listen: false)
+    //         .profileDetails
+    //         .userDetails
+    //         .phone ??
+    //     '';
+    // postCodeController.text =
+    //     Provider.of<ProfileService>(context, listen: false)
+    //             .profileDetails
+    //             .userDetails
+    //             .postCode ??
+    //         '';
+    // addressController.text = Provider.of<ProfileService>(context, listen: false)
+    //         .profileDetails
+    //         .userDetails
+    //         .address ??
+    //     '';
   }
 
   late AnimationController localAnimationController;
