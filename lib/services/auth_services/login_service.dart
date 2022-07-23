@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, non_constant_identifier_names
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -29,6 +31,7 @@ class LoginService with ChangeNotifier {
       var data = jsonEncode({
         'email': email,
         'password': pass,
+        'user_type': 0, //0=seller, 1=buyer
       });
       var header = {
         //if header type is application/json then the data should be in jsonEncode method
