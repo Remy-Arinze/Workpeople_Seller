@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
+import 'package:qixer_seller/view/orders/all_orders_page.dart';
 import 'package:qixer_seller/view/payout/payout_page.dart';
 import 'package:qixer_seller/view/profile/change_password_page.dart';
 import 'package:qixer_seller/view/profile/components/deactivate_account_page.dart';
@@ -49,92 +50,120 @@ class SidebarDrawer extends StatelessWidget {
                   ],
                 ),
               )),
-          ListTile(
-            title: const Text('Support ticket'),
-            leading: const Icon(Icons.headphones),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const MyTicketsPage(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('Payout history'),
-            leading: const Icon(Icons.attach_money_sharp),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const PayoutPage(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('All orders'),
-            leading: const Icon(Icons.shopping_cart_outlined),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const PayoutPage(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.person_outline),
-            title: const Text('Profile'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const ProfilePage(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.verified_outlined),
-            title: const Text('Profile verify'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const ProfileVerifyPage(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.settings_suggest_outlined),
-            title: const Text('Change password'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const ChangePasswordPage(),
-                ),
-              );
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.close),
-            title: const Text('Deactivate account'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) =>
-                      const DeactivateAccountPage(),
-                ),
-              );
-            },
-          ),
+          SidebarMenuItem(
+              title: 'Support ticket',
+              leading: Icon(Icons.headphones, color: cc.primaryColor),
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const MyTicketsPage(),
+                  ),
+                );
+              }),
+          SidebarMenuItem(
+              title: 'Payout history',
+              leading: Icon(Icons.attach_money_sharp, color: cc.primaryColor),
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const PayoutPage(),
+                  ),
+                );
+              }),
+          SidebarMenuItem(
+              title: 'All orders',
+              leading:
+                  Icon(Icons.shopping_cart_outlined, color: cc.primaryColor),
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const AllOrdersPage(),
+                  ),
+                );
+              }),
+          SidebarMenuItem(
+              title: 'Profile',
+              leading: Icon(Icons.person_outline, color: cc.primaryColor),
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const ProfilePage(),
+                  ),
+                );
+              }),
+          SidebarMenuItem(
+              title: 'Profile verify',
+              leading: Icon(Icons.verified_outlined, color: cc.primaryColor),
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const ProfileVerifyPage(),
+                  ),
+                );
+              }),
+          SidebarMenuItem(
+              title: 'Change password',
+              leading:
+                  Icon(Icons.settings_suggest_outlined, color: cc.primaryColor),
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const ChangePasswordPage(),
+                  ),
+                );
+              }),
+          SidebarMenuItem(
+              title: 'Deactivate account',
+              leading: Icon(Icons.close, color: cc.primaryColor),
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const DeactivateAccountPage(),
+                  ),
+                );
+              }),
         ],
+      ),
+    );
+  }
+}
+
+class SidebarMenuItem extends StatelessWidget {
+  const SidebarMenuItem(
+      {Key? key,
+      required this.title,
+      required this.leading,
+      required this.ontap})
+      : super(key: key);
+
+  final String title;
+  final leading;
+  final VoidCallback ontap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+          border: Border(
+        bottom: BorderSide(
+          color: ConstantColors().borderColor,
+          width: 1.0,
+        ),
+      )),
+      child: ListTile(
+        title: Text(title),
+        leading: leading,
+        onTap: ontap,
       ),
     );
   }
