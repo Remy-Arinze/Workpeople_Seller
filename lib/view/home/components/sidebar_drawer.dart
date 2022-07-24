@@ -7,6 +7,7 @@ import 'package:qixer_seller/view/profile/components/deactivate_account_page.dar
 import 'package:qixer_seller/view/profile/profile_page.dart';
 import 'package:qixer_seller/view/profile/profile_verify_page.dart';
 import 'package:qixer_seller/view/supports/my_tickets_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../utils/common_helper.dart';
 
@@ -132,6 +133,12 @@ class SidebarDrawer extends StatelessWidget {
                   ),
                 );
               }),
+
+          //Logout button
+          CommonHelper().buttonPrimary("Logout", () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.clear();
+          }, bgColor: cc.warningColor),
         ],
       ),
     );

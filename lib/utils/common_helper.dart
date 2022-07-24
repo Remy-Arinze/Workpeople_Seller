@@ -29,7 +29,8 @@ class CommonHelper {
   }
 
   //common orange button =======>
-  buttonPrimary(String title, VoidCallback pressed, {isloading = false}) {
+  buttonPrimary(String title, VoidCallback pressed,
+      {isloading = false, bgColor}) {
     return InkWell(
       onTap: pressed,
       child: Container(
@@ -37,7 +38,8 @@ class CommonHelper {
           alignment: Alignment.center,
           padding: const EdgeInsets.symmetric(vertical: 18),
           decoration: BoxDecoration(
-              color: cc.primaryColor, borderRadius: BorderRadius.circular(8)),
+              color: bgColor ?? cc.primaryColor,
+              borderRadius: BorderRadius.circular(8)),
           child: isloading == false
               ? Text(
                   title,

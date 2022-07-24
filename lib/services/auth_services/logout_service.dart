@@ -68,12 +68,5 @@ class LogoutService with ChangeNotifier {
   clear() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.clear();
-    // prefs.remove('email');
-    // prefs.remove('pass');
-    // prefs.remove('token');
-    // prefs.remove('userId');
-    // prefs.remove('userName');
-    // prefs.setBool('keepLoggedIn', false);
-    // prefs.setBool('googleLogin', false);
   }
 }
