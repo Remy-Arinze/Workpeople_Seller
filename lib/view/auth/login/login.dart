@@ -6,7 +6,6 @@ import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/custom_input.dart';
 import '../../../services/auth_services/login_service.dart';
-import '../../home/home.dart';
 import '../reset_password/reset_pass_email_page.dart';
 import '../signup/signup.dart';
 
@@ -240,20 +239,20 @@ class _LoginPageState extends State<LoginPage> {
                         builder: (context, provider, child) => CommonHelper()
                             .buttonPrimary("Login", () {
                           if (provider.isloading == false) {
-                            // if (_formKey.currentState!.validate()) {
-                            // provider.login(
-                            //     emailController.text.trim(),
-                            //     passwordController.text,
-                            //     context,
-                            //     keepLoggedIn);
-                            Navigator.pushReplacement<void, void>(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (BuildContext context) =>
-                                    const Homepage(),
-                              ),
-                            );
-                            // }
+                            if (_formKey.currentState!.validate()) {
+                              provider.login(
+                                  emailController.text.trim(),
+                                  passwordController.text,
+                                  context,
+                                  keepLoggedIn);
+                              // Navigator.pushReplacement<void, void>(
+                              //   context,
+                              //   MaterialPageRoute<void>(
+                              //     builder: (BuildContext context) =>
+                              //         const Homepage(),
+                              //   ),
+                              // );
+                            }
                           }
                         },
                                 isloading:
