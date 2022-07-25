@@ -12,10 +12,14 @@ import '../../../../utils/common_helper.dart';
 
 class SignupPhonePass extends StatefulWidget {
   const SignupPhonePass(
-      {Key? key, required this.passController, required this.phoneController})
+      {Key? key,
+      required this.passController,
+      required this.phoneController,
+      required this.confirmPassController})
       : super(key: key);
 
   final passController;
+  final confirmPassController;
   final phoneController;
 
   @override
@@ -24,11 +28,13 @@ class SignupPhonePass extends StatefulWidget {
 
 class _SignupPhonePassState extends State<SignupPhonePass> {
   late bool _newpasswordVisible;
+  late bool _confirmNewPassswordVisible;
 
   @override
   void initState() {
     super.initState();
     _newpasswordVisible = false;
+    _confirmNewPassswordVisible = false;
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -130,6 +136,80 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
                           borderSide:
                               BorderSide(color: ConstantColors().primaryColor)),
                       hintText: 'Enter password',
+                      contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 18)),
+                )),
+
+            const SizedBox(
+              height: 10,
+            ),
+            //Confirm New password =========================>
+            CommonHelper().labelCommon("Confirm Password"),
+
+            Container(
+                margin: const EdgeInsets.only(bottom: 19),
+                decoration: BoxDecoration(
+                    // color: const Color(0xfff2f2f2),
+                    borderRadius: BorderRadius.circular(10)),
+                child: TextFormField(
+                  controller: widget.confirmPassController,
+                  textInputAction: TextInputAction.next,
+                  obscureText: !_confirmNewPassswordVisible,
+                  style: const TextStyle(fontSize: 14),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please retype your password';
+                    }
+                    return null;
+                  },
+                  decoration: InputDecoration(
+                      prefixIcon: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 22.0,
+                            width: 40.0,
+                            decoration: const BoxDecoration(
+                              image: DecorationImage(
+                                  image: AssetImage('assets/icons/lock.png'),
+                                  fit: BoxFit.fitHeight),
+                            ),
+                          ),
+                        ],
+                      ),
+                      suffixIcon: IconButton(
+                        splashColor: Colors.transparent,
+                        highlightColor: Colors.transparent,
+                        icon: Icon(
+                          // Based on passwordVisible state choose the icon
+                          _confirmNewPassswordVisible
+                              ? Icons.visibility_off_outlined
+                              : Icons.visibility_outlined,
+                          color: Colors.grey,
+                          size: 22,
+                        ),
+                        onPressed: () {
+                          // Update the state i.e. toogle the state of passwordVisible variable
+                          setState(() {
+                            _confirmNewPassswordVisible =
+                                !_confirmNewPassswordVisible;
+                          });
+                        },
+                      ),
+                      enabledBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: ConstantColors().greyFive),
+                          borderRadius: BorderRadius.circular(9)),
+                      focusedBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: ConstantColors().primaryColor)),
+                      errorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: ConstantColors().warningColor)),
+                      focusedErrorBorder: OutlineInputBorder(
+                          borderSide:
+                              BorderSide(color: ConstantColors().primaryColor)),
+                      hintText: 'Retype password',
                       contentPadding: const EdgeInsets.symmetric(
                           horizontal: 8, vertical: 18)),
                 )),

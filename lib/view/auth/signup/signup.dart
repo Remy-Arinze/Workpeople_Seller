@@ -1,12 +1,9 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/view/auth/signup/components/country_states_dropdowns.dart';
 import 'package:qixer_seller/view/auth/signup/pages/signup_phone_pass.dart';
-import 'package:qixer_seller/view/auth/signup/signup_helper.dart';
-import 'package:qixer_seller/view/home/home.dart';
 
 import '../../../services/auth_services/signup_service.dart';
 import '../../../utils/common_helper.dart';
@@ -124,6 +121,7 @@ class _SignupPageState extends State<SignupPage> {
 
                           SignupPhonePass(
                             passController: passwordController,
+                            confirmPassController: confirmPasswordController,
                             phoneController: phoneController,
                           ),
                           const SizedBox(
@@ -165,32 +163,29 @@ class _SignupPageState extends State<SignupPage> {
                             height: 10,
                           ),
                           CommonHelper().buttonPrimary("Sign up", () {
-                            if (termsAgree == false) {
-                              OthersHelper().showToast(
-                                  'You must agree with the terms and conditions to register',
-                                  Colors.black);
-                            } else if (passwordController.text !=
-                                confirmPasswordController.text) {
-                              OthersHelper().showToast(
-                                  'Password didn\'t match', Colors.black);
-                            } else if (passwordController.text.length < 6) {
-                              OthersHelper().showToast(
-                                  'Password must be at least 6 characters',
-                                  Colors.black);
-                            } else {
-                              if (provider.isloading == false) {
-                                // provider.signup(
-                                //     fullNameController.text.trim(),
-                                //     userNameController.text.trim(),
-                                //     emailController.text.trim(),
-                                //     phoneController.text.trim(),
-                                //     passwordController.text,
-                                //     context);
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const Homepage()));
+                            if (_formKey.currentState!.validate()) {
+                              if (termsAgree == false) {
+                                OthersHelper().showToast(
+                                    'You must agree with the terms and conditions to register',
+                                    Colors.black);
+                              } else if (passwordController.text !=
+                                  confirmPasswordController.text) {
+                                OthersHelper().showToast(
+                                    'Password didn\'t match', Colors.black);
+                              } else if (passwordController.text.length < 6) {
+                                OthersHelper().showToast(
+                                    'Password must be at least 6 characters',
+                                    Colors.black);
+                              } else {
+                                if (provider.isloading == false) {
+                                  provider.signup(
+                                      fullNameController.text.trim(),
+                                      userNameController.text.trim(),
+                                      emailController.text.trim(),
+                                      phoneController.text.trim(),
+                                      passwordController.text,
+                                      context);
+                                }
                               }
                             }
                           },

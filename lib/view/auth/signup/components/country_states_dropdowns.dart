@@ -17,7 +17,8 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
   @override
   void initState() {
     super.initState();
-    Provider.of<CountryStatesService>(context, listen: false).fetchCountries();
+    Provider.of<CountryStatesService>(context, listen: false)
+        .fetchCountries(context);
   }
 
   @override
@@ -62,7 +63,8 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                                       .indexOf(newValue)]);
 
                               //fetch states based on selected country
-                              provider.fetchStates(provider.selectedCountryId);
+                              provider.fetchStates(
+                                  provider.selectedCountryId, context);
                             },
                             items: provider.countryDropdownList
                                 .map<DropdownMenuItem<String>>((value) {
@@ -117,7 +119,7 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                               // //fetch area based on selected country and state
 
                               provider.fetchArea(provider.selectedCountryId,
-                                  provider.selectedStateId);
+                                  provider.selectedStateId, context);
 
                               // print(provider.statesDropdownIndexList[provider
                               //     .statesDropdownList

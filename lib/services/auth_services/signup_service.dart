@@ -52,18 +52,23 @@ class SignupService with ChangeNotifier {
     var selectedStateId =
         Provider.of<CountryStatesService>(context, listen: false)
             .selectedStateId;
+    var selectedAreaId =
+        Provider.of<CountryStatesService>(context, listen: false)
+            .selectedAreaId;
     if (connection) {
       setLoadingTrue();
       var data = jsonEncode({
-        'full_name': fullName,
+        'name': fullName,
         'username': userName,
         'email': email,
         'country_id': selectedCountryId,
         'country_code': countryCode,
-        'state_id': selectedStateId,
+        'service_city': selectedStateId,
+        'service_area': selectedAreaId,
         'phone': phoneNumber,
         'password': password,
         'terms_conditions': 1,
+        'user_type': 0, //0=seller, 1=buyer
       });
       var header = {
         //if header type is application/json then the data should be in jsonEncode method
@@ -71,19 +76,13 @@ class SignupService with ChangeNotifier {
         "Content-Type": "application/json"
       };
 
+      print(data);
       var response = await http.post(Uri.parse('$baseApi/register'),
           body: data, headers: header);
 
       if (response.statusCode == 201) {
         OthersHelper().showToast(
             "Registration successful", ConstantColors().successColor);
-
-        // Navigator.pushReplacement<void, void>(
-        //   context,
-        //   MaterialPageRoute<void>(
-        //     builder: (BuildContext context) => const LandingPage(),
-        //   ),
-        // );
 
         String token = jsonDecode(response.body)['token'];
         int userId = jsonDecode(response.body)['users']['id'];
@@ -115,7 +114,7 @@ class SignupService with ChangeNotifier {
       } else {
         //Sign up unsuccessful ==========>
         print(response.body);
-        showError(jsonDecode(response.body)['validation_errors']);
+        showError(jsonDecode(response.body)['errors']);
         setLoadingFalse();
         return false;
       }

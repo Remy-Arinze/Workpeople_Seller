@@ -95,8 +95,8 @@ class LoginService with ChangeNotifier {
     prefs.setString("pass", pass);
     prefs.setString("token", token);
     prefs.setInt('userId', userId);
-    prefs.setString("state", state);
-    prefs.setString("countryId", country_id);
+    prefs.setString("state", state.toString());
+    prefs.setString("countryId", country_id.toString());
     print('token is $token');
     print('user id is $userId');
     print('user state id is $state');
