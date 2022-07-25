@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/dashboard_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/view/home/components/sidebar_drawer.dart';
@@ -25,6 +27,8 @@ class _HomepageState extends State<Homepage> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<DashboardService>(context, listen: false).fetchData();
+
     ConstantColors cc = ConstantColors();
     return Listener(
       onPointerDown: (_) {
@@ -69,47 +73,56 @@ class _HomepageState extends State<Homepage> {
                     ),
 
                     //cards ==========>
-                    GridView.builder(
-                      clipBehavior: Clip.none,
-                      gridDelegate: const FlutterzillaFixedGridView(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 19,
-                          crossAxisSpacing: 19,
-                          height: 100),
-                      padding: const EdgeInsets.only(top: 12),
-                      itemCount: HomeHelper().cardTitles.length,
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: const EdgeInsets.all(15),
-                          decoration: BoxDecoration(
-                              color: HomeHelper().cardColors[index],
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  '50',
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 25),
-                                ),
-                                const SizedBox(
-                                  height: 3,
-                                ),
-                                Text(
-                                  HomeHelper().cardTitles[index],
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                  style: const TextStyle(
-                                      color: Colors.white, fontSize: 15),
-                                )
-                              ]),
-                        );
-                      },
+                    Consumer<DashboardService>(
+                      builder: (context, dProvider, child) => dProvider
+                              .dashboardDataList.isNotEmpty
+                          ? GridView.builder(
+                              clipBehavior: Clip.none,
+                              gridDelegate: const FlutterzillaFixedGridView(
+                                  crossAxisCount: 2,
+                                  mainAxisSpacing: 19,
+                                  crossAxisSpacing: 19,
+                                  height: 100),
+                              padding: const EdgeInsets.only(top: 12),
+                              itemCount: HomeHelper().cardTitles.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (context, index) {
+                                return Container(
+                                  padding: const EdgeInsets.all(15),
+                                  decoration: BoxDecoration(
+                                      color: HomeHelper().cardColors[index],
+                                      borderRadius: BorderRadius.circular(10)),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Text(
+                                          dProvider.dashboardDataList[index]
+                                              .toString(),
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 25),
+                                        ),
+                                        const SizedBox(
+                                          height: 3,
+                                        ),
+                                        Text(
+                                          HomeHelper().cardTitles[index],
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                          style: const TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 15),
+                                        )
+                                      ]),
+                                );
+                              },
+                            )
+                          : Container(),
                     ),
 
                     const SizedBox(

@@ -114,7 +114,14 @@ class SignupService with ChangeNotifier {
       } else {
         //Sign up unsuccessful ==========>
         print(response.body);
-        showError(jsonDecode(response.body)['errors']);
+
+        if (jsonDecode(response.body).containsKey('errors')) {
+          showError(jsonDecode(response.body)['errors']);
+        } else {
+          OthersHelper()
+              .showToast(jsonDecode(response.body)['message'], Colors.black);
+        }
+
         setLoadingFalse();
         return false;
       }
