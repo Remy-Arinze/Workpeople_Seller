@@ -2,26 +2,41 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/orders_list_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class OrdersService with ChangeNotifier {
-  var myServices;
+  var allOrdersList = [];
 
-  bool isLoading = true;
+  late int totalPages;
+  int currentPage = 1;
 
-  setLoadingTrue() {
-    Future.delayed(const Duration(seconds: 1), () {
-      isLoading = true;
-    });
+  setCurrentPage(newValue) {
+    currentPage = newValue;
+    notifyListeners();
   }
 
-  fetchAllOrders() async {
-    //get user id
+  setTotalPage(newPageNumber) {
+    totalPages = newPageNumber;
+    notifyListeners();
+  }
+
+  fetchAllOrders(context, {bool isrefresh = false}) async {
+    if (isrefresh) {
+      //making the list empty first to show loading bar (we are showing loading bar while the product list is empty)
+      //we are make the list empty when the sub category or brand is selected because then the refresh is true
+      allOrdersList = [];
+
+      notifyListeners();
+
+      Provider.of<OrdersService>(context, listen: false)
+          .setCurrentPage(currentPage);
+    } else {}
+
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    int? userId = prefs.getInt('userId');
     var token = prefs.getString('token');
 
     var header = {
@@ -31,36 +46,51 @@ class OrdersService with ChangeNotifier {
       "Authorization": "Bearer $token",
     };
 
-    //       var data = jsonEncode({
-    //   'email': email,
-    //   'password': pass,
-    // });
-
     var connection = await checkConnection();
     if (connection) {
-      //if connection is ok
-      var response = await http.post(Uri.parse('$baseApi/user/my-orders'),
+      var response = await http.post(
+          Uri.parse("$baseApi/seller/my-orders?page=$currentPage"),
           headers: header);
 
       if (response.statusCode == 201 &&
-          jsonDecode(response.body)['my_orders'].isNotEmpty) {
-        print(response.body);
-        var data = OrdersListModel.fromJson(jsonDecode(response.body));
-        print(data);
-        myServices = data.myOrders;
+          jsonDecode(response.body)['my_orders']['data'].isNotEmpty) {
+        var data = AllOrdersModel.fromJson(jsonDecode(response.body));
 
-        isLoading = false;
-        notifyListeners();
-        setLoadingTrue();
-        return myServices;
+        setTotalPage(data.myOrders.lastPage);
+
+        if (isrefresh) {
+          print('refresh true');
+          //if refreshed, then remove all service from list and insert new data
+          //make the list empty first so that existing data doesn't stay
+          setServiceList(data.myOrders.data, false);
+        } else {
+          print('add new data');
+
+          //else add new data
+          setServiceList(data.myOrders.data, true);
+        }
+
+        currentPage++;
+        setCurrentPage(currentPage);
+        return true;
       } else {
-        //Something went wrong
-        myServices = 'error';
-        isLoading = false;
-        notifyListeners();
-        setLoadingTrue();
-        return myServices;
+        print(response.body);
+        return false;
       }
     }
+  }
+
+  setServiceList(dataList, bool addnewData) {
+    if (addnewData == false) {
+      //make the list empty first so that existing data doesn't stay
+      allOrdersList = [];
+      notifyListeners();
+    }
+
+    for (int i = 0; i < dataList.length; i++) {
+      allOrdersList.add(dataList[i]);
+    }
+
+    notifyListeners();
   }
 }

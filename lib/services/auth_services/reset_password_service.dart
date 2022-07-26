@@ -91,11 +91,13 @@ class ResetPasswordService with ChangeNotifier {
         };
         var data = jsonEncode({'email': email, 'password': newPass});
 
+        print(data);
         setLoadingTrue();
 
         var response = await http.post(Uri.parse('$baseApi/reset-password'),
             headers: header, body: data);
 
+        print(response.body);
         if (response.statusCode == 201) {
           OthersHelper()
               .showToast("Password updated successfully", Colors.black);

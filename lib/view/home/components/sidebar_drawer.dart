@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
+import 'package:qixer_seller/view/auth/login/login.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
 import 'package:qixer_seller/view/payout/payout_page.dart';
 import 'package:qixer_seller/view/profile/change_password_page.dart';
@@ -135,10 +136,19 @@ class SidebarDrawer extends StatelessWidget {
               }),
 
           //Logout button
-          CommonHelper().buttonPrimary("Logout", () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.clear();
-          }, bgColor: cc.warningColor),
+          Container(
+            margin: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+            child: CommonHelper().buttonPrimary("Logout", () async {
+              SharedPreferences prefs = await SharedPreferences.getInstance();
+              prefs.clear();
+              Navigator.pushReplacement<void, void>(
+                context,
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => const LoginPage(),
+                ),
+              );
+            }, bgColor: cc.warningColor),
+          )
         ],
       ),
     );
