@@ -12,21 +12,21 @@ String ticketListModelToJson(TicketListModel data) =>
 
 class TicketListModel {
   TicketListModel({
-    this.buyerId,
+    this.sellerId,
     required this.tickets,
   });
 
-  int? buyerId;
+  int? sellerId;
   Tickets tickets;
 
   factory TicketListModel.fromJson(Map<String, dynamic> json) =>
       TicketListModel(
-        buyerId: json["buyer_id"],
+        sellerId: json["seller_id"],
         tickets: Tickets.fromJson(json["tickets"]),
       );
 
   Map<String, dynamic> toJson() => {
-        "buyer_id": buyerId,
+        "seller_id": sellerId,
         "tickets": tickets.toJson(),
       };
 }
@@ -143,13 +143,13 @@ class Link {
   bool? active;
 
   factory Link.fromJson(Map<String, dynamic> json) => Link(
-        url: json["url"] == null ? null : json["url"],
+        url: json["url"] ?? null,
         label: json["label"],
         active: json["active"],
       );
 
   Map<String, dynamic> toJson() => {
-        "url": url == null ? null : url,
+        "url": url ?? null,
         "label": label,
         "active": active,
       };

@@ -43,7 +43,6 @@ class RecentOrdersService with ChangeNotifier {
 
       var response = await http.post(Uri.parse('$baseApi/seller/recent-orders'),
           headers: header);
-      print(response.body);
       setLoadingFalse();
 
       if (response.statusCode == 201) {
