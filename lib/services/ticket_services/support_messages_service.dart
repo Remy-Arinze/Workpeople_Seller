@@ -63,7 +63,7 @@ class SupportMessagesService with ChangeNotifier {
         "Authorization": "Bearer $token",
       };
       var response = await http.get(
-          Uri.parse('$baseApi/user/view-ticket/$ticketId'),
+          Uri.parse('$baseApi/seller/view-ticket/$ticketId'),
           headers: header);
       setLoadingFalse();
 
@@ -119,7 +119,7 @@ class SupportMessagesService with ChangeNotifier {
     if (imagePath != null) {
       formData = FormData.fromMap({
         'ticket_id': ticketId,
-        'user_type': 'buyer',
+        'user_type': 'seller',
         'message': message,
         'file': await MultipartFile.fromFile(imagePath,
             filename: 'ticket$imagePath.jpg')
@@ -127,7 +127,7 @@ class SupportMessagesService with ChangeNotifier {
     } else {
       formData = FormData.fromMap({
         'ticket_id': ticketId,
-        'user_type': 'buyer',
+        'user_type': 'seller',
         'message': message,
       });
     }
@@ -138,7 +138,7 @@ class SupportMessagesService with ChangeNotifier {
       //if connection is ok
 
       var response = await dio.post(
-        '$baseApi/user/ticket/message-send',
+        '$baseApi/seller/ticket/message-send',
         data: formData,
       );
       setSendLoadingFalse();
@@ -165,7 +165,7 @@ class SupportMessagesService with ChangeNotifier {
       'message': newMessage,
       'notify': 'off',
       'attachment': imagePath,
-      'type': 'buyer',
+      'type': 'seller',
       'imagePicked':
           true //check if this image is just got picked from device in that case we will show it from device location
     });

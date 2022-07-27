@@ -17,6 +17,7 @@ import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/services/profile_verify_service.dart';
 import 'package:qixer_seller/services/recent_orders_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
+import 'package:qixer_seller/services/ticket_services/support_messages_service.dart';
 import 'package:qixer_seller/services/ticket_services/support_ticket_service.dart';
 import 'package:qixer_seller/services/withdraw_service.dart';
 import 'package:qixer_seller/view/intro/splash.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => DeactivateAccountService()),
         ChangeNotifierProvider(create: (_) => DashboardService()),
         ChangeNotifierProvider(create: (_) => RecentOrdersService()),
+        ChangeNotifierProvider(create: (_) => SupportMessagesService()),
       ],
       child: MaterialApp(
         title: 'Qixer seller',

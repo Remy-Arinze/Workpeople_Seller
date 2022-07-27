@@ -1,9 +1,9 @@
 class SupportTicketHelper {
-  removePTag(String message) {
-    return message
-        .replaceAll("<", "")
-        .replaceAll("p", "")
-        .replaceAll(">", "")
-        .replaceAll("/", "");
-  }
+  // removePTag(String message) {
+  //   return message
+  //       .replaceAll("<", "")
+  //       .replaceAll("p", "")
+  //       .replaceAll(">", "")
+  //       .replaceAll("/", "");
+  // }
 }
