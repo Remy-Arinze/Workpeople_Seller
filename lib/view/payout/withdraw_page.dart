@@ -145,7 +145,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                           CommonHelper().labelCommon("Note"),
 
                           TextareaField(
-                            hintText: 'your payment account details',
+                            hintText: 'Note',
                             notesController: descController,
                           ),
 
@@ -165,7 +165,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                               builder: (context, wProvider, child) =>
                                   CommonHelper().buttonPrimary('Withdraw', () {
                                     if (_formKey.currentState!.validate()) {
-                                      if (wProvider.isLoading == false) {
+                                      if (wProvider.isloading == false) {
                                         // provider.createTicket(
                                         //     context,
                                         //     amountController.text,
@@ -175,7 +175,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                       }
                                     }
                                   },
-                                      isloading: wProvider.isLoading == false
+                                      isloading: wProvider.isloading == false
                                           ? false
                                           : true))
                         ],

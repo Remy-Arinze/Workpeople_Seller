@@ -66,26 +66,11 @@ class ProfileService with ChangeNotifier {
       };
 
       var response =
-          await http.get(Uri.parse('$baseApi/user/profile'), headers: header);
+          await http.get(Uri.parse('$baseApi/seller/profile'), headers: header);
 
       if (response.statusCode == 201) {
         var data = ProfileModel.fromJson(jsonDecode(response.body));
-        profileDetails = data;
 
-        ordersList.add(profileDetails.pendingOrder);
-        ordersList.add(profileDetails.activeOrder);
-        ordersList.add(profileDetails.completeOrder);
-        ordersList.add(profileDetails.totalOrder);
-
-        print('profile details is $profileDetails');
-
-        if (jsonDecode(response.body)['profile_image'] is List) {
-          //then dont do anything because it means image is missing from database
-        } else {
-          profileImage = jsonDecode(response.body)['profile_image']['img_url'];
-        }
-
-        setLoadingFalse();
         notifyListeners();
       } else {
         profileDetails == 'error';
