@@ -79,11 +79,15 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                               i++)
                             InkWell(
                               onTap: () {
+                                Provider.of<OrderDetailsService>(context,
+                                        listen: false)
+                                    .fetchOrderDetails(
+                                        provider.allOrdersList[i].id);
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute<void>(
                                       builder: (BuildContext context) =>
-                                          const OrderDetailsPage(orderId: 56),
+                                          const OrderDetailsPage(),
                                     ));
                               },
                               child: Container(

@@ -11,18 +11,22 @@ import 'common_service.dart';
 
 class OrderDetailsService with ChangeNotifier {
   var orderDetails;
-
   var orderStatus;
 
   bool isLoading = true;
 
   setLoadingTrue() {
-    Future.delayed(const Duration(seconds: 1), () {
-      isLoading = true;
-    });
+    isLoading = true;
+    notifyListeners();
+  }
+
+  setLoadingFalse() {
+    isLoading = false;
+    notifyListeners();
   }
 
   fetchOrderDetails(orderId) async {
+    setLoadingTrue();
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -37,31 +41,21 @@ class OrderDetailsService with ChangeNotifier {
     var connection = await checkConnection();
     if (connection) {
       //if connection is ok
-      var response = await http
-          .post(Uri.parse('$baseApi/user/my-orders/$orderId'), headers: header);
-
+      var response = await http.post(
+          Uri.parse('$baseApi/seller/my-orders/$orderId'),
+          headers: header);
+      setLoadingFalse();
       if (response.statusCode == 201) {
-        print(response.body);
         var data = OrderDetailsModel.fromJson(jsonDecode(response.body));
-        print(data);
+
         orderDetails = data.orderInfo;
-
         var status = data.orderInfo.status;
-
         orderStatus = getOrderStatus(status ?? -1);
-
-        isLoading = false;
-        notifyListeners();
-        setLoadingTrue();
-        return orderDetails;
       } else {
         //Something went wrong
         print('error fetching order details ' + response.body);
         orderDetails = 'error';
-        isLoading = false;
         notifyListeners();
-        setLoadingTrue();
-        return orderDetails;
       }
     }
   }

@@ -8,9 +8,9 @@ import 'package:qixer_seller/view/orders/booking_helper.dart';
 import '../../utils/others_helper.dart';
 
 class OrderDetailsPage extends StatefulWidget {
-  const OrderDetailsPage({Key? key, required this.orderId}) : super(key: key);
-
-  final orderId;
+  const OrderDetailsPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _OrdersDetailsPageState createState() => _OrdersDetailsPageState();
@@ -20,8 +20,6 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<OrderDetailsService>(context, listen: false)
-        .fetchOrderDetails(widget.orderId);
   }
 
   ConstantColors cc = ConstantColors();
@@ -59,7 +57,7 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         CommonHelper()
-                                            .titleCommon('Seller Details'),
+                                            .titleCommon('Buyer Details'),
                                         const SizedBox(
                                           height: 25,
                                         ),
@@ -69,34 +67,32 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                           child: BookingHelper().bRow(
                                               'null',
                                               'Name',
-                                              provider.orderDetails
-                                                  .sellerDetails.name),
+                                              provider.orderDetails.buyerDetails
+                                                  .name),
                                         ),
 
                                         Container(
                                           child: BookingHelper().bRow(
                                               'null',
                                               'Email',
-                                              provider.orderDetails
-                                                  .sellerDetails.email),
+                                              provider.orderDetails.buyerDetails
+                                                  .email),
                                         ),
 
                                         Container(
                                           child: BookingHelper().bRow(
                                               'null',
                                               'Phone',
-                                              provider.orderDetails
-                                                  .sellerDetails.phone),
+                                              provider.orderDetails.buyerDetails
+                                                  .phone),
                                         ),
                                         provider.orderDetails.isOrderOnline == 0
                                             ? Container(
                                                 child: BookingHelper().bRow(
                                                     'null',
                                                     'Post code',
-                                                    provider
-                                                        .orderDetails
-                                                        .sellerDetails
-                                                        .postCode),
+                                                    provider.orderDetails
+                                                        .buyerDetails.postCode),
                                               )
                                             : Container(),
                                         provider.orderDetails.isOrderOnline == 0
@@ -105,7 +101,7 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                                     'null',
                                                     'Address',
                                                     provider.orderDetails
-                                                        .sellerDetails.address,
+                                                        .buyerDetails.address,
                                                     lastBorder: false),
                                               )
                                             : Container(),
