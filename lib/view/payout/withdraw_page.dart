@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/withdraw_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/custom_input.dart';
+import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:qixer_seller/view/profile/components/textarea_field.dart';
 
 class WithdrawPage extends StatefulWidget {
@@ -27,6 +29,9 @@ class _WithdrawPageState extends State<WithdrawPage> {
 
   @override
   Widget build(BuildContext context) {
+    Provider.of<PaymentGatewayListService>(context, listen: false)
+        .fetchGatewayList();
+
     ConstantColors cc = ConstantColors();
 
     return Scaffold(
@@ -47,7 +52,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
             },
             child: SingleChildScrollView(
               physics: physicsCommon,
-              child: Consumer<WithdrawService>(
+              child: Consumer<PaymentGatewayListService>(
                 builder: (context, provider, child) => Form(
                   key: _formKey,
                   child: Container(
@@ -62,49 +67,59 @@ class _WithdrawPageState extends State<WithdrawPage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CommonHelper().labelCommon("Gateway"),
-                              Container(
-                                width: double.infinity,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 15),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: cc.greyFive),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: DropdownButtonHideUnderline(
-                                  child: DropdownButton<String>(
-                                    // menuMaxHeight: 200,
-                                    // isExpanded: true,
-                                    value: provider.selectedgateway,
-                                    icon: Icon(
-                                        Icons.keyboard_arrow_down_rounded,
-                                        color: cc.greyFour),
-                                    iconSize: 26,
-                                    elevation: 17,
-                                    style: TextStyle(color: cc.greyFour),
-                                    onChanged: (newValue) {
-                                      provider.setgatewayValue(newValue);
+                              provider.paymentDropdownList.isNotEmpty
+                                  ? Container(
+                                      width: double.infinity,
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 15),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(color: cc.greyFive),
+                                        borderRadius: BorderRadius.circular(6),
+                                      ),
+                                      child: DropdownButtonHideUnderline(
+                                        child: DropdownButton<String>(
+                                          // menuMaxHeight: 200,
+                                          // isExpanded: true,
+                                          value: provider.selectedPayment,
+                                          icon: Icon(
+                                              Icons.keyboard_arrow_down_rounded,
+                                              color: cc.greyFour),
+                                          iconSize: 26,
+                                          elevation: 17,
+                                          style: TextStyle(color: cc.greyFour),
+                                          onChanged: (newValue) {
+                                            provider.setgatewayValue(newValue);
 
-                                      //setting the id of selected value
-                                      provider.setSelectedgatewayId(
-                                          provider.gatewayDropdownIndexList[
-                                              provider.gatewayDropdownList
-                                                  .indexOf(newValue!)]);
-                                    },
-                                    items: provider.gatewayDropdownList
-                                        .map<DropdownMenuItem<String>>((value) {
-                                      return DropdownMenuItem(
-                                        value: value,
-                                        child: Text(
-                                          value,
-                                          style: TextStyle(
-                                              color: cc.greyPrimary
-                                                  .withOpacity(.8)),
+                                            //setting the id of selected value
+                                            provider.setSelectedgatewayId(
+                                                provider.paymentDropdownIndexList[
+                                                    provider.paymentDropdownList
+                                                        .indexOf(newValue!)]);
+                                          },
+                                          items: provider.paymentDropdownList
+                                              .map<DropdownMenuItem<String>>(
+                                                  (value) {
+                                            return DropdownMenuItem(
+                                              value: value,
+                                              child: Text(
+                                                value,
+                                                style: TextStyle(
+                                                    color: cc.greyPrimary
+                                                        .withOpacity(.8)),
+                                              ),
+                                            );
+                                          }).toList(),
                                         ),
-                                      );
-                                    }).toList(),
-                                  ),
-                                ),
-                              )
+                                      ),
+                                    )
+                                  : Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        OthersHelper()
+                                            .showLoading(cc.primaryColor)
+                                      ],
+                                    ),
                             ],
                           ),
 
@@ -146,20 +161,23 @@ class _WithdrawPageState extends State<WithdrawPage> {
                           const SizedBox(
                             height: 30,
                           ),
-                          CommonHelper().buttonPrimary('Withdraw', () {
-                            if (_formKey.currentState!.validate()) {
-                              if (provider.isLoading == false) {
-                                // provider.createTicket(
-                                //     context,
-                                //     amountController.text,
-                                //     provider.selectedPriority,
-                                //     descController.text,
-                                //     provider.selectedOrderId);
-                              }
-                            }
-                          },
-                              isloading:
-                                  provider.isLoading == false ? false : true)
+                          Consumer<WithdrawService>(
+                              builder: (context, wProvider, child) =>
+                                  CommonHelper().buttonPrimary('Withdraw', () {
+                                    if (_formKey.currentState!.validate()) {
+                                      if (wProvider.isLoading == false) {
+                                        // provider.createTicket(
+                                        //     context,
+                                        //     amountController.text,
+                                        //     provider.selectedPriority,
+                                        //     descController.text,
+                                        //     provider.selectedOrderId);
+                                      }
+                                    }
+                                  },
+                                      isloading: wProvider.isLoading == false
+                                          ? false
+                                          : true))
                         ],
                       ),
                     ]),
