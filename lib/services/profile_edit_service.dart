@@ -1,7 +1,4 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -54,7 +51,7 @@ class ProfileEditService with ChangeNotifier {
     dio.options.headers['Content-Type'] = 'multipart/form-data';
     dio.options.headers["Authorization"] = "Bearer $token";
 
-    var formData;
+    FormData formData;
     if (imagePath != null) {
       formData = FormData.fromMap({
         'name': name,
@@ -84,8 +81,9 @@ class ProfileEditService with ChangeNotifier {
         'country_code': countryCode
       });
     }
+    print(countryCode);
     var response = await dio.post(
-      '$baseApi/user/update-profile',
+      '$baseApi/seller/profile/edit',
       data: formData,
     );
 

@@ -64,13 +64,11 @@ class WithdrawService with ChangeNotifier {
 
         Navigator.pop(context);
       } else if (response.statusCode == 404) {
-        print(response.body);
         if (jsonDecode(response.body).containsKey('message')) {
           OthersHelper()
               .showToast(jsonDecode(response.body)['message'], Colors.black);
         }
       } else {
-        print(response.body);
         OthersHelper().showToast('Something went wrong', Colors.black);
       }
     }

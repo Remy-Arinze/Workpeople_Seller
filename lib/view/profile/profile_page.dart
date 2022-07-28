@@ -36,151 +36,190 @@ class _ProfilePageState extends State<ProfilePage> {
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: screenPadding),
               child: Consumer<ProfileService>(
-                  builder: (context, profileProvider, child) =>
-                      // profileProvider
-                      //             .profileDetails !=
-                      //         null
-                      //     ?
-                      //  profileProvider.profileDetails != 'error'
-                      // ?
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: screenPadding),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  //profile image, name ,desc
-                                  Container(
-                                    alignment: Alignment.center,
-                                    width: double.infinity,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        const SizedBox(
-                                          height: 10,
+                builder: (context, profileProvider, child) => profileProvider
+                            .profileDetails !=
+                        null
+                    ? profileProvider.profileDetails != 'error'
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: screenPadding),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      //profile image, name ,desc
+                                      Container(
+                                        alignment: Alignment.center,
+                                        width: double.infinity,
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          children: [
+                                            const SizedBox(
+                                              height: 10,
+                                            ),
+                                            //Profile image section =======>
+                                            InkWell(
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              splashColor: Colors.transparent,
+                                              onTap: () {
+                                                Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute<void>(
+                                                    builder: (BuildContext
+                                                            context) =>
+                                                        const ProfileEditPage(),
+                                                  ),
+                                                );
+                                              },
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
+                                                children: [
+                                                  profileProvider
+                                                              .profileImage !=
+                                                          null
+                                                      ? CommonHelper()
+                                                          .profileImage(
+                                                              profileProvider
+                                                                  .profileImage
+                                                                  .imgUrl,
+                                                              62,
+                                                              62)
+                                                      : ClipRRect(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(8),
+                                                          child: Image.asset(
+                                                            'assets/images/avatar.png',
+                                                            height: 62,
+                                                            width: 62,
+                                                            fit: BoxFit.cover,
+                                                          ),
+                                                        ),
+
+                                                  const SizedBox(
+                                                    height: 12,
+                                                  ),
+
+                                                  //user name
+                                                  CommonHelper().titleCommon(
+                                                      profileProvider
+                                                          .profileDetails.name),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  //phone
+                                                  CommonHelper()
+                                                      .paragraphCommon(
+                                                          profileProvider
+                                                              .profileDetails
+                                                              .phone
+                                                              .toString(),
+                                                          TextAlign.center),
+                                                  const SizedBox(
+                                                    height: 5,
+                                                  ),
+                                                  CommonHelper().paragraphCommon(
+                                                      profileProvider
+                                                              .profileDetails
+                                                              .about ??
+                                                          '',
+                                                      TextAlign.center)
+                                                ],
+                                              ),
+                                            ),
+
+                                            //Grid cards
+                                          ],
                                         ),
-                                        //Profile image section =======>
-                                        InkWell(
-                                          highlightColor: Colors.transparent,
-                                          splashColor: Colors.transparent,
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute<void>(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        ProfileEditPage(),
-                                              ),
-                                            );
-                                          },
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            children: [
-                                              profileProvider.profileImage !=
-                                                      null
-                                                  ? CommonHelper().profileImage(
-                                                      placeHolderUrl, 62, 62)
-                                                  : ClipRRect(
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              8),
-                                                      child: Image.asset(
-                                                        'assets/images/avatar.png',
-                                                        height: 62,
-                                                        width: 62,
-                                                        fit: BoxFit.cover,
-                                                      ),
-                                                    ),
+                                      ),
 
-                                              const SizedBox(
-                                                height: 12,
-                                              ),
-
-                                              //user name
-                                              CommonHelper()
-                                                  .titleCommon('saleheen'),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              //phone
-                                              CommonHelper().paragraphCommon(
-                                                  '53384135135',
-                                                  TextAlign.center),
-                                              // const SizedBox(
-                                              //   height: 10,
-                                              // ),
-                                              CommonHelper().paragraphCommon(
-                                                  'Mobile app developer',
-                                                  TextAlign.center)
-                                            ],
-                                          ),
-                                        ),
-
-                                        //Grid cards
-                                      ],
-                                    ),
-                                  ),
-
-                                  //
-                                ]),
-                          ),
-
-                          const SizedBox(
-                            height: 10,
-                          ),
-
-                          // Personal information ==========>
-                          Container(
-                            padding:
-                                EdgeInsets.symmetric(horizontal: screenPadding),
-                            child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(
-                                    height: 25,
-                                  ),
-                                  BookingHelper().bRow(
-                                      'null', 'Email', 'smsaleheen@gmail.com'),
-                                  BookingHelper().bRow('null', 'City', 'Dhaka'),
-                                  BookingHelper()
-                                      .bRow('null', 'Area', 'Banasree'),
-                                  BookingHelper()
-                                      .bRow('null', 'Country', 'Bangladesh'),
-                                  BookingHelper()
-                                      .bRow('null', 'Post Code', '1212'),
-                                  BookingHelper().bRow(
-                                      'null', 'Address', 'Dhaka, Bangladesh',
-                                      lastBorder: false),
-                                ]),
-                          ),
-
-                          const SizedBox(
-                            height: 30,
-                          ),
-
-                          CommonHelper().buttonPrimary('Edit Profile', () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (BuildContext context) =>
-                                    ProfileEditPage(),
+                                      //
+                                    ]),
                               ),
-                            );
-                          })
-                        ],
-                      )
-                  //     : OthersHelper().showError(context)
-                  // : Container(
-                  //     alignment: Alignment.center,
-                  //     height: MediaQuery.of(context).size.height - 150,
-                  //     child: OthersHelper().showLoading(cc.primaryColor),
-                  //   ),
-                  ),
+
+                              const SizedBox(
+                                height: 10,
+                              ),
+
+                              // Personal information ==========>
+                              Container(
+                                padding: EdgeInsets.symmetric(
+                                    horizontal: screenPadding),
+                                child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      const SizedBox(
+                                        height: 25,
+                                      ),
+                                      BookingHelper().bRow(
+                                          'null',
+                                          'Email',
+                                          profileProvider
+                                                  .profileDetails.email ??
+                                              ''),
+                                      BookingHelper().bRow(
+                                          'null',
+                                          'City',
+                                          profileProvider.profileDetails.city
+                                                  .serviceCity ??
+                                              ''),
+                                      BookingHelper().bRow(
+                                          'null',
+                                          'Area',
+                                          profileProvider.profileDetails.area
+                                                  .serviceArea ??
+                                              ''),
+                                      BookingHelper().bRow(
+                                          'null',
+                                          'Country',
+                                          profileProvider.profileDetails.country
+                                                  .country ??
+                                              ''),
+                                      BookingHelper().bRow(
+                                          'null',
+                                          'Post Code',
+                                          profileProvider
+                                                  .profileDetails.postCode ??
+                                              ''),
+                                      BookingHelper().bRow(
+                                          'null',
+                                          'Address',
+                                          profileProvider
+                                                  .profileDetails.address ??
+                                              '',
+                                          lastBorder: false),
+                                    ]),
+                              ),
+
+                              const SizedBox(
+                                height: 30,
+                              ),
+
+                              CommonHelper().buttonPrimary('Edit Profile', () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        const ProfileEditPage(),
+                                  ),
+                                );
+                              })
+                            ],
+                          )
+                        : OthersHelper().showError(context)
+                    : Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height - 150,
+                        child: OthersHelper().showLoading(cc.primaryColor),
+                      ),
+              ),
             ),
           ),
         ));
