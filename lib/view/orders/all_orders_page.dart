@@ -135,37 +135,48 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                                     child: CommonHelper().dividerCommon(),
                                   ),
 
-                                  Column(
-                                    children: [
-                                      OrdersHelper().orderRow(
-                                        'assets/svg/calendar.svg',
-                                        'Date',
-                                        provider.allOrdersList[i].date
-                                            .toString(),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            vertical: 14),
-                                        child: CommonHelper().dividerCommon(),
-                                      ),
-                                    ],
-                                  ),
-
-                                  Column(
-                                    children: [
-                                      OrdersHelper().orderRow(
-                                        'assets/svg/clock.svg',
-                                        'Schedule',
-                                        provider.allOrdersList[i].schedule
-                                            .toString(),
-                                      ),
-                                      Container(
-                                        margin: const EdgeInsets.symmetric(
-                                            vertical: 14),
-                                        child: CommonHelper().dividerCommon(),
-                                      ),
-                                    ],
-                                  ),
+                                  //Date and schedule
+                                  provider.allOrdersList[i].isOrderOnline == 1
+                                      ? Container()
+                                      : Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Column(
+                                              children: [
+                                                OrdersHelper().orderRow(
+                                                  'assets/svg/calendar.svg',
+                                                  'Date',
+                                                  provider.allOrdersList[i].date
+                                                      .toString(),
+                                                ),
+                                                Container(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 14),
+                                                  child: CommonHelper()
+                                                      .dividerCommon(),
+                                                ),
+                                              ],
+                                            ),
+                                            Column(
+                                              children: [
+                                                OrdersHelper().orderRow(
+                                                  'assets/svg/clock.svg',
+                                                  'Schedule',
+                                                  provider
+                                                      .allOrdersList[i].schedule
+                                                      .toString(),
+                                                ),
+                                                Container(
+                                                  margin: const EdgeInsets
+                                                      .symmetric(vertical: 14),
+                                                  child: CommonHelper()
+                                                      .dividerCommon(),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
 
                                   Consumer<RtlService>(
                                     builder: (context, rtlP, child) =>

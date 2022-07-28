@@ -72,10 +72,10 @@ class _HomepageState extends State<Homepage> {
                                   Icons.menu,
                                   color: cc.greyFour,
                                 ))),
-                        Icon(
-                          Icons.notifications_none_outlined,
-                          color: cc.greyFour,
-                        )
+                        // Icon(
+                        //   Icons.notifications_none_outlined,
+                        //   color: cc.greyFour,
+                        // )
                       ],
                     ),
 
