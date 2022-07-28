@@ -58,23 +58,23 @@ class ProfileImage {
 }
 
 class UserDetails {
-  UserDetails({
-    this.id,
-    this.name,
-    this.email,
-    this.phone,
-    this.address,
-    this.about,
-    this.countryId,
-    this.serviceCity,
-    this.serviceArea,
-    this.postCode,
-    this.image,
-    this.countryCode,
-    required this.country,
-    required this.city,
-    required this.area,
-  });
+  UserDetails(
+      {this.id,
+      this.name,
+      this.email,
+      this.phone,
+      this.address,
+      this.about,
+      this.countryId,
+      this.serviceCity,
+      this.serviceArea,
+      this.postCode,
+      this.image,
+      this.countryCode,
+      required this.country,
+      required this.city,
+      required this.area,
+      required this.sellerVerify});
 
   int? id;
   String? name;
@@ -91,6 +91,7 @@ class UserDetails {
   Country country;
   City city;
   Area area;
+  SellerVerify sellerVerify;
 
   factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
         id: json["id"],
@@ -108,6 +109,7 @@ class UserDetails {
         country: Country.fromJson(json["country"]),
         city: City.fromJson(json["city"]),
         area: Area.fromJson(json["area"]),
+        sellerVerify: SellerVerify.fromJson(json["seller_verify"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -126,6 +128,7 @@ class UserDetails {
         "country": country.toJson(),
         "city": city.toJson(),
         "area": area.toJson(),
+        "seller_verify": sellerVerify.toJson()
       };
 }
 
@@ -166,6 +169,38 @@ class Area {
         "status": status,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
+      };
+}
+
+class SellerVerify {
+  SellerVerify({
+    this.id,
+    this.sellerId,
+    this.nationalId,
+    this.address,
+    this.status,
+  });
+
+  int? id;
+  int? sellerId;
+  var nationalId;
+  var address;
+  int? status;
+
+  factory SellerVerify.fromJson(Map<String, dynamic> json) => SellerVerify(
+        id: json["id"],
+        sellerId: json["seller_id"],
+        nationalId: json["national_id"],
+        address: json["address"],
+        status: json["status"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "seller_id": sellerId,
+        "national_id": nationalId,
+        "address": address,
+        "status": status,
       };
 }
 
