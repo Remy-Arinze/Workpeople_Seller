@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/view/auth/login/login.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
@@ -22,36 +24,37 @@ class SidebarDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
-              decoration: BoxDecoration(color: cc.primaryColor),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const ProfilePage(),
-                    ),
-                  );
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CommonHelper().profileImage(
-                        'https://bytesed.com/laravel/qixer/assets/uploads/media-uploader/seller-s21644057790.jpg',
-                        60,
-                        60),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      'SM Saleheen',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: Colors.white, fontSize: 19),
-                    ),
-                  ],
-                ),
-              )),
+          Consumer<ProfileService>(
+            builder: (context, profileProvider, child) => DrawerHeader(
+                decoration: BoxDecoration(color: cc.primaryColor),
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                        builder: (BuildContext context) => const ProfilePage(),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CommonHelper().profileImage(
+                          profileProvider.profileImage.imgUrl, 60, 60),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Text(
+                        profileProvider.profileDetails.name ?? '',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style:
+                            const TextStyle(color: Colors.white, fontSize: 19),
+                      ),
+                    ],
+                  ),
+                )),
+          ),
           SidebarMenuItem(
               title: 'Support ticket',
               leading: Icon(Icons.headphones, color: cc.primaryColor),

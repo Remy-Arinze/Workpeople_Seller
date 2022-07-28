@@ -109,7 +109,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                                   //user name
                                                   CommonHelper().titleCommon(
                                                       profileProvider
-                                                          .profileDetails.name),
+                                                              .profileDetails
+                                                              .name ??
+                                                          ''),
                                                   const SizedBox(
                                                     height: 5,
                                                   ),
