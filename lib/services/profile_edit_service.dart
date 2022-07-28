@@ -81,7 +81,6 @@ class ProfileEditService with ChangeNotifier {
         'country_code': countryCode
       });
     }
-    print(countryCode);
     var response = await dio.post(
       '$baseApi/seller/profile/edit',
       data: formData,
@@ -90,7 +89,7 @@ class ProfileEditService with ChangeNotifier {
     if (response.statusCode == 201) {
       setLoadingFalse();
       OthersHelper().showToast('Profile updated successfully', Colors.black);
-      print(response.data);
+
       Navigator.pop(context);
       Provider.of<ProfileService>(context, listen: false)
           .getProfileDetails(isFromProfileupdatePage: true);

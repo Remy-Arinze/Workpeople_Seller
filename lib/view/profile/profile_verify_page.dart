@@ -156,8 +156,10 @@ class ProfileVerifyPage extends StatelessWidget {
                   height: 20,
                 ),
                 CommonHelper().buttonPrimary('Upload', () {
-                  provider.pickNidImage(context);
-                }),
+                  if (provider.isloading == false) {
+                    provider.uploadDocument(context);
+                  }
+                }, isloading: provider.isloading == false ? false : true),
               ],
             ),
           ),
