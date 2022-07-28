@@ -27,6 +27,12 @@ class PayoutHistoryService with ChangeNotifier {
     notifyListeners();
   }
 
+  makePayoutHistoryListEmpty() {
+    payoutHistoryList = [];
+    currentPage = 1;
+    notifyListeners();
+  }
+
   fetchPayoutHistory(context, {bool isrefresh = false}) async {
     if (isrefresh) {
       //making the list empty first to show loading bar (we are showing loading bar while the product list is empty)

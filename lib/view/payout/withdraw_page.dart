@@ -24,7 +24,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
     super.initState();
   }
 
-  TextEditingController descController = TextEditingController();
+  TextEditingController noteController = TextEditingController();
   TextEditingController amountController = TextEditingController();
 
   @override
@@ -146,7 +146,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
 
                           TextareaField(
                             hintText: 'Note',
-                            notesController: descController,
+                            notesController: noteController,
                           ),
 
                           sizedBox20(),
@@ -164,14 +164,17 @@ class _WithdrawPageState extends State<WithdrawPage> {
                           Consumer<WithdrawService>(
                               builder: (context, wProvider, child) =>
                                   CommonHelper().buttonPrimary('Withdraw', () {
+                                    if (noteController.text.isEmpty) {
+                                      OthersHelper().showToast(
+                                          'Please enter a note', Colors.black);
+                                      return;
+                                    }
                                     if (_formKey.currentState!.validate()) {
                                       if (wProvider.isloading == false) {
-                                        // provider.createTicket(
-                                        //     context,
-                                        //     amountController.text,
-                                        //     provider.selectedPriority,
-                                        //     descController.text,
-                                        //     provider.selectedOrderId);
+                                        wProvider.withdrawMoney(
+                                            amountController.text,
+                                            noteController.text,
+                                            context);
                                       }
                                     }
                                   },
