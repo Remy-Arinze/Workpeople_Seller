@@ -132,6 +132,11 @@ class _HomepageState extends State<Homepage> {
                           : Container(),
                     ),
 
+                    // const SizedBox(
+                    //   height: 30,
+                    // ),
+                    // const ChartDashboard(),
+
                     const SizedBox(
                       height: 30,
                     ),
