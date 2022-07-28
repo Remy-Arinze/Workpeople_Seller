@@ -43,10 +43,10 @@ class LoginService with ChangeNotifier {
           body: data, headers: header);
 
       if (response.statusCode == 201) {
-        if (isFromLoginPage) {
-          OthersHelper()
-              .showToast("Login successful", ConstantColors().successColor);
-        }
+        // if (isFromLoginPage) {
+        //   OthersHelper()
+        //       .showToast("Login successful", ConstantColors().successColor);
+        // }
         setLoadingFalse();
 
         Navigator.pushReplacement<void, void>(
