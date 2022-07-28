@@ -94,7 +94,7 @@ class DeactivateAccountPage extends StatelessWidget {
 
               Consumer<DeactivateAccountService>(
                 builder: (context, provider, child) => CommonHelper()
-                    .buttonPrimary("Login", () {
+                    .buttonPrimary("Deactivate", () {
                   if (provider.isloading == false) {
                     if (descController.text.isEmpty) {
                       OthersHelper().showToast(

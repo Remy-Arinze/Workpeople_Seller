@@ -20,10 +20,21 @@ class DashboardService with ChangeNotifier {
     notifyListeners();
   }
 
-  fetchData() async {
-    if (dashboardDataList.isNotEmpty) {
-      //if data is already loaded. no need to load again
-      return;
+  setDefault() {
+    dashboardDataList = [];
+    notifyListeners();
+  }
+
+  fetchData({bool fetchAgain = false}) async {
+    if (fetchAgain == false) {
+      if (dashboardDataList.isNotEmpty) {
+        //if data is already loaded. no need to load again
+        return;
+      }
+    } else {
+      //fetching data again
+      //so set everything to default first
+      setDefault();
     }
     var connection = await checkConnection();
     if (connection) {
@@ -44,6 +55,8 @@ class DashboardService with ChangeNotifier {
           .post(Uri.parse('$baseApi/seller/dashboard-info'), headers: header);
 
       setLoadingFalse();
+
+      print('dashboard ' + response.body);
 
       if (response.statusCode == 201) {
         var data = DashboardModel.fromJson(jsonDecode(response.body));

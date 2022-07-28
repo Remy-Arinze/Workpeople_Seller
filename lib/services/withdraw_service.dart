@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/common_service.dart';
+import 'package:qixer_seller/services/dashboard_service.dart';
 import 'package:qixer_seller/services/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payout_history_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
@@ -61,6 +62,10 @@ class WithdrawService with ChangeNotifier {
 
         Provider.of<PayoutHistoryService>(context, listen: false)
             .fetchPayoutHistory(context);
+
+        //fetch dashboard data again
+        Provider.of<DashboardService>(context, listen: false)
+            .fetchData(fetchAgain: true);
 
         Navigator.pop(context);
       } else if (response.statusCode == 404) {
