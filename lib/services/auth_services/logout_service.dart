@@ -1,7 +1,5 @@
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/profile_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/others_helper.dart';
@@ -39,9 +37,11 @@ class LogoutService with ChangeNotifier {
         Uri.parse('$baseApi/user/logout'),
         headers: header,
       );
+      setLoadingFalse();
       if (response.statusCode == 201) {
         notifyListeners();
 
+//pop sidebar
         Navigator.pushAndRemoveUntil<dynamic>(
           context,
           MaterialPageRoute<dynamic>(
@@ -51,15 +51,15 @@ class LogoutService with ChangeNotifier {
         );
 
         // clear profile data =====>
-        Provider.of<ProfileService>(context, listen: false)
-            .setEverythingToDefault();
+        // Future.delayed(const Duration(microseconds: 5500), () {
+        //   Provider.of<ProfileService>(context, listen: false)
+        //       .setEverythingToDefault();
+        // });
 
         clear();
-        setLoadingFalse();
       } else {
         print(response.body);
         OthersHelper().showToast('Something went wrong', Colors.black);
-        setLoadingFalse();
       }
     }
   }

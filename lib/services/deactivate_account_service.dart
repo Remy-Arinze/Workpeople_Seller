@@ -1,12 +1,20 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/auth_services/logout_service.dart';
+import 'package:qixer_seller/services/common_service.dart';
+import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 class DeactivateAccountService with ChangeNotifier {
-  bool isLoading = false;
+  bool isloading = false;
   //deactivateReason dropdown
   var deactivateReasonDropdownList = ['Vacation', 'Personal reason'];
-  var deactivateReasonDropdownIndexList = ['1', '2', 'Paytm'];
+  var deactivateReasonDropdownIndexList = ['Vacation', 'Vacation'];
   var selecteddeactivateReason = 'Vacation';
-  var selecteddeactivateReasonId = '';
+  var selecteddeactivateReasonId = 'Vacation';
 
   setdeactivateReasonValue(value) {
     selecteddeactivateReason = value;
@@ -18,72 +26,42 @@ class DeactivateAccountService with ChangeNotifier {
     notifyListeners();
   }
 
-  // fetchOrderDropdown(BuildContext context) async {
-  //   hasOrder = true;
-  //   Future.delayed(const Duration(microseconds: 500), () {
-  //     notifyListeners();
-  //   });
-  //   var orders = await Provider.of<MyOrdersService>(context, listen: false)
-  //       .fetchMyOrders();
-  //   if (orders != 'error') {
-  //     print('orders is $orders');
-  //     for (int i = 0; i < orders.length; i++) {
-  //       orderDropdownList.add('#${orders[i].id}');
-  //       orderDropdownIndexList.add(orders[i].id);
-  //     }
-  //     selectedOrder = '#${orders[0].id}';
-  //     selectedOrderId = orders[0].id;
-  //     hasOrder = true;
-  //     notifyListeners();
-  //   } else {
-  //     hasOrder = false;
-  //     notifyListeners();
-  //   }
-  // }
+  deactivate(BuildContext context, desc) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  //create ticket ====>
+    var token = prefs.getString('token');
 
-  // createTicket(BuildContext context, subject, deactivateReason, desc, orderId) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   int? userId = prefs.getInt('userId');
-  //   var token = prefs.getString('token');
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
 
-  //   var header = {
-  //     //if header type is application/json then the data should be in jsonEncode method
-  //     "Accept": "application/json",
-  //     "Content-Type": "application/json",
-  //     "Authorization": "Bearer $token",
-  //   };
+    var data = jsonEncode({
+      'reason': selecteddeactivateReasonId,
+      'description': desc,
+    });
 
-  //   var data = jsonEncode({
-  //     'subject': subject,
-  //     'deactivateReason': deactivateReason,
-  //     'description': desc,
-  //     'order_id': orderId
-  //   });
-
-  //   var connection = await checkConnection();
-  //   if (connection) {
-  //     isLoading = true;
-  //     notifyListeners();
-  //     //if connection is ok
-  //     var response = await http.post(Uri.parse('$baseApi/user/ticket/create'),
-  //         headers: header, body: data);
-  //     isLoading = false;
-  //     notifyListeners();
-  //     if (response.statusCode == 201) {
-  //       OthersHelper().showToast('Ticket created successfully', Colors.black);
-
-  //       Provider.of<SupportTicketService>(context, listen: false)
-  //           .addNewDataToTicketList(
-  //               subject,
-  //               jsonDecode(response.body)['ticket_info']['id'],
-  //               deactivateReason,
-  //               'open');
-  //       Navigator.pop(context);
-  //     } else {
-  //       OthersHelper().showToast('Something went wrong', Colors.black);
-  //     }
-  //   }
-  // }
+    var connection = await checkConnection();
+    if (connection) {
+      isloading = true;
+      notifyListeners();
+      //if connection is ok
+      var response = await http.post(
+          Uri.parse('$baseApi/seller/profile/deactivate'),
+          headers: header,
+          body: data);
+      isloading = false;
+      notifyListeners();
+      if (response.statusCode == 201) {
+        OthersHelper()
+            .showToast('Account deactivated, Logging out', Colors.black);
+        Provider.of<LogoutService>(context, listen: false).logout(context);
+      } else {
+        print('deactivate account error ' + response.body);
+        OthersHelper().showToast('Something went wrong', Colors.black);
+      }
+    }
+  }
 }

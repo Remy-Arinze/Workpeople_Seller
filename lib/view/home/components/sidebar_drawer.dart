@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/auth_services/logout_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/view/auth/login/login.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
 import 'package:qixer_seller/view/payout/payout_page.dart';
 import 'package:qixer_seller/view/profile/change_password_page.dart';
@@ -10,7 +10,6 @@ import 'package:qixer_seller/view/profile/components/deactivate_account_page.dar
 import 'package:qixer_seller/view/profile/profile_page.dart';
 import 'package:qixer_seller/view/profile/profile_verify_page.dart';
 import 'package:qixer_seller/view/supports/my_tickets_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../utils/common_helper.dart';
 
@@ -139,18 +138,15 @@ class SidebarDrawer extends StatelessWidget {
               }),
 
           //Logout button
-          Container(
-            margin: const EdgeInsets.fromLTRB(20, 30, 20, 20),
-            child: CommonHelper().buttonPrimary("Logout", () async {
-              SharedPreferences prefs = await SharedPreferences.getInstance();
-              prefs.clear();
-              Navigator.pushReplacement<void, void>(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const LoginPage(),
-                ),
-              );
-            }, bgColor: cc.warningColor),
+          Consumer<LogoutService>(
+            builder: (context, logoutProvider, child) => Container(
+              margin: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+              child: CommonHelper().buttonPrimary("Logout", () async {
+                logoutProvider.logout(context);
+              },
+                  isloading: logoutProvider.isloading == false ? false : true,
+                  bgColor: cc.warningColor),
+            ),
           )
         ],
       ),
