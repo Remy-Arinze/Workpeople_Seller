@@ -12,6 +12,7 @@ import 'package:qixer_seller/view/home/components/sidebar_drawer.dart';
 import 'package:qixer_seller/view/home/home_helper.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
 
+import '../../services/profile_service.dart';
 import 'components/section_title.dart';
 
 class Homepage extends StatefulWidget {
@@ -73,10 +74,36 @@ class _HomepageState extends State<Homepage> {
                                   Icons.menu,
                                   color: cc.greyFour,
                                 ))),
-                        // Icon(
-                        //   Icons.notifications_none_outlined,
-                        //   color: cc.greyFour,
-                        // )
+                        Consumer<ProfileService>(
+                          builder: (context, profileProvider, child) =>
+                              profileProvider.profileDetails != null
+                                  ? Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.end,
+                                      children: [
+                                        Text(
+                                          'Welcome!',
+                                          style: TextStyle(
+                                            color: cc.greyParagraph,
+                                            fontSize: 12,
+                                          ),
+                                        ),
+                                        const SizedBox(
+                                          height: 5,
+                                        ),
+                                        Text(
+                                          profileProvider.profileDetails.name ??
+                                              '',
+                                          style: TextStyle(
+                                            color: cc.greyFour,
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  : Container(),
+                        )
                       ],
                     ),
 
@@ -134,7 +161,7 @@ class _HomepageState extends State<Homepage> {
                     ),
 
                     const SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     const ChartDashboard(),
                     // const ChartLineDashboard(),
@@ -144,7 +171,7 @@ class _HomepageState extends State<Homepage> {
                     // ),
 
                     const SizedBox(
-                      height: 30,
+                      height: 20,
                     ),
                     SectionTitle(
                       cc: cc,
@@ -166,58 +193,56 @@ class _HomepageState extends State<Homepage> {
 
                     //Recent orders
                     Consumer<RecentOrdersService>(
-                      builder: (context, rProvider, child) => rProvider
-                                  .recentOrdersData !=
-                              null
-                          ? ListView.builder(
-                              itemCount: rProvider
-                                  .recentOrdersData.recentOrders.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                    height: 50,
-                                    padding: const EdgeInsets.symmetric(
-                                        horizontal: 2),
-                                    margin: const EdgeInsets.only(bottom: 10),
-                                    decoration: BoxDecoration(
-                                        border: Border(
-                                      bottom: BorderSide(
-                                        //                   <--- right side
-                                        color: Colors.grey.withOpacity(.2),
-                                        width: 1.0,
-                                      ),
-                                    )),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Text(
-                                            rProvider.recentOrdersData
-                                                .recentOrders[index].name
-                                                .toString(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: TextStyle(
-                                                color: cc.greyFour,
-                                                fontSize: 15),
+                      builder: (context, rProvider, child) =>
+                          rProvider.recentOrdersData != null
+                              ? ListView.builder(
+                                  itemCount: rProvider
+                                      .recentOrdersData.recentOrders.length,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return Container(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 2, vertical: 18),
+                                        decoration: BoxDecoration(
+                                            border: Border(
+                                          bottom: BorderSide(
+                                            //                   <--- right side
+                                            color: Colors.grey.withOpacity(.2),
+                                            width: 1.0,
                                           ),
-                                        ),
-                                        SizedBox(
-                                          width: 60,
-                                          child: Text(
-                                            "\$${rProvider.recentOrdersData.recentOrders[index].total}",
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis,
-                                            textAlign: TextAlign.right,
-                                            style: TextStyle(
-                                                color: cc.greyFour,
-                                                fontSize: 15),
-                                          ),
-                                        ),
-                                      ],
-                                    ));
-                              })
-                          : OthersHelper().showLoading(cc.primaryColor),
+                                        )),
+                                        child: Row(
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                rProvider.recentOrdersData
+                                                    .recentOrders[index].name
+                                                    .toString(),
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                style: TextStyle(
+                                                    color: cc.greyFour,
+                                                    fontSize: 15),
+                                              ),
+                                            ),
+                                            SizedBox(
+                                              width: 60,
+                                              child: Text(
+                                                "\$${rProvider.recentOrdersData.recentOrders[index].total}",
+                                                maxLines: 1,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.right,
+                                                style: TextStyle(
+                                                    color: cc.greyFour,
+                                                    fontSize: 15),
+                                              ),
+                                            ),
+                                          ],
+                                        ));
+                                  })
+                              : OthersHelper().showLoading(cc.primaryColor),
                     )
                   ]),
             ),

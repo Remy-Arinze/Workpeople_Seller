@@ -24,35 +24,39 @@ class SidebarDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           Consumer<ProfileService>(
-            builder: (context, profileProvider, child) => DrawerHeader(
-                decoration: BoxDecoration(color: cc.primaryColor),
-                child: InkWell(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                        builder: (BuildContext context) => const ProfilePage(),
-                      ),
-                    );
-                  },
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      CommonHelper().profileImage(
-                          profileProvider.profileImage.imgUrl, 60, 60),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        profileProvider.profileDetails.name ?? '',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style:
-                            const TextStyle(color: Colors.white, fontSize: 19),
-                      ),
-                    ],
-                  ),
-                )),
+            builder: (context, profileProvider, child) =>
+                profileProvider.profileDetails != null
+                    ? DrawerHeader(
+                        decoration: BoxDecoration(color: cc.primaryColor),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) =>
+                                    const ProfilePage(),
+                              ),
+                            );
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CommonHelper().profileImage(
+                                  profileProvider.profileImage.imgUrl, 60, 60),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                profileProvider.profileDetails.name ?? '',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 19),
+                              ),
+                            ],
+                          ),
+                        ))
+                    : Container(),
           ),
           SidebarMenuItem(
               title: 'Support ticket',
