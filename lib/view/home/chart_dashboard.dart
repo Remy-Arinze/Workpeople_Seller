@@ -1,5 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/chart_service.dart';
 
 class ChartDashboard extends StatefulWidget {
   const ChartDashboard({Key? key}) : super(key: key);
@@ -22,20 +24,25 @@ class _ChartDashboardState extends State<ChartDashboard> {
       children: <Widget>[
         AspectRatio(
           aspectRatio: 1.70,
-          child: Container(
-            decoration: const BoxDecoration(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(18),
-                ),
-                // color: Color(0xff232d37)
-                color: Colors.white),
-            child: Padding(
-              padding: const EdgeInsets.only(
-                  right: 18.0, left: 12.0, top: 24, bottom: 12),
-              child: LineChart(
-                mainData(),
-              ),
-            ),
+          child: Consumer<ChartService>(
+            builder: (context, provider, child) =>
+                provider.chartDataListMap.isNotEmpty
+                    ? Container(
+                        decoration: const BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(18),
+                            ),
+                            // color: Color(0xff232d37)
+                            color: Colors.white),
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                              right: 18.0, left: 12.0, top: 24, bottom: 12),
+                          child: LineChart(
+                            mainData(provider.chartDataListMap),
+                          ),
+                        ),
+                      )
+                    : Container(),
           ),
         ),
         // SizedBox(
@@ -60,61 +67,61 @@ class _ChartDashboardState extends State<ChartDashboard> {
     );
   }
 
-  Widget bottomTitleWidgets(double value, TitleMeta meta) {
-    const style = TextStyle(
-      color: Color(0xff68737d),
-      fontWeight: FontWeight.bold,
-      fontSize: 13,
-    );
-    Widget text;
-    switch (value.toInt()) {
-      case 0:
-        text = const Text('Jan', style: style);
-        break;
-      case 1:
-        text = const Text('Feb', style: style);
-        break;
-      case 2:
-        text = const Text('Mar', style: style);
-        break;
-      case 3:
-        text = const Text('Apr', style: style);
-        break;
-      case 4:
-        text = const Text('May', style: style);
-        break;
-      case 5:
-        text = const Text('Jun', style: style);
-        break;
-      case 6:
-        text = const Text('Jul', style: style);
-        break;
-      case 7:
-        text = const Text('Aug', style: style);
-        break;
-      case 8:
-        text = const Text('Sep', style: style);
-        break;
-      case 9:
-        text = const Text('Oct', style: style);
-        break;
-      case 10:
-        text = const Text('Nov', style: style);
-        break;
-      case 11:
-        text = const Text('Dec', style: style);
-        break;
-      default:
-        text = const Text('', style: style);
-        break;
-    }
+  // Widget bottomTitleWidgets(double value, TitleMeta meta,m) {
+  //   const style = TextStyle(
+  //     color: Color(0xff68737d),
+  //     fontWeight: FontWeight.bold,
+  //     fontSize: 12,
+  //   );
+  //   Widget text;
+  //   switch (value.toInt()) {
+  //     case 0:
+  //       text = Text(monthName[0], style: style);
+  //       break;
+  //     case 1:
+  //       text = const Text('Feb', style: style);
+  //       break;
+  //     case 2:
+  //       text = const Text('Mar', style: style);
+  //       break;
+  //     case 3:
+  //       text = const Text('Apr', style: style);
+  //       break;
+  //     case 4:
+  //       text = const Text('May', style: style);
+  //       break;
+  //     case 5:
+  //       text = const Text('Jun', style: style);
+  //       break;
+  //     case 6:
+  //       text = const Text('Jul', style: style);
+  //       break;
+  //     case 7:
+  //       text = const Text('Aug', style: style);
+  //       break;
+  //     case 8:
+  //       text = const Text('Sep', style: style);
+  //       break;
+  //     case 9:
+  //       text = const Text('Oct', style: style);
+  //       break;
+  //     case 10:
+  //       text = const Text('Nov', style: style);
+  //       break;
+  //     case 11:
+  //       text = const Text('Dec', style: style);
+  //       break;
+  //     default:
+  //       text = const Text('', style: style);
+  //       break;
+  //   }
 
-    return SideTitleWidget(
-      axisSide: meta.axisSide,
-      space: 8.0,
-      child: text,
-    );
-  }
+  //   return SideTitleWidget(
+  //     axisSide: meta.axisSide,
+  //     space: 8.0,
+  //     child: text,
+  //   );
+  // }
 
   // Widget leftTitleWidgets(double value, TitleMeta meta) {
   //   const style = TextStyle(
@@ -140,7 +147,7 @@ class _ChartDashboardState extends State<ChartDashboard> {
   //   return Text(text, style: style, textAlign: TextAlign.left);
   // }
 
-  LineChartData mainData() {
+  LineChartData mainData(monthAndValue) {
     return LineChartData(
       gridData: FlGridData(
         show: true,
@@ -175,7 +182,61 @@ class _ChartDashboardState extends State<ChartDashboard> {
             showTitles: true,
             reservedSize: 30,
             interval: 1,
-            getTitlesWidget: bottomTitleWidgets,
+            getTitlesWidget: (double value, TitleMeta meta) {
+              const style = TextStyle(
+                color: Color(0xff68737d),
+                fontWeight: FontWeight.bold,
+                fontSize: 12,
+              );
+              Widget text;
+              switch (value.toInt()) {
+                case 0:
+                  text = Text(monthAndValue[0]['monthName'], style: style);
+                  break;
+                case 1:
+                  text = Text(monthAndValue[1]['monthName'], style: style);
+                  break;
+                case 2:
+                  text = Text(monthAndValue[2]['monthName'], style: style);
+                  break;
+                case 3:
+                  text = Text(monthAndValue[3]['monthName'], style: style);
+                  break;
+                case 4:
+                  text = Text(monthAndValue[4]['monthName'], style: style);
+                  break;
+                case 5:
+                  text = Text(monthAndValue[5]['monthName'], style: style);
+                  break;
+                case 6:
+                  text = Text(monthAndValue[6]['monthName'], style: style);
+                  break;
+                case 7:
+                  text = Text(monthAndValue[7]['monthName'], style: style);
+                  break;
+                case 8:
+                  text = Text(monthAndValue[8]['monthName'], style: style);
+                  break;
+                case 9:
+                  text = Text(monthAndValue[9]['monthName'], style: style);
+                  break;
+                case 10:
+                  text = Text(monthAndValue[10]['monthName'], style: style);
+                  break;
+                case 11:
+                  text = Text(monthAndValue[11]['monthName'], style: style);
+                  break;
+                default:
+                  text = const Text('', style: style);
+                  break;
+              }
+
+              return SideTitleWidget(
+                axisSide: meta.axisSide,
+                space: 8.0,
+                child: text,
+              );
+            },
           ),
         ),
         leftTitles: AxisTitles(
@@ -191,7 +252,7 @@ class _ChartDashboardState extends State<ChartDashboard> {
           show: true,
           border: Border.all(
               // color: const Color(0xff37434d),
-              color: Colors.grey.withOpacity(.4),
+              color: Colors.grey.withOpacity(.3),
               width: 1)),
       minX: 0,
       maxX: 11,
@@ -199,14 +260,19 @@ class _ChartDashboardState extends State<ChartDashboard> {
       maxY: 6,
       lineBarsData: [
         LineChartBarData(
-          spots: const [
-            FlSpot(0, 3),
-            FlSpot(2.6, 2),
-            FlSpot(4.9, 5),
-            FlSpot(6.8, 3.1),
-            FlSpot(8, 4),
-            FlSpot(9.5, 3),
-            FlSpot(11, 4),
+          spots: [
+            FlSpot(0, monthAndValue[0]['orders']),
+            FlSpot(1, monthAndValue[1]['orders']),
+            FlSpot(2, monthAndValue[2]['orders']),
+            FlSpot(3, monthAndValue[3]['orders']),
+            FlSpot(4, monthAndValue[4]['orders']),
+            FlSpot(5, monthAndValue[5]['orders']),
+            FlSpot(6, monthAndValue[6]['orders']),
+            FlSpot(7, monthAndValue[7]['orders']),
+            FlSpot(8, monthAndValue[8]['orders']),
+            FlSpot(9, monthAndValue[9]['orders']),
+            FlSpot(10, monthAndValue[10]['orders']),
+            FlSpot(11, monthAndValue[11]['orders']),
           ],
           isCurved: true,
           gradient: LinearGradient(
@@ -214,7 +280,7 @@ class _ChartDashboardState extends State<ChartDashboard> {
             begin: Alignment.centerLeft,
             end: Alignment.centerRight,
           ),
-          barWidth: 5,
+          barWidth: 4,
           isStrokeCapRound: true,
           dotData: FlDotData(
             show: false,

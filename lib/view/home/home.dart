@@ -7,6 +7,7 @@ import 'package:qixer_seller/services/recent_orders_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/home/chart_dashboard.dart';
 import 'package:qixer_seller/view/home/components/sidebar_drawer.dart';
 import 'package:qixer_seller/view/home/home_helper.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
@@ -132,10 +133,15 @@ class _HomepageState extends State<Homepage> {
                           : Container(),
                     ),
 
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    const ChartDashboard(),
+                    // const ChartLineDashboard(),
                     // const SizedBox(
-                    //   height: 30,
+                    //   height: 200,
+                    //   child: LineChartMrx(),
                     // ),
-                    // const ChartDashboard(),
 
                     const SizedBox(
                       height: 30,
