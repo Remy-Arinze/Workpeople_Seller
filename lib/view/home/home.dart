@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
 import 'package:provider/provider.dart';
@@ -145,7 +146,7 @@ class _HomepageState extends State<Homepage> {
                                         const SizedBox(
                                           height: 3,
                                         ),
-                                        Text(
+                                        AutoSizeText(
                                           HomeHelper().cardTitles[index],
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis,
@@ -243,7 +244,10 @@ class _HomepageState extends State<Homepage> {
                                         ));
                                   })
                               : OthersHelper().showLoading(cc.primaryColor),
-                    )
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
                   ]),
             ),
           ),
