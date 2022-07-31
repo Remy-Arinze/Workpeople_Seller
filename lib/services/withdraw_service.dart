@@ -13,6 +13,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class WithdrawService with ChangeNotifier {
   bool isloading = false;
 
+  int minAmount = 50;
+  int maxAmount = 250;
+
   setLoadingTrue() {
     isloading = true;
     notifyListeners();
@@ -75,6 +78,34 @@ class WithdrawService with ChangeNotifier {
         }
       } else {
         OthersHelper().showToast('Something went wrong', Colors.black);
+      }
+    }
+  }
+
+//====================>
+  getMinMaxAmount(BuildContext context) async {
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      // "Authorization": "Bearer $token",
+    };
+
+    var connection = await checkConnection();
+    if (connection) {
+      //if connection is ok
+      var response = await http.get(
+        Uri.parse('$baseApi/amount-settings'),
+        headers: header,
+      );
+
+      if (response.statusCode == 201) {
+        minAmount = jsonDecode(response.body)['amount_settings']['min_amount'];
+        maxAmount = jsonDecode(response.body)['amount_settings']['max_amount'];
+        notifyListeners();
+      } else {
+        //error fetching min max amount
+        print('error fetching min and max amount' + response.body);
       }
     }
   }

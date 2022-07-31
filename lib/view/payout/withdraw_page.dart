@@ -32,6 +32,9 @@ class _WithdrawPageState extends State<WithdrawPage> {
     Provider.of<PaymentGatewayListService>(context, listen: false)
         .fetchGatewayList();
 
+    Provider.of<WithdrawService>(context, listen: false)
+        .getMinMaxAmount(context);
+
     ConstantColors cc = ConstantColors();
 
     return Scaffold(
@@ -58,132 +61,135 @@ class _WithdrawPageState extends State<WithdrawPage> {
                   child: Container(
                     padding: EdgeInsets.symmetric(
                         horizontal: screenPadding, vertical: 10),
-                    child: Column(children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          // dropdown ======>
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CommonHelper().labelCommon("Gateway"),
-                              provider.paymentDropdownList.isNotEmpty
-                                  ? Container(
-                                      width: double.infinity,
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 15),
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: cc.greyFive),
-                                        borderRadius: BorderRadius.circular(6),
-                                      ),
-                                      child: DropdownButtonHideUnderline(
-                                        child: DropdownButton<String>(
-                                          // menuMaxHeight: 200,
-                                          // isExpanded: true,
-                                          value: provider.selectedPayment,
-                                          icon: Icon(
-                                              Icons.keyboard_arrow_down_rounded,
-                                              color: cc.greyFour),
-                                          iconSize: 26,
-                                          elevation: 17,
-                                          style: TextStyle(color: cc.greyFour),
-                                          onChanged: (newValue) {
-                                            provider.setgatewayValue(newValue);
-
-                                            //setting the id of selected value
-                                            provider.setSelectedgatewayId(
-                                                provider.paymentDropdownIndexList[
-                                                    provider.paymentDropdownList
-                                                        .indexOf(newValue!)]);
-                                          },
-                                          items: provider.paymentDropdownList
-                                              .map<DropdownMenuItem<String>>(
-                                                  (value) {
-                                            return DropdownMenuItem(
-                                              value: value,
-                                              child: Text(
-                                                value,
-                                                style: TextStyle(
-                                                    color: cc.greyPrimary
-                                                        .withOpacity(.8)),
-                                              ),
-                                            );
-                                          }).toList(),
+                    child: Consumer<WithdrawService>(
+                      builder: (context, wProvider, child) => Column(children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            // dropdown ======>
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CommonHelper().labelCommon("Gateway"),
+                                provider.paymentDropdownList.isNotEmpty
+                                    ? Container(
+                                        width: double.infinity,
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 15),
+                                        decoration: BoxDecoration(
+                                          border:
+                                              Border.all(color: cc.greyFive),
+                                          borderRadius:
+                                              BorderRadius.circular(6),
                                         ),
+                                        child: DropdownButtonHideUnderline(
+                                          child: DropdownButton<String>(
+                                            // menuMaxHeight: 200,
+                                            // isExpanded: true,
+                                            value: provider.selectedPayment,
+                                            icon: Icon(
+                                                Icons
+                                                    .keyboard_arrow_down_rounded,
+                                                color: cc.greyFour),
+                                            iconSize: 26,
+                                            elevation: 17,
+                                            style:
+                                                TextStyle(color: cc.greyFour),
+                                            onChanged: (newValue) {
+                                              provider
+                                                  .setgatewayValue(newValue);
+
+                                              //setting the id of selected value
+                                              provider.setSelectedgatewayId(provider
+                                                      .paymentDropdownIndexList[
+                                                  provider.paymentDropdownList
+                                                      .indexOf(newValue!)]);
+                                            },
+                                            items: provider.paymentDropdownList
+                                                .map<DropdownMenuItem<String>>(
+                                                    (value) {
+                                              return DropdownMenuItem(
+                                                value: value,
+                                                child: Text(
+                                                  value,
+                                                  style: TextStyle(
+                                                      color: cc.greyPrimary
+                                                          .withOpacity(.8)),
+                                                ),
+                                              );
+                                            }).toList(),
+                                          ),
+                                        ),
+                                      )
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          OthersHelper()
+                                              .showLoading(cc.primaryColor)
+                                        ],
                                       ),
-                                    )
-                                  : Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.start,
-                                      children: [
-                                        OthersHelper()
-                                            .showLoading(cc.primaryColor)
-                                      ],
-                                    ),
-                            ],
-                          ),
+                              ],
+                            ),
 
-                          sizedBox20(),
-                          CommonHelper().labelCommon("Amount"),
-                          CustomInput(
-                            controller: amountController,
-                            validation: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please enter an amount';
+                            sizedBox20(),
+                            CommonHelper().labelCommon("Amount"),
+                            CustomInput(
+                              controller: amountController,
+                              validation: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter an amount';
+                                }
+                                return null;
+                              },
+                              hintText: "Amount",
+                              isNumberField: true,
+                              // icon: 'assets/icons/user.png',
+                              paddingHorizontal: 18,
+                              textInputAction: TextInputAction.next,
+                            ),
+                            const SizedBox(
+                              height: 7,
+                            ),
+                            CommonHelper().labelCommon("Note"),
+
+                            TextareaField(
+                              hintText: 'Note',
+                              notesController: noteController,
+                            ),
+
+                            sizedBox20(),
+                            Text(
+                              'You can make a request only if your remaining balance in a range set by the site admin. Like admin set minimum request amount ${wProvider.minAmount} and maximum request amount ${wProvider.maxAmount}. then you can request a payment between ${wProvider.minAmount} to ${wProvider.maxAmount}.',
+                              style: const TextStyle(
+                                  color: Colors.red, fontSize: 13, height: 1.4),
+                            ),
+
+                            //Save button =========>
+
+                            const SizedBox(
+                              height: 30,
+                            ),
+
+                            CommonHelper().buttonPrimary('Withdraw', () {
+                              if (noteController.text.isEmpty) {
+                                OthersHelper().showToast(
+                                    'Please enter a note', Colors.black);
+                                return;
                               }
-                              return null;
+                              if (_formKey.currentState!.validate()) {
+                                if (wProvider.isloading == false) {
+                                  wProvider.withdrawMoney(amountController.text,
+                                      noteController.text, context);
+                                }
+                              }
                             },
-                            hintText: "Amount",
-                            isNumberField: true,
-                            // icon: 'assets/icons/user.png',
-                            paddingHorizontal: 18,
-                            textInputAction: TextInputAction.next,
-                          ),
-                          const SizedBox(
-                            height: 7,
-                          ),
-                          CommonHelper().labelCommon("Note"),
-
-                          TextareaField(
-                            hintText: 'Note',
-                            notesController: noteController,
-                          ),
-
-                          sizedBox20(),
-                          const Text(
-                            'You can make a request only if your remaining balance in a range set by the site admin. Like admin set minimum request amount 50 and maximum request amount 500. then you can request a payment between 50 to 500.',
-                            style: TextStyle(
-                                color: Colors.red, fontSize: 13, height: 1.4),
-                          ),
-
-                          //Save button =========>
-
-                          const SizedBox(
-                            height: 30,
-                          ),
-                          Consumer<WithdrawService>(
-                              builder: (context, wProvider, child) =>
-                                  CommonHelper().buttonPrimary('Withdraw', () {
-                                    if (noteController.text.isEmpty) {
-                                      OthersHelper().showToast(
-                                          'Please enter a note', Colors.black);
-                                      return;
-                                    }
-                                    if (_formKey.currentState!.validate()) {
-                                      if (wProvider.isloading == false) {
-                                        wProvider.withdrawMoney(
-                                            amountController.text,
-                                            noteController.text,
-                                            context);
-                                      }
-                                    }
-                                  },
-                                      isloading: wProvider.isloading == false
-                                          ? false
-                                          : true))
-                        ],
-                      ),
-                    ]),
+                                isloading:
+                                    wProvider.isloading == false ? false : true)
+                          ],
+                        ),
+                      ]),
+                    ),
                   ),
                 ),
               ),
