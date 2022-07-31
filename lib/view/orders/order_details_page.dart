@@ -44,6 +44,56 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                 const SizedBox(
                                   height: 10,
                                 ),
+                                //Service name
+                                Container(
+                                  margin: const EdgeInsets.only(bottom: 25),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 20),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(9)),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CommonHelper()
+                                            .titleCommon('Ordered service'),
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                        //Service row
+
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            // CommonHelper().profileImage(
+                                            //     'https://cdn.pixabay.com/photo/2022/07/13/22/27/butterfly-7320158__340.jpg',
+                                            //     50,
+                                            //     50),
+                                            Text(
+                                              "Service ID: ${provider.orderDetails.id}",
+                                              style: TextStyle(
+                                                color: cc.primaryColor,
+                                                fontSize: 14,
+                                                height: 1.4,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 4,
+                                            ),
+                                            Text(
+                                              provider.orderedServiceTitle,
+                                              style: TextStyle(
+                                                color: cc.greyThree,
+                                                fontSize: 14,
+                                                height: 1.4,
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ]),
+                                ),
 
                                 Container(
                                   margin: const EdgeInsets.only(bottom: 25),
@@ -257,56 +307,6 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                       ]),
                                 ),
 
-                                //Service name
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 25),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 20),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(9)),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CommonHelper()
-                                            .titleCommon('Ordered service'),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        //Service row
-
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            // CommonHelper().profileImage(
-                                            //     'https://cdn.pixabay.com/photo/2022/07/13/22/27/butterfly-7320158__340.jpg',
-                                            //     50,
-                                            //     50),
-                                            Text(
-                                              "Service ID: ${provider.orderDetails.id}",
-                                              style: TextStyle(
-                                                color: cc.primaryColor,
-                                                fontSize: 14,
-                                                height: 1.4,
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 4,
-                                            ),
-                                            Text(
-                                              provider.orderedServiceTitle,
-                                              style: TextStyle(
-                                                color: cc.greyThree,
-                                                fontSize: 14,
-                                                height: 1.4,
-                                              ),
-                                            )
-                                          ],
-                                        )
-                                      ]),
-                                )
                                 //
                               ]),
                         )

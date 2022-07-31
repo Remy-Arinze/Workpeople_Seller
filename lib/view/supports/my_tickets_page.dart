@@ -1,4 +1,3 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 import 'package:provider/provider.dart';
@@ -115,15 +114,30 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                                   MainAxisAlignment
                                                       .spaceBetween,
                                               children: [
-                                                AutoSizeText(
-                                                  '#${provider.ticketList[i]['id']}',
-                                                  maxLines: 1,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                  style: TextStyle(
-                                                    color: cc.primaryColor,
-                                                  ),
+                                                Column(
+                                                  children: [
+                                                    //   Text(
+                                                    //   "Order ID: ${rProvider.recentOrdersData.recentOrders[index].id}",
+                                                    //   style: TextStyle(
+                                                    //     color: cc.primaryColor,
+                                                    //     fontSize: 12,
+                                                    //     height: 1.4,
+                                                    //   ),
+                                                    // ),
+
+                                                    Text(
+                                                      'Ticket ID: ${provider.ticketList[i]['id']}',
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          color:
+                                                              cc.primaryColor,
+                                                          fontSize: 12),
+                                                    ),
+                                                  ],
                                                 ),
+
                                                 // put the hamburger icon here
                                                 PopupMenuButton(
                                                   // initialValue: 2,
@@ -155,7 +169,7 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
 
                                             //Ticket title
                                             const SizedBox(
-                                              height: 7,
+                                              height: 5,
                                             ),
                                             CommonHelper().titleCommon(provider
                                                 .ticketList[i]['subject']),

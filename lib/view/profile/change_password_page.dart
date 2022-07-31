@@ -287,11 +287,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         builder: (context, provider, child) => CommonHelper()
                             .buttonPrimary("Change password", () {
                           if (provider.isloading == false) {
-                            provider.changePassword(
-                                currentPasswordController.text,
-                                newPasswordController.text,
-                                repeatNewPasswordController.text,
-                                context);
+                            if (_formKey.currentState!.validate()) {
+                              provider.changePassword(
+                                  currentPasswordController.text,
+                                  newPasswordController.text,
+                                  repeatNewPasswordController.text,
+                                  context);
+                            }
                           }
                         },
                                 isloading:

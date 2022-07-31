@@ -31,26 +31,29 @@ class SectionTitle extends StatelessWidget {
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
             onTap: pressed,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  "See all",
-                  style: TextStyle(
-                    color: cc.primaryColor,
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  Text(
+                    "See all",
+                    style: TextStyle(
+                      color: cc.primaryColor,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w600,
+                    ),
                   ),
-                ),
-                const SizedBox(
-                  width: 4,
-                ),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: cc.primaryColor,
-                  size: 15,
-                )
-              ],
+                  const SizedBox(
+                    width: 4,
+                  ),
+                  Icon(
+                    Icons.arrow_forward_ios_rounded,
+                    color: cc.primaryColor,
+                    size: 15,
+                  )
+                ],
+              ),
             ),
           ),
         ),

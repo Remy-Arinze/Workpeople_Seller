@@ -218,7 +218,7 @@ class _HomepageState extends State<Homepage> {
                       ),
 
                       const SizedBox(
-                        height: 10,
+                        height: 5,
                       ),
 
                       //Recent orders
@@ -261,15 +261,35 @@ class _HomepageState extends State<Homepage> {
                                         child: Row(
                                           children: [
                                             Expanded(
-                                              child: Text(
-                                                rProvider.recentOrdersData
-                                                    .recentOrders[index].name
-                                                    .toString(),
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                style: TextStyle(
-                                                    color: cc.greyFour,
-                                                    fontSize: 15),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    "Order ID: ${rProvider.recentOrdersData.recentOrders[index].id}",
+                                                    style: TextStyle(
+                                                      color: cc.primaryColor,
+                                                      fontSize: 12,
+                                                      height: 1.4,
+                                                    ),
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 4,
+                                                  ),
+                                                  Text(
+                                                    rProvider
+                                                        .recentOrdersData
+                                                        .recentOrders[index]
+                                                        .name
+                                                        .toString(),
+                                                    maxLines: 1,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: TextStyle(
+                                                        color: cc.greyFour,
+                                                        fontSize: 15),
+                                                  ),
+                                                ],
                                               ),
                                             ),
                                             SizedBox(
