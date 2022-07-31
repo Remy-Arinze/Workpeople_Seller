@@ -90,10 +90,10 @@ class OrderInfo {
   String? total;
   String? couponCode;
   String? couponType;
-  int? couponAmount;
+  var couponAmount;
   String? commissionType;
-  int? commissionCharge;
-  int? commissionAmount;
+  var commissionCharge;
+  var commissionAmount;
   String? paymentGateway;
   String? paymentStatus;
   int? status;

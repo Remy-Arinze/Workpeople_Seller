@@ -118,6 +118,19 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                                       ),
                                       Row(
                                         children: [
+                                          //if online service,show online capsule
+                                          provider.allOrdersList[i]
+                                                      .isOrderOnline ==
+                                                  1
+                                              ? Container(
+                                                  margin: const EdgeInsets.only(
+                                                      right: 10),
+                                                  child: OrdersHelper()
+                                                      .statusCapsule('Online',
+                                                          cc.primaryColor),
+                                                )
+                                              : Container(),
+
                                           OrdersHelper().statusCapsule(
                                               OrderDetailsService()
                                                   .getOrderStatus(provider

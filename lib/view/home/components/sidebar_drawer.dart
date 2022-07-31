@@ -58,14 +58,16 @@ class SidebarDrawer extends StatelessWidget {
                         ))
                     : Container(),
           ),
+
           SidebarMenuItem(
-              title: 'Support ticket',
-              leading: Icon(Icons.headphones, color: cc.primaryColor),
+              title: 'All orders',
+              leading:
+                  Icon(Icons.shopping_cart_outlined, color: cc.primaryColor),
               ontap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const MyTicketsPage(),
+                    builder: (BuildContext context) => const AllOrdersPage(),
                   ),
                 );
               }),
@@ -81,17 +83,17 @@ class SidebarDrawer extends StatelessWidget {
                 );
               }),
           SidebarMenuItem(
-              title: 'All orders',
-              leading:
-                  Icon(Icons.shopping_cart_outlined, color: cc.primaryColor),
+              title: 'Support ticket',
+              leading: Icon(Icons.headphones, color: cc.primaryColor),
               ontap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const AllOrdersPage(),
+                    builder: (BuildContext context) => const MyTicketsPage(),
                   ),
                 );
               }),
+
           SidebarMenuItem(
               title: 'Profile',
               leading: Icon(Icons.person_outline, color: cc.primaryColor),

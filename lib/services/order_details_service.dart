@@ -13,6 +13,8 @@ class OrderDetailsService with ChangeNotifier {
   var orderDetails;
   var orderStatus;
 
+  var orderedServiceTitle;
+
   bool isLoading = true;
 
   setLoadingTrue() {
@@ -49,6 +51,9 @@ class OrderDetailsService with ChangeNotifier {
         var data = OrderDetailsModel.fromJson(jsonDecode(response.body));
 
         orderDetails = data.orderInfo;
+        orderedServiceTitle =
+            jsonDecode(response.body)['orderInfo']['service']['title'];
+
         var status = data.orderInfo.status;
         orderStatus = getOrderStatus(status ?? -1);
       } else {

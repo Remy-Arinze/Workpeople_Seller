@@ -82,7 +82,7 @@ class _LoginPageState extends State<LoginPage> {
                       ),
 
                       //Name ============>
-                      CommonHelper().labelCommon("Email"),
+                      CommonHelper().labelCommon("Email or username"),
 
                       CustomInput(
                         controller: emailController,

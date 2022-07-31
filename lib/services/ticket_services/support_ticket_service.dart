@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,6 +17,18 @@ class SupportTicketService with ChangeNotifier {
   late int totalPages;
   int currentPage = 1;
 
+  bool isloading = false;
+
+  setLoadingTrue() {
+    isloading = true;
+    notifyListeners();
+  }
+
+  setLoadingFalse() {
+    isloading = false;
+    notifyListeners();
+  }
+
   setCurrentPage(newValue) {
     currentPage = newValue;
     notifyListeners();
@@ -31,7 +45,14 @@ class SupportTicketService with ChangeNotifier {
     notifyListeners();
   }
 
-  fetchTicketList(context, {bool isrefresh = false}) async {
+  setDefault() {
+    ticketList = [];
+    currentPage = 1;
+    notifyListeners();
+  }
+
+  fetchTicketList(context,
+      {bool isrefresh = false, bool isFromStatusChangePage = false}) async {
     if (isrefresh) {
       //making the list empty first to show loading bar (we are showing loading bar while the product list is empty)
       //we are make the list empty when the sub category or brand is selected because then the refresh is true
@@ -78,6 +99,11 @@ class SupportTicketService with ChangeNotifier {
           setServiceList(data.tickets.data, true);
         }
 
+        if (isFromStatusChangePage) {
+          //if status changed then refresh data and pop status change popup
+          Navigator.pop(context);
+        }
+
         currentPage++;
         setCurrentPage(currentPage);
         return true;
@@ -105,6 +131,48 @@ class SupportTicketService with ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  //Change ticket status =========>
+  changeStatus(id, String status, BuildContext context) async {
+    var connection = await checkConnection();
+    if (connection) {
+      //internet connection is on
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
+
+      setLoadingTrue();
+
+      var data = jsonEncode({'id': id, 'status': status});
+
+      print(data);
+
+      var header = {
+        //if header type is application/json then the data should be in jsonEncode method
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      };
+
+      var response = await http.post(
+          Uri.parse('$baseApi/seller/ticket-status-change'),
+          headers: header,
+          body: data);
+
+      setLoadingFalse();
+
+      if (response.statusCode == 201) {
+        setDefault();
+
+        //fetch list again to get new data
+        fetchTicketList(context, isFromStatusChangePage: true);
+      } else {
+        print('status change error ' + response.body);
+
+        OthersHelper().showToast('Something went wrong', Colors.black);
+        notifyListeners();
+      }
+    }
   }
 
   goToMessagePage(BuildContext context, title, id) {
