@@ -4,7 +4,6 @@ import 'package:qixer_seller/services/auth_services/reset_password_service.dart'
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/custom_input.dart';
-import 'package:qixer_seller/view/auth/reset_password/reset_pass_otp_page.dart';
 
 class ResetPassEmailPage extends StatefulWidget {
   const ResetPassEmailPage({Key? key}) : super(key: key);
@@ -93,17 +92,17 @@ class _ResetPassEmailPageState extends State<ResetPassEmailPage> {
                         builder: (context, provider, child) => CommonHelper()
                             .buttonPrimary("Send Instructions", () {
                           if (provider.isloading == false) {
-                            // if (_formKey.currentState!.validate()) {
-                            //   provider.sendOtp(
-                            //       emailController.text.trim(), context);
-                            // }
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (BuildContext context) =>
-                                    const ResetPassOtpPage(),
-                              ),
-                            );
+                            if (_formKey.currentState!.validate()) {
+                              provider.sendOtp(
+                                  emailController.text.trim(), context);
+                            }
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute<void>(
+                            //     builder: (BuildContext context) =>
+                            //         const ResetPassOtpPage(),
+                            //   ),
+                            // );
                           }
                         },
                                 isloading:

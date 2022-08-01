@@ -38,7 +38,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
     return Scaffold(
-      appBar: CommonHelper().appbarCommon('Account Setting', context, () {
+      appBar: CommonHelper().appbarCommon('Change Password', context, () {
         Navigator.pop(context);
       }),
       backgroundColor: Colors.white,
@@ -287,11 +287,13 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
                         builder: (context, provider, child) => CommonHelper()
                             .buttonPrimary("Change password", () {
                           if (provider.isloading == false) {
-                            // provider.changePassword(
-                            //     currentPasswordController.text,
-                            //     newPasswordController.text,
-                            //     repeatNewPasswordController.text,
-                            //     context);
+                            if (_formKey.currentState!.validate()) {
+                              provider.changePassword(
+                                  currentPasswordController.text,
+                                  newPasswordController.text,
+                                  repeatNewPasswordController.text,
+                                  context);
+                            }
                           }
                         },
                                 isloading:

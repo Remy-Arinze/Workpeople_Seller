@@ -11,7 +11,6 @@ import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:qixer_seller/utils/responsive.dart';
 import 'package:qixer_seller/view/supports/image_big_preview.dart';
-import 'package:qixer_seller/view/supports/support_ticket_helper.dart';
 
 class TicketChatPage extends StatefulWidget {
   const TicketChatPage({Key? key, required this.title, required this.ticketId})
@@ -149,12 +148,12 @@ class _TicketChatPageState extends State<TicketChatPage> {
                         itemBuilder: (context, index) {
                           return Row(
                             mainAxisAlignment:
-                                provider.messagesList[index]['type'] == "seller"
+                                provider.messagesList[index]['type'] == "buyer"
                                     ? MainAxisAlignment.start
                                     : MainAxisAlignment.end,
                             children: [
                               //small show profile pic
-                              // provider.messagesList[index].type == "seller"
+                              // provider.messagesList[index].type == "buyer"
                               //     ? Container(
                               //         margin: const EdgeInsets.only(
                               //           left: 13,
@@ -178,7 +177,7 @@ class _TicketChatPageState extends State<TicketChatPage> {
                                     padding: EdgeInsets.only(
                                         left: provider.messagesList[index]
                                                     ['type'] ==
-                                                "seller"
+                                                "buyer"
                                             ? rtlP.direction == 'ltr'
                                                 ? 10
                                                 : 90
@@ -187,7 +186,7 @@ class _TicketChatPageState extends State<TicketChatPage> {
                                                 : 10,
                                         right: provider.messagesList[index]
                                                     ['type'] ==
-                                                "seller"
+                                                "buyer"
                                             ? rtlP.direction == 'ltr'
                                                 ? 90
                                                 : 10
@@ -199,14 +198,14 @@ class _TicketChatPageState extends State<TicketChatPage> {
                                     child: Align(
                                       alignment: (provider.messagesList[index]
                                                   ['type'] ==
-                                              "seller"
+                                              "buyer"
                                           ? Alignment.topLeft
                                           : Alignment.topRight),
                                       child: Column(
                                         crossAxisAlignment:
                                             (provider.messagesList[index]
                                                         ['type'] ==
-                                                    "seller"
+                                                    "buyer"
                                                 ? CrossAxisAlignment.start
                                                 : CrossAxisAlignment.end),
                                         children: [
@@ -217,21 +216,20 @@ class _TicketChatPageState extends State<TicketChatPage> {
                                               color:
                                                   (provider.messagesList[index]
                                                               ['type'] ==
-                                                          "seller"
+                                                          "buyer"
                                                       ? Colors.grey.shade200
                                                       : cc.primaryColor),
                                             ),
                                             padding: const EdgeInsets.all(16),
                                             //message =====>
                                             child: Text(
-                                              SupportTicketHelper().removePTag(
-                                                  provider.messagesList[index]
-                                                      ['message']),
+                                              provider.messagesList[index]
+                                                  ['message'],
                                               style: TextStyle(
                                                   fontSize: 15,
                                                   color: (provider.messagesList[
                                                               index]['type'] ==
-                                                          "seller"
+                                                          "buyer"
                                                       ? Colors.grey[800]
                                                       : Colors.white)),
                                             ),
@@ -323,7 +321,7 @@ class _TicketChatPageState extends State<TicketChatPage> {
                                 ),
                               ),
 
-                              // provider.messagesList[index].type == "seller"
+                              // provider.messagesList[index].type == "buyer"
                               //     ? Container(
                               //         margin: const EdgeInsets.only(
                               //           right: 13,

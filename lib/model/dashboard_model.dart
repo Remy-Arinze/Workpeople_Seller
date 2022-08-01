@@ -20,8 +20,8 @@ class DashboardModel {
 
   int? pendingOrder;
   int? completedOrder;
-  int? totalWithdrawnMoney;
-  int? remainingBalance;
+  var totalWithdrawnMoney;
+  var remainingBalance;
   int? sellerId;
 
   factory DashboardModel.fromJson(Map<String, dynamic> json) => DashboardModel(

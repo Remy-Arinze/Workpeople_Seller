@@ -1,39 +1,100 @@
 // To parse this JSON data, do
 //
-//     final OrdersListModel = OrdersListModelFromJson(jsonString);
+//     final allOrdersModel = allOrdersModelFromJson(jsonString);
 
 import 'dart:convert';
 
-OrdersListModel OrdersListModelFromJson(String str) =>
-    OrdersListModel.fromJson(json.decode(str));
+AllOrdersModel allOrdersModelFromJson(String str) =>
+    AllOrdersModel.fromJson(json.decode(str));
 
-String ordersListModelToJson(OrdersListModel data) =>
-    json.encode(data.toJson());
+String allOrdersModelToJson(AllOrdersModel data) => json.encode(data.toJson());
 
-class OrdersListModel {
-  OrdersListModel({
+class AllOrdersModel {
+  AllOrdersModel({
     required this.myOrders,
-    required this.userId,
+    this.userId,
   });
 
-  List<MyOrder> myOrders;
-  int userId;
+  MyOrders myOrders;
+  int? userId;
 
-  factory OrdersListModel.fromJson(Map<String, dynamic> json) =>
-      OrdersListModel(
-        myOrders: List<MyOrder>.from(
-            json["my_orders"].map((x) => MyOrder.fromJson(x))),
+  factory AllOrdersModel.fromJson(Map<String, dynamic> json) => AllOrdersModel(
+        myOrders: MyOrders.fromJson(json["my_orders"]),
         userId: json["user_id"],
       );
 
   Map<String, dynamic> toJson() => {
-        "my_orders": List<dynamic>.from(myOrders.map((x) => x.toJson())),
+        "my_orders": myOrders.toJson(),
         "user_id": userId,
       };
 }
 
-class MyOrder {
-  MyOrder({
+class MyOrders {
+  MyOrders({
+    this.currentPage,
+    required this.data,
+    this.firstPageUrl,
+    this.from,
+    this.lastPage,
+    this.lastPageUrl,
+    required this.links,
+    this.nextPageUrl,
+    this.path,
+    this.perPage,
+    this.prevPageUrl,
+    this.to,
+    this.total,
+  });
+
+  int? currentPage;
+  List<Datum> data;
+  String? firstPageUrl;
+  int? from;
+  int? lastPage;
+  String? lastPageUrl;
+  List<Link> links;
+  String? nextPageUrl;
+  String? path;
+  int? perPage;
+  String? prevPageUrl;
+  int? to;
+  int? total;
+
+  factory MyOrders.fromJson(Map<String, dynamic> json) => MyOrders(
+        currentPage: json["current_page"],
+        data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+        firstPageUrl: json["first_page_url"],
+        from: json["from"],
+        lastPage: json["last_page"],
+        lastPageUrl: json["last_page_url"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+        nextPageUrl: json["next_page_url"],
+        path: json["path"],
+        perPage: json["per_page"],
+        prevPageUrl: json["prev_page_url"],
+        to: json["to"],
+        total: json["total"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "current_page": currentPage,
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
+        "first_page_url": firstPageUrl,
+        "from": from,
+        "last_page": lastPage,
+        "last_page_url": lastPageUrl,
+        "links": List<dynamic>.from(links.map((x) => x.toJson())),
+        "next_page_url": nextPageUrl,
+        "path": path,
+        "per_page": perPage,
+        "prev_page_url": prevPageUrl,
+        "to": to,
+        "total": total,
+      };
+}
+
+class Datum {
+  Datum({
     this.id,
     this.serviceId,
     this.sellerId,
@@ -67,6 +128,8 @@ class MyOrder {
     this.cancelOrderMoneyReturn,
     this.transactionId,
     this.orderNote,
+    this.createdAt,
+    this.updatedAt,
     this.manualPaymentImage,
   });
 
@@ -84,17 +147,17 @@ class MyOrder {
   int? country;
   String? date;
   String? schedule;
-  int? packageFee;
+  double? packageFee;
   int? extraService;
-  int? subTotal;
+  double? subTotal;
   double? tax;
   double? total;
-  dynamic couponCode;
+  String? couponCode;
   String? couponType;
-  var couponAmount;
+  int? couponAmount;
   String? commissionType;
   int? commissionCharge;
-  var commissionAmount;
+  double? commissionAmount;
   String? paymentGateway;
   String? paymentStatus;
   int? status;
@@ -102,11 +165,12 @@ class MyOrder {
   int? orderCompleteRequest;
   int? cancelOrderMoneyReturn;
   dynamic transactionId;
-  dynamic orderNote;
+  String? orderNote;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  String? manualPaymentImage;
 
-  dynamic manualPaymentImage;
-
-  factory MyOrder.fromJson(Map<String, dynamic> json) => MyOrder(
+  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         id: json["id"],
         serviceId: json["service_id"],
         sellerId: json["seller_id"],
@@ -121,9 +185,9 @@ class MyOrder {
         country: json["country"],
         date: json["date"],
         schedule: json["schedule"],
-        packageFee: json["package_fee"],
+        packageFee: json["package_fee"].toDouble(),
         extraService: json["extra_service"],
-        subTotal: json["sub_total"],
+        subTotal: json["sub_total"].toDouble(),
         tax: json["tax"].toDouble(),
         total: json["total"].toDouble(),
         couponCode: json["coupon_code"],
@@ -131,7 +195,7 @@ class MyOrder {
         couponAmount: json["coupon_amount"],
         commissionType: json["commission_type"],
         commissionCharge: json["commission_charge"],
-        commissionAmount: json["commission_amount"],
+        commissionAmount: json["commission_amount"].toDouble(),
         paymentGateway: json["payment_gateway"],
         paymentStatus: json["payment_status"],
         status: json["status"],
@@ -140,6 +204,8 @@ class MyOrder {
         cancelOrderMoneyReturn: json["cancel_order_money_return"],
         transactionId: json["transaction_id"],
         orderNote: json["order_note"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
         manualPaymentImage: json["manual_payment_image"],
       );
 
@@ -176,7 +242,33 @@ class MyOrder {
         "order_complete_request": orderCompleteRequest,
         "cancel_order_money_return": cancelOrderMoneyReturn,
         "transaction_id": transactionId,
-        "order_note": orderNote,
-        "manual_payment_image": manualPaymentImage,
+        "order_note": orderNote ?? null,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        "manual_payment_image": manualPaymentImage ?? null,
+      };
+}
+
+class Link {
+  Link({
+    this.url,
+    this.label,
+    this.active,
+  });
+
+  String? url;
+  String? label;
+  bool? active;
+
+  factory Link.fromJson(Map<String, dynamic> json) => Link(
+        url: json["url"],
+        label: json["label"],
+        active: json["active"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "url": url,
+        "label": label,
+        "active": active,
       };
 }

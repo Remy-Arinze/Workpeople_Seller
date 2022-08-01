@@ -85,13 +85,11 @@ class CountryStatesService with ChangeNotifier {
   setCountryBasedOnUserProfile(BuildContext context) {
     selectedCountry = Provider.of<ProfileService>(context, listen: false)
             .profileDetails
-            .userDetails
             .country
             .country ??
         'Select Country';
     selectedCountryId = Provider.of<ProfileService>(context, listen: false)
             .profileDetails
-            .userDetails
             .countryId ??
         '0';
 
@@ -105,13 +103,11 @@ class CountryStatesService with ChangeNotifier {
   setStateBasedOnUserProfile(BuildContext context) {
     selectedState = Provider.of<ProfileService>(context, listen: false)
             .profileDetails
-            .userDetails
             .city
             .serviceCity ??
         'Select State';
     selectedStateId = Provider.of<ProfileService>(context, listen: false)
             .profileDetails
-            .userDetails
             .city
             .id ??
         '0';
@@ -129,13 +125,11 @@ class CountryStatesService with ChangeNotifier {
   setAreaBasedOnUserProfile(BuildContext context) {
     selectedArea = Provider.of<ProfileService>(context, listen: false)
             .profileDetails
-            .userDetails
             .area
             .serviceArea ??
         'Select Area';
     selectedAreaId = Provider.of<ProfileService>(context, listen: false)
             .profileDetails
-            .userDetails
             .area
             .id ??
         '0';
@@ -270,7 +264,6 @@ class CountryStatesService with ChangeNotifier {
     if (profileData != null) {
       var userCountryId = Provider.of<ProfileService>(context, listen: false)
           .profileDetails
-          .userDetails
           .countryId;
 
       if (userCountryId == selectedCountryId) {
@@ -304,7 +297,6 @@ class CountryStatesService with ChangeNotifier {
     if (profileData != null) {
       var userCountryId = Provider.of<ProfileService>(context, listen: false)
           .profileDetails
-          .userDetails
           .countryId;
       if (userCountryId == selectedCountryId) {
         //if user selected the country id which is save in his profile

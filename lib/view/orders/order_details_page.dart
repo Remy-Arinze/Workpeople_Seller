@@ -8,9 +8,9 @@ import 'package:qixer_seller/view/orders/booking_helper.dart';
 import '../../utils/others_helper.dart';
 
 class OrderDetailsPage extends StatefulWidget {
-  const OrderDetailsPage({Key? key, required this.orderId}) : super(key: key);
-
-  final orderId;
+  const OrderDetailsPage({
+    Key? key,
+  }) : super(key: key);
 
   @override
   _OrdersDetailsPageState createState() => _OrdersDetailsPageState();
@@ -20,8 +20,6 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
   @override
   void initState() {
     super.initState();
-    Provider.of<OrderDetailsService>(context, listen: false)
-        .fetchOrderDetails(widget.orderId);
   }
 
   ConstantColors cc = ConstantColors();
@@ -46,6 +44,56 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                 const SizedBox(
                                   height: 10,
                                 ),
+                                //Service name
+                                Container(
+                                  margin: const EdgeInsets.only(bottom: 25),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 20, vertical: 20),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.circular(9)),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        CommonHelper()
+                                            .titleCommon('Ordered service'),
+                                        const SizedBox(
+                                          height: 15,
+                                        ),
+                                        //Service row
+
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            // CommonHelper().profileImage(
+                                            //     'https://cdn.pixabay.com/photo/2022/07/13/22/27/butterfly-7320158__340.jpg',
+                                            //     50,
+                                            //     50),
+                                            Text(
+                                              "Service ID: ${provider.orderDetails.id}",
+                                              style: TextStyle(
+                                                color: cc.primaryColor,
+                                                fontSize: 14,
+                                                height: 1.4,
+                                              ),
+                                            ),
+                                            const SizedBox(
+                                              height: 4,
+                                            ),
+                                            Text(
+                                              provider.orderedServiceTitle,
+                                              style: TextStyle(
+                                                color: cc.greyThree,
+                                                fontSize: 14,
+                                                height: 1.4,
+                                              ),
+                                            )
+                                          ],
+                                        )
+                                      ]),
+                                ),
 
                                 Container(
                                   margin: const EdgeInsets.only(bottom: 25),
@@ -59,7 +107,7 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                           CrossAxisAlignment.start,
                                       children: [
                                         CommonHelper()
-                                            .titleCommon('Seller Details'),
+                                            .titleCommon('Buyer Details'),
                                         const SizedBox(
                                           height: 25,
                                         ),
@@ -69,24 +117,26 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                           child: BookingHelper().bRow(
                                               'null',
                                               'Name',
-                                              provider.orderDetails
-                                                  .sellerDetails.name),
+                                              provider.orderDetails.buyerDetails
+                                                  .name),
                                         ),
 
                                         Container(
                                           child: BookingHelper().bRow(
                                               'null',
                                               'Email',
-                                              provider.orderDetails
-                                                  .sellerDetails.email),
+                                              provider.orderDetails.buyerDetails
+                                                      .email ??
+                                                  ''),
                                         ),
 
                                         Container(
                                           child: BookingHelper().bRow(
                                               'null',
                                               'Phone',
-                                              provider.orderDetails
-                                                  .sellerDetails.phone),
+                                              provider.orderDetails.buyerDetails
+                                                      .phone ??
+                                                  ''),
                                         ),
                                         provider.orderDetails.isOrderOnline == 0
                                             ? Container(
@@ -94,9 +144,10 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                                     'null',
                                                     'Post code',
                                                     provider
-                                                        .orderDetails
-                                                        .sellerDetails
-                                                        .postCode),
+                                                            .orderDetails
+                                                            .buyerDetails
+                                                            .postCode ??
+                                                        ''),
                                               )
                                             : Container(),
                                         provider.orderDetails.isOrderOnline == 0
@@ -104,8 +155,11 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                                 child: BookingHelper().bRow(
                                                     'null',
                                                     'Address',
-                                                    provider.orderDetails
-                                                        .sellerDetails.address,
+                                                    provider
+                                                            .orderDetails
+                                                            .buyerDetails
+                                                            .address ??
+                                                        '',
                                                     lastBorder: false),
                                               )
                                             : Container(),
@@ -138,15 +192,18 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                                 child: BookingHelper().bRow(
                                                     'null',
                                                     'Date',
-                                                    provider.orderDetails.date),
+                                                    provider.orderDetails
+                                                            .date ??
+                                                        ''),
                                               ),
 
                                               Container(
                                                 child: BookingHelper().bRow(
                                                     'null',
                                                     'Schedule',
-                                                    provider
-                                                        .orderDetails.schedule,
+                                                    provider.orderDetails
+                                                            .schedule ??
+                                                        '',
                                                     lastBorder: false),
                                               ),
                                             ]),
@@ -215,14 +272,15 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                           child: BookingHelper().bRow(
                                               'null',
                                               'Payment status',
-                                              provider
-                                                  .orderDetails.paymentStatus,
+                                              provider.orderDetails
+                                                      .paymentStatus ??
+                                                  '',
                                               lastBorder: false),
                                         ),
                                       ]),
                                 ),
 
-                                // Date and schedule
+                                // Order status
                                 Container(
                                   margin: const EdgeInsets.only(bottom: 25),
                                   padding: const EdgeInsets.symmetric(
@@ -243,11 +301,12 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                           child: BookingHelper().bRow(
                                               'null',
                                               'Order status',
-                                              provider.orderStatus,
+                                              provider.orderStatus ?? "",
                                               lastBorder: false),
                                         ),
                                       ]),
                                 ),
+
                                 //
                               ]),
                         )

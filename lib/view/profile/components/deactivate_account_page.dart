@@ -92,24 +92,28 @@ class DeactivateAccountPage extends StatelessWidget {
                 height: 30,
               ),
 
-              InkWell(
-                onTap: () {},
-                child: Container(
-                    width: double.infinity,
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(vertical: 18),
-                    decoration: BoxDecoration(
-                        color: cc.orangeColor,
-                        borderRadius: BorderRadius.circular(8)),
-                    child: provider.isLoading == false
-                        ? const Text(
-                            'Deactivate account',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
-                          )
-                        : OthersHelper().showLoading(Colors.white)),
+              Consumer<DeactivateAccountService>(
+                builder: (context, provider, child) => CommonHelper()
+                    .buttonPrimary("Deactivate", () {
+                  if (provider.isloading == false) {
+                    if (descController.text.isEmpty) {
+                      OthersHelper().showToast(
+                          'Please enter a description', Colors.black);
+                      return;
+                    }
+
+                    provider.deactivate(context, descController.text);
+                    // Navigator.pushReplacement<void, void>(
+                    //   context,
+                    //   MaterialPageRoute<void>(
+                    //     builder: (BuildContext context) =>
+                    //         const Homepage(),
+                    //   ),
+                    // );
+                  }
+                },
+                        isloading: provider.isloading == false ? false : true,
+                        bgColor: cc.orangeColor),
               ),
 
               const SizedBox(

@@ -5,7 +5,6 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/country_states_service.dart';
 import 'package:qixer_seller/services/profile_edit_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
@@ -16,6 +15,7 @@ import 'package:qixer_seller/view/profile/components/textarea_field.dart';
 import 'package:top_snackbar_flutter/custom_snack_bar.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 
+import '../../services/country_states_service.dart';
 import '../../services/profile_service.dart';
 import '../../services/rtl_service.dart';
 import '../../utils/constant_styles.dart';
@@ -42,44 +42,42 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
   @override
   void initState() {
     super.initState();
-    // countryCode = Provider.of<ProfileService>(context, listen: false)
-    //     .profileDetails
-    //     .userDetails
-    //     .countryCode;
-    // //set country code
-    // Future.delayed(const Duration(milliseconds: 600), () {
-    //   Provider.of<ProfileEditService>(context, listen: false)
-    //       .setCountryCode(countryCode);
-    // });
+    countryCode = Provider.of<ProfileService>(context, listen: false)
+        .profileDetails
+        .countryCode;
+    //set country code
+    Future.delayed(const Duration(milliseconds: 600), () {
+      Provider.of<ProfileEditService>(context, listen: false)
+          .setCountryCode(countryCode);
+    });
 
-    // fullNameController.text =
-    //     Provider.of<ProfileService>(context, listen: false)
-    //             .profileDetails
-    //             .userDetails
-    //             .name ??
-    //         '';
-    // emailController.text = Provider.of<ProfileService>(context, listen: false)
-    //         .profileDetails
-    //         .userDetails
-    //         .email ??
-    //     '';
+    fullNameController.text =
+        Provider.of<ProfileService>(context, listen: false)
+                .profileDetails
+                .name ??
+            '';
+    emailController.text = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .email ??
+        '';
 
-    // phoneController.text = Provider.of<ProfileService>(context, listen: false)
-    //         .profileDetails
-    //         .userDetails
-    //         .phone ??
-    //     '';
-    // postCodeController.text =
-    //     Provider.of<ProfileService>(context, listen: false)
-    //             .profileDetails
-    //             .userDetails
-    //             .postCode ??
-    //         '';
-    // addressController.text = Provider.of<ProfileService>(context, listen: false)
-    //         .profileDetails
-    //         .userDetails
-    //         .address ??
-    //     '';
+    phoneController.text = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .phone ??
+        '';
+    postCodeController.text =
+        Provider.of<ProfileService>(context, listen: false)
+                .profileDetails
+                .postCode ??
+            '';
+    addressController.text = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .address ??
+        '';
+    aboutController.text = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .about ??
+        '';
   }
 
   late AnimationController localAnimationController;
@@ -147,7 +145,8 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                                     child: pickedImage == null
                                         ? profileProvider.profileImage != null
                                             ? CommonHelper().profileImage(
-                                                profileProvider.profileImage,
+                                                profileProvider
+                                                    .profileImage.imgUrl,
                                                 85,
                                                 85)
                                             : Image.asset(
@@ -248,6 +247,9 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             textAlign: rtlP.direction == 'ltr'
                                 ? TextAlign.left
                                 : TextAlign.right,
+                            onCountryChanged: (country) {
+                              provider.setCountryCode(country.code);
+                            },
                             onChanged: (phone) {
                               provider.setCountryCode(phone.countryISOCode);
                             },
@@ -333,28 +335,28 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                             });
 
                         //update profile
-                        // var result = await provider.updateProfile(
-                        //   fullNameController.text,
-                        //   emailController.text,
-                        //   phoneController.text,
-                        //   Provider.of<CountryStatesService>(context,
-                        //           listen: false)
-                        //       .selectedStateId,
-                        //   Provider.of<CountryStatesService>(context,
-                        //           listen: false)
-                        //       .selectedAreaId,
-                        //   Provider.of<CountryStatesService>(context,
-                        //           listen: false)
-                        //       .selectedCountryId,
-                        //   postCodeController.text,
-                        //   addressController.text,
-                        //   aboutController.text,
-                        //   pickedImage?.path,
-                        //   context,
-                        // );
-                        // if (result == true || result == false) {
-                        //   localAnimationController.reverse();
-                        // }
+                        var result = await provider.updateProfile(
+                          fullNameController.text,
+                          emailController.text,
+                          phoneController.text,
+                          Provider.of<CountryStatesService>(context,
+                                  listen: false)
+                              .selectedStateId,
+                          Provider.of<CountryStatesService>(context,
+                                  listen: false)
+                              .selectedAreaId,
+                          Provider.of<CountryStatesService>(context,
+                                  listen: false)
+                              .selectedCountryId,
+                          postCodeController.text,
+                          addressController.text,
+                          aboutController.text,
+                          pickedImage?.path,
+                          context,
+                        );
+                        if (result == true || result == false) {
+                          localAnimationController.reverse();
+                        }
                         localAnimationController.reverse();
                       }
                     }, isloading: provider.isloading == false ? false : true),

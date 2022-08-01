@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:qixer_seller/services/auth_services/signup_service.dart';
 import 'package:qixer_seller/services/common_service.dart';
+import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/others_helper.dart';
@@ -34,7 +35,6 @@ class ChangePassService with ChangeNotifier {
         //internet connection is on
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var token = prefs.getString('token');
-        var email = prefs.getString('token');
         var header = {
           //if header type is application/json then the data should be in jsonEncode method
           "Accept": "application/json",
@@ -51,11 +51,11 @@ class ChangePassService with ChangeNotifier {
             body: data);
 
         if (response.statusCode == 201) {
-          OthersHelper()
-              .showToast("Password changed successfully", Colors.black);
+          OthersHelper().showToast(
+              "Password changed successfully", ConstantColors().primaryColor);
           setLoadingFalse();
 
-          // LoginService().saveDetails(email ?? '', newPass, token ?? '');
+          prefs.setString("pass", newPass);
 
           Navigator.pop(context);
         } else {

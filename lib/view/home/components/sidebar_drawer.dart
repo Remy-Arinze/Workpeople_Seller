@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/auth_services/logout_service.dart';
+import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
 import 'package:qixer_seller/view/payout/payout_page.dart';
@@ -7,7 +10,6 @@ import 'package:qixer_seller/view/profile/components/deactivate_account_page.dar
 import 'package:qixer_seller/view/profile/profile_page.dart';
 import 'package:qixer_seller/view/profile/profile_verify_page.dart';
 import 'package:qixer_seller/view/supports/my_tickets_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../../utils/common_helper.dart';
 
@@ -21,44 +23,51 @@ class SidebarDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: [
-          DrawerHeader(
-              decoration: BoxDecoration(color: cc.primaryColor),
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => const ProfilePage(),
-                    ),
-                  );
-                },
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CommonHelper().profileImage(
-                        'https://bytesed.com/laravel/qixer/assets/uploads/media-uploader/seller-s21644057790.jpg',
-                        60,
-                        60),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const Text(
-                      'SM Saleheen',
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: Colors.white, fontSize: 19),
-                    ),
-                  ],
-                ),
-              )),
+          Consumer<ProfileService>(
+            builder: (context, profileProvider, child) =>
+                profileProvider.profileDetails != null
+                    ? DrawerHeader(
+                        decoration: BoxDecoration(color: cc.primaryColor),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute<void>(
+                                builder: (BuildContext context) =>
+                                    const ProfilePage(),
+                              ),
+                            );
+                          },
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CommonHelper().profileImage(
+                                  profileProvider.profileImage.imgUrl, 60, 60),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                              Text(
+                                profileProvider.profileDetails.name ?? '',
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                    color: Colors.white, fontSize: 19),
+                              ),
+                            ],
+                          ),
+                        ))
+                    : Container(),
+          ),
+
           SidebarMenuItem(
-              title: 'Support ticket',
-              leading: Icon(Icons.headphones, color: cc.primaryColor),
+              title: 'All orders',
+              leading:
+                  Icon(Icons.shopping_cart_outlined, color: cc.primaryColor),
               ontap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const MyTicketsPage(),
+                    builder: (BuildContext context) => const AllOrdersPage(),
                   ),
                 );
               }),
@@ -74,17 +83,17 @@ class SidebarDrawer extends StatelessWidget {
                 );
               }),
           SidebarMenuItem(
-              title: 'All orders',
-              leading:
-                  Icon(Icons.shopping_cart_outlined, color: cc.primaryColor),
+              title: 'Support ticket',
+              leading: Icon(Icons.headphones, color: cc.primaryColor),
               ontap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const AllOrdersPage(),
+                    builder: (BuildContext context) => const MyTicketsPage(),
                   ),
                 );
               }),
+
           SidebarMenuItem(
               title: 'Profile',
               leading: Icon(Icons.person_outline, color: cc.primaryColor),
@@ -135,10 +144,16 @@ class SidebarDrawer extends StatelessWidget {
               }),
 
           //Logout button
-          CommonHelper().buttonPrimary("Logout", () async {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
-            prefs.clear();
-          }, bgColor: cc.warningColor),
+          Consumer<LogoutService>(
+            builder: (context, logoutProvider, child) => Container(
+              margin: const EdgeInsets.fromLTRB(20, 30, 20, 20),
+              child: CommonHelper().buttonPrimary("Logout", () async {
+                logoutProvider.logout(context);
+              },
+                  isloading: logoutProvider.isloading == false ? false : true,
+                  bgColor: cc.warningColor),
+            ),
+          )
         ],
       ),
     );

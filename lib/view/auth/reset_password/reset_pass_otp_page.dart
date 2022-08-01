@@ -9,11 +9,10 @@ import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:qixer_seller/view/auth/reset_password/reset_password_page.dart';
 
-import '../../../services/auth_services/reset_pass_otp_service.dart';
 import '../../../services/auth_services/reset_password_service.dart';
 
 class ResetPassOtpPage extends StatefulWidget {
-  const ResetPassOtpPage({Key? key, this.email}) : super(key: key);
+  const ResetPassOtpPage({Key? key, required this.email}) : super(key: key);
 
   final email;
 
@@ -97,8 +96,9 @@ class _ResetPassOtpPageState extends State<ResetPassOtpPage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute<void>(
-                        builder: (BuildContext context) =>
-                            const ResetPasswordPage(),
+                        builder: (BuildContext context) => ResetPasswordPage(
+                          email: widget.email,
+                        ),
                       ),
                     );
                   },

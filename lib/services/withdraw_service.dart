@@ -1,89 +1,112 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/common_service.dart';
+import 'package:qixer_seller/services/dashboard_service.dart';
+import 'package:qixer_seller/services/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/payout_history_service.dart';
+import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WithdrawService with ChangeNotifier {
-  bool isLoading = false;
-  //gateway dropdown
-  var gatewayDropdownList = ['Paypal', 'Cashfree', 'Paytm'];
-  var gatewayDropdownIndexList = ['Paypal', 'Cashfree', 'Paytm'];
-  var selectedgateway = 'Paypal';
-  var selectedgatewayId = '';
+  bool isloading = false;
 
-  setgatewayValue(value) {
-    selectedgateway = value;
+  int minAmount = 50;
+  int maxAmount = 250;
+
+  setLoadingTrue() {
+    isloading = true;
     notifyListeners();
   }
 
-  setSelectedgatewayId(value) {
-    selectedgatewayId = value;
+  setLoadingFalse() {
+    isloading = false;
     notifyListeners();
   }
 
-  // fetchOrderDropdown(BuildContext context) async {
-  //   hasOrder = true;
-  //   Future.delayed(const Duration(microseconds: 500), () {
-  //     notifyListeners();
-  //   });
-  //   var orders = await Provider.of<MyOrdersService>(context, listen: false)
-  //       .fetchMyOrders();
-  //   if (orders != 'error') {
-  //     print('orders is $orders');
-  //     for (int i = 0; i < orders.length; i++) {
-  //       orderDropdownList.add('#${orders[i].id}');
-  //       orderDropdownIndexList.add(orders[i].id);
-  //     }
-  //     selectedOrder = '#${orders[0].id}';
-  //     selectedOrderId = orders[0].id;
-  //     hasOrder = true;
-  //     notifyListeners();
-  //   } else {
-  //     hasOrder = false;
-  //     notifyListeners();
-  //   }
-  // }
+  withdrawMoney(String amount, String? note, BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
 
-  //create ticket ====>
+    var selectedPayment =
+        Provider.of<PaymentGatewayListService>(context, listen: false)
+            .selectedPaymentId;
 
-  // createTicket(BuildContext context, subject, gateway, desc, orderId) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   int? userId = prefs.getInt('userId');
-  //   var token = prefs.getString('token');
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
 
-  //   var header = {
-  //     //if header type is application/json then the data should be in jsonEncode method
-  //     "Accept": "application/json",
-  //     "Content-Type": "application/json",
-  //     "Authorization": "Bearer $token",
-  //   };
+    var data = jsonEncode({
+      'amount': amount,
+      'payment_gateway': selectedPayment,
+      'seller_note': note ?? ''
+    });
 
-  //   var data = jsonEncode({
-  //     'subject': subject,
-  //     'gateway': gateway,
-  //     'description': desc,
-  //     'order_id': orderId
-  //   });
+    var connection = await checkConnection();
+    if (connection) {
+      setLoadingTrue();
+      //if connection is ok
+      var response = await http.post(
+          Uri.parse('$baseApi/seller/payment-history/create'),
+          headers: header,
+          body: data);
+      setLoadingFalse();
+      notifyListeners();
+      if (response.statusCode == 201) {
+        OthersHelper().showToast('Ticket created successfully', Colors.black);
 
-  //   var connection = await checkConnection();
-  //   if (connection) {
-  //     isLoading = true;
-  //     notifyListeners();
-  //     //if connection is ok
-  //     var response = await http.post(Uri.parse('$baseApi/user/ticket/create'),
-  //         headers: header, body: data);
-  //     isLoading = false;
-  //     notifyListeners();
-  //     if (response.statusCode == 201) {
-  //       OthersHelper().showToast('Ticket created successfully', Colors.black);
+        Provider.of<PayoutHistoryService>(context, listen: false)
+            .makePayoutHistoryListEmpty();
 
-  //       Provider.of<SupportTicketService>(context, listen: false)
-  //           .addNewDataToTicketList(
-  //               subject,
-  //               jsonDecode(response.body)['ticket_info']['id'],
-  //               gateway,
-  //               'open');
-  //       Navigator.pop(context);
-  //     } else {
-  //       OthersHelper().showToast('Something went wrong', Colors.black);
-  //     }
-  //   }
-  // }
+        Provider.of<PayoutHistoryService>(context, listen: false)
+            .fetchPayoutHistory(context);
+
+        //fetch dashboard data again
+        Provider.of<DashboardService>(context, listen: false)
+            .fetchData(fetchAgain: true);
+
+        Navigator.pop(context);
+      } else if (response.statusCode == 404) {
+        if (jsonDecode(response.body).containsKey('message')) {
+          OthersHelper()
+              .showToast(jsonDecode(response.body)['message'], Colors.black);
+        }
+      } else {
+        OthersHelper().showToast('Something went wrong', Colors.black);
+      }
+    }
+  }
+
+//====================>
+  getMinMaxAmount(BuildContext context) async {
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      // "Authorization": "Bearer $token",
+    };
+
+    var connection = await checkConnection();
+    if (connection) {
+      //if connection is ok
+      var response = await http.get(
+        Uri.parse('$baseApi/amount-settings'),
+        headers: header,
+      );
+
+      if (response.statusCode == 201) {
+        minAmount = jsonDecode(response.body)['amount_settings']['min_amount'];
+        maxAmount = jsonDecode(response.body)['amount_settings']['max_amount'];
+        notifyListeners();
+      } else {
+        //error fetching min max amount
+        print('error fetching min and max amount' + response.body);
+      }
+    }
+  }
 }

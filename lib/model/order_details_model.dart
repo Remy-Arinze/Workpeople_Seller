@@ -65,8 +65,8 @@ class OrderInfo {
     this.createdAt,
     this.updatedAt,
     this.manualPaymentImage,
-    this.sellerDetails,
-    this.seller,
+    required this.buyerDetails,
+    required this.buyer,
   });
 
   int? id;
@@ -78,9 +78,9 @@ class OrderInfo {
   String? phone;
   String? postCode;
   String? address;
-  int? city;
-  int? area;
-  int? country;
+  dynamic city;
+  dynamic area;
+  dynamic country;
   String? date;
   String? schedule;
   String? packageFee;
@@ -88,25 +88,25 @@ class OrderInfo {
   String? subTotal;
   String? tax;
   String? total;
-  dynamic couponCode;
+  String? couponCode;
   String? couponType;
-  int? couponAmount;
+  var couponAmount;
   String? commissionType;
-  int? commissionCharge;
-  double? commissionAmount;
+  var commissionCharge;
+  var commissionAmount;
   String? paymentGateway;
   String? paymentStatus;
   int? status;
   int? isOrderOnline;
   int? orderCompleteRequest;
   int? cancelOrderMoneyReturn;
-  dynamic transactionId;
+  String? transactionId;
   dynamic orderNote;
   DateTime? createdAt;
   DateTime? updatedAt;
   dynamic manualPaymentImage;
-  Seller? sellerDetails;
-  Seller? seller;
+  Buyer buyerDetails;
+  Buyer buyer;
 
   factory OrderInfo.fromJson(Map<String, dynamic> json) => OrderInfo(
         id: json["id"],
@@ -133,7 +133,7 @@ class OrderInfo {
         couponAmount: json["coupon_amount"],
         commissionType: json["commission_type"],
         commissionCharge: json["commission_charge"],
-        commissionAmount: json["commission_amount"].toDouble(),
+        commissionAmount: json["commission_amount"],
         paymentGateway: json["payment_gateway"],
         paymentStatus: json["payment_status"],
         status: json["status"],
@@ -145,8 +145,8 @@ class OrderInfo {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         manualPaymentImage: json["manual_payment_image"],
-        sellerDetails: Seller.fromJson(json["seller_details"]),
-        seller: Seller.fromJson(json["seller"]),
+        buyerDetails: Buyer.fromJson(json["buyer_details"]),
+        buyer: Buyer.fromJson(json["buyer"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -186,13 +186,13 @@ class OrderInfo {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "manual_payment_image": manualPaymentImage,
-        "seller_details": sellerDetails?.toJson(),
-        "seller": seller?.toJson(),
+        "buyer_details": buyerDetails.toJson(),
+        "buyer": buyer.toJson(),
       };
 }
 
-class Seller {
-  Seller({
+class Buyer {
+  Buyer({
     this.id,
     this.name,
     this.email,
@@ -250,21 +250,21 @@ class Seller {
   String? emailVerifyToken;
   dynamic facebookId;
   dynamic googleId;
-  dynamic countryCode;
+  String? countryCode;
   DateTime? createdAt;
   DateTime? updatedAt;
-  String? fbUrl;
-  String? twUrl;
+  dynamic fbUrl;
+  dynamic twUrl;
   dynamic goUrl;
   dynamic liUrl;
-  String? yoUrl;
-  String? inUrl;
+  dynamic yoUrl;
+  dynamic inUrl;
   dynamic twiUrl;
   dynamic piUrl;
   dynamic drUrl;
   dynamic reUrl;
 
-  factory Seller.fromJson(Map<String, dynamic> json) => Seller(
+  factory Buyer.fromJson(Map<String, dynamic> json) => Buyer(
         id: json["id"],
         name: json["name"],
         email: json["email"],
