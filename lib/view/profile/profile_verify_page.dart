@@ -7,7 +7,6 @@ import 'package:qixer_seller/services/profile_verify_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/responsive.dart';
 
 class ProfileVerifyPage extends StatefulWidget {
   const ProfileVerifyPage({Key? key}) : super(key: key);
@@ -30,6 +29,7 @@ class _ProfileVerifyPageState extends State<ProfileVerifyPage> {
 
   @override
   Widget build(BuildContext context) {
+    var screenHeight = MediaQuery.of(context).size.height;
     ConstantColors cc = ConstantColors();
     return Scaffold(
       backgroundColor: Colors.white,

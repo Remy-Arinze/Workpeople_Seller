@@ -9,7 +9,6 @@ import 'package:qixer_seller/services/ticket_services/support_messages_service.d
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
-import 'package:qixer_seller/utils/responsive.dart';
 import 'package:qixer_seller/view/supports/image_big_preview.dart';
 
 class TicketChatPage extends StatefulWidget {
@@ -41,6 +40,7 @@ class _TicketChatPageState extends State<TicketChatPage> {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.height;
     ConstantColors cc = ConstantColors();
 
     return Listener(

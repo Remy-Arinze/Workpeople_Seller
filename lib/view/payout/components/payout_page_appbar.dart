@@ -1,7 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/responsive.dart';
 import 'package:qixer_seller/view/payout/withdraw_page.dart';
 
 class PayoutPageAppbar extends StatelessWidget {
@@ -9,6 +8,7 @@ class PayoutPageAppbar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
     ConstantColors cc = ConstantColors();
     return AppBar(
       iconTheme: IconThemeData(color: cc.greyPrimary),

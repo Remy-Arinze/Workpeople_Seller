@@ -107,7 +107,7 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                                         MainAxisAlignment.spaceBetween,
                                     children: [
                                       AutoSizeText(
-                                        '#' +
+                                        'Order id: ' +
                                             provider.allOrdersList[i].id
                                                 .toString(),
                                         maxLines: 1,

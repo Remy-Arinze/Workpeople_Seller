@@ -4,7 +4,6 @@ import 'package:qixer_seller/services/auth_services/change_pass_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/responsive.dart';
 
 class ChangePasswordPage extends StatefulWidget {
   const ChangePasswordPage({Key? key}) : super(key: key);
@@ -36,6 +35,7 @@ class _ChangePasswordPageState extends State<ChangePasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    var screenHeight = MediaQuery.of(context).size.height;
     ConstantColors cc = ConstantColors();
     return Scaffold(
       appBar: CommonHelper().appbarCommon('Change Password', context, () {

@@ -5,7 +5,6 @@ import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
-import 'package:qixer_seller/utils/responsive.dart';
 import 'package:qixer_seller/view/profile/components/textarea_field.dart';
 
 class DeactivateAccountPage extends StatelessWidget {
@@ -13,6 +12,8 @@ class DeactivateAccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var screenHeight = MediaQuery.of(context).size.height;
+
     ConstantColors cc = ConstantColors();
     TextEditingController descController = TextEditingController();
     return Scaffold(
