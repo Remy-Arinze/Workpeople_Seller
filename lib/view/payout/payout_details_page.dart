@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payout_details_service.dart';
 import 'package:qixer_seller/services/payout_history_service.dart';
+import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
@@ -74,11 +75,14 @@ class _OrdersDetailsPageState extends State<PayoutDetailsPage> {
                                                   .toString()),
                                         ),
 
-                                        Container(
-                                          child: BookingHelper().bRow(
-                                              'null',
-                                              'Amount',
-                                              "\$${provider.payoutDetails.payoutDetails.amount}"),
+                                        Consumer<RtlService>(
+                                          builder: (context, rtlP, child) =>
+                                              Container(
+                                            child: BookingHelper().bRow(
+                                                'null',
+                                                'Amount',
+                                                "${rtlP.currency}${provider.payoutDetails.payoutDetails.amount}"),
+                                          ),
                                         ),
 
                                         Container(

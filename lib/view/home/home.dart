@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/dashboard_service.dart';
 import 'package:qixer_seller/services/recent_orders_service.dart';
+import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
@@ -222,93 +223,99 @@ class _HomepageState extends State<Homepage> {
                       ),
 
                       //Recent orders
-                      Consumer<RecentOrdersService>(
-                        builder: (context, rProvider, child) => rProvider
-                                    .recentOrdersData !=
-                                null
-                            ? ListView.builder(
-                                itemCount: rProvider
-                                    .recentOrdersData.recentOrders.length,
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (BuildContext context, int index) {
-                                  return InkWell(
-                                    onTap: () {
-                                      Provider.of<OrderDetailsService>(context,
-                                              listen: false)
-                                          .fetchOrderDetails(rProvider
-                                              .recentOrdersData
-                                              .recentOrders[index]
-                                              .id);
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute<void>(
-                                            builder: (BuildContext context) =>
-                                                const OrderDetailsPage(),
-                                          ));
-                                    },
-                                    child: Container(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 2, vertical: 18),
-                                        decoration: BoxDecoration(
-                                            border: Border(
-                                          bottom: BorderSide(
-                                            //                   <--- right side
-                                            color: Colors.grey.withOpacity(.2),
-                                            width: 1.0,
-                                          ),
-                                        )),
-                                        child: Row(
-                                          children: [
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "Order ID: ${rProvider.recentOrdersData.recentOrders[index].id}",
-                                                    style: TextStyle(
-                                                      color: cc.primaryColor,
-                                                      fontSize: 12,
-                                                      height: 1.4,
+                      Consumer<RtlService>(
+                        builder: (context, rtlP, child) =>
+                            Consumer<RecentOrdersService>(
+                          builder: (context, rProvider, child) => rProvider
+                                      .recentOrdersData !=
+                                  null
+                              ? ListView.builder(
+                                  itemCount: rProvider
+                                      .recentOrdersData.recentOrders.length,
+                                  shrinkWrap: true,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return InkWell(
+                                      onTap: () {
+                                        Provider.of<OrderDetailsService>(
+                                                context,
+                                                listen: false)
+                                            .fetchOrderDetails(rProvider
+                                                .recentOrdersData
+                                                .recentOrders[index]
+                                                .id);
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute<void>(
+                                              builder: (BuildContext context) =>
+                                                  const OrderDetailsPage(),
+                                            ));
+                                      },
+                                      child: Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 2, vertical: 18),
+                                          decoration: BoxDecoration(
+                                              border: Border(
+                                            bottom: BorderSide(
+                                              color:
+                                                  Colors.grey.withOpacity(.2),
+                                              width: 1.0,
+                                            ),
+                                          )),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      "Order ID: ${rProvider.recentOrdersData.recentOrders[index].id}",
+                                                      style: TextStyle(
+                                                        color: cc.primaryColor,
+                                                        fontSize: 12,
+                                                        height: 1.4,
+                                                      ),
                                                     ),
-                                                  ),
-                                                  const SizedBox(
-                                                    height: 4,
-                                                  ),
-                                                  Text(
-                                                    rProvider
-                                                        .recentOrdersData
-                                                        .recentOrders[index]
-                                                        .name
-                                                        .toString(),
-                                                    maxLines: 1,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: TextStyle(
-                                                        color: cc.greyFour,
-                                                        fontSize: 15),
-                                                  ),
-                                                ],
+                                                    const SizedBox(
+                                                      height: 4,
+                                                    ),
+                                                    Text(
+                                                      rProvider
+                                                          .recentOrdersData
+                                                          .recentOrders[index]
+                                                          .name
+                                                          .toString(),
+                                                      maxLines: 1,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
+                                                      style: TextStyle(
+                                                          color: cc.greyFour,
+                                                          fontSize: 15),
+                                                    ),
+                                                  ],
+                                                ),
                                               ),
-                                            ),
-                                            SizedBox(
-                                              width: 60,
-                                              child: Text(
-                                                "\$${rProvider.recentOrdersData.recentOrders[index].total}",
-                                                maxLines: 1,
-                                                overflow: TextOverflow.ellipsis,
-                                                textAlign: TextAlign.right,
-                                                style: TextStyle(
-                                                    color: cc.greyFour,
-                                                    fontSize: 15),
+                                              SizedBox(
+                                                width: 60,
+                                                child: Text(
+                                                  "${rtlP.currency}${rProvider.recentOrdersData.recentOrders[index].total}",
+                                                  maxLines: 1,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  textAlign: TextAlign.right,
+                                                  style: TextStyle(
+                                                      color: cc.greyFour,
+                                                      fontSize: 15),
+                                                ),
                                               ),
-                                            ),
-                                          ],
-                                        )),
-                                  );
-                                })
-                            : OthersHelper().showLoading(cc.primaryColor),
+                                            ],
+                                          )),
+                                    );
+                                  })
+                              : OthersHelper().showLoading(cc.primaryColor),
+                        ),
                       ),
                       const SizedBox(
                         height: 30,
