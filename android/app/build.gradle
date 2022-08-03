@@ -72,12 +72,12 @@ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
            signingConfig signingConfigs.debug
        }
    }
-//    lintOptions {
-//             disable 'InvalidPackage'
-//             disable "Instantiatable"
-//             checkReleaseBuilds false
-//             abortOnError false
-//         }
+   lintOptions {
+            disable 'InvalidPackage'
+            disable "Instantiatable"
+            checkReleaseBuilds false
+            abortOnError false
+        }
 }
 
 flutter {
