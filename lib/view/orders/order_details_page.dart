@@ -46,6 +46,7 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                 ),
                                 //Service name
                                 Container(
+                                  width: double.infinity,
                                   margin: const EdgeInsets.only(bottom: 25),
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 20, vertical: 20),

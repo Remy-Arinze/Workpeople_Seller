@@ -21,11 +21,10 @@ class _ProfileVerifyPageState extends State<ProfileVerifyPage> {
     super.initState();
     isVerified = Provider.of<ProfileService>(context, listen: false)
         .profileDetails
-        .sellerVerify
-        .status;
+        .sellerVerify;
   }
 
-  late int isVerified;
+  var isVerified;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +42,7 @@ class _ProfileVerifyPageState extends State<ProfileVerifyPage> {
             padding: EdgeInsets.symmetric(
               horizontal: screenPadding,
             ),
-            child: isVerified != 1
+            child: isVerified != null
                 ? Column(
                     children: [
                       Text(
