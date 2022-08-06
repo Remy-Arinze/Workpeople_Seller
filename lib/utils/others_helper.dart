@@ -56,7 +56,7 @@ class OthersHelper with ChangeNotifier {
   }
 }
 
-String baseApi = 'https://handy.kokankart.com/api/v1';
+String baseApi = 'https://bytesed.com/laravel/qixer/api/v1';
 
 List colors = [
   const Color(0xffFF6B2C),
