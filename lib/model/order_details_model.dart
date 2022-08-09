@@ -105,7 +105,7 @@ class OrderInfo {
   DateTime? createdAt;
   DateTime? updatedAt;
   dynamic manualPaymentImage;
-  Buyer buyerDetails;
+  Buyer? buyerDetails;
   Buyer buyer;
 
   factory OrderInfo.fromJson(Map<String, dynamic> json) => OrderInfo(
@@ -145,7 +145,7 @@ class OrderInfo {
         createdAt: DateTime.parse(json["created_at"]),
         updatedAt: DateTime.parse(json["updated_at"]),
         manualPaymentImage: json["manual_payment_image"],
-        buyerDetails: Buyer.fromJson(json["buyer_details"]),
+        buyerDetails: Buyer?.fromJson(json["buyer_details"]),
         buyer: Buyer.fromJson(json["buyer"]),
       );
 
@@ -186,7 +186,7 @@ class OrderInfo {
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "manual_payment_image": manualPaymentImage,
-        "buyer_details": buyerDetails.toJson(),
+        "buyer_details": buyerDetails?.toJson(),
         "buyer": buyer.toJson(),
       };
 }
