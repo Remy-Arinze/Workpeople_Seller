@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/splash_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
@@ -20,6 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
       screenSizeAndPlatform(context);
     });
     SplashService().loginOrGoHome(context);
+    runAtSplashScreen(context);
   }
 
   @override
