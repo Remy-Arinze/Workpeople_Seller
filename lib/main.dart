@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/auth_services/change_pass_service.dart';
 import 'package:qixer_seller/services/auth_services/email_verify_service.dart';
 import 'package:qixer_seller/services/auth_services/login_service.dart';
@@ -64,6 +65,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PaymentGatewayListService()),
         ChangeNotifierProvider(create: (_) => PayoutDetailsService()),
         ChangeNotifierProvider(create: (_) => ChartService()),
+        ChangeNotifierProvider(create: (_) => AppStringService()),
       ],
       child: MaterialApp(
         title: 'Qixer seller',

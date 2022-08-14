@@ -20,7 +20,9 @@ class ProfileModel {
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
         userDetails: UserDetails.fromJson(json["user_details"]),
-        profileImage: ProfileImage.fromJson(json["profile_image"]),
+        profileImage: json["profile_image"] is List
+            ? null
+            : ProfileImage.fromJson(json["profile_image"]),
       );
 
   Map<String, dynamic> toJson() => {

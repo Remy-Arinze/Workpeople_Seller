@@ -1,5 +1,7 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/view/payout/withdraw_page.dart';
 
@@ -12,10 +14,12 @@ class PayoutPageAppbar extends StatelessWidget {
     ConstantColors cc = ConstantColors();
     return AppBar(
       iconTheme: IconThemeData(color: cc.greyPrimary),
-      title: Text(
-        'Payout history',
-        style: TextStyle(
-            color: cc.greyPrimary, fontSize: 16, fontWeight: FontWeight.w600),
+      title: Consumer<AppStringService>(
+        builder: (context, ln, child) => Text(
+          ln.getString('Payout history'),
+          style: TextStyle(
+              color: cc.greyPrimary, fontSize: 16, fontWeight: FontWeight.w600),
+        ),
       ),
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -29,36 +33,38 @@ class PayoutPageAppbar extends StatelessWidget {
         ),
       ),
       actions: [
-        Container(
-          width: screenWidth / 4,
-          padding: const EdgeInsets.symmetric(
-            vertical: 9,
-          ),
-          child: InkWell(
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(
-                  builder: (BuildContext context) => const WithdrawPage(),
-                ),
-              );
-            },
-            child: Container(
-                // width: double.infinity,
-
-                alignment: Alignment.center,
-                // padding: const EdgeInsets.symmetric(vertical: 10),
-                decoration: BoxDecoration(
-                    color: cc.primaryColor,
-                    borderRadius: BorderRadius.circular(8)),
-                child: const AutoSizeText(
-                  'Withdraw',
-                  maxLines: 1,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 13,
+        Consumer<AppStringService>(
+          builder: (context, ln, child) => Container(
+            width: screenWidth / 4,
+            padding: const EdgeInsets.symmetric(
+              vertical: 9,
+            ),
+            child: InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const WithdrawPage(),
                   ),
-                )),
+                );
+              },
+              child: Container(
+                  // width: double.infinity,
+
+                  alignment: Alignment.center,
+                  // padding: const EdgeInsets.symmetric(vertical: 10),
+                  decoration: BoxDecoration(
+                      color: cc.primaryColor,
+                      borderRadius: BorderRadius.circular(8)),
+                  child: AutoSizeText(
+                    ln.getString('Withdraw'),
+                    maxLines: 1,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 13,
+                    ),
+                  )),
+            ),
           ),
         ),
         const SizedBox(

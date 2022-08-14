@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/auth_services/logout_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
+import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
 import 'package:qixer_seller/view/payout/payout_page.dart';
 import 'package:qixer_seller/view/profile/change_password_page.dart';
@@ -42,7 +43,11 @@ class SidebarDrawer extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               CommonHelper().profileImage(
-                                  profileProvider.profileImage.imgUrl, 60, 60),
+                                  profileProvider.profileImage != null
+                                      ? profileProvider.profileImage.imgUrl
+                                      : placeHolderUrl,
+                                  60,
+                                  60),
                               const SizedBox(
                                 height: 20,
                               ),

@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/app_string_service.dart';
 
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
@@ -11,10 +13,12 @@ class CommonHelper {
     return AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(color: cc.greyPrimary),
-      title: Text(
-        title,
-        style: TextStyle(
-            color: cc.greyPrimary, fontSize: 16, fontWeight: FontWeight.w600),
+      title: Consumer<AppStringService>(
+        builder: (context, ln, child) => Text(
+          ln.getString(title),
+          style: TextStyle(
+              color: cc.greyPrimary, fontSize: 16, fontWeight: FontWeight.w600),
+        ),
       ),
       backgroundColor: Colors.transparent,
       elevation: 0,
