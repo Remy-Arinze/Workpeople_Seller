@@ -28,6 +28,8 @@ class OrderDetailsService with ChangeNotifier {
   }
 
   fetchOrderDetails(orderId) async {
+    print('order id $orderId');
+
     setLoadingTrue();
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
