@@ -4,6 +4,7 @@ import 'package:qixer_seller/services/auth_services/logout_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/live_chat/chat_list_page.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
 import 'package:qixer_seller/view/payout/payout_page.dart';
 import 'package:qixer_seller/view/profile/change_password_page.dart';
@@ -132,6 +133,17 @@ class SidebarDrawer extends StatelessWidget {
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) =>
                         const ChangePasswordPage(),
+                  ),
+                );
+              }),
+          SidebarMenuItem(
+              title: 'Chat',
+              leading: Icon(Icons.message_outlined, color: cc.primaryColor),
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const ChatListPage(),
                   ),
                 );
               }),
