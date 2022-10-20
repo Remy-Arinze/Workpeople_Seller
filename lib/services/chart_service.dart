@@ -74,7 +74,7 @@ class ChartService with ChangeNotifier {
   calculateSaleWithinSix(constValue, dataList) {
     for (int i = 0; i < dataList.length; i++) {
       var newData = dataList[i].totalOrder / constValue;
-      print('new value' + newData.toString());
+
       if (newData < 0) {
         newData = 0;
       }

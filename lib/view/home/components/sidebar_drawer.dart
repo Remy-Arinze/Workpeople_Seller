@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/auth_services/logout_service.dart';
+import 'package:qixer_seller/services/live_chat/chat_list_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
@@ -140,6 +141,11 @@ class SidebarDrawer extends StatelessWidget {
               title: 'Chat',
               leading: Icon(Icons.message_outlined, color: cc.primaryColor),
               ontap: () {
+                //=====>
+                Provider.of<ChatListService>(context, listen: false)
+                    .fetchChatList(context);
+
+                //======>
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
