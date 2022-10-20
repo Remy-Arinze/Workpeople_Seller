@@ -97,7 +97,7 @@ class ChatMessagesService with ChangeNotifier {
 
       var response = await http.get(
           Uri.parse(
-              "$baseApi/user/chat/all-messages?to_user=$receiverId&page=$currentPage"),
+              "$baseApi/seller/chat/all-messages?to_user=$receiverId&page=$currentPage"),
           headers: header);
 
       if (response.statusCode == 200 &&
@@ -173,7 +173,7 @@ class ChatMessagesService with ChangeNotifier {
       //if connection is ok
 
       var response = await dio.post(
-        '$baseApi/user/chat/send',
+        '$baseApi/seller/chat/send',
         data: formData,
       );
       setSendLoadingFalse();

@@ -80,11 +80,17 @@ class ChatListService with ChangeNotifier {
     chatListImage = [];
 
     for (int i = 0; i < storeChatList.length; i++) {
-      if ((storeChatList[i].sellerList.name.toLowerCase())
+      if ((storeChatList[i].buyerList.name.toLowerCase())
           .contains(searchString.toLowerCase())) {
-        print(storeChatListImage[i]['img_url']);
         chatList.add(storeChatList[i]);
-        chatListImage.add(storeChatListImage[i]);
+
+        if (storeChatListImage[i] is List) {
+          //if api returned empty array then in image we insert empty array
+          //because, in frontend we validate image based on the empty array
+          chatListImage.add([]);
+        } else {
+          chatListImage.add(storeChatListImage[i]);
+        }
       }
     }
     notifyListeners();
