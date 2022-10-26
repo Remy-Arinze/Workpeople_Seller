@@ -320,10 +320,6 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
 
                                   const OrderExtras(),
 
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-
                                   CommonHelper().buttonPrimary('Add extra', () {
                                     OrdersHelper().addExtraPopup(context);
                                   }),

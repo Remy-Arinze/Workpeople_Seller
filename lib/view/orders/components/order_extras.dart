@@ -23,10 +23,23 @@ class OrderExtras extends StatelessWidget {
           ),
           for (int i = 0; i < 2; i++)
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              CommonHelper()
-                  .titleCommon('Hair cut solution in your city', fontsize: 14),
-              const SizedBox(
-                height: 4,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Expanded(
+                    child: CommonHelper().titleCommon(
+                        'Hair cut solution in your city',
+                        fontsize: 14),
+                  ),
+                  Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    child: const Icon(
+                      Icons.delete_forever,
+                      color: Colors.red,
+                    ),
+                  )
+                ],
               ),
               CommonHelper().paragraphCommon(
                   'Price: \$100    Quantity: 3', TextAlign.left),
