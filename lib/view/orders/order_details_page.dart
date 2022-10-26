@@ -6,6 +6,7 @@ import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/view/orders/booking_helper.dart';
+import 'package:qixer_seller/view/orders/components/order_extras.dart';
 import 'package:qixer_seller/view/orders/orders_helper.dart';
 import '../../utils/others_helper.dart';
 
@@ -316,6 +317,8 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                           ),
                                         ]),
                                   ),
+
+                                  const OrderExtras(),
 
                                   const SizedBox(
                                     height: 10,
