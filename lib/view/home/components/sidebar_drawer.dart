@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/auth_services/logout_service.dart';
+import 'package:qixer_seller/services/live_chat/chat_list_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/live_chat/chat_list_page.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
 import 'package:qixer_seller/view/payout/payout_page.dart';
 import 'package:qixer_seller/view/profile/change_password_page.dart';
@@ -45,7 +47,7 @@ class SidebarDrawer extends StatelessWidget {
                               CommonHelper().profileImage(
                                   profileProvider.profileImage != null
                                       ? profileProvider.profileImage.imgUrl
-                                      : placeHolderUrl,
+                                      : userPlaceHolderUrl,
                                   60,
                                   60),
                               const SizedBox(
@@ -132,6 +134,22 @@ class SidebarDrawer extends StatelessWidget {
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) =>
                         const ChangePasswordPage(),
+                  ),
+                );
+              }),
+          SidebarMenuItem(
+              title: 'Chat',
+              leading: Icon(Icons.message_outlined, color: cc.primaryColor),
+              ontap: () {
+                //=====>
+                Provider.of<ChatListService>(context, listen: false)
+                    .fetchChatList(context);
+
+                //======>
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const ChatListPage(),
                   ),
                 );
               }),

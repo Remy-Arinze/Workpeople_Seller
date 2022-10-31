@@ -20,50 +20,49 @@ class _ChartDashboardState extends State<ChartDashboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        AspectRatio(
-          aspectRatio: 1.70,
-          child: Consumer<ChartService>(
-            builder: (context, provider, child) =>
-                provider.chartDataListMap.isNotEmpty
-                    ? Container(
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(18),
-                            ),
-                            // color: Color(0xff232d37)
-                            color: Colors.white),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              right: 18.0, left: 12.0, top: 24, bottom: 12),
-                          child: LineChart(
-                            mainData(provider.chartDataListMap),
-                          ),
+    return Consumer<ChartService>(
+      builder: (context, provider, child) => Stack(
+        children: <Widget>[
+          provider.chartDataListMap.isNotEmpty
+              ? AspectRatio(
+                  aspectRatio: 1.70,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(18),
                         ),
-                      )
-                    : Container(),
-          ),
-        ),
-        // SizedBox(
-        //   width: 60,
-        //   height: 34,
-        //   child: TextButton(
-        //     onPressed: () {
-        //       setState(() {
-        //         showAvg = !showAvg;
-        //       });
-        //     },
-        //     child: Text(
-        //       'avg',
-        //       style: TextStyle(
-        //           fontSize: 12,
-        //           color:
-        //               showAvg ? Colors.white.withOpacity(0.5) : Colors.white),
-        //     ),
-        //   ),
-        // ),
-      ],
+                        // color: Color(0xff232d37)
+                        color: Colors.white),
+                    child: Padding(
+                      padding: const EdgeInsets.only(
+                          right: 18.0, left: 12.0, top: 24, bottom: 12),
+                      child: LineChart(
+                        mainData(provider.chartDataListMap),
+                      ),
+                    ),
+                  ),
+                )
+              : Container(),
+          // SizedBox(
+          //   width: 60,
+          //   height: 34,
+          //   child: TextButton(
+          //     onPressed: () {
+          //       setState(() {
+          //         showAvg = !showAvg;
+          //       });
+          //     },
+          //     child: Text(
+          //       'avg',
+          //       style: TextStyle(
+          //           fontSize: 12,
+          //           color:
+          //               showAvg ? Colors.white.withOpacity(0.5) : Colors.white),
+          //     ),
+          //   ),
+          // ),
+        ],
+      ),
     );
   }
 

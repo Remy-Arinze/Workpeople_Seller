@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
+import 'package:qixer_seller/view/orders/components/add_extras_popup.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class OrdersHelper {
   ConstantColors cc = ConstantColors();
@@ -71,5 +73,40 @@ class OrdersHelper {
         )
       ],
     );
+  }
+
+  //Add extras popup
+  // ===========>
+
+  addExtraPopup(BuildContext context) {
+    return Alert(
+        context: context,
+        style: AlertStyle(
+            alertElevation: 0,
+            overlayColor: Colors.black.withOpacity(.6),
+            alertPadding: const EdgeInsets.all(25),
+            isButtonVisible: false,
+            alertBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: const BorderSide(
+                color: Colors.transparent,
+              ),
+            ),
+            titleStyle: const TextStyle(),
+            animationType: AnimationType.grow,
+            animationDuration: const Duration(milliseconds: 500)),
+        content: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(7),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(0.01),
+                  spreadRadius: -2,
+                  blurRadius: 13,
+                  offset: const Offset(0, 13)),
+            ],
+          ),
+          child: const AddExtrasPopup(),
+        )).show();
   }
 }

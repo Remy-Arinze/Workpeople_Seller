@@ -6,6 +6,8 @@ import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/view/orders/booking_helper.dart';
+import 'package:qixer_seller/view/orders/components/order_extras.dart';
+import 'package:qixer_seller/view/orders/orders_helper.dart';
 import '../../utils/others_helper.dart';
 
 class OrderDetailsPage extends StatefulWidget {
@@ -314,6 +316,16 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                                 lastBorder: false),
                                           ),
                                         ]),
+                                  ),
+
+                                  const OrderExtras(),
+
+                                  CommonHelper().buttonPrimary('Add extra', () {
+                                    OrdersHelper().addExtraPopup(context);
+                                  }),
+
+                                  const SizedBox(
+                                    height: 30,
                                   ),
 
                                   //
