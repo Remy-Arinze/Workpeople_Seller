@@ -1,7 +1,6 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pusher_beams/pusher_beams.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/chart_service.dart';
 import 'package:qixer_seller/services/live_chat/chat_message_service.dart';
@@ -36,7 +35,4 @@ runAtSplashScreen(BuildContext context) async {
   //fetch translated strings
   Provider.of<AppStringService>(context, listen: false)
       .fetchTranslatedStrings();
-
-  //init pusher instance
-  await PusherBeams.instance.addDeviceInterest('debug-seller');
 }

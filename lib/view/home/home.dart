@@ -46,15 +46,12 @@ class _HomepageState extends State<Homepage> {
   //=================>
   initPusherBeams(BuildContext context) async {
     if (!kIsWeb) {
-      // Let's see our current interests
-      print(await PusherBeams.instance.getDeviceInterests());
-
-      await PusherBeams.instance
-          .onInterestChanges((interests) => {print('Interests: $interests')});
       await PusherBeams.instance
           .onMessageReceivedInTheForeground(_onMessageReceivedInTheForeground);
     }
     await _checkForInitialMessage(context);
+    //init pusher instance
+    await PusherBeams.instance.addDeviceInterest('debug-seller');
   }
 
   Future<void> _checkForInitialMessage(BuildContext context) async {
