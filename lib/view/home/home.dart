@@ -18,6 +18,7 @@ import 'package:qixer_seller/view/home/components/sidebar_drawer.dart';
 import 'package:qixer_seller/view/home/home_helper.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
 import 'package:qixer_seller/view/profile/profile_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../services/order_details_service.dart';
 import '../../services/profile_service.dart';
@@ -51,7 +52,10 @@ class _HomepageState extends State<Homepage> {
     }
     await _checkForInitialMessage(context);
     //init pusher instance
-    await PusherBeams.instance.addDeviceInterest('debug-seller');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var userId = prefs.getInt('userId');
+
+    await PusherBeams.instance.addDeviceInterest('debug-seller$userId');
   }
 
   Future<void> _checkForInitialMessage(BuildContext context) async {

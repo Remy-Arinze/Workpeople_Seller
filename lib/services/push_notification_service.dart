@@ -39,9 +39,11 @@ class PushNotificationService with ChangeNotifier {
             ],
           ),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
                 title,
+                textAlign: TextAlign.center,
                 style: TextStyle(color: cc.greyPrimary, fontSize: 17),
               ),
               const SizedBox(
