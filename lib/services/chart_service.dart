@@ -46,8 +46,6 @@ class ChartService with ChangeNotifier {
       var response = await http.post(Uri.parse('$baseApi/seller/chart-data'),
           headers: header);
 
-      print(response.body);
-
       setLoadingFalse();
 
       if (response.statusCode == 201) {

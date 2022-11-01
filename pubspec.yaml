@@ -30,6 +30,7 @@ dependencies:
   auto_size_text: ^3.0.0
   cached_network_image: ^3.2.0
   connectivity: ^3.0.6
+  crypto: ^3.0.2
   cupertino_icons: ^1.0.2
   dio: ^4.0.6
   firebase_auth: ^3.3.15
@@ -50,11 +51,11 @@ dependencies:
   pin_code_fields: ^7.4.0
   provider: ^6.0.3
   pull_to_refresh: ^2.0.0
+  pusher_beams: ^1.1.1
+  pusher_channels_flutter: ^2.0.1
   rflutter_alert: ^2.0.4
   shared_preferences: ^2.0.15
   top_snackbar_flutter: ^2.1.1
-  pusher_channels_flutter: ^2.0.1
-  crypto: ^3.0.2
 
 dev_dependencies:
   flutter_lints: ^1.0.0

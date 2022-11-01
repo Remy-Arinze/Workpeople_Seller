@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:pusher_beams/pusher_beams.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/auth_services/change_pass_service.dart';
 import 'package:qixer_seller/services/auth_services/email_verify_service.dart';
@@ -29,7 +30,10 @@ import 'package:qixer_seller/services/ticket_services/support_ticket_service.dar
 import 'package:qixer_seller/services/withdraw_service.dart';
 import 'package:qixer_seller/view/intro/splash.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await PusherBeams.instance.start('fcaf9caf-509c-4611-a225-2e508593d6af');
+
   runApp(const MyApp());
 }
 

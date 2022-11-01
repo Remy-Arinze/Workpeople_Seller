@@ -1,10 +1,13 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
 import 'package:provider/provider.dart';
+import 'package:pusher_beams/pusher_beams.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/dashboard_service.dart';
+import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/services/recent_orders_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
@@ -33,10 +36,39 @@ class _HomepageState extends State<Homepage> {
   void initState() {
     super.initState();
     runAtStart(context);
+    initPusherBeams(context);
   }
 
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   DateTime? currentBackPressTime;
+
+  //Notification alert
+  //=================>
+  initPusherBeams(BuildContext context) async {
+    if (!kIsWeb) {
+      // Let's see our current interests
+      print(await PusherBeams.instance.getDeviceInterests());
+
+      await PusherBeams.instance
+          .onInterestChanges((interests) => {print('Interests: $interests')});
+      await PusherBeams.instance
+          .onMessageReceivedInTheForeground(_onMessageReceivedInTheForeground);
+    }
+    await _checkForInitialMessage(context);
+  }
+
+  Future<void> _checkForInitialMessage(BuildContext context) async {
+    final initialMessage = await PusherBeams.instance.getInitialMessage();
+    if (initialMessage != null) {
+      PushNotificationService().notificationAlert(
+          context, 'Initial Message Is:', initialMessage.toString());
+    }
+  }
+
+  void _onMessageReceivedInTheForeground(Map<Object?, Object?> data) {
+    PushNotificationService().notificationAlert(
+        context, data["title"].toString(), data["body"].toString());
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,6 +113,7 @@ class _HomepageState extends State<Homepage> {
                       children: [
                         //profile image and name ========>
                         // const NameImage(),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
