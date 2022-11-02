@@ -1,7 +1,5 @@
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:pusher_beams/pusher_beams.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
@@ -14,8 +12,9 @@ import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:qixer_seller/view/home/chart_dashboard.dart';
+import 'package:qixer_seller/view/home/components/home_cards.dart';
 import 'package:qixer_seller/view/home/components/sidebar_drawer.dart';
-import 'package:qixer_seller/view/home/home_helper.dart';
+import 'package:qixer_seller/view/home/components/subscription_badge.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
 import 'package:qixer_seller/view/profile/profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -175,60 +174,14 @@ class _HomepageState extends State<Homepage> {
                           ],
                         ),
 
-                        //cards ==========>
-                        Consumer<DashboardService>(
-                          builder: (context, dProvider, child) => dProvider
-                                  .dashboardDataList.isNotEmpty
-                              ? GridView.builder(
-                                  clipBehavior: Clip.none,
-                                  gridDelegate: const FlutterzillaFixedGridView(
-                                      crossAxisCount: 2,
-                                      mainAxisSpacing: 19,
-                                      crossAxisSpacing: 19,
-                                      height: 100),
-                                  padding: const EdgeInsets.only(top: 12),
-                                  itemCount: HomeHelper().cardTitles.length,
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemBuilder: (context, index) {
-                                    return Container(
-                                      padding: const EdgeInsets.all(15),
-                                      decoration: BoxDecoration(
-                                          color: HomeHelper().cardColors[index],
-                                          borderRadius:
-                                              BorderRadius.circular(10)),
-                                      child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Text(
-                                              dProvider.dashboardDataList[index]
-                                                  .toString(),
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontWeight: FontWeight.bold,
-                                                  fontSize: 25),
-                                            ),
-                                            const SizedBox(
-                                              height: 3,
-                                            ),
-                                            AutoSizeText(
-                                              ln.getString(HomeHelper()
-                                                  .cardTitles[index]),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 15),
-                                            )
-                                          ]),
-                                    );
-                                  },
-                                )
-                              : Container(),
-                        ),
+                        sizedBoxCustom(16),
+                        //subscription details
+                        const SubscriptionBadge(),
+                        sizedBoxCustom(5),
+
+                        //Home cards
+                        //==============>
+                        const HomeCards(),
 
                         const SizedBox(
                           height: 20,

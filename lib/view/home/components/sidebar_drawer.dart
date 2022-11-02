@@ -12,6 +12,7 @@ import 'package:qixer_seller/view/profile/change_password_page.dart';
 import 'package:qixer_seller/view/profile/components/deactivate_account_page.dart';
 import 'package:qixer_seller/view/profile/profile_page.dart';
 import 'package:qixer_seller/view/profile/profile_verify_page.dart';
+import 'package:qixer_seller/view/subscription/subscription_history_page.dart';
 import 'package:qixer_seller/view/supports/my_tickets_page.dart';
 
 import '../../../utils/common_helper.dart';
@@ -29,40 +30,57 @@ class SidebarDrawer extends StatelessWidget {
           Consumer<ProfileService>(
             builder: (context, profileProvider, child) =>
                 profileProvider.profileDetails != null
-                    ? DrawerHeader(
-                        decoration: BoxDecoration(color: cc.primaryColor),
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute<void>(
-                                builder: (BuildContext context) =>
-                                    const ProfilePage(),
+                    ? SizedBox(
+                        height: 185,
+                        child: DrawerHeader(
+                            decoration: BoxDecoration(color: cc.primaryColor),
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        const ProfilePage(),
+                                  ),
+                                );
+                              },
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CommonHelper().profileImage(
+                                      profileProvider.profileImage != null
+                                          ? profileProvider.profileImage.imgUrl
+                                          : userPlaceHolderUrl,
+                                      60,
+                                      60),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  Text(
+                                    profileProvider.profileDetails.name ?? '',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: const TextStyle(
+                                        color: Colors.white, fontSize: 19),
+                                  ),
+                                  // sizedBoxCustom(6),
+                                  // const Text(
+                                  //   'Silver subscriber',
+                                  //   style: TextStyle(
+                                  //       color: Colors.white,
+                                  //       fontSize: 15,
+                                  //       fontWeight: FontWeight.w600),
+                                  // ),
+                                  // sizedBoxCustom(6),
+                                  // const Text(
+                                  //   'Expire date: 12/03/23',
+                                  //   style: TextStyle(
+                                  //       color: Colors.white, fontSize: 13),
+                                  // ),
+                                ],
                               ),
-                            );
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              CommonHelper().profileImage(
-                                  profileProvider.profileImage != null
-                                      ? profileProvider.profileImage.imgUrl
-                                      : userPlaceHolderUrl,
-                                  60,
-                                  60),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                              Text(
-                                profileProvider.profileDetails.name ?? '',
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    color: Colors.white, fontSize: 19),
-                              ),
-                            ],
-                          ),
-                        ))
+                            )),
+                      )
                     : Container(),
           ),
 
@@ -97,6 +115,20 @@ class SidebarDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) => const MyTicketsPage(),
+                  ),
+                );
+              }),
+
+          SidebarMenuItem(
+              title: 'Subscriptions',
+              leading:
+                  Icon(Icons.subscriptions_outlined, color: cc.primaryColor),
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const SubscriptionHistoryPage(),
                   ),
                 );
               }),
