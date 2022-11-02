@@ -9,6 +9,7 @@ import 'package:qixer_seller/view/profile/change_password_page.dart';
 import 'package:qixer_seller/view/profile/components/deactivate_account_page.dart';
 import 'package:qixer_seller/view/profile/profile_page.dart';
 import 'package:qixer_seller/view/profile/profile_verify_page.dart';
+import 'package:qixer_seller/view/subscription/subscription_details_page.dart';
 import 'package:qixer_seller/view/supports/my_tickets_page.dart';
 
 import '../../../utils/common_helper.dart';
@@ -82,6 +83,21 @@ class SidebarDrawer extends StatelessWidget {
                   ),
                 );
               }),
+
+          SidebarMenuItem(
+              title: 'Subscription',
+              leading:
+                  Icon(Icons.subscriptions_outlined, color: cc.primaryColor),
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const SubscriptionDetailsPage(),
+                  ),
+                );
+              }),
+
           SidebarMenuItem(
               title: 'Support ticket',
               leading: Icon(Icons.headphones, color: cc.primaryColor),
