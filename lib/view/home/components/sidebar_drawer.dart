@@ -5,6 +5,7 @@ import 'package:qixer_seller/services/live_chat/chat_list_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/jobs/applied_jobs_page.dart';
 import 'package:qixer_seller/view/live_chat/chat_list_page.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
 import 'package:qixer_seller/view/payout/payout_page.dart';
@@ -63,20 +64,6 @@ class SidebarDrawer extends StatelessWidget {
                                     style: const TextStyle(
                                         color: Colors.white, fontSize: 19),
                                   ),
-                                  // sizedBoxCustom(6),
-                                  // const Text(
-                                  //   'Silver subscriber',
-                                  //   style: TextStyle(
-                                  //       color: Colors.white,
-                                  //       fontSize: 15,
-                                  //       fontWeight: FontWeight.w600),
-                                  // ),
-                                  // sizedBoxCustom(6),
-                                  // const Text(
-                                  //   'Expire date: 12/03/23',
-                                  //   style: TextStyle(
-                                  //       color: Colors.white, fontSize: 13),
-                                  // ),
                                 ],
                               ),
                             )),
@@ -129,6 +116,31 @@ class SidebarDrawer extends StatelessWidget {
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) =>
                         const SubscriptionHistoryPage(),
+                  ),
+                );
+              }),
+
+          SidebarMenuItem(
+              title: 'New jobs',
+              leading: Icon(Icons.cases_outlined, color: cc.primaryColor),
+              ontap: () {
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute<void>(
+                //     builder: (BuildContext context) =>
+                //         const SubscriptionHistoryPage(),
+                //   ),
+                // );
+              }),
+
+          SidebarMenuItem(
+              title: 'Applied jobs',
+              leading: Icon(Icons.cases_rounded, color: cc.primaryColor),
+              ontap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const AppliedJobsPage(),
                   ),
                 );
               }),
