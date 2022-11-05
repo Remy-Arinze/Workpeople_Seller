@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
+import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/payout_details_service.dart';
 import 'package:qixer_seller/services/payout_history_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
@@ -149,7 +150,7 @@ class _PayoutPageState extends State<PayoutPage> {
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 7, vertical: 15),
                                         child: Text(
-                                          '${PayoutHistoryService().formatDate(provider.payoutHistoryList[i].createdAt)}',
+                                          '${formatDate(provider.payoutHistoryList[i].createdAt)}',
                                           style: TextStyle(
                                               fontSize: 15.0,
                                               color: cc.greyPrimary),

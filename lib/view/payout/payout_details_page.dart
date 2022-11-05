@@ -2,9 +2,8 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
-import 'package:qixer_seller/services/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/payout_details_service.dart';
-import 'package:qixer_seller/services/payout_history_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
@@ -93,11 +92,10 @@ class _OrdersDetailsPageState extends State<PayoutDetailsPage> {
                                             child: BookingHelper().bRow(
                                                 'null',
                                                 ln.getString('Payment Gateway'),
-                                                PaymentGatewayListService()
-                                                        .removeUnderscore(provider
-                                                            .payoutDetails
-                                                            .payoutDetails
-                                                            .paymentGateway) ??
+                                                removeUnderscore(provider
+                                                        .payoutDetails
+                                                        .payoutDetails
+                                                        .paymentGateway) ??
                                                     ''),
                                           ),
 
@@ -105,11 +103,10 @@ class _OrdersDetailsPageState extends State<PayoutDetailsPage> {
                                             child: BookingHelper().bRow(
                                                 'null',
                                                 ln.getString('Request Date'),
-                                                PayoutHistoryService()
-                                                    .formatDate(provider
-                                                        .payoutDetails
-                                                        .payoutDetails
-                                                        .createdAt)),
+                                                formatDate(provider
+                                                    .payoutDetails
+                                                    .payoutDetails
+                                                    .createdAt)),
                                           ),
 
                                           Container(

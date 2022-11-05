@@ -63,8 +63,4 @@ class PaymentGatewayListService with ChangeNotifier {
       return false;
     }
   }
-
-  removeUnderscore(value) {
-    return value.replaceAll(RegExp('_'), ' ');
-  }
 }

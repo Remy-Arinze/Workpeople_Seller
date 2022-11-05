@@ -1,16 +1,29 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/chart_service.dart';
 import 'package:qixer_seller/services/live_chat/chat_message_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 
 import '../utils/others_helper.dart';
 
-late bool isIos;
+formatDate(inputDate) {
+  var outputFormat = DateFormat('MM/dd/yyyy');
+  var outputDate = outputFormat.format(inputDate);
 
+  return outputDate;
+}
+
+//=========>
+removeUnderscore(value) {
+  return value.replaceAll(RegExp('_'), ' ');
+}
+
+//============>
 Future<bool> checkConnection() async {
   var connectivityResult = await (Connectivity().checkConnectivity());
   if (connectivityResult == ConnectivityResult.none) {
@@ -29,6 +42,9 @@ runAtStart(BuildContext context) {
 
   Provider.of<ChatMessagesService>(context, listen: false)
       .fetchPusherCredential(context);
+
+  Provider.of<SubscriptionService>(context, listen: false)
+      .fetchSubscriptionData(context);
 }
 
 runAtSplashScreen(BuildContext context) async {
