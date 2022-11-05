@@ -23,6 +23,15 @@ removeUnderscore(value) {
   return value.replaceAll(RegExp('_'), ' ');
 }
 
+// get screen height
+screenHeight(BuildContext context) {
+  return MediaQuery.of(context).size.height;
+}
+
+screenWidth(BuildContext context) {
+  return MediaQuery.of(context).size.width;
+}
+
 //============>
 Future<bool> checkConnection() async {
   var connectivityResult = await (Connectivity().checkConnectivity());
