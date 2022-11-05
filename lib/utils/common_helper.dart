@@ -90,14 +90,15 @@ class CommonHelper {
     );
   }
 
-  paragraphCommon(String title, TextAlign textAlign, {color}) {
+  paragraphCommon(String title, TextAlign textAlign,
+      {color, double fontsize = 14}) {
     return Text(
       title,
       textAlign: textAlign,
       style: TextStyle(
         color: color ?? cc.greyParagraph,
         height: 1.4,
-        fontSize: 14,
+        fontSize: fontsize,
         fontWeight: FontWeight.w400,
       ),
     );

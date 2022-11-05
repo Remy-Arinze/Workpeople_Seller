@@ -24,12 +24,12 @@ class OverviewBox extends StatelessWidget {
         border: Border.all(color: Colors.grey.withOpacity(.5)),
       ),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        CommonHelper().paragraphCommon(title, TextAlign.start),
+        CommonHelper().paragraphCommon(title, TextAlign.start, fontsize: 13),
 
         sizedBoxCustom(7),
 
         //amount
-        CommonHelper().titleCommon(subtitle, fontsize: 17)
+        CommonHelper().titleCommon(subtitle, fontsize: 15)
       ]),
     );
   }

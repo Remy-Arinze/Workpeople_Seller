@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/view/jobs/job_conversation_page.dart';
 import 'package:qixer_seller/view/jobs/job_details_page.dart';
 
 class AppliedJobsPage extends StatefulWidget {
@@ -80,7 +81,21 @@ class _AppliedJobsPageState extends State<AppliedJobsPage> {
                             child: Text(menuNames[0]),
                           ),
                           PopupMenuItem(
-                            onTap: () {},
+                            onTap: () {
+                              Future.delayed(Duration.zero, () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        const JobConversationPage(
+                                      jobId: 1,
+                                      title:
+                                          'Barnaby The Bear’s my name never call me Jack or James',
+                                    ),
+                                  ),
+                                );
+                              });
+                            },
                             child: Text(menuNames[1]),
                           ),
                         ],

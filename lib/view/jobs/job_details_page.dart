@@ -161,10 +161,6 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
               TextAlign.left),
 
           sizedBoxCustom(20),
-
-          CommonHelper().buttonPrimary('Apply', () {}),
-
-          sizedBoxCustom(20),
         ]),
       )),
     );
