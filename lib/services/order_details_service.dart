@@ -2,7 +2,9 @@
 
 import 'dart:convert';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/order_details_model.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -63,6 +65,57 @@ class OrderDetailsService with ChangeNotifier {
         print('error fetching order details ' + response.body);
         orderDetails = 'error';
         notifyListeners();
+      }
+    }
+  }
+
+  //Add order extra
+  addOrderExtra(
+      {required orderId,
+      required title,
+      required price,
+      required quantity}) async {
+    //check internet connection
+    var connectivityResult = await (Connectivity().checkConnectivity());
+    if (connectivityResult == ConnectivityResult.none) {
+      //internet off
+      OthersHelper()
+          .showToast("Please turn on your internet connection", Colors.black);
+      return false;
+    } else {
+      //internet connection is on
+      var header = {
+        //if header type is application/json then the data should be in jsonEncode method
+        "Accept": "application/json",
+        "Content-Type": "application/json"
+      };
+      var data = jsonEncode({
+        'order_id': orderId,
+        'title': title,
+        'price': price,
+        'quantity': quantity
+      });
+
+      print(data);
+      setLoadingTrue();
+
+      var response = await http.post(
+          Uri.parse('$baseApi/seller/order/extra-service/add'),
+          headers: header,
+          body: data);
+
+      setLoadingFalse();
+
+      final responseDecoded = jsonDecode(response.body);
+
+      print(response.body);
+      if (response.statusCode == 200 &&
+          responseDecoded.containsKey("extra_service")) {
+        Provider.of<OrderDetailsService>(context, listen: false)
+            .fetchOrderDetails(provider.allOrdersList[i].id);
+      } else {
+        OthersHelper()
+            .showToast(jsonDecode(response.body)['message'], Colors.black);
       }
     }
   }
