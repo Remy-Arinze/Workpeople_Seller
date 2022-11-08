@@ -78,7 +78,7 @@ class OrdersHelper {
   //Add extras popup
   // ===========>
 
-  addExtraPopup(BuildContext context) {
+  addExtraPopup(BuildContext context, orderId) {
     return Alert(
         context: context,
         style: AlertStyle(
@@ -106,7 +106,9 @@ class OrdersHelper {
                   offset: const Offset(0, 13)),
             ],
           ),
-          child: const AddExtrasPopup(),
+          child: AddExtrasPopup(
+            orderId: orderId,
+          ),
         )).show();
   }
 }

@@ -83,11 +83,16 @@ class OrderDetailsService with ChangeNotifier {
           .showToast("Please turn on your internet connection", Colors.black);
       return false;
     } else {
+      //get user id
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
+
       //internet connection is on
       var header = {
         //if header type is application/json then the data should be in jsonEncode method
         "Accept": "application/json",
-        "Content-Type": "application/json"
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
       };
       var data = jsonEncode({
         'order_id': orderId,
@@ -108,14 +113,14 @@ class OrderDetailsService with ChangeNotifier {
 
       final responseDecoded = jsonDecode(response.body);
 
-      print(response.body);
-      if (response.statusCode == 200 &&
+      if (response.statusCode == 201 &&
           responseDecoded.containsKey("extra_service")) {
         Provider.of<OrderDetailsService>(context, listen: false)
             .fetchOrderDetails(orderId);
 
         Navigator.pop(context);
       } else {
+        print(response.body);
         OthersHelper()
             .showToast(jsonDecode(response.body)['message'], Colors.black);
       }

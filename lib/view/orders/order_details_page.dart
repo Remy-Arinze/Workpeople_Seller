@@ -320,9 +320,13 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
 
                                   const OrderExtras(),
 
-                                  CommonHelper().buttonPrimary('Add extra', () {
-                                    OrdersHelper().addExtraPopup(context);
-                                  }),
+                                  if (provider.orderDetails.paymentStatus ==
+                                      'complete')
+                                    CommonHelper().buttonPrimary('Add extra',
+                                        () {
+                                      OrdersHelper().addExtraPopup(
+                                          context, provider.orderDetails.id);
+                                    }),
 
                                   const SizedBox(
                                     height: 30,
