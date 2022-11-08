@@ -70,7 +70,7 @@ class OrderDetailsService with ChangeNotifier {
   }
 
   //Add order extra
-  addOrderExtra(
+  addOrderExtra(BuildContext context,
       {required orderId,
       required title,
       required price,
@@ -112,7 +112,9 @@ class OrderDetailsService with ChangeNotifier {
       if (response.statusCode == 200 &&
           responseDecoded.containsKey("extra_service")) {
         Provider.of<OrderDetailsService>(context, listen: false)
-            .fetchOrderDetails(provider.allOrdersList[i].id);
+            .fetchOrderDetails(orderId);
+
+        Navigator.pop(context);
       } else {
         OthersHelper()
             .showToast(jsonDecode(response.body)['message'], Colors.black);
