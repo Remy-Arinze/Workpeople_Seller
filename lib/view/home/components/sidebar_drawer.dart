@@ -5,7 +5,7 @@ import 'package:qixer_seller/services/live_chat/chat_list_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
-import 'package:qixer_seller/view/jobs/applied_jobs_page.dart';
+import 'package:qixer_seller/view/jobs/jobs_request_page.dart';
 import 'package:qixer_seller/view/jobs/new_jobs_page.dart';
 import 'package:qixer_seller/view/live_chat/chat_list_page.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
@@ -140,7 +140,7 @@ class SidebarDrawer extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(
-                    builder: (BuildContext context) => const AppliedJobsPage(),
+                    builder: (BuildContext context) => const JobRequestPage(),
                   ),
                 );
               }),

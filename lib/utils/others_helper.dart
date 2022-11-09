@@ -14,11 +14,11 @@ class OthersHelper with ChangeNotifier {
     );
   }
 
-  showError(BuildContext context) {
+  showError(BuildContext context, {String message = "Something went wrong"}) {
     return Container(
         height: MediaQuery.of(context).size.height - 180,
         alignment: Alignment.center,
-        child: const Text("Something went wrong"));
+        child: Text(message));
   }
 
   void showToast(String msg, Color? color) {

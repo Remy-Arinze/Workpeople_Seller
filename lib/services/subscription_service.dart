@@ -49,7 +49,6 @@ class SubscriptionService with ChangeNotifier {
     } else {
       print('Error fetching subscription data' + response.body);
 
-      OthersHelper().showToast('Something went wrong', Colors.black);
       notifyListeners();
     }
   }
