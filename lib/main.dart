@@ -14,6 +14,7 @@ import 'package:qixer_seller/services/country_states_service.dart';
 import 'package:qixer_seller/services/dashboard_service.dart';
 import 'package:qixer_seller/services/deactivate_account_service.dart';
 import 'package:qixer_seller/services/jobs/job_list_service.dart';
+import 'package:qixer_seller/services/jobs/new_jobs_service.dart';
 import 'package:qixer_seller/services/live_chat/chat_list_service.dart';
 import 'package:qixer_seller/services/live_chat/chat_message_service.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
@@ -78,6 +79,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ChatMessagesService()),
         ChangeNotifierProvider(create: (_) => SubscriptionService()),
         ChangeNotifierProvider(create: (_) => JobListService()),
+        ChangeNotifierProvider(create: (_) => NewJobsService()),
       ],
       child: MaterialApp(
         title: 'Qixer seller',

@@ -76,7 +76,10 @@ class SubscriptionService with ChangeNotifier {
         Uri.parse('$baseApi/seller/subscription/history'),
         headers: header);
 
-    if (response.statusCode == 201) {
+    final decodedData = jsonDecode(response.body);
+
+    if (response.statusCode == 201 &&
+        decodedData['subscription_history'].isNotEmpty) {
       final data = SubscriptionHistoryModel.fromJson(jsonDecode(response.body));
       subsHistoryList = data.subscriptionHistory;
       notifyListeners();
