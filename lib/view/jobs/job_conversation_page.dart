@@ -1,73 +1,22 @@
-// import 'package:flutter/material.dart';
-// import 'package:qixer_seller/utils/common_helper.dart';
-// import 'package:qixer_seller/utils/constant_colors.dart';
-// import 'package:qixer_seller/utils/constant_styles.dart';
-// import 'package:qixer_seller/view/orders/booking_helper.dart';
-
-// class JobConversationPage extends StatefulWidget {
-//   const JobConversationPage({
-//     Key? key,
-//   }) : super(key: key);
-
-//   @override
-//   State<JobConversationPage> createState() => _JobConversationPageState();
-// }
-
-// class _JobConversationPageState extends State<JobConversationPage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     ConstantColors cc = ConstantColors();
-
-//     return Scaffold(
-//       backgroundColor: Colors.white,
-//       appBar: CommonHelper().appbarCommon('', context, () {
-//         Navigator.pop(context);
-//       }),
-//       body: SingleChildScrollView(
-//           child: Container(
-//         padding: EdgeInsets.symmetric(horizontal: screenPadding),
-//         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-//           Text(
-//             'Barnaby The Bear’s my name never call me Jack or James',
-//             style: TextStyle(
-//                 color: cc.greyFour,
-//                 fontSize: 18,
-//                 height: 1.4,
-//                 fontWeight: FontWeight.bold),
-//           ),
-//           sizedBoxCustom(20),
-//           BookingHelper().bRow('null', 'Request ID:', '#12'),
-//           sizedBoxCustom(5),
-//           BookingHelper()
-//               .bRow('null', 'Cover Letter:', 'Cover letter goes here'),
-
-//         ]),
-//       )),
-//     );
-//   }
-// }
-
-import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
+import 'package:qixer_seller/services/jobs/job_conversation_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
-import 'package:qixer_seller/services/ticket_services/support_messages_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
-import 'package:qixer_seller/view/supports/image_big_preview.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class JobConversationPage extends StatefulWidget {
   const JobConversationPage(
-      {Key? key, required this.title, required this.jobId})
+      {Key? key, required this.title, required this.jobRequestId})
       : super(key: key);
 
   final String title;
-  final jobId;
+
+  final jobRequestId;
 
   @override
   State<JobConversationPage> createState() => _JobConversationPageState();
@@ -80,14 +29,16 @@ class _JobConversationPageState extends State<JobConversationPage> {
   final ScrollController _scrollController = ScrollController();
 
   void _scrollDown() {
-    _scrollController.animateTo(
-      _scrollController.position.maxScrollExtent + 10,
-      duration: const Duration(milliseconds: 500),
-      curve: Curves.fastOutSlowIn,
-    );
+    if (_scrollController.hasClients) {
+      _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent + 10,
+        duration: const Duration(milliseconds: 500),
+        curve: Curves.fastOutSlowIn,
+      );
+    }
   }
 
-  XFile? pickedImage;
+  FilePickerResult? pickedFile;
 
   @override
   Widget build(BuildContext context) {
@@ -139,7 +90,7 @@ class _JobConversationPageState extends State<JobConversationPage> {
                           height: 4,
                         ),
                         Text(
-                          "Job ID: #${widget.jobId}",
+                          "Job Request ID: #${widget.jobRequestId}",
                           style:
                               TextStyle(color: cc.primaryColor, fontSize: 13),
                         ),
@@ -156,7 +107,7 @@ class _JobConversationPageState extends State<JobConversationPage> {
           ),
         ),
         body: Consumer<AppStringService>(
-          builder: (context, ln, child) => Consumer<SupportMessagesService>(
+          builder: (context, ln, child) => Consumer<JobConversationService>(
               builder: (context, provider, child) {
             if (provider.messagesList.isNotEmpty &&
                 provider.sendLoading == false) {
@@ -188,24 +139,6 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                   ? MainAxisAlignment.start
                                   : MainAxisAlignment.end,
                               children: [
-                                //small show profile pic
-                                // provider.messagesList[index].type == "buyer"
-                                //     ? Container(
-                                //         margin: const EdgeInsets.only(
-                                //           left: 13,
-                                //         ),
-                                //         width: 18,
-                                //         height: 18,
-                                //         decoration: const BoxDecoration(
-                                //             shape: BoxShape.circle,
-                                //             color: Colors.white),
-                                //         child: ClipRRect(
-                                //           child: Image.asset(
-                                //             'assets/images/logo.png',
-                                //           ),
-                                //         ),
-                                //       )
-                                //     : Container(),
                                 //the message
                                 Expanded(
                                   child: Consumer<RtlService>(
@@ -272,6 +205,7 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                                             : Colors.white)),
                                               ),
                                             ),
+                                            //Attachment =============>
                                             provider.messagesList[index]
                                                         ['attachment'] !=
                                                     null
@@ -279,81 +213,113 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                                     margin:
                                                         const EdgeInsets.only(
                                                             top: 11),
+                                                    padding:
+                                                        const EdgeInsets.all(
+                                                            16),
+                                                    height: 50,
+                                                    width:
+                                                        screenWidth / 3 - 130,
+                                                    alignment:
+                                                        Alignment.centerLeft,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                      color:
+                                                          (provider.messagesList[
+                                                                          index]
+                                                                      [
+                                                                      'type'] ==
+                                                                  "buyer"
+                                                              ? Colors
+                                                                  .grey.shade200
+                                                              : cc.primaryColor),
+                                                    ),
                                                     child: provider.messagesList[
                                                                     index][
-                                                                'imagePicked'] ==
+                                                                'filePicked'] ==
                                                             false
-                                                        ? InkWell(
+                                                        ?
+                                                        //that means file is fetching from server
+                                                        InkWell(
                                                             onTap: () {
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute<
-                                                                    void>(
-                                                                  builder: (BuildContext
-                                                                          context) =>
-                                                                      ImageBigPreviewPage(
-                                                                    networkImgLink:
-                                                                        provider.messagesList[index]
-                                                                            [
-                                                                            'attachment'],
-                                                                  ),
-                                                                ),
-                                                              );
-                                                            },
-                                                            child:
-                                                                CachedNetworkImage(
-                                                              imageUrl: provider
+                                                              launchUrl(
+                                                                  Uri.parse(provider
                                                                               .messagesList[
                                                                           index]
                                                                       [
-                                                                      'attachment'] ??
-                                                                  placeHolderUrl,
-                                                              placeholder:
-                                                                  (context,
-                                                                      url) {
-                                                                return Image.asset(
-                                                                    'assets/images/placeholder.png');
-                                                              },
-                                                              height: 150,
-                                                              width:
-                                                                  screenWidth /
-                                                                          2 -
-                                                                      50,
-                                                              fit: BoxFit
-                                                                  .fitWidth,
-                                                            ),
-                                                          )
-                                                        : InkWell(
-                                                            onTap: () {
-                                                              Navigator.push(
-                                                                context,
-                                                                MaterialPageRoute<
-                                                                    void>(
-                                                                  builder: (BuildContext
-                                                                          context) =>
-                                                                      ImageBigPreviewPage(
-                                                                    assetImgLink:
-                                                                        provider.messagesList[index]
-                                                                            [
-                                                                            'attachment'],
-                                                                  ),
-                                                                ),
-                                                              );
+                                                                      'attachment']),
+                                                                  mode: LaunchMode
+                                                                      .externalApplication);
                                                             },
-                                                            child: Image.file(
-                                                              File(provider
-                                                                          .messagesList[
-                                                                      index][
-                                                                  'attachment']),
-                                                              height: 150,
-                                                              width:
-                                                                  screenWidth /
-                                                                          2 -
-                                                                      50,
-                                                              fit: BoxFit.cover,
-                                                            ),
-                                                          ),
-                                                  )
+                                                            child: Row(
+                                                              children: [
+                                                                Text(
+                                                                  'Attachment',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color: (provider.messagesList[index]['type'] ==
+                                                                              "buyer"
+                                                                          ? Colors.grey[
+                                                                              800]
+                                                                          : Colors
+                                                                              .white)),
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 8,
+                                                                ),
+                                                                Icon(
+                                                                    Icons
+                                                                        .download,
+                                                                    size: 17,
+                                                                    color: (provider.messagesList[index]['type'] ==
+                                                                            "buyer"
+                                                                        ? Colors.grey[
+                                                                            800]
+                                                                        : Colors
+                                                                            .white))
+                                                              ],
+                                                            ))
+
+                                                        //local file====>
+                                                        : InkWell(
+                                                            onTap: () {},
+                                                            child: Row(
+                                                              children: [
+                                                                Text(
+                                                                  'Attachment',
+                                                                  style: TextStyle(
+                                                                      fontSize:
+                                                                          15,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                      color: (provider.messagesList[index]['type'] ==
+                                                                              "buyer"
+                                                                          ? Colors.grey[
+                                                                              800]
+                                                                          : Colors
+                                                                              .white)),
+                                                                ),
+                                                                const SizedBox(
+                                                                  width: 8,
+                                                                ),
+                                                                Icon(
+                                                                    Icons
+                                                                        .check_box,
+                                                                    size: 17,
+                                                                    color: (provider.messagesList[index]['type'] ==
+                                                                            "buyer"
+                                                                        ? Colors.grey[
+                                                                            800]
+                                                                        : Colors
+                                                                            .white))
+                                                              ],
+                                                            )))
                                                 : Container()
                                           ],
                                         ),
@@ -361,26 +327,6 @@ class _JobConversationPageState extends State<JobConversationPage> {
                                     ),
                                   ),
                                 ),
-
-                                // provider.messagesList[index].type == "buyer"
-                                //     ? Container(
-                                //         margin: const EdgeInsets.only(
-                                //           right: 13,
-                                //         ),
-                                //         width: 15,
-                                //         height: 15,
-                                //         decoration: const BoxDecoration(
-                                //             shape: BoxShape.circle,
-                                //             color: Colors.white),
-                                //         child: ClipRRect(
-                                //           borderRadius: BorderRadius.circular(100),
-                                //           child: Image.network(
-                                //             'https://cdn.pixabay.com/photo/2016/09/08/13/58/desert-1654439__340.jpg',
-                                //             fit: BoxFit.cover,
-                                //           ),
-                                //         ),
-                                //       )
-                                //     : Container(),
                               ],
                             );
                           },
@@ -399,13 +345,18 @@ class _JobConversationPageState extends State<JobConversationPage> {
                     color: Colors.white,
                     child: Row(
                       children: <Widget>[
-                        pickedImage != null
-                            ? Image.file(
-                                File(pickedImage!.path),
+                        pickedFile != null
+                            ? Container(
                                 height: 40,
                                 width: 40,
-                                fit: BoxFit.cover,
-                              )
+                                decoration: BoxDecoration(
+                                    color: cc.primaryColor,
+                                    borderRadius: BorderRadius.circular(10)),
+                                child: const Icon(
+                                  Icons.file_copy,
+                                  color: Colors.white,
+                                  size: 18,
+                                ))
                             : Container(),
                         const SizedBox(
                           width: 13,
@@ -426,7 +377,7 @@ class _JobConversationPageState extends State<JobConversationPage> {
                         //pick image =====>
                         IconButton(
                             onPressed: () async {
-                              pickedImage = await provider.pickImage();
+                              pickedFile = await provider.pickFile();
                               setState(() {});
                             },
                             icon: const Icon(Icons.attachment)),
@@ -442,16 +393,16 @@ class _JobConversationPageState extends State<JobConversationPage> {
                               FocusScope.of(context).unfocus();
                               //send message
                               provider.sendMessage(
-                                widget.jobId,
+                                widget.jobRequestId,
                                 sendMessageController.text,
-                                pickedImage?.path,
+                                pickedFile?.files.single.path,
                               );
 
                               //clear input field
                               sendMessageController.clear();
                               //clear image
                               setState(() {
-                                pickedImage = null;
+                                pickedFile = null;
                               });
                             } else {
                               OthersHelper().showToast(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:qixer_seller/services/jobs/job_conversation_service.dart';
 import 'package:qixer_seller/services/jobs/job_list_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
@@ -133,14 +134,23 @@ class _AppliedJobsPageState extends State<JobRequestPage> {
                                     PopupMenuItem(
                                       onTap: () {
                                         Future.delayed(Duration.zero, () {
+                                          //fetch message
+                                          Provider.of<JobConversationService>(
+                                                  context,
+                                                  listen: false)
+                                              .fetchMessages(
+                                                  jobRequestId: provider
+                                                      .jobReqList[i].id);
+
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute<void>(
                                               builder: (BuildContext context) =>
-                                                  const JobConversationPage(
-                                                jobId: 1,
-                                                title:
-                                                    'Barnaby The Bear’s my name never call me Jack or James',
+                                                  JobConversationPage(
+                                                title: provider
+                                                    .jobReqList[i].job.title,
+                                                jobRequestId:
+                                                    provider.jobReqList[i].id,
                                               ),
                                             ),
                                           );
