@@ -84,7 +84,11 @@ class _NewJobsPageState extends State<NewJobsPage> {
                                 context,
                                 MaterialPageRoute<void>(
                                   builder: (BuildContext context) =>
-                                      const JobDetailsPage(),
+                                      JobDetailsPage(
+                                    imageLink: placeHolderUrl,
+                                    isFromNewJobPage: true,
+                                    jobId: provider.newJobsList[i].id,
+                                  ),
                                 ),
                               );
                             },

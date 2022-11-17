@@ -18,6 +18,12 @@ formatDate(inputDate) {
   return outputDate;
 }
 
+getDate(value) {
+  final f = DateFormat('yyyy-MM-dd');
+  var d = f.format(value);
+  return d;
+}
+
 //=========>
 removeUnderscore(value) {
   return value.replaceAll(RegExp('_'), ' ');

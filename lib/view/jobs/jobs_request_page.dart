@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:qixer_seller/services/jobs/job_conversation_service.dart';
+import 'package:qixer_seller/services/jobs/job_details_service.dart';
 import 'package:qixer_seller/services/jobs/job_list_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
@@ -120,11 +121,22 @@ class _AppliedJobsPageState extends State<JobRequestPage> {
                                     PopupMenuItem(
                                       onTap: () {
                                         Future.delayed(Duration.zero, () {
+                                          Provider.of<JobDetailsService>(
+                                                  context,
+                                                  listen: false)
+                                              .setOrderDetailsLoadingStatus(
+                                                  true);
+
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute<void>(
                                               builder: (BuildContext context) =>
-                                                  const JobDetailsPage(),
+                                                  JobDetailsPage(
+                                                imageLink: placeHolderUrl,
+                                                isFromNewJobPage: false,
+                                                jobId: provider
+                                                    .jobReqList[i].job.id,
+                                              ),
                                             ),
                                           );
                                         });
