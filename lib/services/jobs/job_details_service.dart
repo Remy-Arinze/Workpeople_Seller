@@ -56,4 +56,54 @@ class JobDetailsService with ChangeNotifier {
       }
     }
   }
+
+  // ===========>
+  //================>
+  bool applyLoading = false;
+
+  setApplyLoadingStatus(bool status) {
+    applyLoading = status;
+    notifyListeners();
+  }
+
+  applyToJob(BuildContext context,
+      {required buyerId,
+      required jobPostId,
+      required offerPrice,
+      required coverLetter,
+      required jobPrice}) async {
+    var connection = await checkConnection();
+    if (!connection) return;
+    //internet connection is on
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      // "Accept": "application/json",
+      // "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    setApplyLoadingStatus(true);
+    var data = {
+      'buyer_id': buyerId,
+      'job_post_id': jobPostId,
+      'expected_salary': offerPrice,
+      'cover_letter': coverLetter,
+      'job_price': jobPrice
+    };
+
+    var response = await http.post(Uri.parse('$baseApi/job/apply/new-job'),
+        headers: header, body: data);
+
+    setApplyLoadingStatus(false);
+
+    print(response.body);
+
+    if (response.statusCode == 201) {
+    } else {
+      print(response.body);
+    }
+  }
 }

@@ -193,7 +193,15 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
 
                           sizedBoxCustom(25),
                           if (widget.isFromNewJobPage == true)
-                            CommonHelper().buttonPrimary('Apply', () {}),
+                            CommonHelper().buttonPrimary('Apply', () {
+                              provider.applyToJob(context,
+                                  buyerId: provider.jobDetails.buyerId,
+                                  jobPostId:
+                                      provider.jobDetails.jobRequest.jobPostId,
+                                  offerPrice: 100,
+                                  coverLetter: 'cover letter',
+                                  jobPrice: provider.jobDetails.price);
+                            }, isloading: provider.applyLoading),
 
                           sizedBoxCustom(20),
                         ]),
