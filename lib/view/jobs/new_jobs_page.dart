@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:qixer_seller/services/jobs/job_details_service.dart';
 import 'package:qixer_seller/services/jobs/new_jobs_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
@@ -80,6 +81,10 @@ class _NewJobsPageState extends State<NewJobsPage> {
                         for (int i = 0; i < provider.newJobsList.length; i++)
                           InkWell(
                             onTap: () {
+                              Provider.of<JobDetailsService>(context,
+                                      listen: false)
+                                  .setOrderDetailsLoadingStatus(true);
+
                               Navigator.push(
                                 context,
                                 MaterialPageRoute<void>(

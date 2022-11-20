@@ -78,32 +78,51 @@ class JobDetailsService with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 
+    var userId = prefs.getInt('userId');
+
     var header = {
       //if header type is application/json then the data should be in jsonEncode method
-      // "Accept": "application/json",
-      // "Content-Type": "application/json",
+      "Accept": "application/json",
+      "Content-Type": "application/json",
       "Authorization": "Bearer $token",
     };
 
+    print('buyer id $buyerId');
+    print('job post id $jobPostId');
+    print('expected salaray $offerPrice');
+    print('cover $coverLetter');
+    print('job price $jobPrice');
+
     setApplyLoadingStatus(true);
-    var data = {
+    var data = jsonEncode({
       'buyer_id': buyerId,
+      'seller_id': userId,
       'job_post_id': jobPostId,
       'expected_salary': offerPrice,
       'cover_letter': coverLetter,
       'job_price': jobPrice
-    };
+    });
 
     var response = await http.post(Uri.parse('$baseApi/job/apply/new-job'),
         headers: header, body: data);
 
     setApplyLoadingStatus(false);
-
     print(response.body);
 
+    final decodedData = jsonDecode(response.body);
+
+    Navigator.pop(context);
+
     if (response.statusCode == 201) {
+      OthersHelper().showToast('Successfully applied', Colors.black);
     } else {
       print(response.body);
+
+      if (decodedData.containsKey('msg')) {
+        OthersHelper().showToast(decodedData['msg'], Colors.black);
+      } else {
+        OthersHelper().showToast('Something went wrong', Colors.black);
+      }
     }
   }
 }

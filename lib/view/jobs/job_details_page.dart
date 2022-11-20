@@ -7,6 +7,7 @@ import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/jobs/components/job_helper.dart';
 import 'package:qixer_seller/view/jobs/components/overview_box.dart';
 
 class JobDetailsPage extends StatefulWidget {
@@ -193,15 +194,12 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
 
                           sizedBoxCustom(25),
                           if (widget.isFromNewJobPage == true)
-                            CommonHelper().buttonPrimary('Apply', () {
-                              provider.applyToJob(context,
-                                  buyerId: provider.jobDetails.buyerId,
-                                  jobPostId:
-                                      provider.jobDetails.jobRequest.jobPostId,
-                                  offerPrice: 100,
-                                  coverLetter: 'cover letter',
-                                  jobPrice: provider.jobDetails.price);
-                            }, isloading: provider.applyLoading),
+                            CommonHelper().buttonPrimary(
+                              'Apply',
+                              () {
+                                JobHelper().applyJobPopup(context);
+                              },
+                            ),
 
                           sizedBoxCustom(20),
                         ]),
