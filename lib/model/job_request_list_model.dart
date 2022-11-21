@@ -116,17 +116,17 @@ class Datum {
   DateTime? updatedAt;
   Job? job;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["id"],
-        sellerId: json["seller_id"],
-        buyerId: json["buyer_id"],
-        jobPostId: json["job_post_id"],
-        isHired: json["is_hired"],
-        expectedSalary: json["expected_salary"],
-        coverLetter: json["cover_letter"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        job: Job.fromJson(json["job"]),
+  factory Datum.fromJson(Map<String, dynamic>? json) => Datum(
+        id: json?["id"],
+        sellerId: json?["seller_id"],
+        buyerId: json?["buyer_id"],
+        jobPostId: json?["job_post_id"],
+        isHired: json?["is_hired"],
+        expectedSalary: json?["expected_salary"],
+        coverLetter: json?["cover_letter"],
+        createdAt: DateTime.parse(json?["created_at"]),
+        updatedAt: DateTime.parse(json?["updated_at"]),
+        job: Job.fromJson(json?["job"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -184,25 +184,31 @@ class Job {
   DateTime? createdAt;
   DateTime? updatedAt;
 
-  factory Job.fromJson(Map<String, dynamic> json) => Job(
-        id: json["id"],
-        categoryId: json["category_id"],
-        subcategoryId: json["subcategory_id"],
-        buyerId: json["buyer_id"],
-        countryId: json["country_id"],
-        cityId: json["city_id"],
-        title: json["title"],
-        slug: json["slug"],
-        description: json["description"],
-        image: json["image"],
-        status: json["status"],
-        isJobOn: json["is_job_on"],
-        isJobOnline: json["is_job_online"],
-        price: json["price"],
-        view: json["view"],
-        deadLine: DateTime.parse(json["dead_line"]),
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
+  factory Job.fromJson(Map<String, dynamic>? json) => Job(
+        id: json?["id"],
+        categoryId: json?["category_id"],
+        subcategoryId: json?["subcategory_id"],
+        buyerId: json?["buyer_id"],
+        countryId: json?["country_id"],
+        cityId: json?["city_id"],
+        title: json?["title"],
+        slug: json?["slug"],
+        description: json?["description"],
+        image: json?["image"],
+        status: json?["status"],
+        isJobOn: json?["is_job_on"],
+        isJobOnline: json?["is_job_online"],
+        price: json?["price"],
+        view: json?["view"],
+        deadLine: json?["dead_line"] != null
+            ? DateTime.parse(json?["dead_line"])
+            : null,
+        createdAt: json?["created_at"] != null
+            ? DateTime.parse(json?["created_at"])
+            : null,
+        updatedAt: json?["updated_at"] != null
+            ? DateTime.parse(json?["updated_at"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {

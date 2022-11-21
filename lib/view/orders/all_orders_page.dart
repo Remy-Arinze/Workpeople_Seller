@@ -84,7 +84,8 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                                   Provider.of<OrderDetailsService>(context,
                                           listen: false)
                                       .fetchOrderDetails(
-                                          provider.allOrdersList[i].id);
+                                          provider.allOrdersList[i].id,
+                                          context);
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute<void>(

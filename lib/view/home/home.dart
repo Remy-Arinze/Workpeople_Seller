@@ -240,10 +240,12 @@ class _HomepageState extends State<Homepage> {
                                                 Provider.of<OrderDetailsService>(
                                                         context,
                                                         listen: false)
-                                                    .fetchOrderDetails(rProvider
-                                                        .recentOrdersData
-                                                        .recentOrders[index]
-                                                        .id);
+                                                    .fetchOrderDetails(
+                                                        rProvider
+                                                            .recentOrdersData
+                                                            .recentOrders[index]
+                                                            .id,
+                                                        context);
                                                 Navigator.push(
                                                     context,
                                                     MaterialPageRoute<void>(

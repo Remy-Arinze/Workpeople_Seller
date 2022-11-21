@@ -6,6 +6,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/order_details_model.dart';
+import 'package:qixer_seller/model/order_extra_model.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -17,22 +18,19 @@ class OrderDetailsService with ChangeNotifier {
 
   var orderedServiceTitle;
 
+  List orderExtra = [];
+
   bool isLoading = true;
 
-  setLoadingTrue() {
-    isLoading = true;
+  setLoadingStatus(bool status) {
+    isLoading = status;
     notifyListeners();
   }
 
-  setLoadingFalse() {
-    isLoading = false;
-    notifyListeners();
-  }
-
-  fetchOrderDetails(orderId) async {
+  fetchOrderDetails(orderId, BuildContext context) async {
     print('order id $orderId');
 
-    setLoadingTrue();
+    setLoadingStatus(true);
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -50,7 +48,7 @@ class OrderDetailsService with ChangeNotifier {
       var response = await http.post(
           Uri.parse('$baseApi/seller/my-orders/$orderId'),
           headers: header);
-      setLoadingFalse();
+
       if (response.statusCode == 201) {
         var data = OrderDetailsModel.fromJson(jsonDecode(response.body));
 
@@ -60,6 +58,9 @@ class OrderDetailsService with ChangeNotifier {
 
         var status = data.orderInfo.status;
         orderStatus = getOrderStatus(status ?? -1);
+
+        Provider.of<OrderDetailsService>(context, listen: false)
+            .fetchOrderExtraList(orderId);
       } else {
         //Something went wrong
         print('error fetching order details ' + response.body);
@@ -102,27 +103,66 @@ class OrderDetailsService with ChangeNotifier {
       });
 
       print(data);
-      setLoadingTrue();
+      setLoadingStatus(true);
 
       var response = await http.post(
           Uri.parse('$baseApi/seller/order/extra-service/add'),
           headers: header,
           body: data);
 
-      setLoadingFalse();
+      setLoadingStatus(false);
 
       final responseDecoded = jsonDecode(response.body);
 
       if (response.statusCode == 201 &&
           responseDecoded.containsKey("extra_service")) {
         Provider.of<OrderDetailsService>(context, listen: false)
-            .fetchOrderDetails(orderId);
+            .fetchOrderDetails(orderId, context);
 
         Navigator.pop(context);
       } else {
         print(response.body);
         OthersHelper()
             .showToast(jsonDecode(response.body)['message'], Colors.black);
+      }
+    }
+  }
+
+  //fetch order extra list
+  fetchOrderExtraList(orderId) async {
+    //get user id
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var connection = await checkConnection();
+    if (connection) {
+      //if connection is ok
+      var response = await http.get(
+          Uri.parse('$baseApi/user/order/extra-service/list/$orderId'),
+          headers: header);
+
+      final decodedData = jsonDecode(response.body);
+
+      setLoadingStatus(false);
+
+      print(response.body);
+
+      if (response.statusCode == 201 &&
+          decodedData.containsKey('extra_service_list')) {
+        var data = OrderExtraModel.fromJson(decodedData);
+
+        orderExtra = data.extraServiceList;
+
+        notifyListeners();
+      } else {
+        print('error fetching order extra ${response.body}');
       }
     }
   }
