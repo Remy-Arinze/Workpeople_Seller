@@ -318,7 +318,9 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                         ]),
                                   ),
 
-                                  const OrderExtras(),
+                                  OrderExtras(
+                                    orderId: provider.orderDetails.id,
+                                  ),
 
                                   if (provider.orderDetails.paymentStatus ==
                                       'complete')

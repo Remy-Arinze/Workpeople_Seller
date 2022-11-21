@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 
 class JobListService with ChangeNotifier {
   List jobReqList = [];
+
   bool isloading = false;
 
   late int totalPages;
@@ -98,6 +99,7 @@ class JobListService with ChangeNotifier {
     if (addnewData == false) {
       //make the list empty first so that existing data doesn't stay
       jobReqList = [];
+
       notifyListeners();
     }
 

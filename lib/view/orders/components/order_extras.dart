@@ -3,23 +3,27 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/view/orders/orders_helper.dart';
 
 class OrderExtras extends StatelessWidget {
   const OrderExtras({
     Key? key,
+    required this.orderId,
   }) : super(key: key);
+
+  final orderId;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(bottom: 25),
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-      decoration: BoxDecoration(
-          color: Colors.white, borderRadius: BorderRadius.circular(9)),
-      child: Consumer<OrderDetailsService>(
-        builder: (context, provider, child) => provider.isLoading == false
-            ? Column(
+    return Consumer<OrderDetailsService>(
+      builder: (context, provider, child) => provider.orderExtra.isNotEmpty
+          ? Container(
+              margin: const EdgeInsets.only(bottom: 25),
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+              decoration: BoxDecoration(
+                  color: Colors.white, borderRadius: BorderRadius.circular(9)),
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CommonHelper().titleCommon('Extras'),
@@ -38,12 +42,19 @@ class OrderExtras extends StatelessWidget {
                                     provider.orderExtra[i].title.toString(),
                                     fontsize: 14),
                               ),
-                              Container(
-                                padding: const EdgeInsets.symmetric(
-                                    horizontal: 10, vertical: 5),
-                                child: const Icon(
-                                  Icons.delete_forever,
-                                  color: Colors.red,
+                              InkWell(
+                                onTap: () {
+                                  OrdersHelper().deleteExtraPopup(context,
+                                      extraId: provider.orderExtra[i].id,
+                                      orderId: orderId);
+                                },
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  child: const Icon(
+                                    Icons.delete_forever,
+                                    color: Colors.red,
+                                  ),
                                 ),
                               )
                             ],
@@ -60,9 +71,9 @@ class OrderExtras extends StatelessWidget {
                           sizedBoxCustom(20),
                         ])
                 ],
-              )
-            : Container(),
-      ),
+              ),
+            )
+          : Container(),
     );
   }
 }

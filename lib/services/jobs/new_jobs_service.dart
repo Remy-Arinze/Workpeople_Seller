@@ -10,7 +10,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class NewJobsService with ChangeNotifier {
   var newJobsList = [];
-
+  List imageList = [];
   bool isLoading = true;
 
   late int totalPages;
@@ -76,12 +76,12 @@ class NewJobsService with ChangeNotifier {
         if (isrefresh) {
           print('refresh true');
           //if refreshed, then remove all service from list and insert new data
-          setServiceList(data.jobs.data, false);
+          setServiceList(data.jobs.data, decodedData['image_url'], false);
         } else {
           print('add new data');
 
           //else add new data
-          setServiceList(data.jobs.data, true);
+          setServiceList(data.jobs.data, decodedData['image_url'], true);
         }
 
         currentPage++;
@@ -94,15 +94,29 @@ class NewJobsService with ChangeNotifier {
     }
   }
 
-  setServiceList(dataList, bool addnewData) {
+  setServiceList(dataList, images, bool addnewData) {
     if (addnewData == false) {
       //make the list empty first so that existing data doesn't stay
       newJobsList = [];
+      imageList = [];
       notifyListeners();
     }
 
     for (int i = 0; i < dataList.length; i++) {
       newJobsList.add(dataList[i]);
+    }
+
+    for (int i = 0; i < images.length; i++) {
+      String? serviceImage;
+
+      if (i == 0) {
+        //api giving an unnecessary null for first one, so skip it
+        continue;
+      } else {
+        serviceImage = images[i]['img_url'] ?? placeHolderUrl;
+      }
+
+      imageList.add(serviceImage);
     }
 
     notifyListeners();

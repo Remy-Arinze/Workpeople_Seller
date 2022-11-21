@@ -90,7 +90,7 @@ class _NewJobsPageState extends State<NewJobsPage> {
                                 MaterialPageRoute<void>(
                                   builder: (BuildContext context) =>
                                       JobDetailsPage(
-                                    imageLink: placeHolderUrl,
+                                    imageLink: provider.imageList[i],
                                     isFromNewJobPage: true,
                                     jobId: provider.newJobsList[i].id,
                                   ),
@@ -107,6 +107,11 @@ class _NewJobsPageState extends State<NewJobsPage> {
                                   borderRadius: BorderRadius.circular(9)),
                               child: Row(
                                 children: [
+                                  CommonHelper().profileImage(
+                                      provider.imageList[i], 65, 65),
+                                  const SizedBox(
+                                    width: 15,
+                                  ),
                                   Expanded(
                                     child: Column(
                                         crossAxisAlignment:

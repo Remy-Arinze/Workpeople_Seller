@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_typing_uninitialized_variables
 
 import 'dart:convert';
 
@@ -27,7 +27,7 @@ class OrderDetailsService with ChangeNotifier {
     notifyListeners();
   }
 
-  fetchOrderDetails(orderId, BuildContext context) async {
+  Future<bool> fetchOrderDetails(orderId, BuildContext context) async {
     print('order id $orderId');
 
     setLoadingStatus(true);
@@ -43,30 +43,31 @@ class OrderDetailsService with ChangeNotifier {
     };
 
     var connection = await checkConnection();
-    if (connection) {
-      //if connection is ok
-      var response = await http.post(
-          Uri.parse('$baseApi/seller/my-orders/$orderId'),
-          headers: header);
+    if (!connection) return false;
+    //if connection is ok
+    var response = await http
+        .post(Uri.parse('$baseApi/seller/my-orders/$orderId'), headers: header);
 
-      if (response.statusCode == 201) {
-        var data = OrderDetailsModel.fromJson(jsonDecode(response.body));
+    if (response.statusCode == 201) {
+      var data = OrderDetailsModel.fromJson(jsonDecode(response.body));
 
-        orderDetails = data.orderInfo;
-        orderedServiceTitle =
-            jsonDecode(response.body)['orderInfo']['service']['title'];
+      orderDetails = data.orderInfo;
+      orderedServiceTitle =
+          jsonDecode(response.body)['orderInfo']['service']['title'];
 
-        var status = data.orderInfo.status;
-        orderStatus = getOrderStatus(status ?? -1);
+      var status = data.orderInfo.status;
+      orderStatus = getOrderStatus(status ?? -1);
 
-        Provider.of<OrderDetailsService>(context, listen: false)
-            .fetchOrderExtraList(orderId);
-      } else {
-        //Something went wrong
-        print('error fetching order details ' + response.body);
-        orderDetails = 'error';
-        notifyListeners();
-      }
+      Provider.of<OrderDetailsService>(context, listen: false)
+          .fetchOrderExtraList(orderId);
+
+      return true;
+    } else {
+      //Something went wrong
+      print('error fetching order details ' + response.body);
+      orderDetails = 'error';
+      notifyListeners();
+      return false;
     }
   }
 
@@ -110,17 +111,20 @@ class OrderDetailsService with ChangeNotifier {
           headers: header,
           body: data);
 
-      setLoadingStatus(false);
-
       final responseDecoded = jsonDecode(response.body);
 
       if (response.statusCode == 201 &&
           responseDecoded.containsKey("extra_service")) {
-        Provider.of<OrderDetailsService>(context, listen: false)
+        await Provider.of<OrderDetailsService>(context, listen: false)
             .fetchOrderDetails(orderId, context);
+
+        setLoadingStatus(false);
+
+        OthersHelper().showToast('Extra added', Colors.black);
 
         Navigator.pop(context);
       } else {
+        setLoadingStatus(false);
         print(response.body);
         OthersHelper()
             .showToast(jsonDecode(response.body)['message'], Colors.black);
@@ -166,6 +170,65 @@ class OrderDetailsService with ChangeNotifier {
       }
     }
   }
+
+  //================>
+  //=========>
+  bool deleteLoading = false;
+  setDeleteLoadingStatus(bool status) {
+    deleteLoading = status;
+    notifyListeners();
+  }
+
+  deleteOrderExtra(BuildContext context,
+      {required extraId, required orderId}) async {
+    //get user id
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      // "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var connection = await checkConnection();
+    if (connection) {
+      //if connection is ok
+
+      // print(extraId);
+      // return;
+
+      setDeleteLoadingStatus(true);
+
+      var data = jsonEncode({'id': extraId});
+
+      var response = await http.post(
+          Uri.parse('$baseApi/seller/order/extra-service/delete'),
+          headers: header,
+          body: data);
+
+      print(response.body);
+      print(response.statusCode);
+
+      if (response.statusCode == 201) {
+        await Provider.of<OrderDetailsService>(context, listen: false)
+            .fetchOrderDetails(orderId, context);
+
+        setDeleteLoadingStatus(false);
+
+        Navigator.pop(context);
+        OthersHelper().showToast('Successfully deleted', Colors.black);
+        notifyListeners();
+      } else {
+        setDeleteLoadingStatus(false);
+        Navigator.pop(context);
+        OthersHelper().showToast('Something went wrong', Colors.black);
+      }
+    }
+  }
+
+  //==========>
 
   getOrderStatus(int status) {
     if (status == 0) {
