@@ -42,21 +42,26 @@ class OrderExtras extends StatelessWidget {
                                     provider.orderExtra[i].title.toString(),
                                     fontsize: 14),
                               ),
-                              InkWell(
-                                onTap: () {
-                                  OrdersHelper().deleteExtraPopup(context,
-                                      extraId: provider.orderExtra[i].id,
-                                      orderId: orderId);
-                                },
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10, vertical: 5),
-                                  child: const Icon(
-                                    Icons.delete_forever,
-                                    color: Colors.red,
+
+                              // delete button
+                              //0=pending,1=accept,2=decline
+                              if (provider.orderExtra[i].status == 2 ||
+                                  provider.orderExtra[i].status == 0)
+                                InkWell(
+                                  onTap: () {
+                                    OrdersHelper().deleteExtraPopup(context,
+                                        extraId: provider.orderExtra[i].id,
+                                        orderId: orderId);
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 5),
+                                    child: const Icon(
+                                      Icons.delete_forever,
+                                      color: Colors.red,
+                                    ),
                                   ),
-                                ),
-                              )
+                                )
                             ],
                           ),
                           CommonHelper().paragraphCommon(
