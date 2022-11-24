@@ -48,6 +48,8 @@ class OrderDetailsService with ChangeNotifier {
     var response = await http
         .post(Uri.parse('$baseApi/seller/my-orders/$orderId'), headers: header);
 
+    setLoadingStatus(false);
+
     if (response.statusCode == 201) {
       var data = OrderDetailsModel.fromJson(jsonDecode(response.body));
 
@@ -153,8 +155,6 @@ class OrderDetailsService with ChangeNotifier {
           headers: header);
 
       final decodedData = jsonDecode(response.body);
-
-      setLoadingStatus(false);
 
       print(response.body);
 

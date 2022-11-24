@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/orders_list_model.dart';
@@ -92,5 +92,59 @@ class OrdersService with ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  // request buyer to mark order complete
+  // =====================>
+
+  bool markLoading = false;
+
+  setMarkLoadingStatus(bool status) {
+    markLoading = status;
+    notifyListeners();
+  }
+
+  requestToComplete(BuildContext context, {required orderId}) async {
+    //get user id
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var connection = await checkConnection();
+    if (!connection) return;
+
+    setMarkLoadingStatus(true);
+
+    var data = jsonEncode({'status': 2, 'order_id': orderId});
+
+    var response = await http.post(
+        Uri.parse('$baseApi/seller/my-orders/status/complete/request'),
+        headers: header,
+        body: data);
+
+    final decodedData = jsonDecode(response.body);
+
+    if (response.statusCode == 201) {
+      // await Provider.of<OrderDetailsService>(context, listen: false)
+      //     .fetchOrderDetails(orderId, context);
+
+      setMarkLoadingStatus(false);
+
+      OthersHelper().showToast(decodedData['msg'], Colors.black);
+    } else {
+      setMarkLoadingStatus(false);
+
+      if (decodedData.containsKey('msg')) {
+        OthersHelper().showToast(decodedData['msg'], Colors.black);
+      } else {
+        OthersHelper().showToast('Something went wrong', Colors.black);
+      }
+    }
   }
 }
