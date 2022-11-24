@@ -39,15 +39,15 @@ class DeclineHistory extends StatelessWidget {
                                 .titleCommon('Buyer details:', fontsize: 14),
                             sizedBoxCustom(8),
                             CommonHelper().paragraphCommon(
-                                'Name: ${provider.declineHistory['buyer_details'][0]['name']}}',
+                                'Name: ${provider.declineHistory['buyer_details'][0]['name']}',
                                 TextAlign.left),
                             sizedBoxCustom(4),
                             CommonHelper().paragraphCommon(
-                                'Email: ${provider.declineHistory['buyer_details'][0]['email']}}',
+                                'Email: ${provider.declineHistory['buyer_details'][0]['email']}',
                                 TextAlign.left),
                             sizedBoxCustom(4),
                             CommonHelper().paragraphCommon(
-                                'Phone: ${provider.declineHistory['buyer_details'][0]['phone']}}',
+                                'Phone: ${provider.declineHistory['buyer_details'][0]['phone']}',
                                 TextAlign.left),
                             sizedBoxCustom(20),
                             CommonHelper().dividerCommon()

@@ -148,7 +148,7 @@ class OrdersService with ChangeNotifier {
     }
   }
 
-  // request buyer to mark order complete
+  // decline history
   // =====================>
 
   var declineHistory;
