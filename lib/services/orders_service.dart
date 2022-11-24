@@ -147,4 +147,54 @@ class OrdersService with ChangeNotifier {
       }
     }
   }
+
+  // request buyer to mark order complete
+  // =====================>
+
+  var declineHistory;
+
+  bool loadingDeclineHistory = false;
+
+  setLoadingDeclineHistoryStatus(bool status) {
+    loadingDeclineHistory = status;
+    notifyListeners();
+  }
+
+  fetchDeclineHistory(BuildContext context, {required orderId}) async {
+    //get user id
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      // "Accept": "application/json",
+      // "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var connection = await checkConnection();
+    if (!connection) return;
+
+    setLoadingDeclineHistoryStatus(true);
+
+    var response = await http.get(
+      Uri.parse(
+          '$baseApi/seller/my-orders/order/request/complete/decline/history?order_id=$orderId'),
+      headers: header,
+    );
+
+    setLoadingDeclineHistoryStatus(false);
+
+    final decodedData = jsonDecode(response.body);
+
+    if (response.statusCode == 201) {
+      declineHistory = decodedData;
+      notifyListeners();
+    } else {
+      //error
+
+      declineHistory = null;
+      notifyListeners();
+    }
+  }
 }

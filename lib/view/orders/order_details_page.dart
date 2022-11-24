@@ -10,6 +10,7 @@ import 'package:qixer_seller/view/orders/booking_helper.dart';
 import 'package:qixer_seller/view/orders/components/amount_details.dart';
 import 'package:qixer_seller/view/orders/components/buyer_details.dart';
 import 'package:qixer_seller/view/orders/components/date_schedule.dart';
+import 'package:qixer_seller/view/orders/components/decline_history.dart';
 import 'package:qixer_seller/view/orders/components/order_extras.dart';
 import 'package:qixer_seller/view/orders/components/order_status.dart';
 import 'package:qixer_seller/view/orders/orders_helper.dart';
@@ -121,6 +122,8 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
 
                                     // Order status
                                     const OrderStatus(),
+
+                                    const DeclineHistory(),
 
                                     OrderExtras(
                                       orderId: provider.orderDetails.id,
