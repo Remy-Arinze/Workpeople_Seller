@@ -37,7 +37,7 @@ class DeclineHistory extends StatelessWidget {
                             sizedBoxCustom(11),
                             CommonHelper()
                                 .titleCommon('Buyer details:', fontsize: 14),
-                            sizedBoxCustom(10),
+                            sizedBoxCustom(8),
                             CommonHelper().paragraphCommon(
                                 'Name: ${provider.declineHistory['buyer_details'][0]['name']}}',
                                 TextAlign.left),
