@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/orders_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
+import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 
 class DeclineHistory extends StatelessWidget {
@@ -11,6 +12,8 @@ class DeclineHistory extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final cc = ConstantColors();
+
     return Consumer<OrdersService>(
       builder: (context, provider, child) => provider.declineHistory != null
           ? Container(
@@ -27,16 +30,17 @@ class DeclineHistory extends StatelessWidget {
                       i < provider.declineHistory['decline_histories'].length;
                       i++)
                     Container(
-                      margin: const EdgeInsets.only(top: 17),
+                      margin: const EdgeInsets.only(top: 13),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             CommonHelper().titleCommon(
                                 "Decline reason:  ${provider.declineHistory['decline_histories'][i]['decline_reason']}",
-                                fontsize: 14),
-                            sizedBoxCustom(11),
-                            CommonHelper()
-                                .titleCommon('Buyer details:', fontsize: 14),
+                                fontsize: 14,
+                                lineheight: 1.5),
+                            sizedBoxCustom(8),
+                            CommonHelper().titleCommon('Buyer details:',
+                                fontsize: 14, color: cc.successColor),
                             sizedBoxCustom(8),
                             CommonHelper().paragraphCommon(
                                 'Name: ${provider.declineHistory['buyer_details'][0]['name']}',
