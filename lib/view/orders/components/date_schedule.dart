@@ -33,14 +33,14 @@ class DateSchedule extends StatelessWidget {
                           //Service row
 
                           Container(
-                            child: BookingHelper().bRow(
+                            child: PaymentHelper().bRow(
                                 'null',
                                 ln.getString('Date'),
                                 provider.orderDetails.date ?? ''),
                           ),
 
                           Container(
-                            child: BookingHelper().bRow(
+                            child: PaymentHelper().bRow(
                                 'null',
                                 ln.getString('Schedule'),
                                 provider.orderDetails.schedule ?? '',

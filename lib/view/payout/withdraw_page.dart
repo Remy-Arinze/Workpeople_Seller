@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
-import 'package:qixer_seller/services/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/withdraw_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';

@@ -163,37 +163,37 @@ class _ProfilePageState extends State<ProfilePage> {
                                         const SizedBox(
                                           height: 25,
                                         ),
-                                        BookingHelper().bRow(
+                                        PaymentHelper().bRow(
                                             'null',
                                             ln.getString('Email'),
                                             profileProvider
                                                     .profileDetails.email ??
                                                 ''),
-                                        BookingHelper().bRow(
+                                        PaymentHelper().bRow(
                                             'null',
                                             ln.getString('City'),
                                             profileProvider.profileDetails.city
                                                     .serviceCity ??
                                                 ''),
-                                        BookingHelper().bRow(
+                                        PaymentHelper().bRow(
                                             'null',
                                             ln.getString('Area'),
                                             profileProvider.profileDetails.area
                                                     .serviceArea ??
                                                 ''),
-                                        BookingHelper().bRow(
+                                        PaymentHelper().bRow(
                                             'null',
                                             ln.getString('Country'),
                                             profileProvider.profileDetails
                                                     .country.country ??
                                                 ''),
-                                        BookingHelper().bRow(
+                                        PaymentHelper().bRow(
                                             'null',
                                             ln.getString('Post Code'),
                                             profileProvider
                                                     .profileDetails.postCode ??
                                                 ''),
-                                        BookingHelper().bRow(
+                                        PaymentHelper().bRow(
                                             'null',
                                             ln.getString('Address'),
                                             profileProvider

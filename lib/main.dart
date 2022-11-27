@@ -21,7 +21,7 @@ import 'package:qixer_seller/services/live_chat/chat_list_service.dart';
 import 'package:qixer_seller/services/live_chat/chat_message_service.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
 import 'package:qixer_seller/services/orders_service.dart';
-import 'package:qixer_seller/services/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/payout_details_service.dart';
 import 'package:qixer_seller/services/payout_history_service.dart';
 import 'package:qixer_seller/services/profile_edit_service.dart';
@@ -35,6 +35,8 @@ import 'package:qixer_seller/services/ticket_services/support_ticket_service.dar
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/services/withdraw_service.dart';
 import 'package:qixer_seller/view/intro/splash.dart';
+
+import 'services/payments_service/payment_gateway_list_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -86,6 +88,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => JobConversationService()),
         ChangeNotifierProvider(create: (_) => JobDetailsService()),
         ChangeNotifierProvider(create: (_) => WalletService()),
+        ChangeNotifierProvider(create: (_) => PaymentService()),
       ],
       child: MaterialApp(
         title: 'Qixer seller',

@@ -109,14 +109,14 @@ class _SubscriptionDetailsPageState extends State<SubscriptionDetailsPage> {
                         //Service row
 
                         Container(
-                          child: BookingHelper().bRow(
+                          child: PaymentHelper().bRow(
                               'null',
                               'Available connect',
                               '${provider.subsData.connect}'),
                         ),
 
                         Container(
-                          child: BookingHelper().bRow('null', 'Pending connect',
+                          child: PaymentHelper().bRow('null', 'Pending connect',
                               '${provider.subsData.initialConnect}',
                               lastBorder: false),
                         ),
@@ -142,12 +142,12 @@ class _SubscriptionDetailsPageState extends State<SubscriptionDetailsPage> {
                         //Service row
 
                         Container(
-                          child: BookingHelper().bRow('null', 'Payment gateway',
+                          child: PaymentHelper().bRow('null', 'Payment gateway',
                               '${removeUnderscore(provider.subsData.paymentGateway)}'),
                         ),
 
                         Container(
-                          child: BookingHelper().bRow('null', 'Payment status',
+                          child: PaymentHelper().bRow('null', 'Payment status',
                               '${provider.subsData.paymentStatus}',
                               lastBorder: false),
                         ),

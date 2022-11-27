@@ -29,38 +29,38 @@ class AmountDetails extends StatelessWidget {
                     //Service row
 
                     Container(
-                      child: BookingHelper().bRow(
+                      child: PaymentHelper().bRow(
                           'null',
                           ln.getString('Package fee'),
                           provider.orderDetails.packageFee.toString()),
                     ),
 
                     Container(
-                      child: BookingHelper().bRow(
+                      child: PaymentHelper().bRow(
                           'null',
                           ln.getString('Extra service'),
                           provider.orderDetails.extraService.toString()),
                     ),
 
                     Container(
-                      child: BookingHelper().bRow(
+                      child: PaymentHelper().bRow(
                           'null',
                           ln.getString('Subtotal'),
                           provider.orderDetails.subTotal.toString()),
                     ),
 
                     Container(
-                      child: BookingHelper().bRow('null', ln.getString('Tax'),
+                      child: PaymentHelper().bRow('null', ln.getString('Tax'),
                           provider.orderDetails.tax.toString()),
                     ),
 
                     Container(
-                      child: BookingHelper().bRow('null', ln.getString('Total'),
+                      child: PaymentHelper().bRow('null', ln.getString('Total'),
                           provider.orderDetails.total.toString()),
                     ),
 
                     Container(
-                      child: BookingHelper().bRow(
+                      child: PaymentHelper().bRow(
                           'null',
                           ln.getString('Payment status'),
                           provider.orderDetails.paymentStatus ?? '',

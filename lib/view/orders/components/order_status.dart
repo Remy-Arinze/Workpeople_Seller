@@ -4,7 +4,6 @@ import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
 import 'package:qixer_seller/services/orders_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/view/orders/booking_helper.dart';
 
 class OrderStatus extends StatelessWidget {
@@ -32,7 +31,7 @@ class OrderStatus extends StatelessWidget {
                         height: 25,
                       ),
                       Container(
-                        child: BookingHelper().bRow(
+                        child: PaymentHelper().bRow(
                             'null',
                             ln.getString('Order status'),
                             provider.orderStatus ?? "",

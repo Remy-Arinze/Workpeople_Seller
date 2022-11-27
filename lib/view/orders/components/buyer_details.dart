@@ -29,22 +29,22 @@ class BuyerDetails extends StatelessWidget {
                     //Service row
 
                     Container(
-                      child: BookingHelper().bRow('null', ln.getString('Name'),
+                      child: PaymentHelper().bRow('null', ln.getString('Name'),
                           provider.orderDetails.buyerDetails.name),
                     ),
 
                     Container(
-                      child: BookingHelper().bRow('null', ln.getString('Email'),
+                      child: PaymentHelper().bRow('null', ln.getString('Email'),
                           provider.orderDetails.buyerDetails.email ?? ''),
                     ),
 
                     Container(
-                      child: BookingHelper().bRow('null', ln.getString('Phone'),
+                      child: PaymentHelper().bRow('null', ln.getString('Phone'),
                           provider.orderDetails.buyerDetails.phone ?? ''),
                     ),
                     provider.orderDetails.isOrderOnline == 0
                         ? Container(
-                            child: BookingHelper().bRow(
+                            child: PaymentHelper().bRow(
                                 'null',
                                 ln.getString('Post code'),
                                 provider.orderDetails.buyerDetails.postCode ??
@@ -53,7 +53,7 @@ class BuyerDetails extends StatelessWidget {
                         : Container(),
                     provider.orderDetails.isOrderOnline == 0
                         ? Container(
-                            child: BookingHelper().bRow(
+                            child: PaymentHelper().bRow(
                                 'null',
                                 ln.getString('Address'),
                                 provider.orderDetails.buyerDetails.address ??

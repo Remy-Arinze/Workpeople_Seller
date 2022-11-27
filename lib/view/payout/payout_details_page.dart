@@ -70,7 +70,7 @@ class _OrdersDetailsPageState extends State<PayoutDetailsPage> {
                                           //Service row
 
                                           Container(
-                                            child: BookingHelper().bRow(
+                                            child: PaymentHelper().bRow(
                                                 'null',
                                                 ln.getString('ID'),
                                                 provider.payoutDetails
@@ -81,7 +81,7 @@ class _OrdersDetailsPageState extends State<PayoutDetailsPage> {
                                           Consumer<RtlService>(
                                             builder: (context, rtlP, child) =>
                                                 Container(
-                                              child: BookingHelper().bRow(
+                                              child: PaymentHelper().bRow(
                                                   'null',
                                                   ln.getString('Amount'),
                                                   "${rtlP.currency}${provider.payoutDetails.payoutDetails.amount}"),
@@ -89,7 +89,7 @@ class _OrdersDetailsPageState extends State<PayoutDetailsPage> {
                                           ),
 
                                           Container(
-                                            child: BookingHelper().bRow(
+                                            child: PaymentHelper().bRow(
                                                 'null',
                                                 ln.getString('Payment Gateway'),
                                                 removeUnderscore(provider
@@ -100,7 +100,7 @@ class _OrdersDetailsPageState extends State<PayoutDetailsPage> {
                                           ),
 
                                           Container(
-                                            child: BookingHelper().bRow(
+                                            child: PaymentHelper().bRow(
                                                 'null',
                                                 ln.getString('Request Date'),
                                                 formatDate(provider
@@ -110,7 +110,7 @@ class _OrdersDetailsPageState extends State<PayoutDetailsPage> {
                                           ),
 
                                           Container(
-                                            child: BookingHelper().bRow(
+                                            child: PaymentHelper().bRow(
                                                 'null',
                                                 ln.getString('Seller Note'),
                                                 provider
@@ -121,7 +121,7 @@ class _OrdersDetailsPageState extends State<PayoutDetailsPage> {
                                           ),
 
                                           Container(
-                                            child: BookingHelper().bRow(
+                                            child: PaymentHelper().bRow(
                                                 'null',
                                                 ln.getString('Admin Note'),
                                                 provider
@@ -132,7 +132,7 @@ class _OrdersDetailsPageState extends State<PayoutDetailsPage> {
                                           ),
 
                                           Container(
-                                            child: BookingHelper().bRow(
+                                            child: PaymentHelper().bRow(
                                                 'null',
                                                 ln.getString('Status'),
                                                 provider.payoutDetails
