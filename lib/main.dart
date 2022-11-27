@@ -84,6 +84,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NewJobsService()),
         ChangeNotifierProvider(create: (_) => JobConversationService()),
         ChangeNotifierProvider(create: (_) => JobDetailsService()),
+        // ChangeNotifierProvider(create: (_) => WalletService()),
       ],
       child: MaterialApp(
         title: 'Qixer seller',

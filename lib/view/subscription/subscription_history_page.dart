@@ -43,7 +43,9 @@ class _SubscriptionHistoryPageState extends State<SubscriptionHistoryPage> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          for (int i = 0; i < 4; i++)
+                          for (int i = 0;
+                              i < provider.subsHistoryList.length;
+                              i++)
                             Container(
                               margin: const EdgeInsets.only(bottom: 16),
                               width: double.infinity,
@@ -60,11 +62,11 @@ class _SubscriptionHistoryPageState extends State<SubscriptionHistoryPage> {
                                             CrossAxisAlignment.start,
                                         children: [
                                           CommonHelper().titleCommon(
-                                              'Silver subscription',
+                                              '${provider.subsHistoryList[i].type} subscription',
                                               fontsize: 15),
                                           sizedBoxCustom(8),
                                           Text(
-                                            "Expire date: 02/11/23",
+                                            "Expire date: ${formatDate(provider.subsHistoryList[i].expireDate)}",
                                             style: TextStyle(
                                               color: cc.greyFour,
                                               fontSize: 14,
