@@ -16,6 +16,7 @@ import 'package:qixer_seller/view/profile/profile_page.dart';
 import 'package:qixer_seller/view/profile/profile_verify_page.dart';
 import 'package:qixer_seller/view/subscription/subscription_history_page.dart';
 import 'package:qixer_seller/view/supports/my_tickets_page.dart';
+import 'package:qixer_seller/view/wallet/wallet_page.dart';
 
 import '../../../utils/common_helper.dart';
 
@@ -197,6 +198,20 @@ class SidebarDrawer extends StatelessWidget {
                   ),
                 );
               }),
+
+          SidebarMenuItem(
+              title: 'Wallet',
+              leading: Icon(Icons.wallet, color: cc.primaryColor),
+              ontap: () {
+                //======>
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) => const WalletPage(),
+                  ),
+                );
+              }),
+
           SidebarMenuItem(
               title: 'Deactivate account',
               leading: Icon(Icons.close, color: cc.primaryColor),

@@ -32,6 +32,7 @@ import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/ticket_services/support_messages_service.dart';
 import 'package:qixer_seller/services/ticket_services/support_ticket_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/services/withdraw_service.dart';
 import 'package:qixer_seller/view/intro/splash.dart';
 
@@ -84,7 +85,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => NewJobsService()),
         ChangeNotifierProvider(create: (_) => JobConversationService()),
         ChangeNotifierProvider(create: (_) => JobDetailsService()),
-        // ChangeNotifierProvider(create: (_) => WalletService()),
+        ChangeNotifierProvider(create: (_) => WalletService()),
       ],
       child: MaterialApp(
         title: 'Qixer seller',

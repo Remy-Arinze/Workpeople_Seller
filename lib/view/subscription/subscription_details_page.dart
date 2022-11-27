@@ -6,6 +6,7 @@ import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/view/orders/booking_helper.dart';
+import 'package:qixer_seller/view/subscription/components/subscription_helper.dart';
 
 class SubscriptionDetailsPage extends StatefulWidget {
   const SubscriptionDetailsPage({Key? key}) : super(key: key);
@@ -153,11 +154,11 @@ class _SubscriptionDetailsPageState extends State<SubscriptionDetailsPage> {
                       ]),
                 ),
 
-                // sizedBoxCustom(5),
+                sizedBoxCustom(5),
 
-                // CommonHelper().buttonPrimary('Reniew Subscription', () {
-                //   SubscriptionHelper().reniewPopup(context);
-                // })
+                CommonHelper().buttonPrimary('Reniew Subscription', () {
+                  SubscriptionHelper().reniewPopup(context);
+                })
               ],
             ),
           ),
