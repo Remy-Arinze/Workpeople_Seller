@@ -13,8 +13,8 @@ import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/utils/custom_input.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
-import 'package:qixer_seller/view/orders/payment_helper.dart';
 
 class PaymentChoosePage extends StatefulWidget {
   const PaymentChoosePage({Key? key, this.isFromOrderExtraAccept = false})
@@ -32,8 +32,12 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
     super.initState();
   }
 
+  final amountController = TextEditingController();
+
   int selectedMethod = 0;
   bool termsAgree = false;
+  bool depositeFromCurrent = false;
+
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
@@ -59,26 +63,65 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                         builder: (context, provider, child) => Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              // InkWell(
-                              //   onTap: () {
-                              //     MidtransService().payByMidtrans(context);
-                              //   },
-                              //   child: Text('pay'),
+                              //border
+                              // Container(
+                              //   margin: const EdgeInsets.only(bottom: 20),
+                              //   child: CommonHelper().dividerCommon(),
                               // ),
-                              //border
-                              Container(
-                                margin: const EdgeInsets.only(bottom: 20),
-                                child: CommonHelper().dividerCommon(),
-                              ),
-                              PaymentHelper().detailsPanelRow(
-                                  asProvider.getString('Total Payable'),
-                                  0,
-                                  '100'),
+                              // PaymentHelper().detailsPanelRow(
+                              //     asProvider.getString('Total Payable'),
+                              //     0,
+                              //     '100'),
 
-                              //border
+                              // //border
+                              // Container(
+                              //   margin:
+                              //       const EdgeInsets.only(top: 20, bottom: 20),
+                              //   child: CommonHelper().dividerCommon(),
+                              // ),
+
+                              //Amount ============>
+                              CommonHelper().labelCommon(
+                                  asProvider.getString("Deposite Amount")),
+
+                              CustomInput(
+                                controller: amountController,
+                                hintText: asProvider
+                                    .getString("Enter deposite amount"),
+                                textInputAction: TextInputAction.next,
+                                paddingHorizontal: 18,
+                                marginBottom: 5,
+                              ),
+
+                              CheckboxListTile(
+                                checkColor: Colors.white,
+                                activeColor: ConstantColors().primaryColor,
+                                contentPadding: const EdgeInsets.all(0),
+                                title: Container(
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 5),
+                                  child: Text(
+                                    asProvider.getString(
+                                        'Deposite from current balance'),
+                                    style: TextStyle(
+                                        color: ConstantColors().greyFour,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14),
+                                  ),
+                                ),
+                                value: depositeFromCurrent,
+                                onChanged: (newValue) {
+                                  setState(() {
+                                    depositeFromCurrent = !depositeFromCurrent;
+                                  });
+                                },
+                                controlAffinity:
+                                    ListTileControlAffinity.leading,
+                              ),
+
                               Container(
                                 margin:
-                                    const EdgeInsets.only(top: 20, bottom: 20),
+                                    const EdgeInsets.only(top: 8, bottom: 16),
                                 child: CommonHelper().dividerCommon(),
                               ),
 
@@ -242,9 +285,8 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                   : Container(),
 
                               //Agreement checkbox ===========>
-                              const SizedBox(
-                                height: 20,
-                              ),
+                              sizedBoxCustom(20),
+
                               CheckboxListTile(
                                 checkColor: Colors.white,
                                 activeColor: ConstantColors().primaryColor,

@@ -8,6 +8,7 @@ import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/payments/payment_choose_page.dart';
 
 class WalletPage extends StatefulWidget {
   const WalletPage({Key? key}) : super(key: key);
@@ -81,17 +82,32 @@ class _WalletPageState extends State<WalletPage> {
                                 const SizedBox(
                                   width: 20,
                                 ),
-                                Container(
-                                  padding: const EdgeInsets.all(20),
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(8),
-                                      border: Border.all(
-                                          color: Colors.grey.withOpacity(.6),
-                                          width: 1)),
-                                  child: Icon(
-                                    Icons.add,
-                                    size: 35,
-                                    color: cc.greyParagraph,
+
+                                // add money
+                                //==========>
+
+                                InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute<void>(
+                                        builder: (BuildContext context) =>
+                                            const PaymentChoosePage(),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.all(20),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        border: Border.all(
+                                            color: Colors.grey.withOpacity(.6),
+                                            width: 1)),
+                                    child: Icon(
+                                      Icons.add,
+                                      size: 35,
+                                      color: cc.greyParagraph,
+                                    ),
                                   ),
                                 )
                               ],

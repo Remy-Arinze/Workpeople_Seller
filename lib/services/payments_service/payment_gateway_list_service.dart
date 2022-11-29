@@ -26,16 +26,6 @@ class PaymentGatewayListService with ChangeNotifier {
 
   var zitopayUserName;
 
-  setgatewayValue(value) {
-    selectedPayment = value;
-    notifyListeners();
-  }
-
-  setSelectedgatewayId(value) {
-    selectedPaymentId = value;
-    notifyListeners();
-  }
-
   setSelectedMethodName(newName) {
     selectedMethodName = newName;
     notifyListeners();
@@ -64,13 +54,14 @@ class PaymentGatewayListService with ChangeNotifier {
           headers: header);
 
       if (response.statusCode == 201) {
-        var gatewayList = jsonDecode(response.body)['gateway_list'];
-        for (int i = 0; i < gatewayList.length; i++) {
-          paymentDropdownList.add(removeUnderscore(gatewayList[i]['name']));
-          paymentDropdownIndexList.add(gatewayList[i]['name']);
-        }
-        selectedPayment = removeUnderscore(gatewayList[0]['name']);
-        selectedPaymentId = gatewayList[0]['name'];
+        // var gatewayList = jsonDecode(response.body)['gateway_list'];
+        // for (int i = 0; i < gatewayList.length; i++) {
+        //   paymentDropdownList.add(removeUnderscore(gatewayList[i]['name']));
+        //   paymentDropdownIndexList.add(gatewayList[i]['name']);
+        // }
+        // selectedPayment = removeUnderscore(gatewayList[0]['name']);
+        // selectedPaymentId = gatewayList[0]['name'];
+        paymentDropdownList = jsonDecode(response.body)['gateway_list'];
         notifyListeners();
       } else {
         //something went wrong
