@@ -2,44 +2,26 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/book_confirmation_service.dart';
-import 'package:qixer/service/booking_services/personalization_service.dart';
-import 'package:qixer/service/booking_services/place_order_service.dart';
-import 'package:qixer/service/order_details_service.dart';
-import 'package:qixer/view/payments/paytm_payment.dart';
+import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/view/payments/paytm_payment.dart';
 
 class PaytmService {
-  payByPaytm(BuildContext context, {bool isFromOrderExtraAccept = false}) {
+  payByPaytm(
+    BuildContext context,
+  ) {
     //========>
-    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+    Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
 
     var amount;
 
-    if (isFromOrderExtraAccept == true) {
-      amount = Provider.of<OrderDetailsService>(context, listen: false)
-          .selectedExtraPrice;
-    } else {
-      var bcProvider =
-          Provider.of<BookConfirmationService>(context, listen: false);
-      var pProvider =
-          Provider.of<PersonalizationService>(context, listen: false);
+    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
 
-      if (pProvider.isOnline == 0) {
-        amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
-      } else {
-        amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
-            .toStringAsFixed(2);
-      }
-    }
-
-    //paytm not implemented neither for place order nor extra accept,
-    if (isFromOrderExtraAccept) return;
+    amount = pdProvider.totalAmount.toStringAsFixed(2);
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (BuildContext context) => PaytmPayment(
-          isFromOrderExtraAccept: isFromOrderExtraAccept,
-        ),
+        builder: (BuildContext context) => const PaytmPayment(),
       ),
     );
   }

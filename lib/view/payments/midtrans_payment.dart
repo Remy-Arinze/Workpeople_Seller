@@ -4,33 +4,30 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/booking_services/place_order_service.dart';
-import 'package:qixer/service/order_details_service.dart';
-import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class MidtransPayment extends StatelessWidget {
-  MidtransPayment(
-      {Key? key,
-      required this.amount,
-      required this.name,
-      required this.phone,
-      required this.email,
-      required this.isFromOrderExtraAccept})
-      : super(key: key);
+  MidtransPayment({
+    Key? key,
+    required this.amount,
+    required this.name,
+    required this.phone,
+    required this.email,
+  }) : super(key: key);
 
   final amount;
   final name;
   final phone;
   final email;
-  final isFromOrderExtraAccept;
 
   String? url;
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(microseconds: 600), () {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+      Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
     });
 
     return Scaffold(
@@ -61,13 +58,8 @@ class MidtransPayment extends StatelessWidget {
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (value) async {
                 if (value.contains('success')) {
-                  if (isFromOrderExtraAccept == true) {
-                    Provider.of<OrderDetailsService>(context, listen: false)
-                        .acceptOrderExtra(context);
-                  } else {
-                    Provider.of<PlaceOrderService>(context, listen: false)
-                        .makePaymentSuccess(context);
-                  }
+                  Provider.of<PaymentService>(context, listen: false)
+                      .makePaymentSuccess(context);
                 }
               },
             );

@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:qixer/view/payments/paystack_payment_page.dart';
+import 'package:qixer_seller/view/payments/paystack_payment_page.dart';
 
 class PaystackService {
-  payByPaystack(BuildContext context, {bool isFromOrderExtraAccept = false}) {
+  payByPaystack(BuildContext context) {
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (BuildContext context) => PaystackPaymentPage(
-          isFromOrderExtraAccept: isFromOrderExtraAccept,
-        ),
+        builder: (BuildContext context) => PaystackPaymentPage(),
       ),
     );
   }

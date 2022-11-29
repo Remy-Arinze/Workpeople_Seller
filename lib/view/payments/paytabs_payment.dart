@@ -5,22 +5,20 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/booking_services/place_order_service.dart';
-import 'package:qixer/service/order_details_service.dart';
-import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class PayTabsPayment extends StatelessWidget {
-  PayTabsPayment(
-      {Key? key,
-      required this.amount,
-      required this.name,
-      required this.phone,
-      required this.email,
-      required this.orderId,
-      required this.isFromOrderExtraAccept})
-      : super(key: key);
+  PayTabsPayment({
+    Key? key,
+    required this.amount,
+    required this.name,
+    required this.phone,
+    required this.email,
+    required this.orderId,
+  }) : super(key: key);
 
   final amount;
   final name;
@@ -28,13 +26,12 @@ class PayTabsPayment extends StatelessWidget {
   final email;
 
   final orderId;
-  final isFromOrderExtraAccept;
 
   String? url;
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(microseconds: 600), () {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+      Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
     });
 
     return Scaffold(
@@ -85,14 +82,9 @@ class PayTabsPayment extends StatelessWidget {
                 bool paySuccess = await verifyPayment(value);
 
                 if (paySuccess) {
-                  if (isFromOrderExtraAccept == true) {
-                    await Provider.of<OrderDetailsService>(context,
-                            listen: false)
-                        .acceptOrderExtra(context);
-                  } else {
-                    await Provider.of<PlaceOrderService>(context, listen: false)
-                        .makePaymentSuccess(context);
-                  }
+                  await Provider.of<PaymentService>(context, listen: false)
+                      .makePaymentSuccess(context);
+
                   return;
                 }
                 await showDialog(

@@ -2,27 +2,25 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/order_details_service.dart';
-import 'package:qixer/view/booking/booking_helper.dart';
+import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/view/orders/payment_helper.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import '../../service/booking_services/place_order_service.dart';
-import '../../service/payment_gateway_list_service.dart';
+
+import '../../services/payments_service/payment_gateway_list_service.dart';
 
 class RazorpayPaymentPage extends StatefulWidget {
-  const RazorpayPaymentPage(
-      {Key? key,
-      required this.amount,
-      required this.name,
-      required this.phone,
-      required this.email,
-      required this.isFromOrderExtraAccept})
-      : super(key: key);
+  const RazorpayPaymentPage({
+    Key? key,
+    required this.amount,
+    required this.name,
+    required this.phone,
+    required this.email,
+  }) : super(key: key);
 
   final amount;
   final name;
   final phone;
   final email;
-  final isFromOrderExtraAccept;
 
   @override
   _RazorpayPaymentPageState createState() => _RazorpayPaymentPageState();
@@ -79,13 +77,8 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print("Payment Sucessfull");
 
-    if (widget.isFromOrderExtraAccept == true) {
-      Provider.of<OrderDetailsService>(context, listen: false)
-          .acceptOrderExtra(context);
-    } else {
-      Provider.of<PlaceOrderService>(context, listen: false)
-          .makePaymentSuccess(context);
-    }
+    Provider.of<PaymentService>(context, listen: false)
+        .makePaymentSuccess(context);
 
     // print(
     //     "${response.orderId} \n${response.paymentId} \n${response.signature}");
@@ -93,7 +86,7 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
 
   void _handlePaymentError(PaymentFailureResponse response) {
     print("Payemt Failed");
-    Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+    Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
     // print("${response.code}\n${response.message}");
   }
 
@@ -119,7 +112,7 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
                 margin: const EdgeInsets.only(
                     top: 30, bottom: 20, left: 25, right: 25),
                 child:
-                    BookingHelper().detailsPanelRow('Total', 0, widget.amount),
+                    PaymentHelper().detailsPanelRow('Total', 0, widget.amount),
               ),
               // textField(size, "Name", false, name),
               // textField(size, "Phone no.", false, phoneNo),

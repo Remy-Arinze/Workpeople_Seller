@@ -3,27 +3,24 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'package:qixer/service/order_details_service.dart';
 import 'dart:async';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 
-import '../../service/booking_services/place_order_service.dart';
-import '../../service/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_service.dart';
 
 class InstamojoPaymentPage extends StatefulWidget {
-  const InstamojoPaymentPage(
-      {Key? key,
-      required this.amount,
-      required this.name,
-      required this.email,
-      required this.isFromOrderExtraAccept})
-      : super(key: key);
+  const InstamojoPaymentPage({
+    Key? key,
+    required this.amount,
+    required this.name,
+    required this.email,
+  }) : super(key: key);
 
   final amount;
   final name;
-  final isFromOrderExtraAccept;
   final email;
   @override
   _InstamojoPaymentPageState createState() => _InstamojoPaymentPageState();
@@ -44,7 +41,7 @@ class _InstamojoPaymentPageState extends State<InstamojoPaymentPage> {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(microseconds: 600), () {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+      Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
     });
 
     return Scaffold(
@@ -135,13 +132,8 @@ class _InstamojoPaymentPageState extends State<InstamojoPaymentPage> {
       if (realResponse["payment"]['status'] == 'Credit') {
         print('instamojo payment successfull');
 
-        if (widget.isFromOrderExtraAccept == true) {
-          Provider.of<OrderDetailsService>(context, listen: false)
-              .acceptOrderExtra(context);
-        } else {
-          Provider.of<PlaceOrderService>(context, listen: false)
-              .makePaymentSuccess(context);
-        }
+        Provider.of<PaymentService>(context, listen: false)
+            .makePaymentSuccess(context);
 
 //payment is successful.
       } else {

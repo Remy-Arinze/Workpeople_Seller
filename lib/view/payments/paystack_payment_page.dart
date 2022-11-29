@@ -3,28 +3,25 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/book_confirmation_service.dart';
-import 'package:qixer/service/booking_services/book_service.dart';
-import 'package:qixer/service/booking_services/personalization_service.dart';
-import 'package:qixer/service/booking_services/place_order_service.dart';
-import 'package:qixer/service/order_details_service.dart';
-import 'package:qixer/service/payment_gateway_list_service.dart';
-import 'package:qixer/service/profile_service.dart';
-import 'package:qixer/view/utils/constant_colors.dart';
+import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class PaystackPaymentPage extends StatelessWidget {
-  PaystackPaymentPage({Key? key, required this.isFromOrderExtraAccept})
-      : super(key: key);
+  PaystackPaymentPage({
+    Key? key,
+  }) : super(key: key);
 
   String? url;
-  final isFromOrderExtraAccept;
 
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(microseconds: 600), () {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+      Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
     });
     ConstantColors cc = ConstantColors();
 
@@ -57,7 +54,7 @@ class PaystackPaymentPage extends StatelessWidget {
           return false;
         },
         child: FutureBuilder(
-            future: waitForIt(context, isFromOrderExtraAccept),
+            future: waitForIt(context),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -99,13 +96,8 @@ class PaystackPaymentPage extends StatelessWidget {
                   // if (response.body.contains('PAYMENT ID')) {
 
                   if (response.body.contains('Payment Successful')) {
-                    if (isFromOrderExtraAccept == true) {
-                      Provider.of<OrderDetailsService>(context, listen: false)
-                          .acceptOrderExtra(context);
-                    } else {
-                      Provider.of<PlaceOrderService>(context, listen: false)
-                          .makePaymentSuccess(context);
-                    }
+                    Provider.of<PaymentService>(context, listen: false)
+                        .makePaymentSuccess(context);
 
                     return;
                   }
@@ -133,15 +125,9 @@ class PaystackPaymentPage extends StatelessWidget {
                 navigationDelegate: (navRequest) async {
                   print('nav req to .......................${navRequest.url}');
                   if (navRequest.url.contains('success')) {
-                    if (isFromOrderExtraAccept == true) {
-                      await Provider.of<OrderDetailsService>(context,
-                              listen: false)
-                          .acceptOrderExtra(context);
-                    } else {
-                      await Provider.of<PlaceOrderService>(context,
-                              listen: false)
-                          .makePaymentSuccess(context);
-                    }
+                    await Provider.of<PaymentService>(context, listen: false)
+                        .makePaymentSuccess(context);
+
                     return NavigationDecision.prevent;
                   }
                   if (navRequest.url.contains('failed')) {
@@ -165,7 +151,7 @@ class PaystackPaymentPage extends StatelessWidget {
     );
   }
 
-  Future<void> waitForIt(BuildContext context, isFromOrderExtraAccept) async {
+  Future<void> waitForIt(BuildContext context) async {
     final uri = Uri.parse('https://api.paystack.co/transaction/initialize');
 
     String paystackSecretKey =
@@ -180,51 +166,18 @@ class PaystackPaymentPage extends StatelessWidget {
     String email;
     String orderId;
 
-    if (isFromOrderExtraAccept == true) {
-      name = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .name ??
-          'test';
-      phone = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .phone ??
-          '111111111';
-      email = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .email ??
-          'test@test.com';
-      amount = Provider.of<OrderDetailsService>(context, listen: false)
-          .selectedExtraPrice;
+    var profileProvider = Provider.of<ProfileService>(context, listen: false);
+    var paymentProvider = Provider.of<PaymentService>(context, listen: false);
+    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
 
-      amount = double.parse(amount).toStringAsFixed(0);
-      amount = int.parse(amount);
+    amount = pdProvider.totalAmount.toStringAsFixed(0);
+    amount = int.parse(amount);
 
-      orderId = Provider.of<OrderDetailsService>(context, listen: false)
-          .selectedExtraId
-          .toString();
-    } else {
-      var bcProvider =
-          Provider.of<BookConfirmationService>(context, listen: false);
-      var pProvider =
-          Provider.of<PersonalizationService>(context, listen: false);
-      var bookProvider = Provider.of<BookService>(context, listen: false);
+    orderId = Provider.of<PaymentService>(context, listen: false).orderId;
 
-      if (pProvider.isOnline == 0) {
-        amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(0);
-        amount = int.parse(amount);
-      } else {
-        amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
-            .toStringAsFixed(0);
-        amount = int.parse(amount);
-      }
-
-      orderId = Provider.of<PlaceOrderService>(context, listen: false).orderId;
-
-      email = bookProvider.email ?? '';
-    }
+    name = profileProvider.profileDetails.name;
+    phone = profileProvider.profileDetails.phone;
+    email = profileProvider.profileDetails.email ?? '';
 
     print(orderId);
 

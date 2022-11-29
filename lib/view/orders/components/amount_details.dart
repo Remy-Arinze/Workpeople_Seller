@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/view/orders/booking_helper.dart';
+import 'package:qixer_seller/view/orders/payment_helper.dart';
 
 class AmountDetails extends StatelessWidget {
   const AmountDetails({Key? key}) : super(key: key);

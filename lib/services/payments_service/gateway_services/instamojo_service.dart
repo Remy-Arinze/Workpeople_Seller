@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/book_confirmation_service.dart';
-import 'package:qixer/service/booking_services/book_service.dart';
-import 'package:qixer/service/booking_services/personalization_service.dart';
-import 'package:qixer/service/order_details_service.dart';
-import 'package:qixer/service/profile_service.dart';
-import 'package:qixer/view/payments/instamojo_payment_page.dart';
+import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
+import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/view/payments/instamojo_payment_page.dart';
 
 class InstamojoService {
   payByInstamojo(BuildContext context, {bool isFromOrderExtraAccept = false}) {
@@ -16,46 +13,15 @@ class InstamojoService {
     String email;
     String orderId;
 
-    if (isFromOrderExtraAccept == true) {
-      name = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .name ??
-          'test';
-      phone = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .phone ??
-          '111111111';
-      email = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .email ??
-          'test@test.com';
-      amount = Provider.of<OrderDetailsService>(context, listen: false)
-          .selectedExtraPrice;
+    var profileProvider = Provider.of<ProfileService>(context, listen: false);
+    // var paymentProvider = Provider.of<PaymentService>(context, listen: false);
+    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
 
-      orderId = Provider.of<OrderDetailsService>(context, listen: false)
-          .selectedExtraId
-          .toString();
-    } else {
-      var bcProvider =
-          Provider.of<BookConfirmationService>(context, listen: false);
-      var pProvider =
-          Provider.of<PersonalizationService>(context, listen: false);
-      var bookProvider = Provider.of<BookService>(context, listen: false);
+    name = profileProvider.profileDetails.name ?? '';
+    phone = profileProvider.profileDetails.phone ?? '';
+    email = profileProvider.profileDetails.email ?? '';
 
-      name = bookProvider.name ?? '';
-      phone = bookProvider.phone ?? '';
-      email = bookProvider.email ?? '';
-
-      if (pProvider.isOnline == 0) {
-        amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
-      } else {
-        amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation
-            .toStringAsFixed(2);
-      }
-    }
+    amount = pdProvider.totalAmount.toStringAsFixed(2);
 
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -63,7 +29,6 @@ class InstamojoService {
           amount: amount,
           name: name,
           email: email,
-          isFromOrderExtraAccept: isFromOrderExtraAccept,
         ),
       ),
     );

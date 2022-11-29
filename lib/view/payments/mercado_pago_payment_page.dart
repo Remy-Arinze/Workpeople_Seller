@@ -7,23 +7,17 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:qixer/service/book_confirmation_service.dart';
-import 'package:qixer/service/booking_services/book_service.dart';
-import 'package:qixer/service/booking_services/personalization_service.dart';
-import 'package:qixer/service/booking_services/place_order_service.dart';
-import 'package:qixer/service/order_details_service.dart';
-import 'package:qixer/service/payment_gateway_list_service.dart';
-import 'package:qixer/service/profile_service.dart';
-import 'package:qixer/view/utils/others_helper.dart';
+import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class MercadopagoPaymentPage extends StatefulWidget {
   const MercadopagoPaymentPage({
     Key? key,
-    required this.isFromOrderExtraAccept,
   }) : super(key: key);
-
-  final bool isFromOrderExtraAccept;
 
   @override
   State<MercadopagoPaymentPage> createState() => _MercadopagoPaymentPageState();
@@ -77,14 +71,8 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
               navigationDelegate: (NavigationRequest request) async {
                 if (request.url.contains('https://www.google.com/')) {
                   print('payment success');
-                  if (widget.isFromOrderExtraAccept == true) {
-                    await Provider.of<OrderDetailsService>(context,
-                            listen: false)
-                        .acceptOrderExtra(context);
-                  } else {
-                    await Provider.of<PlaceOrderService>(context, listen: false)
-                        .makePaymentSuccess(context);
-                  }
+                  await Provider.of<PaymentService>(context, listen: false)
+                      .makePaymentSuccess(context);
 
                   return NavigationDecision.prevent;
                 }
@@ -109,35 +97,15 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
     String orderId;
     String email;
 
-    if (widget.isFromOrderExtraAccept == true) {
-      email = Provider.of<ProfileService>(context, listen: false)
-              .profileDetails
-              .userDetails
-              .email ??
-          'test@test.com';
-      amount = Provider.of<OrderDetailsService>(context, listen: false)
-          .selectedExtraPrice;
-      amount = double.parse(amount);
+    var profileProvider = Provider.of<ProfileService>(context, listen: false);
+    var paymentProvider = Provider.of<PaymentService>(context, listen: false);
+    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
 
-      orderId = Provider.of<OrderDetailsService>(context, listen: false)
-          .selectedExtraId
-          .toString();
-    } else {
-      var bcProvider =
-          Provider.of<BookConfirmationService>(context, listen: false);
-      var pProvider =
-          Provider.of<PersonalizationService>(context, listen: false);
-      var bookProvider = Provider.of<BookService>(context, listen: false);
+    amount = pdProvider.totalAmount;
 
-      if (pProvider.isOnline == 0) {
-        amount = bcProvider.totalPriceAfterAllcalculation.toStringAsFixed(2);
-      } else {
-        amount = bcProvider.totalPriceOnlineServiceAfterAllCalculation;
-      }
-      orderId = Provider.of<PlaceOrderService>(context, listen: false).orderId;
+    orderId = paymentProvider.orderId;
 
-      email = bookProvider.email ?? '';
-    }
+    email = profileProvider.profileDetails.email ?? '';
 
     String mercadoKey =
         Provider.of<PaymentGatewayListService>(context, listen: false)

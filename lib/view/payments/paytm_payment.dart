@@ -2,16 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/booking_services/place_order_service.dart';
-import 'package:qixer/service/order_details_service.dart';
-import 'package:qixer/view/utils/others_helper.dart';
+import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaytmPayment extends StatefulWidget {
-  const PaytmPayment({Key? key, required this.isFromOrderExtraAccept})
-      : super(key: key);
-
-  final isFromOrderExtraAccept;
+  const PaytmPayment({Key? key}) : super(key: key);
 
   @override
   State<PaytmPayment> createState() => _PaytmPaymentState();
@@ -25,10 +21,8 @@ class _PaytmPaymentState extends State<PaytmPayment> {
   @override
   void initState() {
     super.initState();
-    successUrl =
-        Provider.of<PlaceOrderService>(context, listen: false).successUrl;
-    failedUrl =
-        Provider.of<PlaceOrderService>(context, listen: false).cancelUrl;
+    successUrl = Provider.of<PaymentService>(context, listen: false).successUrl;
+    failedUrl = Provider.of<PaymentService>(context, listen: false).cancelUrl;
   }
 
   String? html;
@@ -42,8 +36,8 @@ class _PaytmPaymentState extends State<PaytmPayment> {
           _controller = controller;
 
           var paytmHtmlString =
-              Provider.of<PlaceOrderService>(context, listen: false)
-                  .paytmHtmlForm as String;
+              Provider.of<PaymentService>(context, listen: false).paytmHtmlForm
+                  as String;
 
           controller.loadHtmlString(paytmHtmlString);
         },
@@ -59,13 +53,9 @@ class _PaytmPaymentState extends State<PaytmPayment> {
             //So, this alreadySuccess = true trick will prevent that
 
             print('payment success');
-            if (widget.isFromOrderExtraAccept == true) {
-              Provider.of<OrderDetailsService>(context, listen: false)
-                  .acceptOrderExtra(context);
-            } else {
-              await Provider.of<PlaceOrderService>(context, listen: false)
-                  .makePaymentSuccess(context);
-            }
+
+            await Provider.of<PaymentService>(context, listen: false)
+                .makePaymentSuccess(context);
 
             return NavigationDecision.prevent;
           }

@@ -3,9 +3,8 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/booking_services/place_order_service.dart';
-import 'package:qixer/service/order_details_service.dart';
-import 'package:qixer/view/utils/others_helper.dart';
+import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ZitopayPaymentPage extends StatefulWidget {
@@ -13,12 +12,10 @@ class ZitopayPaymentPage extends StatefulWidget {
     Key? key,
     required this.userName,
     required this.amount,
-    required this.isFromOrderExtraAccept,
   }) : super(key: key);
 
   final userName;
   final amount;
-  final isFromOrderExtraAccept;
 
   @override
   _ZitopayPaymentPageState createState() => _ZitopayPaymentPageState();
@@ -39,7 +36,7 @@ class _ZitopayPaymentPageState extends State<ZitopayPaymentPage> {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(microseconds: 600), () {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+      Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
     });
 
     return SafeArea(
@@ -71,14 +68,9 @@ class _ZitopayPaymentPageState extends State<ZitopayPaymentPage> {
                 //So, this alreadySuccess = true trick will prevent that
                 if (alreadySuccessful != true) {
                   print('payment success');
-                  if (widget.isFromOrderExtraAccept == true) {
-                    await Provider.of<OrderDetailsService>(context,
-                            listen: false)
-                        .acceptOrderExtra(context);
-                  } else {
-                    await Provider.of<PlaceOrderService>(context, listen: false)
-                        .makePaymentSuccess(context);
-                  }
+
+                  await Provider.of<PaymentService>(context, listen: false)
+                      .makePaymentSuccess(context);
                 }
 
                 setState(() {

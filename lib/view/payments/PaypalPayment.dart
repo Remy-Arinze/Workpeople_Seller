@@ -1,8 +1,9 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/material.dart';
-import 'package:qixer/service/pay_services/paypal_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../services/payments_service/gateway_services/paypal_service.dart';
 
 class PaypalPayment extends StatefulWidget {
   final Function onFinish;

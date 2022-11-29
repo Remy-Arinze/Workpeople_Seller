@@ -4,9 +4,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/booking_services/place_order_service.dart';
-import 'package:qixer/service/order_details_service.dart';
-import 'package:qixer/service/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,7 +16,6 @@ class MolliePayment extends StatelessWidget {
       required this.name,
       required this.phone,
       required this.email,
-      required this.isFromOrderExtraAccept,
       required this.orderId})
       : super(key: key);
 
@@ -25,7 +23,6 @@ class MolliePayment extends StatelessWidget {
   final name;
   final phone;
   final email;
-  final isFromOrderExtraAccept;
   final orderId;
 
   String? url;
@@ -33,11 +30,11 @@ class MolliePayment extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var successUrl =
-        Provider.of<PlaceOrderService>(context, listen: false).successUrl ??
+        Provider.of<PaymentService>(context, listen: false).successUrl ??
             'https://www.google.com/';
 
     Future.delayed(const Duration(microseconds: 600), () {
-      Provider.of<PlaceOrderService>(context, listen: false).setLoadingFalse();
+      Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
     });
     return Scaffold(
       appBar: AppBar(
@@ -69,13 +66,8 @@ class MolliePayment extends StatelessWidget {
                 if (value.contains(redirectUrl)) {
                   String status = await verifyPayment(context);
                   if (status == 'paid') {
-                    if (isFromOrderExtraAccept == true) {
-                      Provider.of<OrderDetailsService>(context, listen: false)
-                          .acceptOrderExtra(context);
-                    } else {
-                      Provider.of<PlaceOrderService>(context, listen: false)
-                          .makePaymentSuccess(context);
-                    }
+                    Provider.of<PaymentService>(context, listen: false)
+                        .makePaymentSuccess(context);
                   }
                   if (status == 'open') {
                     await showDialog(

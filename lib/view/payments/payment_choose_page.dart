@@ -14,7 +14,7 @@ import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
-import 'package:qixer_seller/view/orders/booking_helper.dart';
+import 'package:qixer_seller/view/orders/payment_helper.dart';
 
 class PaymentChoosePage extends StatefulWidget {
   const PaymentChoosePage({Key? key, this.isFromOrderExtraAccept = false})

@@ -6,7 +6,6 @@ import 'package:qixer_seller/services/orders_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/view/orders/booking_helper.dart';
 import 'package:qixer_seller/view/orders/components/amount_details.dart';
 import 'package:qixer_seller/view/orders/components/buyer_details.dart';
 import 'package:qixer_seller/view/orders/components/date_schedule.dart';
