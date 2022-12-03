@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -8,7 +9,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class SubscriptionHelper {
   final cc = ConstantColors();
 
-  reniewPopup(BuildContext context) {
+  reniewPopup(BuildContext context, {required subscriptionId}) {
     return Alert(
         context: context,
         style: AlertStyle(
@@ -48,22 +49,25 @@ class SubscriptionHelper {
                 const SizedBox(
                   height: 25,
                 ),
-                Row(
-                  children: [
-                    Expanded(
-                        child: CommonHelper().borderButtonPrimary(
-                            asProvider.getString('Cancel'), () {
-                      Navigator.pop(context);
-                    })),
-                    const SizedBox(
-                      width: 16,
-                    ),
-                    Expanded(
-                        child: CommonHelper().buttonPrimary(
-                      asProvider.getString('Yes'),
-                      () {},
-                    )),
-                  ],
+                Consumer<SubscriptionService>(
+                  builder: (context, provider, child) => Row(
+                    children: [
+                      Expanded(
+                          child: CommonHelper().borderButtonPrimary(
+                              asProvider.getString('Cancel'), () {
+                        Navigator.pop(context);
+                      })),
+                      const SizedBox(
+                        width: 16,
+                      ),
+                      Expanded(
+                          child: CommonHelper()
+                              .buttonPrimary(asProvider.getString('Yes'), () {
+                        provider.reniewSubscription(context,
+                            subscriptionId: subscriptionId);
+                      }, isloading: provider.isloading)),
+                    ],
+                  ),
                 )
               ],
             ),
