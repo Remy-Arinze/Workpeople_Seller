@@ -137,6 +137,9 @@ class SubscriptionService with ChangeNotifier {
       Provider.of<WalletService>(context, listen: false)
           .fetchWalletHistory(context);
 
+      OthersHelper()
+          .showToast('Subscription reneiwed successfully', Colors.black);
+
       setLoadingStatus(false);
     } else {
       print('Error reniew subscription' + response.body);
