@@ -2,12 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaytmPayment extends StatefulWidget {
-  const PaytmPayment({Key? key}) : super(key: key);
+  const PaytmPayment({Key? key, required this.isFromWalletDeposite})
+      : super(key: key);
+
+  final isFromWalletDeposite;
 
   @override
   State<PaytmPayment> createState() => _PaytmPaymentState();
@@ -21,8 +24,8 @@ class _PaytmPaymentState extends State<PaytmPayment> {
   @override
   void initState() {
     super.initState();
-    successUrl = Provider.of<PaymentService>(context, listen: false).successUrl;
-    failedUrl = Provider.of<PaymentService>(context, listen: false).cancelUrl;
+    successUrl = 'https://paytm.com/';
+    failedUrl = 'https://paytm.com/';
   }
 
   String? html;
@@ -35,9 +38,7 @@ class _PaytmPaymentState extends State<PaytmPayment> {
         onWebViewCreated: (controller) {
           _controller = controller;
 
-          var paytmHtmlString =
-              Provider.of<PaymentService>(context, listen: false).paytmHtmlForm
-                  as String;
+          var paytmHtmlString = 'https://paytm.com/';
 
           controller.loadHtmlString(paytmHtmlString);
         },
@@ -53,9 +54,10 @@ class _PaytmPaymentState extends State<PaytmPayment> {
             //So, this alreadySuccess = true trick will prevent that
 
             print('payment success');
-
-            await Provider.of<PaymentService>(context, listen: false)
-                .makePaymentSuccess(context);
+            if (widget.isFromWalletDeposite) {
+              Provider.of<WalletService>(context, listen: false)
+                  .makeDepositeToWalletSuccess(context);
+            }
 
             return NavigationDecision.prevent;
           }

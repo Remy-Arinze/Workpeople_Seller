@@ -10,6 +10,7 @@ import 'package:qixer_seller/services/payments_service/payment_constants.dart';
 import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
@@ -17,10 +18,10 @@ import 'package:qixer_seller/utils/custom_input.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 
 class PaymentChoosePage extends StatefulWidget {
-  const PaymentChoosePage({Key? key, this.isFromOrderExtraAccept = false})
+  const PaymentChoosePage({Key? key, this.isFromDepositeToWallet = false})
       : super(key: key);
 
-  final bool isFromOrderExtraAccept;
+  final bool isFromDepositeToWallet;
 
   @override
   _PaymentChoosePageState createState() => _PaymentChoosePageState();
@@ -318,7 +319,16 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                 height: 20,
                               ),
                               CommonHelper().buttonPrimary(
-                                  asProvider.getString('Pay & Confirm'), () {
+                                  asProvider.getString('Pay & Confirm'),
+                                  () async {
+                                var w = await Provider.of<WalletService>(
+                                        context,
+                                        listen: false)
+                                    .validate(
+                                        context, widget.isFromDepositeToWallet);
+
+                                if (w == false) return;
+
                                 if (termsAgree == false) {
                                   OthersHelper().showToast(
                                       asProvider.getString(
@@ -330,20 +340,20 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                   return;
                                 } else {
                                   payAction(
-                                      pgProvider.paymentDropdownList[
-                                          selectedMethod]['name'],
-                                      context,
-                                      //if user selected bank transfer
-                                      pgProvider.paymentDropdownList[
-                                                  selectedMethod]['name'] ==
-                                              'manual_payment'
-                                          ? Provider.of<BankTransferService>(
-                                                  context,
-                                                  listen: false)
-                                              .pickedImage
-                                          : null,
-                                      isFromOrderExtraAccept:
-                                          widget.isFromOrderExtraAccept);
+                                    pgProvider
+                                            .paymentDropdownList[selectedMethod]
+                                        ['name'],
+                                    context,
+                                    //if user selected bank transfer
+                                    pgProvider.paymentDropdownList[
+                                                selectedMethod]['name'] ==
+                                            'manual_payment'
+                                        ? Provider.of<BankTransferService>(
+                                                context,
+                                                listen: false)
+                                            .pickedImage
+                                        : null,
+                                  );
                                 }
                               },
                                   isloading: provider.isloading == false

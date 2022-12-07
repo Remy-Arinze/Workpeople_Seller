@@ -3,20 +3,21 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
-import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
+import '../../services/payments_service/payment_gateway_list_service.dart';
+
 class PaystackPaymentPage extends StatelessWidget {
-  PaystackPaymentPage({
-    Key? key,
-  }) : super(key: key);
+  PaystackPaymentPage({Key? key, required this.isFromWalletDeposite})
+      : super(key: key);
 
   String? url;
+  final isFromWalletDeposite;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +55,7 @@ class PaystackPaymentPage extends StatelessWidget {
           return false;
         },
         child: FutureBuilder(
-            future: waitForIt(context),
+            future: waitForIt(context, isFromWalletDeposite),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -96,8 +97,10 @@ class PaystackPaymentPage extends StatelessWidget {
                   // if (response.body.contains('PAYMENT ID')) {
 
                   if (response.body.contains('Payment Successful')) {
-                    Provider.of<PaymentService>(context, listen: false)
-                        .makePaymentSuccess(context);
+                    if (isFromWalletDeposite) {
+                      Provider.of<WalletService>(context, listen: false)
+                          .makeDepositeToWalletSuccess(context);
+                    }
 
                     return;
                   }
@@ -125,9 +128,10 @@ class PaystackPaymentPage extends StatelessWidget {
                 navigationDelegate: (navRequest) async {
                   print('nav req to .......................${navRequest.url}');
                   if (navRequest.url.contains('success')) {
-                    await Provider.of<PaymentService>(context, listen: false)
-                        .makePaymentSuccess(context);
-
+                    if (isFromWalletDeposite) {
+                      await Provider.of<WalletService>(context, listen: false)
+                          .makeDepositeToWalletSuccess(context);
+                    }
                     return NavigationDecision.prevent;
                   }
                   if (navRequest.url.contains('failed')) {
@@ -151,7 +155,7 @@ class PaystackPaymentPage extends StatelessWidget {
     );
   }
 
-  Future<void> waitForIt(BuildContext context) async {
+  Future<void> waitForIt(BuildContext context, isFromWalletDeposite) async {
     final uri = Uri.parse('https://api.paystack.co/transaction/initialize');
 
     String paystackSecretKey =
@@ -164,22 +168,27 @@ class PaystackPaymentPage extends StatelessWidget {
     String name;
     String phone;
     String email;
-    String orderId;
+    String orderId = '';
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .email ??
+        'test@test.com';
 
-    var profileProvider = Provider.of<ProfileService>(context, listen: false);
-    var paymentProvider = Provider.of<PaymentService>(context, listen: false);
-    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
+    if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+      amount = double.parse(amount).toStringAsFixed(0);
+      amount = int.parse(amount);
 
-    amount = pdProvider.totalAmount.toStringAsFixed(0);
-    amount = int.parse(amount);
-
-    orderId = Provider.of<PaymentService>(context, listen: false).orderId;
-
-    name = profileProvider.profileDetails.name;
-    phone = profileProvider.profileDetails.phone;
-    email = profileProvider.profileDetails.email ?? '';
-
-    print(orderId);
+      orderId = DateTime.now().toString();
+    }
 
     final header = {
       "Content-Type": "application/json",

@@ -20,7 +20,7 @@ import 'package:qixer_seller/services/payments_service/gateway_services/razorpay
 import 'package:qixer_seller/services/payments_service/gateway_services/square_service.dart';
 import 'package:qixer_seller/services/payments_service/gateway_services/stripe_service.dart';
 import 'package:qixer_seller/services/payments_service/gateway_services/zitopay_service.dart';
-import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 
 randomOrderId() {
@@ -29,119 +29,155 @@ randomOrderId() {
 }
 
 payAction(String method, BuildContext context, imagePath,
-    {bool isFromOrderExtraAccept = false}) {
+    {bool isFromWalletDeposite = false}) {
   //to know method names visit PaymentGatewayListService class where payment
   //methods list are fetching with method name
 
   switch (method) {
     case 'paypal':
-      makePaymentToGetOrderId(context, () {
-        PaypalService().payByPaypal(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          PaypalService().payByPaypal(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
     case 'cashfree':
-      makePaymentToGetOrderId(context, () {
-        CashfreeService().getTokenAndPay(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          CashfreeService().getTokenAndPay(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
     case 'flutterwave':
-      makePaymentToGetOrderId(context, () {
-        FlutterwaveService().payByFlutterwave(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          FlutterwaveService()
+              .payByFlutterwave(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
     case 'instamojo':
-      makePaymentToGetOrderId(context, () {
-        InstamojoService().payByInstamojo(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          InstamojoService()
+              .payByInstamojo(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
     case 'marcadopago':
-      makePaymentToGetOrderId(context, () {
-        MercadoPagoService().payByMercado(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          MercadoPagoService()
+              .payByMercado(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
     case 'midtrans':
-      makePaymentToGetOrderId(context, () {
-        MidtransService().payByMidtrans(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          MidtransService().payByMidtrans(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
     case 'mollie':
-      makePaymentToGetOrderId(context, () {
-        MollieService().payByMollie(context);
-      });
-
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          MollieService().payByMollie(context, isFromWalletDeposite: true);
+        });
+      }
       break;
 
     case 'payfast':
-      makePaymentToGetOrderId(context, () {
-        PayfastService().payByPayfast(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          PayfastService().payByPayfast(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
 
     case 'paystack':
-      makePaymentToGetOrderId(context, () {
-        PaystackService().payByPaystack(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          PaystackService().payByPaystack(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
     case 'paytm':
-      makePaymentToGetOrderId(context, () {
-        PaytmService().payByPaytm(context);
-      }, paytmPaymentSelected: true);
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          PaytmService().payByPaytm(context, isFromWalletDeposite: true);
+        }, paytmPaymentSelected: true);
+      }
 
       break;
 
     case 'razorpay':
-      makePaymentToGetOrderId(context, () {
-        RazorpayService().payByRazorpay(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          RazorpayService().payByRazorpay(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
     case 'stripe':
-      makePaymentToGetOrderId(context, () {
-        StripeService().makePayment(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          StripeService().makePayment(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
 
     case 'squareup':
-      makePaymentToGetOrderId(context, () {
-        SquareService().payBySquare(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          SquareService().payBySquare(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
 
     case 'cinetpay':
-      makePaymentToGetOrderId(context, () {
-        CinetPayService().payByCinetpay(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          CinetPayService().payByCinetpay(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
 
     case 'paytabs':
-      makePaymentToGetOrderId(context, () {
-        PaytabsService().payByPaytabs(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          PaytabsService().payByPaytabs(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
 
     case 'billplz':
-      makePaymentToGetOrderId(context, () {
-        BillPlzService().payByBillPlz(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          BillPlzService().payByBillPlz(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
 
     case 'zitopay':
-      makePaymentToGetOrderId(context, () {
-        ZitopayService().payByZitopay(context);
-      });
+      if (isFromWalletDeposite) {
+        createDepositeRequestAndPay(context, () {
+          ZitopayService().payByZitopay(context, isFromWalletDeposite: true);
+        });
+      }
 
       break;
 
@@ -150,14 +186,20 @@ payAction(String method, BuildContext context, imagePath,
         OthersHelper()
             .showToast('You must upload the cheque image', Colors.black);
       } else {
-        Provider.of<PaymentService>(context, listen: false)
-            .depositeToWallet(context, imagePath.path, isManualOrCod: true);
+        if (isFromWalletDeposite) {
+          Provider.of<WalletService>(context, listen: false)
+              .createDepositeRequest(context,
+                  imagePath: imagePath.path, isManualOrCod: true);
+        }
       }
 
       break;
     case 'cash_on_delivery':
-      Provider.of<PaymentService>(context, listen: false)
-          .depositeToWallet(context, null, isManualOrCod: true);
+      if (isFromWalletDeposite) {
+        Provider.of<WalletService>(context, listen: false)
+            .createDepositeRequest(context,
+                imagePath: null, isManualOrCod: true);
+      }
 
       break;
     default:
@@ -167,15 +209,15 @@ payAction(String method, BuildContext context, imagePath,
   }
 }
 
-makePaymentToGetOrderId(BuildContext context, VoidCallback function,
+createDepositeRequestAndPay(BuildContext context, VoidCallback function,
     {bool paytmPaymentSelected = false}) async {
-  var res = await Provider.of<PaymentService>(context, listen: false)
-      .depositeToWallet(context, null,
-          paytmPaymentSelected: paytmPaymentSelected);
+  var res = await Provider.of<WalletService>(context, listen: false)
+      .createDepositeRequest(context,
+          imagePath: null, paytmPaymentSelected: paytmPaymentSelected);
 
   if (res == true) {
     function();
   } else {
-    print('order place unsuccessfull, visit payment_constants.dart file');
+    print('adding balance to wallet unsuccessfull');
   }
 }

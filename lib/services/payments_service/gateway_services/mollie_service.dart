@@ -2,13 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/payments/mollie_payment.dart';
 
 class MollieService {
-  payByMollie(BuildContext context, {bool isFromOrderExtraAccept = false}) {
+  payByMollie(BuildContext context,
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) {
     var amount;
 
     String name;
@@ -16,27 +18,40 @@ class MollieService {
     String email;
     var orderId;
 
-    var profileProvider = Provider.of<ProfileService>(context, listen: false);
-    var paymentProvider = Provider.of<PaymentService>(context, listen: false);
-    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
+    Provider.of<PaymentService>(context, listen: false).setLoadingTrue();
 
-    name = profileProvider.profileDetails.name ?? '';
-    phone = profileProvider.profileDetails.phone ?? '';
-    email = profileProvider.profileDetails.email ?? '';
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .email ??
+        'test@test.com';
 
-    orderId = paymentProvider.orderId;
+    if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+      amount = double.parse(amount).toStringAsFixed(2);
 
-    amount = pdProvider.totalAmount.toStringAsFixed(2);
+      orderId = 'wallet' +
+          Provider.of<WalletService>(context, listen: false)
+              .walletHistoryId
+              .toString();
+    }
 
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => MolliePayment(
-          amount: amount,
-          name: name,
-          phone: phone,
-          email: email,
-          orderId: orderId,
-        ),
+            amount: amount,
+            name: name,
+            phone: phone,
+            email: email,
+            orderId: orderId,
+            isFromWalletDeposite: isFromWalletDeposite),
       ),
     );
   }

@@ -7,17 +7,20 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
-import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
-import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
-import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../../services/payments_service/payment_gateway_list_service.dart';
 
 class MercadopagoPaymentPage extends StatefulWidget {
   const MercadopagoPaymentPage({
     Key? key,
+    required this.isFromWalletDeposite,
   }) : super(key: key);
+
+  final bool isFromWalletDeposite;
 
   @override
   State<MercadopagoPaymentPage> createState() => _MercadopagoPaymentPageState();
@@ -71,8 +74,10 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
               navigationDelegate: (NavigationRequest request) async {
                 if (request.url.contains('https://www.google.com/')) {
                   print('payment success');
-                  await Provider.of<PaymentService>(context, listen: false)
-                      .makePaymentSuccess(context);
+                  if (widget.isFromWalletDeposite) {
+                    await Provider.of<WalletService>(context, listen: false)
+                        .makeDepositeToWalletSuccess(context);
+                  }
 
                   return NavigationDecision.prevent;
                 }
@@ -96,16 +101,16 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
 
     String orderId;
     String email;
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .email ??
+        'test@test.com';
 
-    var profileProvider = Provider.of<ProfileService>(context, listen: false);
-    var paymentProvider = Provider.of<PaymentService>(context, listen: false);
-    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
-
-    amount = pdProvider.totalAmount;
-
-    orderId = paymentProvider.orderId;
-
-    email = profileProvider.profileDetails.email ?? '';
+    if (widget.isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+      amount = double.parse(amount);
+      orderId = DateTime.now().toString();
+    }
 
     String mercadoKey =
         Provider.of<PaymentGatewayListService>(context, listen: false)

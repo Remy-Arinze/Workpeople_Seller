@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutterwave_standard/flutterwave.dart';
 import 'package:flutterwave_standard/models/subaccount.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:uuid/uuid.dart';
 
 class FlutterwaveService {
@@ -15,10 +15,11 @@ class FlutterwaveService {
   String currency = 'USD';
   // String amount = '200';
 
-  payByFlutterwave(
-    BuildContext context,
-  ) {
-    _handlePaymentInitialization(context);
+  payByFlutterwave(BuildContext context,
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) {
+    _handlePaymentInitialization(
+        context, isFromOrderExtraAccept, isFromWalletDeposite);
     // Navigator.of(context).push(
     //   MaterialPageRoute(
     //     builder: (BuildContext context) => const FlutterwavePaymentPage(),
@@ -26,22 +27,31 @@ class FlutterwaveService {
     // );
   }
 
-  _handlePaymentInitialization(BuildContext context) async {
-    String amount;
+  _handlePaymentInitialization(BuildContext context, isFromOrderExtraAccept,
+      isFromWalletDeposite) async {
+    String amount = '';
 
-    // String name;
+    String name;
     String phone;
     String email;
 
-    var profileProvider = Provider.of<ProfileService>(context, listen: false);
-    // var paymentProvider = Provider.of<PaymentService>(context, listen: false);
-    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
+    Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
 
-    // var name = bookProvider.name ?? '';
-    phone = profileProvider.profileDetails.phone ?? '';
-    email = profileProvider.profileDetails.email ?? '';
-
-    amount = pdProvider.totalAmount.toStringAsFixed(2);
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .email ??
+        'test@test.com';
+    if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+    }
 
     // String publicKey = 'FLWPUBK_TEST-86cce2ec43c63e09a517290a8347fcab-X';
     String publicKey =
@@ -108,10 +118,10 @@ class FlutterwaveService {
     if (response != null) {
       showLoading(response.status!, context);
       print('flutterwave payment successfull');
-
-      Provider.of<PaymentService>(context, listen: false)
-          .makePaymentSuccess(context);
-
+      if (isFromWalletDeposite) {
+        Provider.of<WalletService>(context, listen: false)
+            .makeDepositeToWalletSuccess(context);
+      }
       // print("${response.toJson()}");
     } else {
       //User cancelled the payment

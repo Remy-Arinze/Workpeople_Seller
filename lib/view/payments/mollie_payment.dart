@@ -4,10 +4,12 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
+
+import '../../services/payments_service/payment_gateway_list_service.dart';
 
 class MolliePayment extends StatelessWidget {
   MolliePayment(
@@ -16,13 +18,15 @@ class MolliePayment extends StatelessWidget {
       required this.name,
       required this.phone,
       required this.email,
-      required this.orderId})
+      required this.orderId,
+      required this.isFromWalletDeposite})
       : super(key: key);
 
   final amount;
   final name;
   final phone;
   final email;
+  final isFromWalletDeposite;
   final orderId;
 
   String? url;
@@ -66,8 +70,10 @@ class MolliePayment extends StatelessWidget {
                 if (value.contains(redirectUrl)) {
                   String status = await verifyPayment(context);
                   if (status == 'paid') {
-                    Provider.of<PaymentService>(context, listen: false)
-                        .makePaymentSuccess(context);
+                    if (isFromWalletDeposite) {
+                      Provider.of<WalletService>(context, listen: false)
+                          .makeDepositeToWalletSuccess(context);
+                    }
                   }
                   if (status == 'open') {
                     await showDialog(

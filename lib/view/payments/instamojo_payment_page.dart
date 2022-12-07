@@ -3,24 +3,27 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
-import 'dart:async';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
-
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
+import 'dart:async';
+
+import '../../services/payments_service/payment_gateway_list_service.dart';
 
 class InstamojoPaymentPage extends StatefulWidget {
-  const InstamojoPaymentPage({
-    Key? key,
-    required this.amount,
-    required this.name,
-    required this.email,
-  }) : super(key: key);
+  const InstamojoPaymentPage(
+      {Key? key,
+      required this.amount,
+      required this.name,
+      required this.email,
+      required this.isFromWalletDeposite})
+      : super(key: key);
 
   final amount;
   final name;
+  final isFromWalletDeposite;
   final email;
   @override
   _InstamojoPaymentPageState createState() => _InstamojoPaymentPageState();
@@ -132,8 +135,10 @@ class _InstamojoPaymentPageState extends State<InstamojoPaymentPage> {
       if (realResponse["payment"]['status'] == 'Credit') {
         print('instamojo payment successfull');
 
-        Provider.of<PaymentService>(context, listen: false)
-            .makePaymentSuccess(context);
+        if (widget.isFromWalletDeposite) {
+          Provider.of<WalletService>(context, listen: false)
+              .makeDepositeToWalletSuccess(context);
+        }
 
 //payment is successful.
       } else {

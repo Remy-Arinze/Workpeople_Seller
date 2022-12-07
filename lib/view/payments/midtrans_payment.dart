@@ -6,22 +6,25 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
 class MidtransPayment extends StatelessWidget {
-  MidtransPayment({
-    Key? key,
-    required this.amount,
-    required this.name,
-    required this.phone,
-    required this.email,
-  }) : super(key: key);
+  MidtransPayment(
+      {Key? key,
+      required this.amount,
+      required this.name,
+      required this.phone,
+      required this.email,
+      required this.isFromWalletDeposite})
+      : super(key: key);
 
   final amount;
   final name;
   final phone;
   final email;
+  final isFromWalletDeposite;
 
   String? url;
   @override
@@ -58,8 +61,10 @@ class MidtransPayment extends StatelessWidget {
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (value) async {
                 if (value.contains('success')) {
-                  Provider.of<PaymentService>(context, listen: false)
-                      .makePaymentSuccess(context);
+                  if (isFromWalletDeposite) {
+                    Provider.of<WalletService>(context, listen: false)
+                        .makeDepositeToWalletSuccess(context);
+                  }
                 }
               },
             );

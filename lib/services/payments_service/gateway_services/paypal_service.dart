@@ -2,32 +2,41 @@
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:http_auth/http_auth.dart';
 import 'dart:async';
 import 'dart:convert' as convert;
+import 'package:http_auth/http_auth.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/payments/PaypalPayment.dart';
 
 class PaypalService {
-  payByPaypal(BuildContext context, {bool isFromOrderExtraAccept = false}) {
-    String amount;
+  payByPaypal(BuildContext context,
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) {
+    Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
+    String amount = '';
     String name;
     String phone;
     String email;
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .email ??
+        'test@test.com';
 
-    var profileProvider = Provider.of<ProfileService>(context, listen: false);
-    // var paymentProvider = Provider.of<PaymentService>(context, listen: false);
-    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
-
-    name = profileProvider.profileDetails.name ?? '';
-    phone = profileProvider.profileDetails.phone ?? '';
-    email = profileProvider.profileDetails.email ?? '';
-
-    amount = pdProvider.totalAmount.toStringAsFixed(2);
+    if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+    }
 
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -35,11 +44,10 @@ class PaypalService {
           onFinish: (number) async {
             print('paypal payment successfull');
 
-            //make payment status success
-            Provider.of<PaymentService>(context, listen: false)
-                .makePaymentSuccess(context);
-            // payment done
-            print('order id: ' + number);
+            if (isFromWalletDeposite) {
+              Provider.of<WalletService>(context, listen: false)
+                  .makeDepositeToWalletSuccess(context);
+            }
           },
           amount: amount,
           name: name,

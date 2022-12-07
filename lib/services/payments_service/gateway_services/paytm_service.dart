@@ -2,26 +2,31 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/payments/paytm_payment.dart';
 
 class PaytmService {
-  payByPaytm(
-    BuildContext context,
-  ) {
+  payByPaytm(BuildContext context,
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) {
     //========>
     Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
 
     var amount;
 
-    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
+    if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+    }
 
-    amount = pdProvider.totalAmount.toStringAsFixed(2);
+    //paytm not implemented neither for place order nor extra accept,
+    if (isFromOrderExtraAccept) return;
 
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (BuildContext context) => const PaytmPayment(),
+        builder: (BuildContext context) => PaytmPayment(
+          isFromWalletDeposite: isFromWalletDeposite,
+        ),
       ),
     );
   }

@@ -91,8 +91,8 @@ class _WalletPageState extends State<WalletPage> {
                                   MaterialPageRoute<void>(
                                     builder: (BuildContext context) =>
                                         const PaymentChoosePage(
-                                            // isFromDepositeToWallet: true,
-                                            ),
+                                      isFromDepositeToWallet: true,
+                                    ),
                                   ),
                                 );
                               },
@@ -217,13 +217,13 @@ class _WalletPageState extends State<WalletPage> {
                                     ],
                                   )
                                 : Container(
-                                    height: screenHeight(context) - 140,
+                                    height: screenHeight(context) - 280,
                                     alignment: Alignment.center,
                                     child: OthersHelper()
                                         .showLoading(cc.primaryColor),
                                   )
                             : Container(
-                                height: screenHeight(context) - 120,
+                                height: screenHeight(context) - 280,
                                 alignment: Alignment.center,
                                 child: const Text('No history found'),
                               ),

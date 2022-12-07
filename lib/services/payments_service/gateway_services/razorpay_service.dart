@@ -2,13 +2,15 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/payments/razorpay_payment_page.dart';
 
 class RazorpayService {
-  payByRazorpay(BuildContext context) {
+  payByRazorpay(BuildContext context,
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) {
     //========>
     Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
 
@@ -19,15 +21,26 @@ class RazorpayService {
     String email;
     String orderId;
 
-    var profileProvider = Provider.of<ProfileService>(context, listen: false);
-    var paymentProvider = Provider.of<PaymentService>(context, listen: false);
-    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
-
-    name = profileProvider.profileDetails.name ?? '';
-    phone = profileProvider.profileDetails.phone ?? '';
-    email = profileProvider.profileDetails.email ?? '';
-
-    amount = pdProvider.totalAmount.toStringAsFixed(2);
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .email ??
+        'test@test.com';
+    if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+      amount = double.parse(amount).toStringAsFixed(1);
+      orderId = 'wallet' +
+          Provider.of<WalletService>(context, listen: false)
+              .walletHistoryId
+              .toString();
+    }
 
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -36,6 +49,7 @@ class RazorpayService {
           name: name,
           phone: phone,
           email: email,
+          isFromWalletDeposite: isFromWalletDeposite,
         ),
       ),
     );

@@ -2,25 +2,34 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer/service/order_details_service.dart';
+import 'package:qixer/service/wallet_service.dart';
+import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/orders/payment_helper.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-
+import '../../service/booking_services/place_order_service.dart';
+import '../../service/payment_gateway_list_service.dart';
 import '../../services/payments_service/payment_gateway_list_service.dart';
 
 class RazorpayPaymentPage extends StatefulWidget {
-  const RazorpayPaymentPage({
-    Key? key,
-    required this.amount,
-    required this.name,
-    required this.phone,
-    required this.email,
-  }) : super(key: key);
+  const RazorpayPaymentPage(
+      {Key? key,
+      required this.amount,
+      required this.name,
+      required this.phone,
+      required this.email,
+      required this.isFromOrderExtraAccept,
+      required this.isFromWalletDeposite})
+      : super(key: key);
 
   final amount;
   final name;
   final phone;
   final email;
+  final isFromOrderExtraAccept;
+  final isFromWalletDeposite;
 
   @override
   _RazorpayPaymentPageState createState() => _RazorpayPaymentPageState();
@@ -77,8 +86,10 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
   void _handlePaymentSuccess(PaymentSuccessResponse response) {
     print("Payment Sucessfull");
 
-    Provider.of<PaymentService>(context, listen: false)
-        .makePaymentSuccess(context);
+    if (widget.isFromWalletDeposite) {
+      Provider.of<WalletService>(context, listen: false)
+          .makeDepositeToWalletSuccess(context);
+    }
 
     // print(
     //     "${response.orderId} \n${response.paymentId} \n${response.signature}");

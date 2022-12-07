@@ -2,13 +2,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/payments/midtrans_payment.dart';
 
 class MidtransService {
-  payByMidtrans(BuildContext context, {bool isFromOrderExtraAccept = false}) {
+  payByMidtrans(BuildContext context, {bool isFromWalletDeposite = false}) {
     Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
 
     var amount;
@@ -16,15 +16,21 @@ class MidtransService {
     String phone;
     String email;
 
-    var profileProvider = Provider.of<ProfileService>(context, listen: false);
-    // var paymentProvider = Provider.of<PaymentService>(context, listen: false);
-    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
-
-    name = profileProvider.profileDetails.name ?? '';
-    phone = profileProvider.profileDetails.phone ?? '';
-    email = profileProvider.profileDetails.email ?? '';
-
-    amount = pdProvider.totalAmount.toStringAsFixed(2);
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .email ??
+        'test@test.com';
+    if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+    }
 
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -33,6 +39,7 @@ class MidtransService {
           name: name,
           phone: phone,
           email: email,
+          isFromWalletDeposite: isFromWalletDeposite,
         ),
       ),
     );
