@@ -4,18 +4,21 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ZitopayPaymentPage extends StatefulWidget {
-  const ZitopayPaymentPage({
-    Key? key,
-    required this.userName,
-    required this.amount,
-  }) : super(key: key);
+  const ZitopayPaymentPage(
+      {Key? key,
+      required this.userName,
+      required this.amount,
+      required this.isFromWalletDeposite})
+      : super(key: key);
 
   final userName;
   final amount;
+  final isFromWalletDeposite;
 
   @override
   _ZitopayPaymentPageState createState() => _ZitopayPaymentPageState();
@@ -68,9 +71,10 @@ class _ZitopayPaymentPageState extends State<ZitopayPaymentPage> {
                 //So, this alreadySuccess = true trick will prevent that
                 if (alreadySuccessful != true) {
                   print('payment success');
-
-                  await Provider.of<PaymentService>(context, listen: false)
-                      .makePaymentSuccess(context);
+                  if (widget.isFromWalletDeposite) {
+                    await Provider.of<WalletService>(context, listen: false)
+                        .makeDepositeToWalletSuccess(context);
+                  }
                 }
 
                 setState(() {

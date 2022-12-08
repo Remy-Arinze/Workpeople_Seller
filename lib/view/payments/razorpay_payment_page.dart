@@ -1,16 +1,11 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer/service/order_details_service.dart';
-import 'package:qixer/service/wallet_service.dart';
-import 'package:qixer/view/booking/booking_helper.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/orders/payment_helper.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
-import '../../service/booking_services/place_order_service.dart';
-import '../../service/payment_gateway_list_service.dart';
 import '../../services/payments_service/payment_gateway_list_service.dart';
 
 class RazorpayPaymentPage extends StatefulWidget {
@@ -20,7 +15,6 @@ class RazorpayPaymentPage extends StatefulWidget {
       required this.name,
       required this.phone,
       required this.email,
-      required this.isFromOrderExtraAccept,
       required this.isFromWalletDeposite})
       : super(key: key);
 
@@ -28,7 +22,6 @@ class RazorpayPaymentPage extends StatefulWidget {
   final name;
   final phone;
   final email;
-  final isFromOrderExtraAccept;
   final isFromWalletDeposite;
 
   @override

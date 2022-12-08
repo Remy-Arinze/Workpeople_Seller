@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutterzilla_fixed_grid/flutterzilla_fixed_grid.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
-import 'package:qixer_seller/services/payments_service/bank_transfer_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_constants.dart';
 import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
@@ -14,8 +13,10 @@ import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/custom_input.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/wallet/components/deposite_amount_section.dart';
+
+import '../../services/payments_service/gateway_services/bank_transfer_service.dart';
 
 class PaymentChoosePage extends StatefulWidget {
   const PaymentChoosePage({Key? key, this.isFromDepositeToWallet = false})
@@ -64,61 +65,7 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                         builder: (context, provider, child) => Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              //border
-                              // Container(
-                              //   margin: const EdgeInsets.only(bottom: 20),
-                              //   child: CommonHelper().dividerCommon(),
-                              // ),
-                              // PaymentHelper().detailsPanelRow(
-                              //     asProvider.getString('Total Payable'),
-                              //     0,
-                              //     '100'),
-
-                              // //border
-                              // Container(
-                              //   margin:
-                              //       const EdgeInsets.only(top: 20, bottom: 20),
-                              //   child: CommonHelper().dividerCommon(),
-                              // ),
-
-                              //Amount ============>
-                              CommonHelper().labelCommon(
-                                  asProvider.getString("Deposite Amount")),
-
-                              CustomInput(
-                                controller: amountController,
-                                hintText: asProvider
-                                    .getString("Enter deposite amount"),
-                                textInputAction: TextInputAction.next,
-                                paddingHorizontal: 18,
-                                marginBottom: 5,
-                              ),
-
-                              CheckboxListTile(
-                                checkColor: Colors.white,
-                                activeColor: ConstantColors().primaryColor,
-                                contentPadding: const EdgeInsets.all(0),
-                                title: Container(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 5),
-                                  child: Text(
-                                    asProvider.getString(
-                                        'Deposite from current balance'),
-                                    style: TextStyle(
-                                        color: ConstantColors().greyFour,
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 14),
-                                  ),
-                                ),
-                                value: depositeFromCurrent,
-                                onChanged: (newValue) {
-                                  setState(() {
-                                    depositeFromCurrent = !depositeFromCurrent;
-                                  });
-                                },
-                                controlAffinity:
-                                    ListTileControlAffinity.leading,
-                              ),
+                              const DepositeAmountSection(),
 
                               Container(
                                 margin:
@@ -340,20 +287,20 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                   return;
                                 } else {
                                   payAction(
-                                    pgProvider
-                                            .paymentDropdownList[selectedMethod]
-                                        ['name'],
-                                    context,
-                                    //if user selected bank transfer
-                                    pgProvider.paymentDropdownList[
-                                                selectedMethod]['name'] ==
-                                            'manual_payment'
-                                        ? Provider.of<BankTransferService>(
-                                                context,
-                                                listen: false)
-                                            .pickedImage
-                                        : null,
-                                  );
+                                      pgProvider.paymentDropdownList[
+                                          selectedMethod]['name'],
+                                      context,
+                                      //if user selected bank transfer
+                                      pgProvider.paymentDropdownList[
+                                                  selectedMethod]['name'] ==
+                                              'manual_payment'
+                                          ? Provider.of<BankTransferService>(
+                                                  context,
+                                                  listen: false)
+                                              .pickedImage
+                                          : null,
+                                      isFromWalletDeposite:
+                                          widget.isFromDepositeToWallet);
                                 }
                               },
                                   isloading: provider.isloading == false

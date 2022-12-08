@@ -5,10 +5,10 @@ import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -27,7 +27,8 @@ class StripeService with ChangeNotifier {
 
   Map<String, dynamic>? paymentIntentData;
 
-  displayPaymentSheet(BuildContext context) async {
+  displayPaymentSheet(BuildContext context, isFromOrderExtraAccept,
+      isFromWalletDeposite) async {
     try {
       await Stripe.instance
           .presentPaymentSheet(
@@ -38,9 +39,10 @@ class StripeService with ChangeNotifier {
           .then((newValue) async {
         print('stripe payment successfull');
 
-        Provider.of<PaymentService>(context, listen: false)
-            .makePaymentSuccess(context);
-
+        if (isFromWalletDeposite) {
+          Provider.of<WalletService>(context, listen: false)
+              .makeDepositeToWalletSuccess(context);
+        }
         //payment successs ================>
 
         paymentIntentData = null;
@@ -93,23 +95,31 @@ class StripeService with ChangeNotifier {
     }
   }
 
-  Future<void> makePayment(
-    BuildContext context,
-  ) async {
+  Future<void> makePayment(BuildContext context,
+      {bool isFromOrderExtraAccept = false,
+      bool isFromWalletDeposite = false}) async {
     var amount;
 
     String name;
-    // String phone;
-    // String email;
-    // String orderId;
-
-    var profileProvider = Provider.of<ProfileService>(context, listen: false);
-    // var paymentProvider = Provider.of<PaymentService>(context, listen: false);
-    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
-
-    name = profileProvider.profileDetails.name ?? '';
-
-    amount = pdProvider.totalAmount.toStringAsFixed(0);
+    String phone;
+    String email;
+    Provider.of<PaymentService>(context, listen: false).setLoadingTrue();
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .email ??
+        'test@test.com';
+    if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+      amount = double.parse(amount).toStringAsFixed(0);
+    }
 
     //Stripe takes only integer value
 
@@ -129,7 +139,8 @@ class StripeService with ChangeNotifier {
           .then((value) {});
 
       ///now finally display payment sheeet
-      displayPaymentSheet(context);
+      displayPaymentSheet(
+          context, isFromOrderExtraAccept, isFromWalletDeposite);
     } catch (e, s) {
       debugPrint('exception:$e$s');
     }

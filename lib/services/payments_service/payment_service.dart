@@ -18,4 +18,11 @@ class PaymentService with ChangeNotifier {
     isloading = false;
     notifyListeners();
   }
+
+  bool depositeFromCurrent = false;
+
+  setDepositeFromCurrent(bool status) {
+    depositeFromCurrent = status;
+    notifyListeners();
+  }
 }

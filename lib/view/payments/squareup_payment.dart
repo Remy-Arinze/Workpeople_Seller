@@ -5,25 +5,28 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 
+import '../../services/payments_service/payment_gateway_list_service.dart';
+
 class SquareUpPayment extends StatelessWidget {
-  SquareUpPayment({
-    Key? key,
-    required this.amount,
-    required this.name,
-    required this.phone,
-    required this.email,
-  }) : super(key: key);
+  SquareUpPayment(
+      {Key? key,
+      required this.amount,
+      required this.name,
+      required this.phone,
+      required this.email,
+      required this.isFromWalletDeposite})
+      : super(key: key);
 
   final amount;
   final name;
   final phone;
   final email;
+  final isFromWalletDeposite;
 
   String? url;
   @override

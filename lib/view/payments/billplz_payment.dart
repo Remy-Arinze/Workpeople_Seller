@@ -6,25 +6,29 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
-import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+import 'package:http/http.dart' as http;
+
+import '../../services/payments_service/payment_gateway_list_service.dart';
 
 class BillplzPayment extends StatelessWidget {
-  BillplzPayment({
-    Key? key,
-    required this.amount,
-    required this.name,
-    required this.phone,
-    required this.email,
-  }) : super(key: key);
+  BillplzPayment(
+      {Key? key,
+      required this.amount,
+      required this.name,
+      required this.phone,
+      required this.email,
+      required this.isFromWalletDeposite})
+      : super(key: key);
 
   final amount;
   final name;
   final phone;
   final email;
+  final isFromWalletDeposite;
 
   String? url;
   late WebViewController _controller;
@@ -72,7 +76,7 @@ class BillplzPayment extends StatelessWidget {
               initialUrl: url,
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (value) async {
-                verifyPayment(value, context);
+                verifyPayment(value, context, isFromWalletDeposite);
               },
             );
           }),
@@ -133,13 +137,15 @@ class BillplzPayment extends StatelessWidget {
   }
 }
 
-Future verifyPayment(String url, BuildContext context) async {
+Future verifyPayment(
+    String url, BuildContext context, isFromWalletDeposite) async {
   final uri = Uri.parse(url);
   final response = await http.get(uri);
   if (response.body.contains('paid')) {
-    Provider.of<PaymentService>(context, listen: false)
-        .makePaymentSuccess(context);
-
+    if (isFromWalletDeposite) {
+      Provider.of<WalletService>(context, listen: false)
+          .makeDepositeToWalletSuccess(context);
+    }
     return;
   }
   if (response.body.contains('your payment was not')) {

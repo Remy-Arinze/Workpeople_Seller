@@ -2,30 +2,37 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/payments_service/payment_details_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/payments/billplz_payment.dart';
 
 class BillPlzService {
-  payByBillPlz(BuildContext context) {
+  payByBillPlz(BuildContext context, {bool isFromWalletDeposite = false}) {
     //========>
     Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
-
     var amount;
 
     String name;
     String phone;
     String email;
 
-    var pProvider = Provider.of<ProfileService>(context, listen: false);
-    var pdProvider = Provider.of<PaymentDetailsService>(context, listen: false);
+    name = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .name ??
+        'test';
+    phone = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .phone ??
+        '111111111';
+    email = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .email ??
+        'test@test.com';
 
-    name = pProvider.profileDetails.name ?? '';
-    phone = pProvider.profileDetails.phone ?? '';
-    email = pProvider.profileDetails.email ?? '';
-
-    amount = pdProvider.totalAmount.toStringAsFixed(2);
+    if (isFromWalletDeposite) {
+      amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+    }
 
     Navigator.of(context).push(
       MaterialPageRoute(
@@ -34,6 +41,7 @@ class BillPlzService {
           name: name,
           phone: phone,
           email: email,
+          isFromWalletDeposite: isFromWalletDeposite,
         ),
       ),
     );

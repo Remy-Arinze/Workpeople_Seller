@@ -158,6 +158,8 @@ class WalletService with ChangeNotifier {
       data: formData,
     );
 
+    print(response.data);
+
     Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
 
     if (response.statusCode == 200) {
