@@ -48,6 +48,11 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
     Provider.of<PaymentGatewayListService>(context, listen: false)
         .fetchGatewayList();
 
+    Future.delayed(const Duration(microseconds: 500), () {
+      Provider.of<PaymentService>(context, listen: false)
+          .setDepositeFromCurrent(false);
+    });
+
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: CommonHelper().appbarCommon('Payment', context, () {
@@ -286,21 +291,24 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                 if (provider.isloading == true) {
                                   return;
                                 } else {
-                                  payAction(
-                                      pgProvider.paymentDropdownList[
-                                          selectedMethod]['name'],
-                                      context,
-                                      //if user selected bank transfer
-                                      pgProvider.paymentDropdownList[
-                                                  selectedMethod]['name'] ==
-                                              'manual_payment'
-                                          ? Provider.of<BankTransferService>(
-                                                  context,
-                                                  listen: false)
-                                              .pickedImage
-                                          : null,
-                                      isFromWalletDeposite:
-                                          widget.isFromDepositeToWallet);
+                                  if (provider.depositeFromCurrent) {
+                                  } else {
+                                    payAction(
+                                        pgProvider.paymentDropdownList[
+                                            selectedMethod]['name'],
+                                        context,
+                                        //if user selected bank transfer
+                                        pgProvider.paymentDropdownList[
+                                                    selectedMethod]['name'] ==
+                                                'manual_payment'
+                                            ? Provider.of<BankTransferService>(
+                                                    context,
+                                                    listen: false)
+                                                .pickedImage
+                                            : null,
+                                        isFromWalletDeposite:
+                                            widget.isFromDepositeToWallet);
+                                  }
                                 }
                               },
                                   isloading: provider.isloading == false

@@ -36,6 +36,7 @@ class _DepositeAmountSectionState extends State<DepositeAmountSection> {
                 hintText: ln.getString("Enter deposite amount"),
                 textInputAction: TextInputAction.next,
                 paddingHorizontal: 18,
+                marginBottom: 5,
                 onChanged: (v) {
                   wProvider.setAmount(v);
                 },
