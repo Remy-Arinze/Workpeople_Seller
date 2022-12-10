@@ -129,7 +129,8 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                     ),
 
                                     if (provider.orderDetails.paymentStatus ==
-                                        'complete')
+                                            'complete' &&
+                                        provider.orderStatus != 'Completed')
                                       CommonHelper().buttonPrimary('Add extra',
                                           () {
                                         OrdersHelper().addExtraPopup(

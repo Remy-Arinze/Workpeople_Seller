@@ -66,6 +66,15 @@ class _SubscriptionHistoryPageState extends State<SubscriptionHistoryPage> {
                                               fontsize: 15),
                                           sizedBoxCustom(8),
                                           Text(
+                                            "Start date: ${formatDate(provider.subsHistoryList[i].createdAt)}",
+                                            style: TextStyle(
+                                              color: cc.greyFour,
+                                              fontSize: 14,
+                                              height: 1.4,
+                                            ),
+                                          ),
+                                          sizedBoxCustom(6),
+                                          Text(
                                             "Expire date: ${formatDate(provider.subsHistoryList[i].expireDate)}",
                                             style: TextStyle(
                                               color: cc.greyFour,
