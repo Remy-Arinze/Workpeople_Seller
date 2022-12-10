@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:qixer_seller/model/wallet_history_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
+import 'package:qixer_seller/services/dashboard_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
@@ -248,36 +249,48 @@ class WalletService with ChangeNotifier {
   // =================>
   //===============>
   // deposite from current balance
-  depositeFromCurrentBalance(BuildContext context, {required amount}) async {
+  depositeFromCurrentBalance(
+    BuildContext context,
+  ) async {
     var connection = await checkConnection();
     if (!connection) return;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 
-    setLoadingStatus(true);
+    Provider.of<PaymentService>(context, listen: false).setLoadingTrue();
 
     var header = {
       //if header type is application/json then the data should be in jsonEncode method
       "Accept": "application/json",
-      // "Content-Type": "application/json"
+      "Content-Type": "application/json",
       "Authorization": "Bearer $token",
     };
 
-    var data = jsonEncode({'amount': amount});
+    var data = jsonEncode({'amount': amountToAdd});
 
     var response = await http.post(
         Uri.parse('$baseApi/seller/wallet/diposit-from-balance'),
         headers: header,
         body: data);
 
-    final decodedData = jsonDecode(response.body);
-
     print(response.body);
 
     if (response.statusCode == 200) {
-      notifyListeners();
+      await fetchWalletBalance(context);
+      fetchWalletHistory(context);
+
+      //refresh total balance in dashboard
+      Provider.of<DashboardService>(context, listen: false)
+          .fetchData(fetchAgain: true);
+
+      Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
+
+      Navigator.pop(context);
     } else {
+      Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
+      OthersHelper()
+          .showSnackBar(context, 'Something went wrong', Colors.black);
       print('Error deposite from current balance' + response.body);
     }
   }
