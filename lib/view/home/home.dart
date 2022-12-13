@@ -5,7 +5,6 @@ import 'package:pusher_beams/pusher_beams.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/dashboard_service.dart';
-import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/services/recent_orders_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
@@ -15,6 +14,7 @@ import 'package:qixer_seller/view/home/chart_dashboard.dart';
 import 'package:qixer_seller/view/home/components/home_cards.dart';
 import 'package:qixer_seller/view/home/components/sidebar_drawer.dart';
 import 'package:qixer_seller/view/home/components/subscription_badge.dart';
+import 'package:qixer_seller/view/notification/push_notification_helper.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
 import 'package:qixer_seller/view/profile/profile_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -60,13 +60,13 @@ class _HomepageState extends State<Homepage> {
   Future<void> _checkForInitialMessage(BuildContext context) async {
     final initialMessage = await PusherBeams.instance.getInitialMessage();
     if (initialMessage != null) {
-      PushNotificationService().notificationAlert(
+      PushNotificationHelper().notificationAlert(
           context, 'Initial Message Is:', initialMessage.toString());
     }
   }
 
   void _onMessageReceivedInTheForeground(Map<Object?, Object?> data) {
-    PushNotificationService().notificationAlert(
+    PushNotificationHelper().notificationAlert(
         context, data["title"].toString(), data["body"].toString());
   }
 
