@@ -184,6 +184,9 @@ class ChatMessagesService with ChangeNotifier {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         var currentUserId = prefs.getInt('userId')!;
         addNewMessage(message, imagePath, currentUserId);
+
+        //send notification to buyer
+
         return true;
       } else {
         OthersHelper().showToast('Something went wrong', Colors.black);

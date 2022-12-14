@@ -7,8 +7,6 @@ import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'live_chat/chat_message_service.dart';
-
 class PushNotificationService with ChangeNotifier {
   bool pusherCredentialLoaded = false;
 
@@ -54,24 +52,19 @@ class PushNotificationService with ChangeNotifier {
     }
   }
 
-  sendNotification(BuildContext context, {required sellerId, required msg}) {
+  sendNotification(BuildContext context, {required buyerId, required msg}) {
     //Send notification to seller
     var username = Provider.of<ProfileService>(context, listen: false)
             .profileDetails
             .userDetails
             .name ??
         '';
-    PushNotificationService().sendNotificationToSeller(context,
-        sellerId: sellerId, title: "New chat message: $username", body: '$msg');
+    sendNotificationToBuyer(context,
+        buyerId: buyerId, title: "New chat message: $username", body: '$msg');
   }
 
-  sendNotificationToSeller(BuildContext context,
-      {required sellerId, required title, required body}) async {
-    var pusherToken =
-        Provider.of<ChatMessagesService>(context, listen: false).pusherToken;
-    var pusherApiUrl =
-        Provider.of<ChatMessagesService>(context, listen: false).pusherApiUrl;
-
+  sendNotificationToBuyer(BuildContext context,
+      {required buyerId, required title, required body}) async {
     var header = {
       //if header type is application/json then the data should be in jsonEncode method
       // "Accept": "application/json",
@@ -81,7 +74,7 @@ class PushNotificationService with ChangeNotifier {
     };
 
     var data = jsonEncode({
-      "interests": ["debug-seller$sellerId"],
+      "interests": ["debug-seller$buyerId"],
       "fcm": {
         "notification": {"title": "$title", "body": "$body"}
       }
