@@ -70,11 +70,11 @@ class PushNotificationService with ChangeNotifier {
       // "Accept": "application/json",
       "Content-Type": "application/json",
       "Authorization":
-          "Bearer A4EEE003A0AEB2B95F78FAD12EA11D8E1C281448DD8D9B33B47F6E5EC47CEDEA",
+          "Bearer 0C764A214C6154535DB891CBD5640012FB5F4B997242314371798110916EAFCD",
     };
 
     var data = jsonEncode({
-      "interests": ["debug-seller$buyerId"],
+      "interests": ["debug-buyer$buyerId"],
       "fcm": {
         "notification": {"title": "$title", "body": "$body"}
       }
@@ -82,7 +82,7 @@ class PushNotificationService with ChangeNotifier {
 
     var response = await http.post(
         Uri.parse(
-            'https://fcaf9caf-509c-4611-a225-2e508593d6af.pushnotifications.pusher.com/publish_api/v1/instances/fcaf9caf-509c-4611-a225-2e508593d6af/publishes'),
+            'https://aa8d8bb4-1030-48a1-a4ac-ad1d5fbd99d3.pushnotifications.pusher.com/publish_api/v1/instances/aa8d8bb4-1030-48a1-a4ac-ad1d5fbd99d3/publishes'),
         headers: header,
         body: data);
 
