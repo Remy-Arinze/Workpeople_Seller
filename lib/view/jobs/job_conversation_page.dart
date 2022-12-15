@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,12 +13,16 @@ import 'package:url_launcher/url_launcher.dart';
 
 class JobConversationPage extends StatefulWidget {
   const JobConversationPage(
-      {Key? key, required this.title, required this.jobRequestId})
+      {Key? key,
+      required this.title,
+      required this.jobRequestId,
+      required this.buyerId})
       : super(key: key);
 
   final String title;
 
   final jobRequestId;
+  final buyerId;
 
   @override
   State<JobConversationPage> createState() => _JobConversationPageState();
@@ -392,11 +398,11 @@ class _JobConversationPageState extends State<JobConversationPage> {
                               //hide keyboard
                               FocusScope.of(context).unfocus();
                               //send message
-                              provider.sendMessage(
-                                widget.jobRequestId,
-                                sendMessageController.text,
-                                pickedFile?.files.single.path,
-                              );
+                              provider.sendMessage(context,
+                                  jobRequestId: widget.jobRequestId,
+                                  message: sendMessageController.text,
+                                  filePath: pickedFile?.files.single.path,
+                                  buyerId: widget.buyerId);
 
                               //clear input field
                               sendMessageController.clear();

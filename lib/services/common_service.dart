@@ -4,8 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/chart_service.dart';
-import 'package:qixer_seller/services/live_chat/chat_message_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/services/subscription_service.dart';
 
@@ -55,7 +55,7 @@ runAtStart(BuildContext context) {
   Provider.of<ProfileService>(context, listen: false).getProfileDetails();
   Provider.of<ChartService>(context, listen: false).fetchChartData(context);
 
-  Provider.of<ChatMessagesService>(context, listen: false)
+  Provider.of<PushNotificationService>(context, listen: false)
       .fetchPusherCredential(context);
 
   Provider.of<SubscriptionService>(context, listen: false)

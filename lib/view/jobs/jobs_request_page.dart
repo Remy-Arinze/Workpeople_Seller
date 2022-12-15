@@ -104,11 +104,11 @@ class _AppliedJobsPageState extends State<JobRequestPage> {
                                             provider.jobReqList[i].job.title ??
                                                 '',
                                             fontsize: 15),
-                                        sizedBoxCustom(8),
+                                        sizedBoxCustom(6),
                                         CommonHelper().paragraphCommon(
                                             'Buyer budget: \$${provider.jobReqList[i].job.price ?? ''}',
                                             TextAlign.left),
-                                        sizedBoxCustom(8),
+                                        sizedBoxCustom(7),
                                         CommonHelper().paragraphCommon(
                                             'Your offer: \$${provider.jobReqList[i].expectedSalary ?? ''}',
                                             TextAlign.left,
@@ -154,6 +154,9 @@ class _AppliedJobsPageState extends State<JobRequestPage> {
                                                   jobRequestId: provider
                                                       .jobReqList[i].id);
 
+                                          print(
+                                              'buyer id ${provider.jobReqList[i].buyerId}');
+
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute<void>(
@@ -163,6 +166,8 @@ class _AppliedJobsPageState extends State<JobRequestPage> {
                                                     .jobReqList[i].job.title,
                                                 jobRequestId:
                                                     provider.jobReqList[i].id,
+                                                buyerId: provider
+                                                    .jobReqList[i].buyerId,
                                               ),
                                             ),
                                           );

@@ -2,8 +2,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/job_details_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
+import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -87,12 +90,6 @@ class JobDetailsService with ChangeNotifier {
       "Authorization": "Bearer $token",
     };
 
-    print('buyer id $buyerId');
-    print('job post id $jobPostId');
-    print('expected salaray $offerPrice');
-    print('cover $coverLetter');
-    print('job price $jobPrice');
-
     setApplyLoadingStatus(true);
     var data = jsonEncode({
       'buyer_id': buyerId,
@@ -115,6 +112,7 @@ class JobDetailsService with ChangeNotifier {
 
     if (response.statusCode == 201) {
       OthersHelper().showToast('Successfully applied', Colors.black);
+      sendNotificationInJobRequest(context, buyerId: buyerId);
     } else {
       print(response.body);
 
@@ -124,5 +122,18 @@ class JobDetailsService with ChangeNotifier {
         OthersHelper().showToast('Something went wrong', Colors.black);
       }
     }
+  }
+
+  //send notification
+  //============>
+
+  sendNotificationInJobRequest(BuildContext context, {required buyerId}) {
+    //Send notification to seller
+    var username = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .name ??
+        '';
+    PushNotificationService().sendNotificationToBuyer(context,
+        buyerId: buyerId, title: "New job request from $username", body: '');
   }
 }

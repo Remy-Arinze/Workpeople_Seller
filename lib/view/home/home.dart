@@ -5,7 +5,6 @@ import 'package:pusher_beams/pusher_beams.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/dashboard_service.dart';
-import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/services/recent_orders_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
@@ -114,17 +113,6 @@ class _HomepageState extends State<Homepage> {
                       children: [
                         //profile image and name ========>
                         // const NameImage(),
-
-                        InkWell(
-                          onTap: () {
-                            PushNotificationService().sendNotificationToBuyer(
-                                context,
-                                buyerId: 249,
-                                title: 'Test notification',
-                                body: 'test body');
-                          },
-                          child: const Text('Send'),
-                        ),
 
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,

@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:qixer_seller/model/chat_messages_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
+import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -145,7 +147,7 @@ class ChatMessagesService with ChangeNotifier {
 
 //Send new message ======>
 
-  sendMessage(toUser, message, imagePath) async {
+  sendMessage(toUser, message, imagePath, BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 
@@ -186,7 +188,7 @@ class ChatMessagesService with ChangeNotifier {
         addNewMessage(message, imagePath, currentUserId);
 
         //send notification to buyer
-
+        sendNotificationInLiveChat(context, buyerId: toUser, msg: message);
         return true;
       } else {
         OthersHelper().showToast('Something went wrong', Colors.black);
@@ -212,40 +214,17 @@ class ChatMessagesService with ChangeNotifier {
     notifyListeners();
   }
 
-  //get pusher credential
+  //notification
   //======================>
 
-  var apiKey;
-  var secret;
-
-  fetchPusherCredential(BuildContext context) async {
-    var connection = await checkConnection();
-    if (!connection) return;
-    if (pusherCredentialLoaded == true) return;
-
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    var token = prefs.getString('token');
-    var header = {
-      //if header type is application/json then the data should be in jsonEncode method
-      "Accept": "application/json",
-      // "Content-Type": "application/json"
-      "Authorization": "Bearer $token",
-    };
-
-    var response = await http.get(
-        Uri.parse("$baseApi/user/chat/pusher/credentials"),
-        headers: header);
-
-    print(response.body);
-
-    if (response.statusCode == 201) {
-      pusherCredentialLoaded = true;
-      final jsonData = jsonDecode(response.body);
-      apiKey = jsonData['pusher_app_key'];
-      secret = jsonData['pusher_app_secret'];
-      notifyListeners();
-    } else {
-      print(response.body);
-    }
+  sendNotificationInLiveChat(BuildContext context,
+      {required buyerId, required msg}) {
+    //Send notification to seller
+    var username = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .name ??
+        '';
+    PushNotificationService().sendNotificationToBuyer(context,
+        buyerId: buyerId, title: "New chat message: $username", body: '$msg');
   }
 }

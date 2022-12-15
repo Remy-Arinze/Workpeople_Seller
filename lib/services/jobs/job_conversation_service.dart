@@ -4,8 +4,11 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/job_conversation_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
+import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -102,7 +105,11 @@ class JobConversationService with ChangeNotifier {
 
 //Send new message ======>
 
-  sendMessage(jobRequestId, message, filePath) async {
+  sendMessage(BuildContext context,
+      {required jobRequestId,
+      required message,
+      filePath,
+      required buyerId}) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 
@@ -145,6 +152,8 @@ class JobConversationService with ChangeNotifier {
 
         addNewMessage(message, filePath);
 
+        sendNotificationInJobMessage(context, buyerId: buyerId, msg: message);
+
         return true;
       } else {
         OthersHelper().showToast('Something went wrong', Colors.black);
@@ -170,5 +179,18 @@ class JobConversationService with ChangeNotifier {
     });
 
     notifyListeners();
+  }
+
+  //notification
+  // ===============>
+  sendNotificationInJobMessage(BuildContext context,
+      {required buyerId, required msg}) {
+    //Send notification to seller
+    var username = Provider.of<ProfileService>(context, listen: false)
+            .profileDetails
+            .name ??
+        '';
+    PushNotificationService().sendNotificationToBuyer(context,
+        buyerId: buyerId, title: "Job message from: $username", body: '$msg');
   }
 }
