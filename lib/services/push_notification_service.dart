@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables, avoid_print
+
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -17,11 +19,13 @@ class PushNotificationService with ChangeNotifier {
   var secret;
   var pusherToken;
   var pusherApiUrl;
+  var pusherInstance;
+  var pusherCluster;
 
-  fetchPusherCredential(BuildContext context) async {
+  Future<bool> fetchPusherCredential({context}) async {
     var connection = await checkConnection();
-    if (!connection) return;
-    if (pusherCredentialLoaded == true) return;
+    if (!connection) return false;
+    if (pusherCredentialLoaded == true) return false;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -45,10 +49,14 @@ class PushNotificationService with ChangeNotifier {
       secret = jsonData['pusher_app_secret'];
       pusherToken = jsonData['pusher_app_push_notification_auth_token'];
       pusherApiUrl = jsonData['pusher_app_push_notification_auth_url'];
+      pusherCluster = jsonData['pusher_app_cluster'];
+      pusherInstance = jsonData['pusher_app_push_notification_instanceId'];
 
       notifyListeners();
+      return true;
     } else {
       print(response.body);
+      return false;
     }
   }
 
@@ -65,12 +73,17 @@ class PushNotificationService with ChangeNotifier {
 
   sendNotificationToBuyer(BuildContext context,
       {required buyerId, required title, required body}) async {
+    var pUrl = Provider.of<PushNotificationService>(context, listen: false)
+        .pusherApiUrl;
+
+    var pToken = Provider.of<PushNotificationService>(context, listen: false)
+        .pusherToken;
+
     var header = {
       //if header type is application/json then the data should be in jsonEncode method
       // "Accept": "application/json",
       "Content-Type": "application/json",
-      "Authorization":
-          "Bearer 0C764A214C6154535DB891CBD5640012FB5F4B997242314371798110916EAFCD",
+      "Authorization": "Bearer $pToken",
     };
 
     var data = jsonEncode({
@@ -80,11 +93,8 @@ class PushNotificationService with ChangeNotifier {
       }
     });
 
-    var response = await http.post(
-        Uri.parse(
-            'https://aa8d8bb4-1030-48a1-a4ac-ad1d5fbd99d3.pushnotifications.pusher.com/publish_api/v1/instances/aa8d8bb4-1030-48a1-a4ac-ad1d5fbd99d3/publishes'),
-        headers: header,
-        body: data);
+    var response =
+        await http.post(Uri.parse("$pUrl"), headers: header, body: data);
 
     if (response.statusCode == 200) {
       print('send notification to seller success');

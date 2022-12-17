@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:provider/provider.dart';
-import 'package:pusher_beams/pusher_beams.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/auth_services/change_pass_service.dart';
 import 'package:qixer_seller/services/auth_services/email_verify_service.dart';
@@ -40,17 +38,10 @@ import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/services/withdraw_service.dart';
 import 'package:qixer_seller/view/intro/splash.dart';
 
-import 'services/payments_service/gateway_services/stripe_service.dart';
 import 'services/payments_service/payment_gateway_list_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  var publishableKey = await StripeService().getStripeKey();
-  Stripe.publishableKey = publishableKey;
-  Stripe.instance.applySettings();
-
-  await PusherBeams.instance.start('fcaf9caf-509c-4611-a225-2e508593d6af');
 
   runApp(const MyApp());
 }

@@ -56,6 +56,7 @@ class _SignupPhonePassState extends State<SignupPhonePass> {
               Consumer<RtlService>(
                 builder: (context, rtlP, child) => IntlPhoneField(
                   controller: widget.phoneController,
+                  disableLengthCheck: true,
                   decoration: SignupHelper().phoneFieldDecoration(
                       ln.getString('Phone Number'),
                       ln.getString('Enter phone number')),

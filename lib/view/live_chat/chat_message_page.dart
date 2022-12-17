@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -42,6 +44,9 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
     secret =
         Provider.of<PushNotificationService>(context, listen: false).secret;
 
+    cluster = Provider.of<PushNotificationService>(context, listen: false)
+        .pusherCluster;
+
     connectToPusher();
     channelName = 'private-chat-message.${widget.currentUserId}';
   }
@@ -57,7 +62,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
 
   late String apiKey;
   late String secret;
-  final cluster = 'ap2';
+  var cluster;
   late String channelName;
   final eventName = 'client-message.sent';
 
@@ -102,7 +107,7 @@ class _ChatMessagePageState extends State<ChatMessagePage> {
   }
 
   void onEvent(PusherEvent event) {
-    print('message received::: $event');
+    // print('message received::: $event');
     //add message to message list to show in the ui
     final messageReceived = jsonDecode(event.data)['message']['message'];
     final receivedUserId = jsonDecode(event.data)['message']['from_user']['id'];
