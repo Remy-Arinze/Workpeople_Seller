@@ -185,9 +185,6 @@ class OrdersService with ChangeNotifier {
 
     final decodedData = jsonDecode(response.body);
 
-    print(response.body);
-    print(response.statusCode);
-
     if (response.statusCode == 200) {
       await Provider.of<OrderDetailsService>(context, listen: false)
           .fetchOrderDetails(orderId, context);
