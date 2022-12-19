@@ -61,7 +61,7 @@ class RecentOrders extends StatelessWidget {
                                 },
                                 child: Container(
                                     padding: const EdgeInsets.symmetric(
-                                        horizontal: 2, vertical: 18),
+                                        horizontal: 2, vertical: 15),
                                     decoration: BoxDecoration(
                                         border: Border(
                                       bottom: BorderSide(
@@ -100,8 +100,7 @@ class RecentOrders extends StatelessWidget {
                                             ],
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 60,
+                                        Expanded(
                                           child: Text(
                                             "${rtlP.currency}${rProvider.recentOrdersData.recentOrders[index].total}",
                                             maxLines: 1,
