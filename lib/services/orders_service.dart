@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/orders_list_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
+import 'package:qixer_seller/services/order_details_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -139,6 +140,65 @@ class OrdersService with ChangeNotifier {
       OthersHelper().showToast(decodedData['msg'], Colors.black);
     } else {
       setMarkLoadingStatus(false);
+
+      if (decodedData.containsKey('msg')) {
+        OthersHelper().showToast(decodedData['msg'], Colors.black);
+      } else {
+        OthersHelper().showToast('Something went wrong', Colors.black);
+      }
+    }
+  }
+
+  //make payment status complete
+  // ==============>
+
+  bool payLoadingStatus = false;
+
+  setPayLoadingStatus(bool status) {
+    payLoadingStatus = status;
+    notifyListeners();
+  }
+
+  makePaymentStatusComplete(BuildContext context, {required orderId}) async {
+    //get user id
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var connection = await checkConnection();
+    if (!connection) return;
+
+    setPayLoadingStatus(true);
+
+    var data = jsonEncode({'id': orderId});
+
+    var response = await http.post(
+        Uri.parse('$baseApi/seller/my-orders/order/change-payment-status'),
+        headers: header,
+        body: data);
+
+    final decodedData = jsonDecode(response.body);
+
+    print(response.body);
+    print(response.statusCode);
+
+    if (response.statusCode == 200) {
+      await Provider.of<OrderDetailsService>(context, listen: false)
+          .fetchOrderDetails(orderId, context);
+
+      setPayLoadingStatus(false);
+
+      Navigator.pop(context);
+
+      OthersHelper().showToast(decodedData['msg'], Colors.black);
+    } else {
+      setPayLoadingStatus(false);
 
       if (decodedData.containsKey('msg')) {
         OthersHelper().showToast(decodedData['msg'], Colors.black);

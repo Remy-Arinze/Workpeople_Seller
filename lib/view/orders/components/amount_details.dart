@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
+import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
+import 'package:qixer_seller/view/orders/orders_helper.dart';
 import 'package:qixer_seller/view/orders/payment_helper.dart';
 
 class AmountDetails extends StatelessWidget {
@@ -61,11 +63,32 @@ class AmountDetails extends StatelessWidget {
 
                     Container(
                       child: PaymentHelper().bRow(
+                        'null',
+                        ln.getString('Payment status'),
+                        provider.orderDetails.paymentStatus ?? '',
+                      ),
+                    ),
+                    Container(
+                      child: PaymentHelper().bRow(
                           'null',
-                          ln.getString('Payment status'),
-                          provider.orderDetails.paymentStatus ?? '',
+                          ln.getString('Payment method'),
+                          removeUnderscore(
+                                  provider.orderDetails.paymentGateway) ??
+                              '',
                           lastBorder: false),
                     ),
+
+                    if (provider.orderDetails.paymentStatus == 'pending' &&
+                        provider.orderDetails.paymentGateway ==
+                            'cash_on_delivery')
+                      Container(
+                        margin: const EdgeInsets.only(top: 25),
+                        child: CommonHelper()
+                            .buttonPrimary('Make payment status complete', () {
+                          OrdersHelper().makePaymentCompletePopup(context,
+                              orderId: provider.orderDetails.id);
+                        }, paddingVertical: 16),
+                      )
                   ]),
             ),
           ],

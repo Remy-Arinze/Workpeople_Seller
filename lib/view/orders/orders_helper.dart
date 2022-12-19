@@ -3,8 +3,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
+import 'package:qixer_seller/services/orders_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
+import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/view/orders/components/add_extras_popup.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -116,6 +118,8 @@ class OrdersHelper {
         )).show();
   }
 
+// ==================>
+//
   deleteExtraPopup(BuildContext context, {required extraId, required orderId}) {
     return Alert(
         context: context,
@@ -173,6 +177,73 @@ class OrdersHelper {
                               extraId: extraId, orderId: orderId);
                         }
                       }, isloading: provider.deleteLoading)),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        )).show();
+  }
+
+  // ==================>
+//
+  makePaymentCompletePopup(BuildContext context, {required orderId}) {
+    return Alert(
+        context: context,
+        style: AlertStyle(
+            alertElevation: 0,
+            overlayColor: Colors.black.withOpacity(.6),
+            alertPadding: const EdgeInsets.all(25),
+            isButtonVisible: false,
+            alertBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: const BorderSide(
+                color: Colors.transparent,
+              ),
+            ),
+            titleStyle: const TextStyle(),
+            animationType: AnimationType.grow,
+            animationDuration: const Duration(milliseconds: 500)),
+        content: Container(
+          margin: const EdgeInsets.only(top: 15),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(7),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(0.01),
+                  spreadRadius: -2,
+                  blurRadius: 13,
+                  offset: const Offset(0, 13)),
+            ],
+          ),
+          child: Consumer<AppStringService>(
+            builder: (context, asProvider, child) => Column(
+              children: [
+                Text(
+                  '${asProvider.getString('Make payment status complete?')}',
+                  style: TextStyle(color: cc.greyPrimary, fontSize: 17),
+                ),
+                sizedBoxCustom(35),
+                Row(
+                  children: [
+                    Expanded(
+                        child: CommonHelper().borderButtonPrimary(
+                            asProvider.getString('Cancel'), () {
+                      Navigator.pop(context);
+                    })),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Consumer<OrdersService>(
+                      builder: (context, provider, child) => Expanded(
+                          child: CommonHelper()
+                              .buttonPrimary(asProvider.getString('Yes'), () {
+                        if (provider.payLoadingStatus == false) {
+                          provider.makePaymentStatusComplete(context,
+                              orderId: orderId);
+                        }
+                      }, isloading: provider.payLoadingStatus)),
                     ),
                   ],
                 )

@@ -200,11 +200,6 @@ class OrderDetailsService with ChangeNotifier {
 
     var connection = await checkConnection();
     if (connection) {
-      //if connection is ok
-
-      // print(extraId);
-      // return;
-
       setDeleteLoadingStatus(true);
 
       var data = jsonEncode({'id': extraId});

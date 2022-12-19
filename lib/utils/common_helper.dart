@@ -34,13 +34,13 @@ class CommonHelper {
 
   //common orange button =======>
   buttonPrimary(String title, VoidCallback pressed,
-      {isloading = false, bgColor}) {
+      {isloading = false, bgColor, double paddingVertical = 18}) {
     return InkWell(
       onTap: pressed,
       child: Container(
           width: double.infinity,
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 18),
+          padding: EdgeInsets.symmetric(vertical: paddingVertical),
           decoration: BoxDecoration(
               color: bgColor ?? cc.primaryColor,
               borderRadius: BorderRadius.circular(8)),

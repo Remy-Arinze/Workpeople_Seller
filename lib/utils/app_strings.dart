@@ -145,5 +145,6 @@ var appStrings = {
   'Ticket ID:': 'Ticket ID:',
   'Chat': 'Chat',
   "Write message...": "Write message...",
-  'Please write a message first': 'Please write a message first'
+  'Please write a message first': 'Please write a message first',
+  "Make payment status complete?": "Make payment status complete?"
 };
