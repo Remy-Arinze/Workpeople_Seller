@@ -14,6 +14,7 @@ import 'package:qixer_seller/view/profile/change_password_page.dart';
 import 'package:qixer_seller/view/profile/components/deactivate_account_page.dart';
 import 'package:qixer_seller/view/profile/profile_page.dart';
 import 'package:qixer_seller/view/profile/profile_verify_page.dart';
+import 'package:qixer_seller/view/report/my_reports_list_page.dart';
 import 'package:qixer_seller/view/subscription/subscription_history_page.dart';
 import 'package:qixer_seller/view/supports/my_tickets_page.dart';
 import 'package:qixer_seller/view/wallet/wallet_page.dart';
@@ -208,6 +209,20 @@ class SidebarDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) => const WalletPage(),
+                  ),
+                );
+              }),
+
+          SidebarMenuItem(
+              title: 'My Report list',
+              leading: Icon(Icons.report_gmailerrorred, color: cc.primaryColor),
+              ontap: () {
+                //======>
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const MyReportsListPage(),
                   ),
                 );
               }),

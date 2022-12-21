@@ -99,120 +99,175 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                                     top: 20,
                                     bottom: 10,
                                   ),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 15, vertical: 18),
                                   decoration: BoxDecoration(
                                       border: Border.all(color: cc.borderColor),
                                       borderRadius: BorderRadius.circular(5)),
-                                  child: Column(children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        AutoSizeText(
-                                          ln.getString('Order id:') +
-                                              ' ' +
-                                              provider.allOrdersList[i].id
-                                                  .toString(),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            color: cc.primaryColor,
-                                          ),
-                                        ),
-                                        Row(
+                                  child: Column(
+                                    children: [
+                                      //order id, status, popup menu
+                                      //
+                                      Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            16, 5, 0, 0),
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
-                                            //if online service,show online capsule
-                                            provider.allOrdersList[i]
-                                                        .isOrderOnline ==
-                                                    1
-                                                ? Container(
-                                                    margin:
-                                                        const EdgeInsets.only(
-                                                            right: 10),
-                                                    child: OrdersHelper()
-                                                        .statusCapsule(
-                                                            ln.getString(
-                                                                'Online'),
-                                                            cc.primaryColor),
-                                                  )
-                                                : Container(),
+                                            AutoSizeText(
+                                              ln.getString('Order id:') +
+                                                  ' ' +
+                                                  provider.allOrdersList[i].id
+                                                      .toString(),
+                                              maxLines: 1,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                color: cc.primaryColor,
+                                              ),
+                                            ),
+                                            Row(
+                                              children: [
+                                                //if online service,show online capsule
+                                                provider.allOrdersList[i]
+                                                            .isOrderOnline ==
+                                                        1
+                                                    ? Container(
+                                                        margin: const EdgeInsets
+                                                            .only(right: 10),
+                                                        child: OrdersHelper()
+                                                            .statusCapsule(
+                                                                ln.getString(
+                                                                    'Online'),
+                                                                cc.primaryColor),
+                                                      )
+                                                    : Container(),
 
-                                            OrdersHelper().statusCapsule(
-                                                OrderDetailsService()
-                                                    .getOrderStatus(provider
-                                                        .allOrdersList[i]
-                                                        .status),
-                                                cc.greyFour),
+                                                OrdersHelper().statusCapsule(
+                                                    OrderDetailsService()
+                                                        .getOrderStatus(provider
+                                                            .allOrdersList[i]
+                                                            .status),
+                                                    cc.greyFour),
+
+                                                //============>
+                                                //popup button
+                                                PopupMenuButton(
+                                                  itemBuilder:
+                                                      (BuildContext context) =>
+                                                          <PopupMenuEntry>[
+                                                    for (int j = 0;
+                                                        j <
+                                                            OrdersHelper()
+                                                                .ordersPopupMenuList
+                                                                .length;
+                                                        j++)
+                                                      PopupMenuItem(
+                                                        onTap: () {
+                                                          Future.delayed(
+                                                              Duration.zero,
+                                                              () {
+                                                            OrdersHelper().navigateMyOrders(
+                                                                context,
+                                                                index: j,
+                                                                serviceId: provider
+                                                                    .allOrdersList[
+                                                                        i]
+                                                                    .serviceId,
+                                                                orderId: provider
+                                                                    .allOrdersList[
+                                                                        i]
+                                                                    .id);
+                                                          });
+                                                        },
+                                                        child: Text(OrdersHelper()
+                                                            .ordersPopupMenuList[j]),
+                                                      ),
+                                                  ],
+                                                ),
+                                              ],
+                                            )
                                           ],
-                                        )
-                                      ],
-                                    ),
+                                        ),
+                                      ),
 
-                                    //Divider
-                                    Container(
-                                      margin: const EdgeInsets.only(
-                                          top: 17, bottom: 20),
-                                      child: CommonHelper().dividerCommon(),
-                                    ),
-
-                                    //Date and schedule
-                                    provider.allOrdersList[i].isOrderOnline == 1
-                                        ? Container()
-                                        : Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Column(
-                                                children: [
-                                                  OrdersHelper().orderRow(
-                                                    'assets/svg/calendar.svg',
-                                                    ln.getString('Date'),
-                                                    provider
-                                                        .allOrdersList[i].date
-                                                        .toString(),
-                                                  ),
-                                                  Container(
-                                                    margin: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 14),
-                                                    child: CommonHelper()
-                                                        .dividerCommon(),
-                                                  ),
-                                                ],
-                                              ),
-                                              Column(
-                                                children: [
-                                                  OrdersHelper().orderRow(
-                                                    'assets/svg/clock.svg',
-                                                    ln.getString('Schedule'),
-                                                    provider.allOrdersList[i]
-                                                        .schedule
-                                                        .toString(),
-                                                  ),
-                                                  Container(
-                                                    margin: const EdgeInsets
-                                                            .symmetric(
-                                                        vertical: 14),
-                                                    child: CommonHelper()
-                                                        .dividerCommon(),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                      Container(
+                                        padding: const EdgeInsets.fromLTRB(
+                                            15, 5, 15, 18),
+                                        child: Column(children: [
+                                          //Divider
+                                          Container(
+                                            margin: const EdgeInsets.only(
+                                                bottom: 20),
+                                            child:
+                                                CommonHelper().dividerCommon(),
                                           ),
 
-                                    Consumer<RtlService>(
-                                      builder: (context, rtlP, child) =>
-                                          OrdersHelper().orderRow(
-                                        'assets/svg/bill.svg',
-                                        ln.getString('Billed'),
-                                        rtlP.currencyDirection == 'left'
-                                            ? '${rtlP.currency}${provider.allOrdersList[i].total}'
-                                            : '${provider.allOrdersList[i].total}${rtlP.currency}',
+                                          //Date and schedule
+                                          provider.allOrdersList[i]
+                                                      .isOrderOnline ==
+                                                  1
+                                              ? Container()
+                                              : Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    Column(
+                                                      children: [
+                                                        OrdersHelper().orderRow(
+                                                          'assets/svg/calendar.svg',
+                                                          ln.getString('Date'),
+                                                          provider
+                                                              .allOrdersList[i]
+                                                              .date
+                                                              .toString(),
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 14),
+                                                          child: CommonHelper()
+                                                              .dividerCommon(),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                    Column(
+                                                      children: [
+                                                        OrdersHelper().orderRow(
+                                                          'assets/svg/clock.svg',
+                                                          ln.getString(
+                                                              'Schedule'),
+                                                          provider
+                                                              .allOrdersList[i]
+                                                              .schedule
+                                                              .toString(),
+                                                        ),
+                                                        Container(
+                                                          margin:
+                                                              const EdgeInsets
+                                                                      .symmetric(
+                                                                  vertical: 14),
+                                                          child: CommonHelper()
+                                                              .dividerCommon(),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  ],
+                                                ),
+
+                                          Consumer<RtlService>(
+                                            builder: (context, rtlP, child) =>
+                                                OrdersHelper().orderRow(
+                                              'assets/svg/bill.svg',
+                                              ln.getString('Billed'),
+                                              rtlP.currencyDirection == 'left'
+                                                  ? '${rtlP.currency}${provider.allOrdersList[i].total}'
+                                                  : '${provider.allOrdersList[i].total}${rtlP.currency}',
+                                            ),
+                                          )
+                                        ]),
                                       ),
-                                    )
-                                  ]),
+                                    ],
+                                  ),
                                 ),
                               ),
 

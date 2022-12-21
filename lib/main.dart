@@ -30,6 +30,8 @@ import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/services/profile_verify_service.dart';
 import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/services/recent_orders_service.dart';
+import 'package:qixer_seller/services/report_services/report_message_service.dart';
+import 'package:qixer_seller/services/report_services/report_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/ticket_services/support_messages_service.dart';
@@ -93,6 +95,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => PaymentDetailsService()),
         ChangeNotifierProvider(create: (_) => BankTransferService()),
         ChangeNotifierProvider(create: (_) => PushNotificationService()),
+        ChangeNotifierProvider(create: (_) => ReportService()),
+        ChangeNotifierProvider(create: (_) => ReportMessagesService()),
       ],
       child: MaterialApp(
         title: 'Qixer seller',

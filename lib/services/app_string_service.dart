@@ -49,7 +49,7 @@ class AppStringService with ChangeNotifier {
       var response = await http.post(Uri.parse('$baseApi/translate-string'),
           headers: header, body: data);
 
-      if (response.statusCode == 200) {
+      if (response.statusCode == 201) {
         tStrings = jsonDecode(response.body)['strings'];
         notifyListeners();
       } else {

@@ -8,9 +8,30 @@ import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/view/orders/components/add_extras_popup.dart';
+import 'package:qixer_seller/view/report/write_report_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class OrdersHelper {
+  List ordersPopupMenuList = [
+    'Report to admin',
+  ];
+
+  navigateMyOrders(BuildContext context,
+      {required index, required serviceId, required orderId}) {
+    if (index == 0) {
+      return Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => WriteReportPage(
+            serviceId: serviceId,
+            orderId: orderId,
+          ),
+        ),
+      );
+    }
+  }
+
+  //=======>
   ConstantColors cc = ConstantColors();
   statusCapsule(String capsuleText, Color color) {
     return Container(
