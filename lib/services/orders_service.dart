@@ -254,4 +254,55 @@ class OrdersService with ChangeNotifier {
       notifyListeners();
     }
   }
+
+  //Cancel order
+  // ===========>
+
+  bool cancelLoading = false;
+
+  setCancelLoadingStatus(bool status) {
+    cancelLoading = status;
+    notifyListeners();
+  }
+
+  cancelOrder(BuildContext context, {required orderId}) async {
+    //get user id
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var data = jsonEncode({"id": orderId});
+
+    var connection = await checkConnection();
+    if (!connection) return;
+
+    setCancelLoadingStatus(true);
+
+    var response = await http.post(
+        Uri.parse('$baseApi/seller/my-orders/order/change-status'),
+        headers: header,
+        body: data);
+
+    print(response.body);
+    print(response.statusCode);
+
+    setCancelLoadingStatus(false);
+
+    final decodedData = jsonDecode(response.body);
+
+    if (response.statusCode == 500) {
+      OthersHelper().showSnackBar(context, 'Order cancelled', Colors.black);
+      Provider.of<MyOrdersService>(context, listen: false).fetchMyOrders();
+      Navigator.pop(context);
+    } else {
+      OthersHelper()
+          .showSnackBar(context, 'Something went wrong', Colors.black);
+    }
+  }
 }

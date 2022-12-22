@@ -13,12 +13,14 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 
 class OrdersHelper {
   List ordersPopupMenuList = [
+    'Cancel order',
     'Report to admin',
   ];
 
   navigateMyOrders(BuildContext context,
       {required index, required serviceId, required orderId}) {
     if (index == 0) {
+    } else if (index == 1) {
       return Navigator.push(
         context,
         MaterialPageRoute<void>(
@@ -265,6 +267,78 @@ class OrdersHelper {
                               orderId: orderId);
                         }
                       }, isloading: provider.payLoadingStatus)),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        )).show();
+  }
+
+  //
+
+  //cancel order popup
+  //============>
+
+  cancelOrderPopup(BuildContext context, {required orderId}) {
+    return Alert(
+        context: context,
+        style: AlertStyle(
+            alertElevation: 0,
+            overlayColor: Colors.black.withOpacity(.6),
+            alertPadding: const EdgeInsets.all(25),
+            isButtonVisible: false,
+            alertBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(8),
+              side: const BorderSide(
+                color: Colors.transparent,
+              ),
+            ),
+            titleStyle: const TextStyle(),
+            animationType: AnimationType.grow,
+            animationDuration: const Duration(milliseconds: 500)),
+        content: Container(
+          margin: const EdgeInsets.only(top: 22),
+          padding: const EdgeInsets.fromLTRB(14, 10, 14, 0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(7),
+            boxShadow: [
+              BoxShadow(
+                  color: Colors.black.withOpacity(0.01),
+                  spreadRadius: -2,
+                  blurRadius: 13,
+                  offset: const Offset(0, 13)),
+            ],
+          ),
+          child: Consumer<AppStringService>(
+            builder: (context, asProvider, child) => Column(
+              children: [
+                Text(
+                  '${asProvider.getString('Are you sure')}?',
+                  style: TextStyle(color: cc.greyPrimary, fontSize: 17),
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                        child: CommonHelper().borderButtonPrimary(
+                            asProvider.getString('No'), () {
+                      Navigator.pop(context);
+                    })),
+                    const SizedBox(
+                      width: 16,
+                    ),
+                    Consumer<OrdersService>(
+                      builder: (context, provider, child) => Expanded(
+                          child: CommonHelper()
+                              .buttonPrimary(asProvider.getString('Yes'), () {
+                        if (provider.cancelLoading == false) {
+                          provider.cancelOrder(context, orderId: orderId);
+                        }
+                      }, isloading: provider.cancelLoading)),
                     ),
                   ],
                 )
