@@ -249,6 +249,8 @@ class WalletService with ChangeNotifier {
   // =================>
   //===============>
   // deposite from current balance
+  // seller sells product, he gets money in his balance.
+  // from that balance, he can refill his wallet
   depositeFromCurrentBalance(
     BuildContext context,
   ) async {
