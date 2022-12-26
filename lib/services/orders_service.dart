@@ -15,6 +15,12 @@ class OrdersService with ChangeNotifier {
   late int totalPages;
   int currentPage = 1;
 
+  setDefault() {
+    currentPage = 1;
+    allOrdersList = [];
+    notifyListeners();
+  }
+
   setCurrentPage(newValue) {
     currentPage = newValue;
     notifyListeners();
@@ -294,11 +300,13 @@ class OrdersService with ChangeNotifier {
 
     setCancelLoadingStatus(false);
 
-    final decodedData = jsonDecode(response.body);
-
     if (response.statusCode == 500) {
-      OthersHelper().showSnackBar(context, 'Order cancelled', Colors.black);
-      Provider.of<MyOrdersService>(context, listen: false).fetchMyOrders();
+      OthersHelper().showToast('Order cancelled', Colors.black);
+
+      setDefault();
+
+      fetchAllOrders(context);
+
       Navigator.pop(context);
     } else {
       OthersHelper()

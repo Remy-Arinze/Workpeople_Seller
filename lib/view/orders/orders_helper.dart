@@ -20,6 +20,7 @@ class OrdersHelper {
   navigateMyOrders(BuildContext context,
       {required index, required serviceId, required orderId}) {
     if (index == 0) {
+      OrdersHelper().cancelOrderPopup(context, orderId: orderId);
     } else if (index == 1) {
       return Navigator.push(
         context,

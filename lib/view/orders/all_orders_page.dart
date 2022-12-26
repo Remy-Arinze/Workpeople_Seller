@@ -9,6 +9,7 @@ import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:qixer_seller/view/orders/order_details_page.dart';
 
 import 'orders_helper.dart';
@@ -165,6 +166,26 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                                                           Future.delayed(
                                                               Duration.zero,
                                                               () {
+                                                            //
+
+                                                            if (j == 0 &&
+                                                                (provider
+                                                                            .allOrdersList[
+                                                                                i]
+                                                                            .paymentStatus ==
+                                                                        'complete' ||
+                                                                    provider.allOrdersList[i]
+                                                                            .status !=
+                                                                        0)) {
+                                                              //0 means pending
+                                                              OthersHelper()
+                                                                  .showToast(
+                                                                      'You can not cancel this order',
+                                                                      Colors
+                                                                          .black);
+                                                              return;
+                                                            }
+
                                                             OrdersHelper().navigateMyOrders(
                                                                 context,
                                                                 index: j,
