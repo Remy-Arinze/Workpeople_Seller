@@ -62,7 +62,6 @@ class PushNotificationService with ChangeNotifier {
     //Send notification to seller
     var username = Provider.of<ProfileService>(context, listen: false)
             .profileDetails
-            .userDetails
             .name ??
         '';
     sendNotificationToBuyer(context,

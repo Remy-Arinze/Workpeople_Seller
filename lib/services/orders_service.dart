@@ -6,6 +6,8 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/orders_list_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
+import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -111,7 +113,8 @@ class OrdersService with ChangeNotifier {
     notifyListeners();
   }
 
-  requestToComplete(BuildContext context, {required orderId}) async {
+  requestToComplete(BuildContext context,
+      {required orderId, required buyerId}) async {
     //get user id
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -138,8 +141,16 @@ class OrdersService with ChangeNotifier {
     final decodedData = jsonDecode(response.body);
 
     if (response.statusCode == 201) {
-      // await Provider.of<OrderDetailsService>(context, listen: false)
-      //     .fetchOrderDetails(orderId, context);
+      //Send notification
+      var username = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .name ??
+          '';
+
+      PushNotificationService().sendNotificationToBuyer(context,
+          buyerId: buyerId,
+          title: '$username requested to mark his order complete.',
+          body: "Order id: $orderId");
 
       setMarkLoadingStatus(false);
 

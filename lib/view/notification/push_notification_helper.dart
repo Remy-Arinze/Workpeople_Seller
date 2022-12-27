@@ -49,7 +49,7 @@ class PushNotificationHelper {
               ),
               sizedBoxCustom(7),
               Text(
-                "$desc",
+                "${desc ?? ''}",
                 textAlign: TextAlign.center,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

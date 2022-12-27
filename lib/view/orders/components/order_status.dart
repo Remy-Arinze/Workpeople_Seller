@@ -48,8 +48,11 @@ class OrderStatus extends StatelessWidget {
                               return;
                             }
 
-                            oProvider.requestToComplete(context,
-                                orderId: provider.orderDetails.id);
+                            oProvider.requestToComplete(
+                              context,
+                              orderId: provider.orderDetails.id,
+                              buyerId: provider.orderDetails.buyerId,
+                            );
                           }, isloading: oProvider.markLoading),
                         )
                     ]),

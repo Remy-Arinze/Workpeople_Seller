@@ -245,7 +245,7 @@ class OrdersHelper {
             builder: (context, asProvider, child) => Column(
               children: [
                 Text(
-                  '${asProvider.getString('Make payment status complete?')}',
+                  '${asProvider.getString('Are you sure?')}',
                   style: TextStyle(color: cc.greyPrimary, fontSize: 17),
                 ),
                 sizedBoxCustom(35),

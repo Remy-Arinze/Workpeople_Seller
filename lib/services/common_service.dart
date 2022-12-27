@@ -25,6 +25,7 @@ getDate(value) {
 
 //=========>
 removeUnderscore(value) {
+  if (value == "null") return '-';
   return value.replaceAll(RegExp('_'), ' ');
 }
 

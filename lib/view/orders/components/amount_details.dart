@@ -73,8 +73,7 @@ class AmountDetails extends StatelessWidget {
                           'null',
                           ln.getString('Payment method'),
                           removeUnderscore(
-                                  provider.orderDetails.paymentGateway) ??
-                              '',
+                              provider.orderDetails.paymentGateway ?? '-'),
                           lastBorder: false),
                     ),
 
