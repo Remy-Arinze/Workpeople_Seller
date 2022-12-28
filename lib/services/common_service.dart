@@ -56,7 +56,7 @@ runAtStart(BuildContext context) {
   Provider.of<ChartService>(context, listen: false).fetchChartData(context);
 
   Provider.of<SubscriptionService>(context, listen: false)
-      .fetchSubscriptionData(context);
+      .fetchCurrentSubscriptionData(context);
 }
 
 runAtSplashScreen(BuildContext context) async {

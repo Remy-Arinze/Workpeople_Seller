@@ -9,13 +9,13 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/payments/PaypalPayment.dart';
 
 class PaypalService {
   payByPaypal(BuildContext context,
-      {bool isFromOrderExtraAccept = false,
-      bool isFromWalletDeposite = false}) {
+      {bool reniewSubscription = false, bool isFromWalletDeposite = false}) {
     Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
     String amount = '';
     String name;
@@ -36,6 +36,10 @@ class PaypalService {
 
     if (isFromWalletDeposite) {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+    } else if (reniewSubscription) {
+      amount = Provider.of<SubscriptionService>(context, listen: false)
+          .subsData
+          .price;
     }
 
     Navigator.of(context).push(
@@ -47,6 +51,11 @@ class PaypalService {
             if (isFromWalletDeposite) {
               Provider.of<WalletService>(context, listen: false)
                   .makeDepositeToWalletSuccess(context);
+            } else if (reniewSubscription) {
+              Provider.of<SubscriptionService>(context, listen: false)
+                  .reniewSubscription(
+                context,
+              );
             }
           },
           amount: amount,

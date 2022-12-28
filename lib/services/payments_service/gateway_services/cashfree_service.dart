@@ -7,12 +7,13 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 
 class CashfreeService {
   getTokenAndPay(BuildContext context,
-      {bool isFromOrderExtraAccept = false,
+      {bool reniewSubscription = false,
       bool isFromWalletDeposite = false}) async {
     //========>
 
@@ -44,6 +45,12 @@ class CashfreeService {
           Provider.of<WalletService>(context, listen: false)
               .walletHistoryId
               .toString();
+    } else if (reniewSubscription) {
+      amount = Provider.of<SubscriptionService>(context, listen: false)
+          .subsData
+          .price
+          .toString();
+      orderId = "${DateTime.now().day}" "${DateTime.now().year}";
     }
 
     var header = {
@@ -87,7 +94,7 @@ class CashfreeService {
           name,
           phone,
           email,
-          isFromOrderExtraAccept,
+          reniewSubscription,
           isFromWalletDeposite);
     } else {
       OthersHelper().showToast('Something went wrong', Colors.black);
@@ -96,7 +103,7 @@ class CashfreeService {
   }
 
   cashFreePay(token, orderId, orderCurrency, BuildContext context, amount, name,
-      phone, email, isFromOrderExtraAccept, isFromWalletDeposite) {
+      phone, email, reniewSubscription, isFromWalletDeposite) {
     //Replace with actual values
     //has to be unique every time
     String stage = "TEST"; // PROD when in production mode// TEST when in test
@@ -131,6 +138,11 @@ class CashfreeService {
           if (isFromWalletDeposite) {
             Provider.of<WalletService>(context, listen: false)
                 .makeDepositeToWalletSuccess(context);
+          } else if (reniewSubscription) {
+            Provider.of<SubscriptionService>(context, listen: false)
+                .reniewSubscription(
+              context,
+            );
           }
         }
       }

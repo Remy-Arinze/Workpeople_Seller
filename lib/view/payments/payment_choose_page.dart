@@ -14,15 +14,22 @@ import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/orders/payment_helper.dart';
 import 'package:qixer_seller/view/wallet/components/deposite_amount_section.dart';
 
 import '../../services/payments_service/gateway_services/bank_transfer_service.dart';
 
 class PaymentChoosePage extends StatefulWidget {
-  const PaymentChoosePage({Key? key, this.isFromDepositeToWallet = false})
+  const PaymentChoosePage(
+      {Key? key,
+      this.isFromDepositeToWallet = false,
+      this.reniewSubscription = false,
+      this.price})
       : super(key: key);
 
   final bool isFromDepositeToWallet;
+  final bool reniewSubscription;
+  final price;
 
   @override
   _PaymentChoosePageState createState() => _PaymentChoosePageState();
@@ -71,7 +78,20 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                         builder: (context, provider, child) => Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              const DepositeAmountSection(),
+                              //
+                              if (widget.price != null)
+                                Container(
+                                  margin:
+                                      const EdgeInsets.only(top: 10, bottom: 5),
+                                  child: PaymentHelper().detailsPanelRow(
+                                      asProvider.getString('Total Payable'),
+                                      0,
+                                      widget.price.toString()),
+                                ),
+
+                              //Deposite amount section
+                              if (widget.isFromDepositeToWallet)
+                                const DepositeAmountSection(),
 
                               //
                               if (!provider.depositeFromCurrent)
@@ -323,7 +343,9 @@ class _PaymentChoosePageState extends State<PaymentChoosePage> {
                                                 .pickedImage
                                             : null,
                                         isFromWalletDeposite:
-                                            widget.isFromDepositeToWallet);
+                                            widget.isFromDepositeToWallet,
+                                        reniewSubscription:
+                                            widget.reniewSubscription);
                                   }
                                 }
                               },

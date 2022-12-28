@@ -5,8 +5,10 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/subscription_history_model.dart';
 import 'package:qixer_seller/model/subscription_info_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/subscription/components/reniew_subscription_success_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -23,7 +25,7 @@ class SubscriptionService with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> fetchSubscriptionData(BuildContext context) async {
+  Future<bool> fetchCurrentSubscriptionData(BuildContext context) async {
     var connection = await checkConnection();
     if (!connection) return false;
 
@@ -96,14 +98,14 @@ class SubscriptionService with ChangeNotifier {
 
   // Reniew subscription
   // ==============>
-  reniewSubscription(BuildContext context, {required subscriptionId}) async {
+  reniewSubscription(
+    BuildContext context,
+  ) async {
     var connection = await checkConnection();
     if (!connection) return;
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
-
-    setLoadingStatus(true);
 
     var header = {
       //if header type is application/json then the data should be in jsonEncode method
@@ -112,7 +114,7 @@ class SubscriptionService with ChangeNotifier {
       "Authorization": "Bearer $token",
     };
 
-    var data = jsonEncode({'subscription_id': subscriptionId});
+    var data = jsonEncode({'subscription_id': subsData.subscriptionId});
 
     var response = await http.post(
         Uri.parse('$baseApi/seller/wallet/renew-subscription'),
@@ -121,12 +123,14 @@ class SubscriptionService with ChangeNotifier {
 
     final decodedData = jsonDecode(response.body);
 
+    Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
+
     print(response.body);
 
     if (response.statusCode == 200) {
       //fetch subscription data,
 
-      await fetchSubscriptionData(context);
+      await fetchCurrentSubscriptionData(context);
 
       Navigator.pop(context);
 
@@ -140,7 +144,13 @@ class SubscriptionService with ChangeNotifier {
       OthersHelper()
           .showToast('Subscription reneiwed successfully', Colors.black);
 
-      setLoadingStatus(false);
+      Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) =>
+              const ReniewSubscriptionSuccessPage(),
+        ),
+      );
     } else {
       print('Error reniew subscription' + response.body);
 
@@ -149,8 +159,6 @@ class SubscriptionService with ChangeNotifier {
       } else {
         OthersHelper().showToast('Something went wrong', Colors.black);
       }
-
-      setLoadingStatus(false);
 
       notifyListeners();
     }

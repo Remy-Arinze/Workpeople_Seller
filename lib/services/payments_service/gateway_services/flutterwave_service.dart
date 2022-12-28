@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:uuid/uuid.dart';
 
@@ -16,10 +17,9 @@ class FlutterwaveService {
   // String amount = '200';
 
   payByFlutterwave(BuildContext context,
-      {bool isFromOrderExtraAccept = false,
-      bool isFromWalletDeposite = false}) {
+      {bool reniewSubscription = false, bool isFromWalletDeposite = false}) {
     _handlePaymentInitialization(
-        context, isFromOrderExtraAccept, isFromWalletDeposite);
+        context, reniewSubscription, isFromWalletDeposite);
     // Navigator.of(context).push(
     //   MaterialPageRoute(
     //     builder: (BuildContext context) => const FlutterwavePaymentPage(),
@@ -27,8 +27,8 @@ class FlutterwaveService {
     // );
   }
 
-  _handlePaymentInitialization(BuildContext context, isFromOrderExtraAccept,
-      isFromWalletDeposite) async {
+  _handlePaymentInitialization(
+      BuildContext context, reniewSubscription, isFromWalletDeposite) async {
     String amount = '';
 
     String name;
@@ -51,6 +51,11 @@ class FlutterwaveService {
         'test@test.com';
     if (isFromWalletDeposite) {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+    } else if (reniewSubscription) {
+      amount = Provider.of<SubscriptionService>(context, listen: false)
+          .subsData
+          .price
+          .toString();
     }
 
     // String publicKey = 'FLWPUBK_TEST-86cce2ec43c63e09a517290a8347fcab-X';
@@ -122,6 +127,11 @@ class FlutterwaveService {
       if (isFromWalletDeposite) {
         Provider.of<WalletService>(context, listen: false)
             .makeDepositeToWalletSuccess(context);
+      } else if (reniewSubscription) {
+        Provider.of<SubscriptionService>(context, listen: false)
+            .reniewSubscription(
+          context,
+        );
       }
       // print("${response.toJson()}");
     } else {

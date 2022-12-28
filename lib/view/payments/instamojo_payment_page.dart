@@ -7,6 +7,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'dart:async';
 
@@ -18,12 +19,14 @@ class InstamojoPaymentPage extends StatefulWidget {
       required this.amount,
       required this.name,
       required this.email,
-      required this.isFromWalletDeposite})
+      required this.isFromWalletDeposite,
+      required this.reniewSubscription})
       : super(key: key);
 
   final amount;
   final name;
   final isFromWalletDeposite;
+  final reniewSubscription;
   final email;
   @override
   _InstamojoPaymentPageState createState() => _InstamojoPaymentPageState();
@@ -138,6 +141,11 @@ class _InstamojoPaymentPageState extends State<InstamojoPaymentPage> {
         if (widget.isFromWalletDeposite) {
           Provider.of<WalletService>(context, listen: false)
               .makeDepositeToWalletSuccess(context);
+        } else if (widget.reniewSubscription) {
+          Provider.of<SubscriptionService>(context, listen: false)
+              .reniewSubscription(
+            context,
+          );
         }
 
 //payment is successful.

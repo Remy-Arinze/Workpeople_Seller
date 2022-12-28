@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -18,9 +19,11 @@ class MercadopagoPaymentPage extends StatefulWidget {
   const MercadopagoPaymentPage({
     Key? key,
     required this.isFromWalletDeposite,
+    required this.reniewSubscription,
   }) : super(key: key);
 
   final bool isFromWalletDeposite;
+  final bool reniewSubscription;
 
   @override
   State<MercadopagoPaymentPage> createState() => _MercadopagoPaymentPageState();
@@ -77,6 +80,11 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
                   if (widget.isFromWalletDeposite) {
                     await Provider.of<WalletService>(context, listen: false)
                         .makeDepositeToWalletSuccess(context);
+                  } else if (widget.reniewSubscription) {
+                    Provider.of<SubscriptionService>(context, listen: false)
+                        .reniewSubscription(
+                      context,
+                    );
                   }
 
                   return NavigationDecision.prevent;
@@ -110,6 +118,13 @@ class _MercadopagoPaymentPageState extends State<MercadopagoPaymentPage> {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
       amount = double.parse(amount);
       orderId = DateTime.now().toString();
+    } else if (widget.reniewSubscription) {
+      amount = Provider.of<SubscriptionService>(context, listen: false)
+          .subsData
+          .price
+          .toString();
+      amount = double.parse(amount);
+      orderId = "${DateTime.now().day}" "${DateTime.now().year}";
     }
 
     String mercadoKey =
