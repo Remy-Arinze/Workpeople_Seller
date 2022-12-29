@@ -62,6 +62,13 @@ class PaymentGatewayListService with ChangeNotifier {
         // selectedPayment = removeUnderscore(gatewayList[0]['name']);
         // selectedPaymentId = gatewayList[0]['name'];
         paymentDropdownList = jsonDecode(response.body)['gateway_list'];
+
+        // add wallet payment
+        paymentDropdownList.add({
+          "name": "wallet",
+          "logo_link": "https://i.postimg.cc/y8pMmqF4/wallet.png"
+        });
+
         notifyListeners();
       } else {
         //something went wrong

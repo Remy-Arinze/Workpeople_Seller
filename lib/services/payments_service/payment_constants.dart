@@ -21,6 +21,7 @@ import 'package:qixer_seller/services/payments_service/gateway_services/square_s
 import 'package:qixer_seller/services/payments_service/gateway_services/stripe_service.dart';
 import 'package:qixer_seller/services/payments_service/gateway_services/zitopay_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 
@@ -233,13 +234,28 @@ payAction(String method, BuildContext context, imagePath,
 
       break;
 
-    case 'manual_payment':
-      if (imagePath == null) {
-        OthersHelper()
-            .showToast('You must upload the cheque image', Colors.black);
-        return;
-      }
+    case 'wallet':
       if (isFromWalletDeposite) {
+        OthersHelper().showToast(
+            'Pay by wallet is not available for wallet deposite', Colors.black);
+      } else if (reniewSubscription) {
+        setLoadingTrue(context);
+        Provider.of<SubscriptionService>(context, listen: false)
+            .reniewSubscription(
+          context,
+        );
+      }
+
+      break;
+
+    case 'manual_payment':
+      if (isFromWalletDeposite) {
+        if (imagePath == null) {
+          OthersHelper()
+              .showToast('You must upload the cheque image', Colors.black);
+          return;
+        }
+
         Provider.of<WalletService>(context, listen: false)
             .createDepositeRequest(context,
                 imagePath: imagePath.path, isManualOrCod: true);
