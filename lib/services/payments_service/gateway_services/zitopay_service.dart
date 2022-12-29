@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/payments/zitopay_payment_page.dart';
 
 class ZitopayService {
-  payByZitopay(BuildContext context, {bool isFromWalletDeposite = false}) {
+  payByZitopay(BuildContext context,
+      {bool isFromWalletDeposite = false, bool reniewSubscription = false}) {
     //========>
     Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
 
@@ -16,6 +18,11 @@ class ZitopayService {
 
     if (isFromWalletDeposite) {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+    } else if (reniewSubscription) {
+      amount = Provider.of<SubscriptionService>(context, listen: false)
+          .subsData
+          .price
+          .toString();
     }
     var userName =
         Provider.of<PaymentGatewayListService>(context, listen: false)
@@ -26,7 +33,8 @@ class ZitopayService {
         builder: (BuildContext context) => ZitopayPaymentPage(
             amount: amount,
             userName: userName,
-            isFromWalletDeposite: isFromWalletDeposite),
+            isFromWalletDeposite: isFromWalletDeposite,
+            reniewSubscription: reniewSubscription),
       ),
     );
   }

@@ -19,7 +19,8 @@ class CinetPayPayment extends StatelessWidget {
       required this.name,
       required this.phone,
       required this.email,
-      required this.isFromWalletDeposite})
+      required this.isFromWalletDeposite,
+      required this.reniewSubscription})
       : super(key: key);
 
   final amount;
@@ -27,6 +28,7 @@ class CinetPayPayment extends StatelessWidget {
   final phone;
   final email;
   final isFromWalletDeposite;
+  final reniewSubscription;
 
   String? url;
   @override

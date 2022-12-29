@@ -1,9 +1,10 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_typing_uninitialized_variables
 
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -13,12 +14,14 @@ class ZitopayPaymentPage extends StatefulWidget {
       {Key? key,
       required this.userName,
       required this.amount,
-      required this.isFromWalletDeposite})
+      required this.isFromWalletDeposite,
+      required this.reniewSubscription})
       : super(key: key);
 
   final userName;
   final amount;
   final isFromWalletDeposite;
+  final reniewSubscription;
 
   @override
   _ZitopayPaymentPageState createState() => _ZitopayPaymentPageState();
@@ -74,6 +77,11 @@ class _ZitopayPaymentPageState extends State<ZitopayPaymentPage> {
                   if (widget.isFromWalletDeposite) {
                     await Provider.of<WalletService>(context, listen: false)
                         .makeDepositeToWalletSuccess(context);
+                  } else if (widget.reniewSubscription) {
+                    Provider.of<SubscriptionService>(context, listen: false)
+                        .reniewSubscription(
+                      context,
+                    );
                   }
                 }
 

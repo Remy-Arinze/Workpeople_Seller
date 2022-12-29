@@ -2,15 +2,20 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class PaytmPayment extends StatefulWidget {
-  const PaytmPayment({Key? key, required this.isFromWalletDeposite})
+  const PaytmPayment(
+      {Key? key,
+      required this.isFromWalletDeposite,
+      required this.reniewSubscription})
       : super(key: key);
 
   final isFromWalletDeposite;
+  final reniewSubscription;
 
   @override
   State<PaytmPayment> createState() => _PaytmPaymentState();
@@ -38,11 +43,11 @@ class _PaytmPaymentState extends State<PaytmPayment> {
         onWebViewCreated: (controller) {
           _controller = controller;
 
-          var paytmHtmlString = 'https://paytm.com/';
+          // var paytmHtmlString = 'https://paytm.com/';
 
-          controller.loadHtmlString(paytmHtmlString);
+          // controller.loadHtmlString(paytmHtmlString);
         },
-        initialUrl: "url",
+        initialUrl: successUrl,
         javascriptMode: JavascriptMode.unrestricted,
         navigationDelegate: (NavigationRequest request) async {
           print('current url is ${request.url}');
@@ -57,6 +62,11 @@ class _PaytmPaymentState extends State<PaytmPayment> {
             if (widget.isFromWalletDeposite) {
               Provider.of<WalletService>(context, listen: false)
                   .makeDepositeToWalletSuccess(context);
+            } else if (widget.reniewSubscription) {
+              Provider.of<SubscriptionService>(context, listen: false)
+                  .reniewSubscription(
+                context,
+              );
             }
 
             return NavigationDecision.prevent;

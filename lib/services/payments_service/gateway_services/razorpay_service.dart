@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/payments/razorpay_payment_page.dart';
 
 class RazorpayService {
   payByRazorpay(BuildContext context,
-      {bool isFromOrderExtraAccept = false,
-      bool isFromWalletDeposite = false}) {
+      {bool reniewSubscription = false, bool isFromWalletDeposite = false}) {
     //========>
     Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
 
@@ -19,7 +19,6 @@ class RazorpayService {
     String name;
     String phone;
     String email;
-    String orderId;
 
     name = Provider.of<ProfileService>(context, listen: false)
             .profileDetails
@@ -36,21 +35,23 @@ class RazorpayService {
     if (isFromWalletDeposite) {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
       amount = double.parse(amount).toStringAsFixed(1);
-      orderId = 'wallet' +
-          Provider.of<WalletService>(context, listen: false)
-              .walletHistoryId
-              .toString();
+    } else if (reniewSubscription) {
+      amount = Provider.of<SubscriptionService>(context, listen: false)
+          .subsData
+          .price
+          .toString();
+      amount = double.parse(amount).toStringAsFixed(1);
     }
 
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => RazorpayPaymentPage(
-          amount: amount,
-          name: name,
-          phone: phone,
-          email: email,
-          isFromWalletDeposite: isFromWalletDeposite,
-        ),
+            amount: amount,
+            name: name,
+            phone: phone,
+            email: email,
+            isFromWalletDeposite: isFromWalletDeposite,
+            reniewSubscription: reniewSubscription),
       ),
     );
   }

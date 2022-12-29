@@ -4,13 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/payments/squareup_payment.dart';
 
 class SquareService {
   payBySquare(BuildContext context,
-      {bool isFromOrderExtraAccept = false,
-      bool isFromWalletDeposite = false}) {
+      {bool reniewSubscription = false, bool isFromWalletDeposite = false}) {
     Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
 
     var amount;
@@ -33,6 +33,11 @@ class SquareService {
 
     if (isFromWalletDeposite) {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+    } else if (reniewSubscription) {
+      amount = Provider.of<SubscriptionService>(context, listen: false)
+          .subsData
+          .price
+          .toString();
     }
 
     Navigator.of(context).push(
@@ -42,7 +47,8 @@ class SquareService {
             name: name,
             phone: phone,
             email: email,
-            isFromWalletDeposite: isFromWalletDeposite),
+            isFromWalletDeposite: isFromWalletDeposite,
+            reniewSubscription: reniewSubscription),
       ),
     );
   }

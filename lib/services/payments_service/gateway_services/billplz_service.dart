@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/payments/billplz_payment.dart';
 
 class BillPlzService {
-  payByBillPlz(BuildContext context, {bool isFromWalletDeposite = false}) {
+  payByBillPlz(BuildContext context,
+      {bool isFromWalletDeposite = false, bool reniewSubscription = false}) {
     //========>
     Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
     var amount;
@@ -32,17 +34,22 @@ class BillPlzService {
 
     if (isFromWalletDeposite) {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
+    } else if (reniewSubscription) {
+      amount = Provider.of<SubscriptionService>(context, listen: false)
+          .subsData
+          .price
+          .toString();
     }
 
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => BillplzPayment(
-          amount: amount,
-          name: name,
-          phone: phone,
-          email: email,
-          isFromWalletDeposite: isFromWalletDeposite,
-        ),
+            amount: amount,
+            name: name,
+            phone: phone,
+            email: email,
+            isFromWalletDeposite: isFromWalletDeposite,
+            reniewSubscription: reniewSubscription),
       ),
     );
   }

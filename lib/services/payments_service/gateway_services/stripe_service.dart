@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,8 +28,8 @@ class StripeService with ChangeNotifier {
 
   Map<String, dynamic>? paymentIntentData;
 
-  displayPaymentSheet(BuildContext context, isFromOrderExtraAccept,
-      isFromWalletDeposite) async {
+  displayPaymentSheet(
+      BuildContext context, reniewSubscription, isFromWalletDeposite) async {
     try {
       await Stripe.instance
           .presentPaymentSheet(
@@ -42,6 +43,11 @@ class StripeService with ChangeNotifier {
         if (isFromWalletDeposite) {
           Provider.of<WalletService>(context, listen: false)
               .makeDepositeToWalletSuccess(context);
+        } else if (reniewSubscription) {
+          Provider.of<SubscriptionService>(context, listen: false)
+              .reniewSubscription(
+            context,
+          );
         }
         //payment successs ================>
 
@@ -96,7 +102,7 @@ class StripeService with ChangeNotifier {
   }
 
   Future<void> makePayment(BuildContext context,
-      {bool isFromOrderExtraAccept = false,
+      {bool reniewSubscription = false,
       bool isFromWalletDeposite = false}) async {
     var amount;
 
@@ -119,6 +125,12 @@ class StripeService with ChangeNotifier {
     if (isFromWalletDeposite) {
       amount = Provider.of<WalletService>(context, listen: false).amountToAdd;
       amount = double.parse(amount).toStringAsFixed(0);
+    } else if (reniewSubscription) {
+      amount = Provider.of<SubscriptionService>(context, listen: false)
+          .subsData
+          .price
+          .toString();
+      amount = double.parse(amount).toStringAsFixed(0);
     }
 
     //Stripe takes only integer value
@@ -139,8 +151,7 @@ class StripeService with ChangeNotifier {
           .then((value) {});
 
       ///now finally display payment sheeet
-      displayPaymentSheet(
-          context, isFromOrderExtraAccept, isFromWalletDeposite);
+      displayPaymentSheet(context, reniewSubscription, isFromWalletDeposite);
     } catch (e, s) {
       debugPrint('exception:$e$s');
     }

@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -21,7 +22,8 @@ class BillplzPayment extends StatelessWidget {
       required this.name,
       required this.phone,
       required this.email,
-      required this.isFromWalletDeposite})
+      required this.isFromWalletDeposite,
+      required this.reniewSubscription})
       : super(key: key);
 
   final amount;
@@ -29,6 +31,7 @@ class BillplzPayment extends StatelessWidget {
   final phone;
   final email;
   final isFromWalletDeposite;
+  final reniewSubscription;
 
   String? url;
   late WebViewController _controller;
@@ -76,7 +79,8 @@ class BillplzPayment extends StatelessWidget {
               initialUrl: url,
               javascriptMode: JavascriptMode.unrestricted,
               onPageFinished: (value) async {
-                verifyPayment(value, context, isFromWalletDeposite);
+                verifyPayment(
+                    value, context, isFromWalletDeposite, reniewSubscription);
               },
             );
           }),
@@ -137,14 +141,19 @@ class BillplzPayment extends StatelessWidget {
   }
 }
 
-Future verifyPayment(
-    String url, BuildContext context, isFromWalletDeposite) async {
+Future verifyPayment(String url, BuildContext context, isFromWalletDeposite,
+    reniewSubscription) async {
   final uri = Uri.parse(url);
   final response = await http.get(uri);
   if (response.body.contains('paid')) {
     if (isFromWalletDeposite) {
       Provider.of<WalletService>(context, listen: false)
           .makeDepositeToWalletSuccess(context);
+    } else if (reniewSubscription) {
+      Provider.of<SubscriptionService>(context, listen: false)
+          .reniewSubscription(
+        context,
+      );
     }
     return;
   }

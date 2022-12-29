@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -13,11 +14,15 @@ import 'package:http/http.dart' as http;
 import '../../services/payments_service/payment_gateway_list_service.dart';
 
 class PaystackPaymentPage extends StatelessWidget {
-  PaystackPaymentPage({Key? key, required this.isFromWalletDeposite})
+  PaystackPaymentPage(
+      {Key? key,
+      required this.isFromWalletDeposite,
+      required this.reniewSubscription})
       : super(key: key);
 
   String? url;
   final isFromWalletDeposite;
+  final reniewSubscription;
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +60,8 @@ class PaystackPaymentPage extends StatelessWidget {
           return false;
         },
         child: FutureBuilder(
-            future: waitForIt(context, isFromWalletDeposite),
+            future:
+                waitForIt(context, isFromWalletDeposite, reniewSubscription),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(child: CircularProgressIndicator());
@@ -100,6 +106,11 @@ class PaystackPaymentPage extends StatelessWidget {
                     if (isFromWalletDeposite) {
                       Provider.of<WalletService>(context, listen: false)
                           .makeDepositeToWalletSuccess(context);
+                    } else if (reniewSubscription) {
+                      Provider.of<SubscriptionService>(context, listen: false)
+                          .reniewSubscription(
+                        context,
+                      );
                     }
 
                     return;
@@ -131,6 +142,11 @@ class PaystackPaymentPage extends StatelessWidget {
                     if (isFromWalletDeposite) {
                       await Provider.of<WalletService>(context, listen: false)
                           .makeDepositeToWalletSuccess(context);
+                    } else if (reniewSubscription) {
+                      Provider.of<SubscriptionService>(context, listen: false)
+                          .reniewSubscription(
+                        context,
+                      );
                     }
                     return NavigationDecision.prevent;
                   }
@@ -155,7 +171,8 @@ class PaystackPaymentPage extends StatelessWidget {
     );
   }
 
-  Future<void> waitForIt(BuildContext context, isFromWalletDeposite) async {
+  Future<void> waitForIt(
+      BuildContext context, isFromWalletDeposite, reniewSubscription) async {
     final uri = Uri.parse('https://api.paystack.co/transaction/initialize');
 
     String paystackSecretKey =
@@ -188,6 +205,16 @@ class PaystackPaymentPage extends StatelessWidget {
       amount = int.parse(amount);
 
       orderId = DateTime.now().toString();
+    } else if (reniewSubscription) {
+      amount = Provider.of<SubscriptionService>(context, listen: false)
+          .subsData
+          .price
+          .toString();
+
+      amount = double.parse(amount).toStringAsFixed(0);
+      amount = int.parse(amount);
+
+      orderId = "subs" "${DateTime.now().day}" "${DateTime.now().year}";
     }
 
     final header = {

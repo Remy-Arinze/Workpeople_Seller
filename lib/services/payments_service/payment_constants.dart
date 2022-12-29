@@ -120,7 +120,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           PayfastService().payByPayfast(context, isFromWalletDeposite: true);
         });
-      } else if (reniewSubscription) {}
+      } else if (reniewSubscription) {
+        setLoadingTrue(context);
+        PayfastService().payByPayfast(context, reniewSubscription: true);
+      }
 
       break;
 
@@ -129,7 +132,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           PaystackService().payByPaystack(context, isFromWalletDeposite: true);
         });
-      } else if (reniewSubscription) {}
+      } else if (reniewSubscription) {
+        setLoadingTrue(context);
+        PaystackService().payByPaystack(context, reniewSubscription: true);
+      }
 
       break;
     case 'paytm':
@@ -137,7 +143,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           PaytmService().payByPaytm(context, isFromWalletDeposite: true);
         }, paytmPaymentSelected: true);
-      } else if (reniewSubscription) {}
+      } else if (reniewSubscription) {
+        setLoadingTrue(context);
+        PaytmService().payByPaytm(context, reniewSubscription: true);
+      }
 
       break;
 
@@ -146,7 +155,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           RazorpayService().payByRazorpay(context, isFromWalletDeposite: true);
         });
-      } else if (reniewSubscription) {}
+      } else if (reniewSubscription) {
+        setLoadingTrue(context);
+        RazorpayService().payByRazorpay(context, reniewSubscription: true);
+      }
 
       break;
     case 'stripe':
@@ -154,7 +166,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           StripeService().makePayment(context, isFromWalletDeposite: true);
         });
-      } else if (reniewSubscription) {}
+      } else if (reniewSubscription) {
+        setLoadingTrue(context);
+        StripeService().makePayment(context, reniewSubscription: true);
+      }
 
       break;
 
@@ -163,7 +178,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           SquareService().payBySquare(context, isFromWalletDeposite: true);
         });
-      } else if (reniewSubscription) {}
+      } else if (reniewSubscription) {
+        setLoadingTrue(context);
+        SquareService().payBySquare(context, reniewSubscription: true);
+      }
 
       break;
 
@@ -172,7 +190,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           CinetPayService().payByCinetpay(context, isFromWalletDeposite: true);
         });
-      } else if (reniewSubscription) {}
+      } else if (reniewSubscription) {
+        setLoadingTrue(context);
+        CinetPayService().payByCinetpay(context, reniewSubscription: true);
+      }
 
       break;
 
@@ -181,7 +202,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           PaytabsService().payByPaytabs(context, isFromWalletDeposite: true);
         });
-      } else if (reniewSubscription) {}
+      } else if (reniewSubscription) {
+        setLoadingTrue(context);
+        PaytabsService().payByPaytabs(context, reniewSubscription: true);
+      }
 
       break;
 
@@ -190,7 +214,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           BillPlzService().payByBillPlz(context, isFromWalletDeposite: true);
         });
-      } else if (reniewSubscription) {}
+      } else if (reniewSubscription) {
+        setLoadingTrue(context);
+        BillPlzService().payByBillPlz(context, reniewSubscription: true);
+      }
 
       break;
 
@@ -199,7 +226,10 @@ payAction(String method, BuildContext context, imagePath,
         createDepositeRequestAndPay(context, () {
           ZitopayService().payByZitopay(context, isFromWalletDeposite: true);
         });
-      } else if (reniewSubscription) {}
+      } else if (reniewSubscription) {
+        setLoadingTrue(context);
+        ZitopayService().payByZitopay(context, reniewSubscription: true);
+      }
 
       break;
 
@@ -213,7 +243,11 @@ payAction(String method, BuildContext context, imagePath,
         Provider.of<WalletService>(context, listen: false)
             .createDepositeRequest(context,
                 imagePath: imagePath.path, isManualOrCod: true);
-      } else if (reniewSubscription) {}
+      } else if (reniewSubscription) {
+        OthersHelper().showToast(
+            'Manual payment is not available for subscription reniew',
+            Colors.black);
+      }
 
       break;
 
@@ -222,7 +256,10 @@ payAction(String method, BuildContext context, imagePath,
         Provider.of<WalletService>(context, listen: false)
             .createDepositeRequest(context,
                 imagePath: null, isManualOrCod: true);
-      } else if (reniewSubscription) {}
+      }
+      OthersHelper().showToast(
+          'Cash on delivery is not available for subscription reniew',
+          Colors.black);
 
       break;
     default:

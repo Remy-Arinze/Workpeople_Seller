@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +21,8 @@ class PayTabsPayment extends StatelessWidget {
       required this.phone,
       required this.email,
       required this.orderId,
-      required this.isFromWalletDeposite})
+      required this.isFromWalletDeposite,
+      required this.reniewSubscription})
       : super(key: key);
 
   final amount;
@@ -30,6 +32,7 @@ class PayTabsPayment extends StatelessWidget {
 
   final orderId;
   final isFromWalletDeposite;
+  final reniewSubscription;
 
   String? url;
   @override
@@ -89,6 +92,11 @@ class PayTabsPayment extends StatelessWidget {
                   if (isFromWalletDeposite) {
                     await Provider.of<WalletService>(context, listen: false)
                         .makeDepositeToWalletSuccess(context);
+                  } else if (reniewSubscription) {
+                    Provider.of<SubscriptionService>(context, listen: false)
+                        .reniewSubscription(
+                      context,
+                    );
                   }
                   return;
                 }

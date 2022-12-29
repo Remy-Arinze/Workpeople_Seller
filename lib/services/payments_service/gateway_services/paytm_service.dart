@@ -8,8 +8,7 @@ import 'package:qixer_seller/view/payments/paytm_payment.dart';
 
 class PaytmService {
   payByPaytm(BuildContext context,
-      {bool isFromOrderExtraAccept = false,
-      bool isFromWalletDeposite = false}) {
+      {bool reniewSubscription = false, bool isFromWalletDeposite = false}) {
     //========>
     Provider.of<PaymentService>(context, listen: false).setLoadingFalse();
 
@@ -20,12 +19,12 @@ class PaytmService {
     }
 
     //paytm not implemented neither for place order nor extra accept,
-    if (isFromOrderExtraAccept) return;
 
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (BuildContext context) => PaytmPayment(
           isFromWalletDeposite: isFromWalletDeposite,
+          reniewSubscription: reniewSubscription,
         ),
       ),
     );

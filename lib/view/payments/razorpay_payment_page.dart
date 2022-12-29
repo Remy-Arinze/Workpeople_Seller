@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
+import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/view/orders/payment_helper.dart';
 import 'package:razorpay_flutter/razorpay_flutter.dart';
@@ -15,7 +16,8 @@ class RazorpayPaymentPage extends StatefulWidget {
       required this.name,
       required this.phone,
       required this.email,
-      required this.isFromWalletDeposite})
+      required this.isFromWalletDeposite,
+      required this.reniewSubscription})
       : super(key: key);
 
   final amount;
@@ -23,6 +25,7 @@ class RazorpayPaymentPage extends StatefulWidget {
   final phone;
   final email;
   final isFromWalletDeposite;
+  final reniewSubscription;
 
   @override
   _RazorpayPaymentPageState createState() => _RazorpayPaymentPageState();
@@ -82,6 +85,11 @@ class _RazorpayPaymentPageState extends State<RazorpayPaymentPage> {
     if (widget.isFromWalletDeposite) {
       Provider.of<WalletService>(context, listen: false)
           .makeDepositeToWalletSuccess(context);
+    } else if (widget.reniewSubscription) {
+      Provider.of<SubscriptionService>(context, listen: false)
+          .reniewSubscription(
+        context,
+      );
     }
 
     // print(
