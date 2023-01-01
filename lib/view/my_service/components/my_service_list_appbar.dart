@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
+import 'package:qixer_seller/view/my_service/create_service_page.dart';
 
 class MyServiceListAppbar extends StatelessWidget {
   const MyServiceListAppbar({Key? key}) : super(key: key);
@@ -39,7 +40,15 @@ class MyServiceListAppbar extends StatelessWidget {
               vertical: 9,
             ),
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const CreateServicePage(),
+                  ),
+                );
+              },
               child: Container(
                   // width: double.infinity,
 

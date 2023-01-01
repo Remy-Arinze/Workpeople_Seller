@@ -264,6 +264,7 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                               },
                             ),
                           ),
+                          sizedBoxCustom(20),
                           CommonHelper().labelCommon(ln.getString("Post code")),
                           CustomInput(
                             controller: postCodeController,

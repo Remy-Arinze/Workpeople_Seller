@@ -115,10 +115,10 @@ class MyServicesCardContent extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 7, vertical: 5),
                       decoration: BoxDecoration(
-                          color: Colors.green.withOpacity(.3),
+                          color: Colors.green.withOpacity(.17),
                           borderRadius: BorderRadius.circular(4)),
                       child: CommonHelper().paragraphCommon(
-                        "In Queue: 49",
+                        "Queue: 49",
                         TextAlign.left,
                         // color: Colors.black,
                         fontsize: 13,
@@ -131,7 +131,7 @@ class MyServicesCardContent extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 7, vertical: 5),
                       decoration: BoxDecoration(
-                          color: Colors.orange.withOpacity(.3),
+                          color: Colors.orange.withOpacity(.17),
                           borderRadius: BorderRadius.circular(4)),
                       child: CommonHelper().paragraphCommon(
                         "Completed: 200",
@@ -153,7 +153,7 @@ class MyServicesCardContent extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(
                           horizontal: 7, vertical: 5),
                       decoration: BoxDecoration(
-                          color: Colors.red.withOpacity(.3),
+                          color: Colors.red.withOpacity(.17),
                           borderRadius: BorderRadius.circular(4)),
                       child: CommonHelper().paragraphCommon(
                         "Cancelled: 49",
