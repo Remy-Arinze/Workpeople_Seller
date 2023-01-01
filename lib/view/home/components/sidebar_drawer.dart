@@ -8,6 +8,7 @@ import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:qixer_seller/view/jobs/jobs_request_page.dart';
 import 'package:qixer_seller/view/jobs/new_jobs_page.dart';
 import 'package:qixer_seller/view/live_chat/chat_list_page.dart';
+import 'package:qixer_seller/view/my_service/my_services_list_page.dart';
 import 'package:qixer_seller/view/orders/all_orders_page.dart';
 import 'package:qixer_seller/view/payout/payout_page.dart';
 import 'package:qixer_seller/view/profile/change_password_page.dart';
@@ -209,6 +210,20 @@ class SidebarDrawer extends StatelessWidget {
                   context,
                   MaterialPageRoute<void>(
                     builder: (BuildContext context) => const WalletPage(),
+                  ),
+                );
+              }),
+
+          SidebarMenuItem(
+              title: 'Services',
+              leading: Icon(Icons.room_service, color: cc.primaryColor),
+              ontap: () {
+                //======>
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                    builder: (BuildContext context) =>
+                        const MyServiceListPage(),
                   ),
                 );
               }),

@@ -91,7 +91,7 @@ class CommonHelper {
   }
 
   paragraphCommon(String title, TextAlign textAlign,
-      {color, double fontsize = 14}) {
+      {color, double fontsize = 14, fontweight = FontWeight.w400}) {
     return Text(
       title,
       textAlign: textAlign,
@@ -99,7 +99,7 @@ class CommonHelper {
         color: color ?? cc.greyParagraph,
         height: 1.4,
         fontSize: fontsize,
-        fontWeight: FontWeight.w400,
+        fontWeight: fontweight,
       ),
     );
   }

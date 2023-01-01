@@ -5,19 +5,20 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
+import 'package:qixer_seller/utils/constant_styles.dart';
 
-class MyServicesCard extends StatelessWidget {
-  const MyServicesCard({
+class MyServicesCardContent extends StatelessWidget {
+  const MyServicesCardContent({
     Key? key,
     required this.imageLink,
     required this.title,
-    required this.viewCount,
+    required this.rating,
     required this.price,
   }) : super(key: key);
 
   final imageLink;
   final title;
-  final viewCount;
+  final rating;
   final price;
 
   @override
@@ -40,7 +41,7 @@ class MyServicesCard extends StatelessWidget {
                 Text(
                   title.toString(),
                   textAlign: TextAlign.start,
-                  maxLines: 2,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(
                     color: cc.greyFour,
@@ -50,44 +51,115 @@ class MyServicesCard extends StatelessWidget {
                   ),
                 ),
 
-                //Author name
-                const SizedBox(
-                  height: 10,
-                ),
+                sizedBoxCustom(6),
 
+                //First row
+                // ==========>
                 Row(
                   children: [
-                    // Text(
-                    //   'Orders: 17',
-                    //   textAlign: TextAlign.start,
-                    //   maxLines: 1,
-                    //   overflow: TextOverflow.ellipsis,
-                    //   style: TextStyle(
-                    //     color: cc.greyFour,
-                    //     fontSize: 13,
-                    //     fontWeight: FontWeight.w600,
-                    //   ),
-                    // ),
-                    // const SizedBox(
-                    //   width: 16,
-                    // ),
+                    //Rating
                     Icon(
-                      Icons.remove_red_eye_outlined,
+                      Icons.star,
                       size: 18,
-                      color: cc.successColor,
+                      color: Colors.yellow[800],
                     ),
                     const SizedBox(
-                      width: 6,
+                      width: 5,
                     ),
-                    Text(
-                      viewCount.toString(),
-                      textAlign: TextAlign.start,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color: cc.greyFour,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
+                    CommonHelper().paragraphCommon(
+                        "$rating (10)", TextAlign.left,
+                        fontsize: 14, fontweight: FontWeight.w600),
+
+                    const SizedBox(
+                      width: 10,
+                    ),
+
+                    //View
+                    //========>
+                    Icon(
+                      Icons.remove_red_eye_sharp,
+                      size: 18,
+                      color: cc.primaryColor,
+                    ),
+                    const SizedBox(
+                      width: 7,
+                    ),
+                    CommonHelper().paragraphCommon("28", TextAlign.left,
+                        fontsize: 14, fontweight: FontWeight.w600),
+
+                    //online/offline
+                    //========>
+                    const SizedBox(
+                      width: 9,
+                    ),
+                    Icon(
+                      Icons.gps_fixed,
+                      size: 18,
+                      color: cc.primaryColor,
+                    ),
+                    const SizedBox(
+                      width: 7,
+                    ),
+                    CommonHelper().paragraphCommon("Online", TextAlign.left,
+                        fontsize: 14, fontweight: FontWeight.w600),
+                  ],
+                ),
+
+                sizedBoxCustom(8),
+
+                //Second row
+                // ==========>
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 7, vertical: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.green.withOpacity(.3),
+                          borderRadius: BorderRadius.circular(4)),
+                      child: CommonHelper().paragraphCommon(
+                        "In Queue: 49",
+                        TextAlign.left,
+                        // color: Colors.black,
+                        fontsize: 13,
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 7, vertical: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.orange.withOpacity(.3),
+                          borderRadius: BorderRadius.circular(4)),
+                      child: CommonHelper().paragraphCommon(
+                        "Completed: 200",
+                        TextAlign.left,
+                        // color: Colors.black,
+                        fontsize: 13,
+                      ),
+                    ),
+                  ],
+                ),
+
+                //Third row
+                // ==========>
+
+                sizedBoxCustom(8),
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 7, vertical: 5),
+                      decoration: BoxDecoration(
+                          color: Colors.red.withOpacity(.3),
+                          borderRadius: BorderRadius.circular(4)),
+                      child: CommonHelper().paragraphCommon(
+                        "Cancelled: 49",
+                        TextAlign.left,
+                        // color: Colors.black,
+                        fontsize: 13,
                       ),
                     ),
                   ],

@@ -12,5 +12,7 @@ class MyServicesService with ChangeNotifier {
     notifyListeners();
   }
 
-  fetchMyServiceList(BuildContext context) {}
+  fetchMyServiceList(BuildContext context) {
+    return true;
+  }
 }

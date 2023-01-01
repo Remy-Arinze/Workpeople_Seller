@@ -8,19 +8,18 @@ import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:qixer_seller/view/my_service/components/my_service_list_appbar.dart';
 import 'package:qixer_seller/view/my_service/components/my_services_card.dart';
 import 'package:qixer_seller/view/my_service/components/my_services_popup_menu.dart';
 
-class MyJobsPage extends StatefulWidget {
-  const MyJobsPage({Key? key}) : super(key: key);
+class MyServiceListPage extends StatefulWidget {
+  const MyServiceListPage({Key? key}) : super(key: key);
 
   @override
-  _MyJobsPageState createState() => _MyJobsPageState();
+  _MyServiceListPageState createState() => _MyServiceListPageState();
 }
 
-class _MyJobsPageState extends State<MyJobsPage> {
+class _MyServiceListPageState extends State<MyServiceListPage> {
   @override
   void initState() {
     super.initState();
@@ -97,7 +96,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
                                       child: Container(
                                         alignment: Alignment.center,
                                         margin:
-                                            const EdgeInsets.only(bottom: 20),
+                                            const EdgeInsets.only(bottom: 25),
                                         width: double.infinity,
                                         decoration: BoxDecoration(
                                             border: Border.all(
@@ -108,21 +107,19 @@ class _MyJobsPageState extends State<MyJobsPage> {
                                             13, 0, 13, 4),
                                         child: Column(
                                           children: [
-                                            //popup button
-                                            //==============>
-                                            const MyServicesPopupMenu(),
-
-                                            MyServicesCard(
-                                              imageLink: placeHolderUrl,
+                                            sizedBoxCustom(17),
+                                            const MyServicesCardContent(
+                                              imageLink:
+                                                  'https://cdn.pixabay.com/photo/2022/01/08/19/51/christmas-tree-6924746_1280.jpg',
                                               title: 'This is title',
-                                              viewCount: '45',
+                                              rating: 4.5,
                                               price: '200',
                                             ),
 
+                                            //
                                             const SizedBox(
-                                              height: 18,
+                                              height: 12,
                                             ),
-
                                             CommonHelper().dividerCommon(),
                                             sizedBoxCustom(3),
                                             Row(
@@ -155,7 +152,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
                                                           child: AutoSizeText(
                                                             rtlP.currencyDirection ==
                                                                     'left'
-                                                                ? '${rtlP.currency} 200}'
+                                                                ? '${rtlP.currency} 200'
                                                                 : '200 ${rtlP.currency}',
                                                             textAlign:
                                                                 TextAlign.start,
@@ -187,9 +184,7 @@ class _MyJobsPageState extends State<MyJobsPage> {
                                                             TextAlign.left),
                                                     Switch(
                                                       // This bool value toggles the switch.
-                                                      value: provider
-                                                              .myServiceListMap[
-                                                          i]['isActive'],
+                                                      value: true,
                                                       activeColor:
                                                           cc.successColor,
                                                       onChanged: (bool value) {
@@ -200,6 +195,10 @@ class _MyJobsPageState extends State<MyJobsPage> {
                                                     ),
                                                   ],
                                                 ),
+
+                                                //popup button
+                                                //==============>
+                                                const MyServicesPopupMenu(),
                                               ],
                                             )
                                           ],
