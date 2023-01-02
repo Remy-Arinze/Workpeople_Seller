@@ -44,7 +44,7 @@ class _WriteReportPageState extends State<WriteReportPage> {
               const SizedBox(
                 height: 15,
               ),
-              sizedBox20(),
+              sizedBoxCustom(20),
               Text(
                 'What went wrong?',
                 style: TextStyle(
@@ -59,7 +59,7 @@ class _WriteReportPageState extends State<WriteReportPage> {
                 notesController: reportController,
                 hintText: 'Write the issue',
               ),
-              sizedBox20(),
+              sizedBoxCustom(20),
               Consumer<ReportService>(
                 builder: (context, provider, child) =>
                     CommonHelper().buttonPrimary('Submit Report', () {

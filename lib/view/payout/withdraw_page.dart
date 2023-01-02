@@ -134,7 +134,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                               ],
                             ),
 
-                            sizedBox20(),
+                            sizedBoxCustom(20),
                             CommonHelper().labelCommon(ln.getString("Amount")),
                             CustomInput(
                               controller: amountController,
@@ -160,7 +160,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                               notesController: noteController,
                             ),
 
-                            sizedBox20(),
+                            sizedBoxCustom(20),
                             Text(
                               ln.getString(
                                       'You can make a request only if your remaining balance in a range set by the site admin. Like admin set minimum request amount') +

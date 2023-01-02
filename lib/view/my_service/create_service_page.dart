@@ -9,6 +9,7 @@ import 'package:qixer_seller/utils/custom_input.dart';
 import 'package:qixer_seller/view/my_service/components/category_dropdown.dart';
 import 'package:qixer_seller/view/my_service/components/create_service_image_upload.dart';
 import 'package:qixer_seller/view/my_service/components/sub_category_dropdown.dart';
+import 'package:qixer_seller/view/my_service/create_attribute_page.dart';
 import 'package:qixer_seller/view/profile/components/textarea_field.dart';
 
 class CreateServicePage extends StatefulWidget {
@@ -25,8 +26,6 @@ class _CreateServicePageState extends State<CreateServicePage> {
   }
 
   ConstantColors cc = ConstantColors();
-
-  int selectedIndex = 0;
 
   final titleController = TextEditingController();
   final videoUrlController = TextEditingController();
@@ -119,6 +118,18 @@ class _CreateServicePageState extends State<CreateServicePage> {
                     sizedBoxCustom(10),
 
                     const CreateServiceImageUpload(),
+
+                    sizedBoxCustom(20),
+
+                    CommonHelper().buttonPrimary('Next', () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              const CreateAttributePage(),
+                        ),
+                      );
+                    }),
 
                     sizedBoxCustom(20),
 

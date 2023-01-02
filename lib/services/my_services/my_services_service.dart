@@ -13,6 +13,11 @@ class MyServicesService with ChangeNotifier {
     notifyListeners();
   }
 
+  fetchMyServiceList(BuildContext context) {
+    return true;
+  }
+
+  // ===========>
   var pickedImage;
   List<XFile>? galleryImages = [];
 
@@ -31,7 +36,5 @@ class MyServicesService with ChangeNotifier {
     notifyListeners();
   }
 
-  fetchMyServiceList(BuildContext context) {
-    return true;
-  }
+  //
 }

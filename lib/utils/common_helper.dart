@@ -76,14 +76,16 @@ class CommonHelper {
     );
   }
 
-  labelCommon(String title) {
+  labelCommon(String title,
+      {double lineHeight = 1.3, double marginBotton = 15}) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 15),
+      margin: EdgeInsets.only(bottom: marginBotton),
       child: Text(
         title,
         style: TextStyle(
           color: cc.greyThree,
           fontSize: 14,
+          height: lineHeight,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -91,13 +93,16 @@ class CommonHelper {
   }
 
   paragraphCommon(String title, TextAlign textAlign,
-      {color, double fontsize = 14, fontweight = FontWeight.w400}) {
+      {color,
+      double fontsize = 14,
+      fontweight = FontWeight.w400,
+      double lineHeight = 1.4}) {
     return Text(
       title,
       textAlign: textAlign,
       style: TextStyle(
         color: color ?? cc.greyParagraph,
-        height: 1.4,
+        height: lineHeight,
         fontSize: fontsize,
         fontWeight: fontweight,
       ),
