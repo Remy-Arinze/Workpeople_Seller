@@ -7,6 +7,8 @@ import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/view/my_service/components/add_additional.dart';
 import 'package:qixer_seller/view/my_service/components/add_package_included.dart';
+import 'package:qixer_seller/view/my_service/components/benefits_of_package.dart';
+import 'package:qixer_seller/view/my_service/components/faq_service_create.dart';
 
 class CreateAttributePage extends StatefulWidget {
   const CreateAttributePage({Key? key}) : super(key: key);
@@ -49,9 +51,45 @@ class _CreateAttributePageState extends State<CreateAttributePage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // online // offline
+                    Row(
+                      children: [
+                        CommonHelper()
+                            .paragraphCommon('Online service', TextAlign.left),
+                        Switch(
+                          // This bool value toggles the switch.
+                          value: false,
+                          activeColor: cc.successColor,
+                          onChanged: (bool value) {},
+                        ),
+                      ],
+                    ),
+
+                    //
+                    sizedBoxCustom(10),
                     const AddPackageIncluded(),
 
                     const AddAdditional(),
+
+                    sizedBoxCustom(20),
+
+                    const BenefitsOfPackage(),
+
+                    const FaqServiceCreate(),
+
+                    sizedBoxCustom(20),
+
+                    CommonHelper().buttonPrimary('Save and publish', () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                          builder: (BuildContext context) =>
+                              const CreateAttributePage(),
+                        ),
+                      );
+                    }),
+
+                    //
 
                     sizedBoxCustom(40),
 

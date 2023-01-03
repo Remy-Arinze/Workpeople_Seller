@@ -7,6 +7,7 @@ import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/custom_input.dart';
 import 'package:qixer_seller/view/my_service/components/category_dropdown.dart';
+import 'package:qixer_seller/view/my_service/components/child_category_dropdown.dart';
 import 'package:qixer_seller/view/my_service/components/create_service_image_upload.dart';
 import 'package:qixer_seller/view/my_service/components/sub_category_dropdown.dart';
 import 'package:qixer_seller/view/my_service/create_attribute_page.dart';
@@ -57,7 +58,8 @@ class _CreateServicePageState extends State<CreateServicePage> {
                     Row(
                       children: [
                         CommonHelper().paragraphCommon(
-                            'Is Available All Cities and Area', TextAlign.left),
+                            'Is available to all cities and area',
+                            TextAlign.left),
                         Switch(
                           // This bool value toggles the switch.
                           value: false,
@@ -73,6 +75,10 @@ class _CreateServicePageState extends State<CreateServicePage> {
                     sizedBoxCustom(20),
 
                     const SubCategoryDropdown(),
+
+                    sizedBoxCustom(20),
+
+                    const ChildCategoryDropdown(),
 
                     sizedBoxCustom(20),
 

@@ -17,6 +17,7 @@ class AddAttributeService with ChangeNotifier {
   }
 
   // additional
+  //===========>
 
   List additionalList = [];
 
@@ -36,6 +37,38 @@ class AddAttributeService with ChangeNotifier {
 
   removeAdditional(int index) {
     additionalList.removeAt(index);
+    notifyListeners();
+  }
+
+  //benefits of package
+  //===========>
+
+  List benefitsList = [];
+
+  addBenefits(String title) {
+    benefitsList.add({
+      'title': title,
+    });
+    notifyListeners();
+  }
+
+  removeBenefits(int index) {
+    benefitsList.removeAt(index);
+    notifyListeners();
+  }
+
+  //FAQ
+  //===========>
+
+  List faqList = [];
+
+  addFaq(String title, String desc) {
+    faqList.add({'title': title, 'desc': desc});
+    notifyListeners();
+  }
+
+  removeFaq(int index) {
+    faqList.removeAt(index);
     notifyListeners();
   }
 

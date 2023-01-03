@@ -5,8 +5,8 @@ import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 
-class SubCategoryDropdown extends StatelessWidget {
-  const SubCategoryDropdown({Key? key}) : super(key: key);
+class ChildCategoryDropdown extends StatelessWidget {
+  const ChildCategoryDropdown({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +17,7 @@ class SubCategoryDropdown extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CommonHelper().labelCommon("Sub category"),
-                provider.subCategoryDropdownList.isNotEmpty
+                provider.childCategoryDropdownList.isNotEmpty
                     ? Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -29,24 +29,24 @@ class SubCategoryDropdown extends StatelessWidget {
                           child: DropdownButton<String>(
                             // menuMaxHeight: 200,
                             isExpanded: true,
-                            value: provider.selectedSubCategory,
+                            value: provider.selectedChildCategory,
                             icon: Icon(Icons.keyboard_arrow_down_rounded,
                                 color: cc.greyFour),
                             iconSize: 26,
                             elevation: 17,
                             style: TextStyle(color: cc.greyFour),
                             onChanged: (newValue) {
-                              provider.setSubCategoryValue(newValue);
+                              provider.setChildCategoryValue(newValue);
 
                               //setting the id of selected value
-                              provider.setSelectedSubCategoryId(
-                                  provider.subCategoryDropdownIndexList[provider
-                                      .subCategoryDropdownList
-                                      .indexOf(newValue!)]);
+                              provider.setSelectedChildCategoryId(
+                                  provider.childCategoryDropdownIndexList[
+                                      provider.childCategoryDropdownList
+                                          .indexOf(newValue!)]);
 
-                              provider.fetchChildCategory();
+                              // provider.fetchSubcategory(provider.selectedCategoryId);
                             },
-                            items: provider.subCategoryDropdownList
+                            items: provider.childCategoryDropdownList
                                 .map<DropdownMenuItem<String>>((value) {
                               return DropdownMenuItem(
                                 value: value,

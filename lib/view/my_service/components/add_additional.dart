@@ -50,6 +50,7 @@ class _AddAdditionalState extends State<AddAdditional> {
             CustomInput(
               controller: priceController,
               paddingHorizontal: 15,
+              isNumberField: true,
               hintText: "Enter price",
               textInputAction: TextInputAction.next,
             ),
