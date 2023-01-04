@@ -9,6 +9,7 @@ import 'package:qixer_seller/model/child_category_model.dart';
 import 'package:qixer_seller/model/sub_category_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class CategorySubCatDropdownService with ChangeNotifier {
   var categoryDropdownList = [];
@@ -157,8 +158,20 @@ class CategorySubCatDropdownService with ChangeNotifier {
 
     defaultChildCategory();
 
-    var response = await http.get(Uri.parse(
-        '$baseApi/seller/service/subcategory-wise-child-category/$selectedSubCategoryId'));
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      // "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var response = await http.get(
+        Uri.parse(
+            '$baseApi/seller/service/subcategory-wise-child-category/$selectedSubCategoryId'),
+        headers: header);
 
     print(response.body);
     print(response.statusCode);

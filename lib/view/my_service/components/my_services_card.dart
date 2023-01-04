@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print
+// ignore_for_file: avoid_print, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -13,13 +13,23 @@ class MyServicesCardContent extends StatelessWidget {
     required this.imageLink,
     required this.title,
     required this.rating,
-    required this.price,
+    required this.ratingCount,
+    required this.isOnline,
+    required this.queued,
+    required this.completed,
+    required this.cancelled,
+    required this.viewCount,
   }) : super(key: key);
 
   final imageLink;
   final title;
   final rating;
-  final price;
+  final ratingCount;
+  final isOnline;
+  final queued;
+  final completed;
+  final cancelled;
+  final viewCount;
 
   @override
   Widget build(BuildContext context) {
@@ -67,7 +77,7 @@ class MyServicesCardContent extends StatelessWidget {
                       width: 5,
                     ),
                     CommonHelper().paragraphCommon(
-                        "$rating (10)", TextAlign.left,
+                        "$rating ($ratingCount)", TextAlign.left,
                         fontsize: 14, fontweight: FontWeight.w600),
 
                     const SizedBox(
@@ -82,9 +92,9 @@ class MyServicesCardContent extends StatelessWidget {
                       color: cc.primaryColor,
                     ),
                     const SizedBox(
-                      width: 7,
+                      width: 5,
                     ),
-                    CommonHelper().paragraphCommon("28", TextAlign.left,
+                    CommonHelper().paragraphCommon("$viewCount", TextAlign.left,
                         fontsize: 14, fontweight: FontWeight.w600),
 
                     //online/offline
@@ -100,7 +110,7 @@ class MyServicesCardContent extends StatelessWidget {
                     const SizedBox(
                       width: 7,
                     ),
-                    CommonHelper().paragraphCommon("Online", TextAlign.left,
+                    CommonHelper().paragraphCommon("$isOnline", TextAlign.left,
                         fontsize: 14, fontweight: FontWeight.w600),
                   ],
                 ),
@@ -118,7 +128,7 @@ class MyServicesCardContent extends StatelessWidget {
                           color: Colors.green.withOpacity(.17),
                           borderRadius: BorderRadius.circular(4)),
                       child: CommonHelper().paragraphCommon(
-                        "Queue: 49",
+                        "Queue: $queued",
                         TextAlign.left,
                         // color: Colors.black,
                         fontsize: 13,
@@ -134,7 +144,7 @@ class MyServicesCardContent extends StatelessWidget {
                           color: Colors.orange.withOpacity(.17),
                           borderRadius: BorderRadius.circular(4)),
                       child: CommonHelper().paragraphCommon(
-                        "Completed: 200",
+                        "Completed: $completed",
                         TextAlign.left,
                         // color: Colors.black,
                         fontsize: 13,
@@ -156,7 +166,7 @@ class MyServicesCardContent extends StatelessWidget {
                           color: Colors.red.withOpacity(.17),
                           borderRadius: BorderRadius.circular(4)),
                       child: CommonHelper().paragraphCommon(
-                        "Cancelled: 49",
+                        "Cancelled: $cancelled",
                         TextAlign.left,
                         // color: Colors.black,
                         fontsize: 13,

@@ -8,6 +8,7 @@ import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:qixer_seller/view/my_service/components/my_service_list_appbar.dart';
 import 'package:qixer_seller/view/my_service/components/my_services_card.dart';
 import 'package:qixer_seller/view/my_service/components/my_services_popup_menu.dart';
@@ -77,142 +78,193 @@ class _MyServiceListPageState extends State<MyServiceListPage> {
                 padding: EdgeInsets.symmetric(horizontal: screenPadding),
                 clipBehavior: Clip.none,
                 child: Consumer<AppStringService>(
-                  builder: (context, asProvider, child) =>
-                      Consumer<MyServicesService>(
-                          builder: (context, provider, child) {
-                    return Column(
-                      children: [
-                        Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              sizedBoxCustom(10),
-                              Column(
-                                children: [
-                                  for (int i = 0; i < 6; i++)
-                                    InkWell(
-                                      splashColor: Colors.transparent,
-                                      highlightColor: Colors.transparent,
-                                      onTap: () {},
-                                      child: Container(
-                                        alignment: Alignment.center,
-                                        margin:
-                                            const EdgeInsets.only(bottom: 25),
-                                        width: double.infinity,
-                                        decoration: BoxDecoration(
-                                            border: Border.all(
-                                                color: cc.borderColor),
-                                            borderRadius:
-                                                BorderRadius.circular(9)),
-                                        padding: const EdgeInsets.fromLTRB(
-                                            13, 0, 13, 4),
-                                        child: Column(
-                                          children: [
-                                            sizedBoxCustom(17),
-                                            const MyServicesCardContent(
-                                              imageLink:
-                                                  'https://cdn.pixabay.com/photo/2022/01/08/19/51/christmas-tree-6924746_1280.jpg',
-                                              title: 'This is title',
-                                              rating: 4.5,
-                                              price: '200',
-                                            ),
+                  builder: (context, asProvider, child) => Consumer<
+                          MyServicesService>(
+                      builder: (context, provider, child) => provider
+                                  .hasError ==
+                              false
+                          ? Column(
+                              children: [
+                                Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      sizedBoxCustom(10),
+                                      Column(
+                                        children: [
+                                          for (int i = 0;
+                                              i <
+                                                  provider
+                                                      .myServiceListMap.length;
+                                              i++)
+                                            InkWell(
+                                              splashColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent,
+                                              onTap: () {},
+                                              child: Container(
+                                                alignment: Alignment.center,
+                                                margin: const EdgeInsets.only(
+                                                    bottom: 25),
+                                                width: double.infinity,
+                                                decoration: BoxDecoration(
+                                                    border: Border.all(
+                                                        color: cc.borderColor),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            9)),
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        13, 0, 13, 4),
+                                                child: Column(
+                                                  children: [
+                                                    sizedBoxCustom(17),
+                                                    MyServicesCardContent(
+                                                      imageLink: provider
+                                                              .imageList[i] ??
+                                                          placeHolderUrl,
+                                                      title: provider
+                                                              .myServiceListMap[
+                                                          i]['title'],
+                                                      rating: provider
+                                                          .averageRateList[i]
+                                                          .toStringAsFixed(1),
+                                                      cancelled: provider
+                                                              .myServiceListMap[
+                                                          i]['cancelled'],
+                                                      completed: provider
+                                                              .myServiceListMap[
+                                                          i]['completed'],
+                                                      isOnline: provider
+                                                              .myServiceListMap[
+                                                          i]['isOnline'],
+                                                      queued: provider
+                                                              .myServiceListMap[
+                                                          i]['queued'],
+                                                      ratingCount: provider
+                                                          .ratingCountList[i],
+                                                      viewCount: provider
+                                                              .myServiceListMap[
+                                                          i]['viewCount'],
+                                                    ),
 
-                                            //
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            CommonHelper().dividerCommon(),
-                                            sizedBoxCustom(3),
-                                            Row(
-                                              children: [
-                                                Expanded(
-                                                  child: Row(
-                                                    children: [
-                                                      AutoSizeText(
-                                                        '${asProvider.getString('Starts from')}:',
-                                                        textAlign:
-                                                            TextAlign.start,
-                                                        maxLines: 1,
-                                                        overflow: TextOverflow
-                                                            .ellipsis,
-                                                        style: TextStyle(
-                                                          color: cc.greyFour
-                                                              .withOpacity(.6),
-                                                          fontSize: 14,
-                                                          fontWeight:
-                                                              FontWeight.w400,
-                                                        ),
-                                                      ),
-                                                      const SizedBox(
-                                                        width: 6,
-                                                      ),
-                                                      Consumer<RtlService>(
-                                                        builder: (context, rtlP,
-                                                                child) =>
-                                                            Expanded(
-                                                          child: AutoSizeText(
-                                                            rtlP.currencyDirection ==
-                                                                    'left'
-                                                                ? '${rtlP.currency} 200'
-                                                                : '200 ${rtlP.currency}',
-                                                            textAlign:
-                                                                TextAlign.start,
-                                                            maxLines: 1,
-                                                            overflow:
-                                                                TextOverflow
-                                                                    .ellipsis,
-                                                            style: TextStyle(
-                                                              color:
-                                                                  cc.greyFour,
-                                                              fontSize: 19,
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .bold,
-                                                            ),
+                                                    //
+                                                    const SizedBox(
+                                                      height: 12,
+                                                    ),
+                                                    CommonHelper()
+                                                        .dividerCommon(),
+                                                    sizedBoxCustom(3),
+                                                    Row(
+                                                      children: [
+                                                        Expanded(
+                                                          child: Row(
+                                                            children: [
+                                                              AutoSizeText(
+                                                                '${asProvider.getString('Starts from')}:',
+                                                                textAlign:
+                                                                    TextAlign
+                                                                        .start,
+                                                                maxLines: 1,
+                                                                overflow:
+                                                                    TextOverflow
+                                                                        .ellipsis,
+                                                                style:
+                                                                    TextStyle(
+                                                                  color: cc
+                                                                      .greyFour
+                                                                      .withOpacity(
+                                                                          .6),
+                                                                  fontSize: 14,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w400,
+                                                                ),
+                                                              ),
+                                                              const SizedBox(
+                                                                width: 6,
+                                                              ),
+                                                              Consumer<
+                                                                  RtlService>(
+                                                                builder: (context,
+                                                                        rtlP,
+                                                                        child) =>
+                                                                    Expanded(
+                                                                  child:
+                                                                      AutoSizeText(
+                                                                    rtlP.currencyDirection ==
+                                                                            'left'
+                                                                        ? '${rtlP.currency} ${provider.myServiceListMap[i]['price']}'
+                                                                        : '${provider.myServiceListMap[i]['price']} ${rtlP.currency}',
+                                                                    textAlign:
+                                                                        TextAlign
+                                                                            .start,
+                                                                    maxLines: 1,
+                                                                    overflow:
+                                                                        TextOverflow
+                                                                            .ellipsis,
+                                                                    style:
+                                                                        TextStyle(
+                                                                      color: cc
+                                                                          .greyFour,
+                                                                      fontSize:
+                                                                          19,
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .bold,
+                                                                    ),
+                                                                  ),
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
 
-                                                //on off button
-                                                Row(
-                                                  children: [
-                                                    CommonHelper()
-                                                        .paragraphCommon(
-                                                            'On/Off',
-                                                            TextAlign.left),
-                                                    Switch(
-                                                      // This bool value toggles the switch.
-                                                      value: true,
-                                                      activeColor:
-                                                          cc.successColor,
-                                                      onChanged: (bool value) {
-                                                        provider
-                                                            .setActiveStatus(
-                                                                value, i);
-                                                      },
-                                                    ),
+                                                        //on off button
+                                                        Row(
+                                                          children: [
+                                                            CommonHelper()
+                                                                .paragraphCommon(
+                                                                    'On/Off',
+                                                                    TextAlign
+                                                                        .left),
+                                                            Switch(
+                                                              // This bool value toggles the switch.
+                                                              value: provider
+                                                                      .myServiceListMap[i]
+                                                                  [
+                                                                  'isServiceOn'],
+                                                              activeColor: cc
+                                                                  .successColor,
+                                                              onChanged:
+                                                                  (bool value) {
+                                                                provider
+                                                                    .setActiveStatus(
+                                                                        value,
+                                                                        i);
+                                                              },
+                                                            ),
+                                                          ],
+                                                        ),
+
+                                                        //popup button
+                                                        //==============>
+                                                        const MyServicesPopupMenu(),
+                                                      ],
+                                                    )
                                                   ],
                                                 ),
-
-                                                //popup button
-                                                //==============>
-                                                const MyServicesPopupMenu(),
-                                              ],
+                                              ),
                                             )
-                                          ],
-                                        ),
-                                      ),
-                                    )
-                                ],
-                              )
+                                        ],
+                                      )
 
-                              //
-                            ])
-                      ],
-                    );
-                  }),
+                                      //
+                                    ])
+                              ],
+                            )
+                          : OthersHelper()
+                              .showError(context, message: 'No service found')),
                 )),
           ),
         ),
