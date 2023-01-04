@@ -19,7 +19,7 @@ import 'package:qixer_seller/services/jobs/job_list_service.dart';
 import 'package:qixer_seller/services/jobs/new_jobs_service.dart';
 import 'package:qixer_seller/services/live_chat/chat_list_service.dart';
 import 'package:qixer_seller/services/live_chat/chat_message_service.dart';
-import 'package:qixer_seller/services/my_services/add_attribute_service.dart';
+import 'package:qixer_seller/services/my_services/attribute_service.dart';
 import 'package:qixer_seller/services/my_services/my_services_service.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
 import 'package:qixer_seller/services/orders_service.dart';
@@ -102,7 +102,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ReportMessagesService()),
         ChangeNotifierProvider(create: (_) => MyServicesService()),
         ChangeNotifierProvider(create: (_) => CategorySubCatDropdownService()),
-        ChangeNotifierProvider(create: (_) => AddAttributeService()),
+        ChangeNotifierProvider(create: (_) => AttributeService()),
       ],
       child: MaterialApp(
         title: 'Qixer seller',

@@ -25,12 +25,6 @@ class _CreateAttributePageState extends State<CreateAttributePage> {
 
   ConstantColors cc = ConstantColors();
 
-  final titleController = TextEditingController();
-  final videoUrlController = TextEditingController();
-  final descController = TextEditingController();
-
-  final _formKey = GlobalKey<FormState>();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -45,57 +39,10 @@ class _CreateAttributePageState extends State<CreateAttributePage> {
             builder: (context, asProvider, child) => Container(
               padding:
                   EdgeInsets.symmetric(horizontal: screenPadding, vertical: 10),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // online // offline
-                    Row(
-                      children: [
-                        CommonHelper()
-                            .paragraphCommon('Online service', TextAlign.left),
-                        Switch(
-                          // This bool value toggles the switch.
-                          value: false,
-                          activeColor: cc.successColor,
-                          onChanged: (bool value) {},
-                        ),
-                      ],
-                    ),
-
-                    //
-                    sizedBoxCustom(10),
-                    const AddPackageIncluded(),
-
-                    const AddAdditional(),
-
-                    sizedBoxCustom(20),
-
-                    const BenefitsOfPackage(),
-
-                    const FaqServiceCreate(),
-
-                    sizedBoxCustom(20),
-
-                    CommonHelper().buttonPrimary('Save and publish', () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const CreateAttributePage(),
-                        ),
-                      );
-                    }),
-
-                    //
-
-                    sizedBoxCustom(40),
-
-                    //
-                  ],
-                ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [],
               ),
             ),
           ),

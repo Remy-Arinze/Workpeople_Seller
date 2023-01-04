@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
-import 'package:qixer_seller/services/my_services/add_attribute_service.dart';
+import 'package:qixer_seller/services/my_services/attribute_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
@@ -27,7 +27,7 @@ class _AddAdditionalState extends State<AddAdditional> {
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
-    return Consumer<AddAttributeService>(
+    return Consumer<AttributeService>(
       builder: (context, provider, child) => Consumer<AppStringService>(
         builder: (context, ln, child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,

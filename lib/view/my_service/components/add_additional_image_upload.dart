@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
-import 'package:qixer_seller/services/my_services/add_attribute_service.dart';
+import 'package:qixer_seller/services/my_services/attribute_service.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 
 class AddAdditionalImageUpload extends StatelessWidget {
@@ -13,7 +13,7 @@ class AddAdditionalImageUpload extends StatelessWidget {
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
 
-    return Consumer<AddAttributeService>(
+    return Consumer<AttributeService>(
       builder: (context, provider, child) => Consumer<AppStringService>(
         builder: (context, ln, child) => Row(
           children: [

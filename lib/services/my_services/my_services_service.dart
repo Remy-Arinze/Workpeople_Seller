@@ -168,5 +168,33 @@ class MyServicesService with ChangeNotifier {
     notifyListeners();
   }
 
-  //
+  //service on off
+  //==============>
+
+  serviceOnOff(BuildContext context, {required serviceId}) async {
+    //check internet connection
+    var connection = await checkConnection();
+    if (!connection) return;
+    //internet connection is on
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      // "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var response = await http.post(
+      Uri.parse('$baseApi/seller/service/on-off/$serviceId'),
+      headers: header,
+    );
+
+    print(response.body);
+    print(response.statusCode);
+
+    if (response.statusCode == 201) {
+    } else {}
+  }
 }

@@ -108,7 +108,7 @@ class MyServicesCardContent extends StatelessWidget {
                       color: cc.primaryColor,
                     ),
                     const SizedBox(
-                      width: 7,
+                      width: 4,
                     ),
                     CommonHelper().paragraphCommon("$isOnline", TextAlign.left,
                         fontsize: 14, fontweight: FontWeight.w600),

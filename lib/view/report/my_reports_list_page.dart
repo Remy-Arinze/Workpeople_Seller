@@ -135,6 +135,7 @@ class _MyReportsListPageState extends State<MyReportsListPage> {
                                               )
                                             ],
                                           ),
+
                                           CommonHelper().labelCommon(
                                             'Order id: ' +
                                                 provider.reportList[i]
