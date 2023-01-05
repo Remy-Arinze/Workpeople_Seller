@@ -17,6 +17,7 @@ class AddPackageIncluded extends StatefulWidget {
 
 class _AddPackageIncludedState extends State<AddPackageIncluded> {
   final titleController = TextEditingController();
+  final priceController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +35,16 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
             CustomInput(
               controller: titleController,
               paddingHorizontal: 15,
-              hintText: "Enter Title",
+              hintText: "Enter title",
+              textInputAction: TextInputAction.next,
+            ),
+
+            CommonHelper().labelCommon("Price"),
+            CustomInput(
+              controller: priceController,
+              paddingHorizontal: 15,
+              hintText: "Enter price",
+              isNumberField: true,
               textInputAction: TextInputAction.next,
             ),
 
@@ -45,12 +55,16 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
               children: [
                 InkWell(
                   onTap: () {
-                    if (titleController.text.trim().isEmpty) {
-                      OthersHelper().showSnackBar(context,
-                          ln.getString('Please enter a title'), Colors.red);
+                    if (titleController.text.trim().isEmpty ||
+                        priceController.text.trim().isEmpty) {
+                      OthersHelper().showSnackBar(
+                          context,
+                          ln.getString('Please enter a title and price'),
+                          Colors.red);
                       return;
                     }
-                    provider.addIncludedList(titleController.text);
+                    provider.addIncludedList(
+                        titleController.text, priceController.text);
 
                     //clear
                     titleController.clear();

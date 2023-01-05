@@ -9,7 +9,6 @@ import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/custom_input.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
-import 'package:qixer_seller/view/my_service/components/add_additional_image_upload.dart';
 
 class AddAdditional extends StatefulWidget {
   const AddAdditional({Key? key}) : super(key: key);
@@ -68,13 +67,13 @@ class _AddAdditionalState extends State<AddAdditional> {
             //Add button
             //=========>
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.end,
               children: [
                 //pick image
-                const SizedBox(
-                  width: 160,
-                  child: AddAdditionalImageUpload(),
-                ),
+                // const SizedBox(
+                //   width: 160,
+                //   child: AddAdditionalImageUpload(),
+                // ),
 
                 InkWell(
                   onTap: () {

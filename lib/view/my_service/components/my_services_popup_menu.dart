@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/my_services/attribute_service.dart';
+import 'package:qixer_seller/view/my_service/add_attribute_page.dart';
 import 'package:qixer_seller/view/my_service/show_attribute_page.dart';
 
 class MyServicesPopupMenu extends StatelessWidget {
@@ -13,7 +14,11 @@ class MyServicesPopupMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    List popupMenuList = ['Show attributes', 'Delete'];
+    List popupMenuList = [
+      'Show attributes',
+      'Edit attributes',
+      'Add attributes'
+    ];
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
@@ -46,6 +51,15 @@ class MyServicesPopupMenu extends StatelessWidget {
         context,
         MaterialPageRoute<void>(
           builder: (BuildContext context) => ShowAttributePage(
+            serviceId: serviceId,
+          ),
+        ),
+      );
+    } else if (i == 2) {
+      return Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => AddAttributePage(
             serviceId: serviceId,
           ),
         ),

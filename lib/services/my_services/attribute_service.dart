@@ -11,10 +11,8 @@ import 'package:http/http.dart' as http;
 class AttributeService with ChangeNotifier {
   List includedList = [];
 
-  addIncludedList(String title) {
-    includedList.add({
-      'title': title,
-    });
+  addIncludedList(String title, String price) {
+    includedList.add({'title': title, 'price': price, 'qty': '1'});
     notifyListeners();
   }
 
@@ -114,8 +112,162 @@ class AttributeService with ChangeNotifier {
 
     setAttrLodingStatus(false);
 
+    if (response.statusCode == 201) {
+      attributes = AttributesModel.fromJson(jsonDecode(response.body));
+      notifyListeners();
+    } else {
+      OthersHelper().showToast('Something went wrong', Colors.black);
+    }
+  }
+
+  //Show attributes of a service
+  // =================>
+
+  bool addAttrLoading = false;
+
+  setAddAttrLodingStatus(bool status) {
+    addAttrLoading = status;
+    notifyListeners();
+  }
+
+  addAttribute(BuildContext context, {required serviceId}) async {
+    //check internet connection
+    var connection = await checkConnection();
+    if (!connection) return;
+
+    // include service
+    List incList = [];
+    List addiList = [];
+    List beniList = [];
+    List fqList = [];
+
+    for (int i = 0; i < includedList.length; i++) {
+      incList.add({
+        "service_id": serviceId,
+        "include_service_title": includedList[i]['title'],
+        "include_service_quantity": includedList[i]['qty'],
+        "include_service_price": includedList[i]['price'],
+      });
+    }
+
+    for (int i = 0; i < additionalList.length; i++) {
+      addiList.add({
+        "service_id": serviceId,
+        "additional_service_title": additionalList[i]['title'],
+        "additional_service_quantity": additionalList[i]['qty'],
+        "additional_service_price": additionalList[i]['price'],
+      });
+    }
+
+    for (int i = 0; i < benefitsList.length; i++) {
+      beniList.add({
+        "service_id": serviceId,
+        "benifits": benefitsList[i]['title'],
+      });
+    }
+
+    for (int i = 0; i < faqList.length; i++) {
+      fqList.add({
+        "service_id": serviceId,
+        "title": faqList[i]['title'],
+        "description": faqList[i]['desc'],
+      });
+    }
+
+    //internet connection is on
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    print('service id $serviceId');
+
+    var data = jsonEncode({
+      "all_include_service":
+          jsonEncode({"all_include_service": jsonEncode(incList)}),
+      "all_additional_service": jsonEncode(
+        {"all_additional_service": jsonEncode(addiList)},
+      ),
+      "service_benifits":
+          jsonEncode({"service_benifits": jsonEncode(beniList)}),
+      "online_service_faqs":
+          jsonEncode({"online_service_faqs": jsonEncode(fqList)}),
+    });
+
+    setAddAttrLodingStatus(true);
+
+    var response = await http.post(
+        Uri.parse(
+            '$baseApi/seller/service/add-service-attributes-by-id/$serviceId'),
+        headers: header,
+        body: data);
+
+    setAddAttrLodingStatus(false);
+
     print(response.body);
     print(response.statusCode);
+
+    if (response.statusCode == 201) {
+    } else {
+      OthersHelper().showToast('Something went wrong', Colors.black);
+    }
+  }
+
+  //delete attribute
+  // =================>
+
+  bool deleteAttrLoading = false;
+
+  setDeleteAttrLodingStatus(bool status) {
+    deleteAttrLoading = status;
+    notifyListeners();
+  }
+
+  deleteAttribute(
+    BuildContext context, {
+    required attributeId,
+    bool deleteInclude = false,
+    bool deleteAdditional = false,
+    bool deleteBenefit = false,
+  }) async {
+    //check internet connection
+    var connection = await checkConnection();
+    if (!connection) return;
+    //internet connection is on
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    String apiLink;
+
+    if (deleteInclude) {
+      apiLink = '$baseApi/seller/service/delete/include-service/$attributeId';
+    } else if (deleteAdditional) {
+      apiLink = '';
+    } else {
+      // delete benefit
+      apiLink = '';
+    }
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      // "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    setAttrLodingStatus(true);
+
+    var response = await http.get(
+      Uri.parse(apiLink),
+      headers: header,
+    );
+
+    setAttrLodingStatus(false);
 
     if (response.statusCode == 201) {
       attributes = AttributesModel.fromJson(jsonDecode(response.body));

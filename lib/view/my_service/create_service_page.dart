@@ -10,7 +10,7 @@ import 'package:qixer_seller/view/my_service/components/category_dropdown.dart';
 import 'package:qixer_seller/view/my_service/components/child_category_dropdown.dart';
 import 'package:qixer_seller/view/my_service/components/create_service_image_upload.dart';
 import 'package:qixer_seller/view/my_service/components/sub_category_dropdown.dart';
-import 'package:qixer_seller/view/my_service/create_attribute_page.dart';
+import 'package:qixer_seller/view/my_service/add_attribute_page.dart';
 import 'package:qixer_seller/view/profile/components/textarea_field.dart';
 
 class CreateServicePage extends StatefulWidget {
@@ -132,7 +132,9 @@ class _CreateServicePageState extends State<CreateServicePage> {
                         context,
                         MaterialPageRoute<void>(
                           builder: (BuildContext context) =>
-                              const CreateAttributePage(),
+                              const AddAttributePage(
+                            isFromCreateService: true,
+                          ),
                         ),
                       );
                     }),
