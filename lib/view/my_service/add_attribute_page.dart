@@ -8,12 +8,14 @@ import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/view/my_service/components/attributes/add_additional.dart';
 import 'package:qixer_seller/view/my_service/components/attributes/add_package_included.dart';
 import 'package:qixer_seller/view/my_service/components/attributes/benefits_of_package.dart';
-import 'package:qixer_seller/view/my_service/components/attributes/faq_service_create.dart';
+import 'package:qixer_seller/view/my_service/components/attributes/faq_for_service_create.dart';
 
 class AddAttributePage extends StatefulWidget {
-  const AddAttributePage(
-      {Key? key, this.serviceId, this.isFromCreateService = false})
-      : super(key: key);
+  const AddAttributePage({
+    Key? key,
+    this.serviceId,
+    this.isFromCreateService = false,
+  }) : super(key: key);
 
   final serviceId;
   final bool isFromCreateService;
@@ -52,7 +54,7 @@ class _AddAttributePageState extends State<AddAttributePage> {
                   const AddAdditional(),
                   sizedBoxCustom(15),
                   const BenefitsOfPackage(),
-                  const FaqServiceCreate(),
+                  const FaqForServiceCreate(),
                   sizedBoxCustom(10),
                   CommonHelper().buttonPrimary('Save and publish', () {
                     if (widget.isFromCreateService) {

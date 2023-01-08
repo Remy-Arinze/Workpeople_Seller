@@ -65,8 +65,19 @@ class ShowAttributeRow extends StatelessWidget {
             ],
           ),
           if (!isServiceBenefit)
-            CommonHelper().paragraphCommon(
-                'Unit price: \$$price    Quantity: $qty', TextAlign.left),
+            Row(
+              children: [
+                if (price != 0)
+                  CommonHelper()
+                      .paragraphCommon('Unit price: \$$price', TextAlign.left),
+                const SizedBox(
+                  width: 10,
+                ),
+                if (qty != 0)
+                  CommonHelper()
+                      .paragraphCommon('Quantity: $qty', TextAlign.left),
+              ],
+            ),
           sizedBoxCustom(15)
         ])
       ],

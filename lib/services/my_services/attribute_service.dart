@@ -35,7 +35,6 @@ class AttributeService with ChangeNotifier {
       'title': title,
       'price': price,
       'qty': qty,
-      'image': pickedAdditionalImage
     });
     notifyListeners();
   }
@@ -142,9 +141,10 @@ class AttributeService with ChangeNotifier {
 
     if (includedList.isEmpty ||
         additionalList.isEmpty ||
-        benefitsList.isEmpty) {
+        benefitsList.isEmpty ||
+        faqList.isEmpty) {
       OthersHelper().showToast(
-          'Make sure you have added include, additional, benefits',
+          'Make sure you have added include, additional, benefits, faq',
           Colors.black);
       return;
     }
@@ -218,9 +218,6 @@ class AttributeService with ChangeNotifier {
         body: data);
 
     setAddAttrLodingStatus(false);
-
-    print(response.body);
-    print(response.statusCode);
 
     if (response.statusCode == 201) {
       Navigator.pop(context);

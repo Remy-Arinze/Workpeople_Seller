@@ -1,36 +1,58 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
-import 'package:qixer_seller/services/my_services/attribute_service.dart';
+import 'package:qixer_seller/services/my_services/edit_attribute_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/custom_input.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 
-class FaqServiceCreate extends StatefulWidget {
-  const FaqServiceCreate({Key? key}) : super(key: key);
+class EditPackageIncluded extends StatefulWidget {
+  const EditPackageIncluded({Key? key}) : super(key: key);
 
   @override
-  State<FaqServiceCreate> createState() => _FaqServiceCreateState();
+  State<EditPackageIncluded> createState() => _EditPackageIncludedState();
 }
 
-class _FaqServiceCreateState extends State<FaqServiceCreate> {
+class _EditPackageIncludedState extends State<EditPackageIncluded> {
   final titleController = TextEditingController();
-  final descController = TextEditingController();
+  final priceController = TextEditingController();
+
+  bool isOnline = true;
 
   @override
   Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
-    return Consumer<AttributeService>(
+    return Consumer<EditAttributeService>(
       builder: (context, provider, child) => Consumer<AppStringService>(
         builder: (context, ln, child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CommonHelper().titleCommon('Faqs', fontsize: 18),
+            //on off button
+            Row(
+              children: [
+                CommonHelper()
+                    .paragraphCommon('Online service', TextAlign.left),
+                Switch(
+                  // This bool value toggles the switch.
+                  value: isOnline,
+                  activeColor: cc.successColor,
+                  onChanged: (bool value) {
+                    isOnline = !isOnline;
+                    setState(() {});
+                  },
+                ),
+              ],
+            ),
+
+            sizedBoxCustom(5),
+
+            CommonHelper()
+                .titleCommon('What is Included In This Package', fontsize: 18),
 
             sizedBoxCustom(18),
-            CommonHelper().labelCommon("Faq title"),
+            CommonHelper().labelCommon("Title"),
             CustomInput(
               controller: titleController,
               paddingHorizontal: 15,
@@ -38,15 +60,22 @@ class _FaqServiceCreateState extends State<FaqServiceCreate> {
               textInputAction: TextInputAction.next,
             ),
 
-            CommonHelper().labelCommon("Faq answer"),
-            CustomInput(
-              controller: descController,
-              paddingHorizontal: 15,
-              hintText: "Enter answer",
-              textInputAction: TextInputAction.next,
-            ),
+            if (!isOnline)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CommonHelper().labelCommon("Price"),
+                  CustomInput(
+                    controller: priceController,
+                    paddingHorizontal: 15,
+                    hintText: "Enter price",
+                    isNumberField: true,
+                    textInputAction: TextInputAction.next,
+                  ),
+                ],
+              ),
 
-            //Add button
+            //Add faq button
             //=========>
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -54,17 +83,22 @@ class _FaqServiceCreateState extends State<FaqServiceCreate> {
                 InkWell(
                   onTap: () {
                     if (titleController.text.trim().isEmpty) {
-                      OthersHelper().showSnackBar(
-                          context,
-                          ln.getString('Please type something first'),
-                          Colors.red);
+                      OthersHelper().showSnackBar(context,
+                          ln.getString('Please enter a title'), Colors.red);
                       return;
                     }
-                    provider.addFaq(titleController.text, descController.text);
+                    if (priceController.text.trim().isEmpty && !isOnline) {
+                      OthersHelper().showSnackBar(context,
+                          ln.getString('Please enter a price'), Colors.red);
+                      return;
+                    }
+
+                    provider.addIncludedList(titleController.text,
+                        !isOnline ? priceController.text : '0');
 
                     //clear
                     titleController.clear();
-                    descController.clear();
+                    priceController.clear();
                   },
                   child: Container(
                     color: cc.primaryColor,
@@ -81,11 +115,11 @@ class _FaqServiceCreateState extends State<FaqServiceCreate> {
 
             //
             //--------->
-            if (provider.faqList.isNotEmpty)
+            if (provider.includedList.isNotEmpty)
               Column(
                 children: [
                   ListView.builder(
-                      itemCount: provider.faqList.length,
+                      itemCount: provider.includedList.length,
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       physics: const NeverScrollableScrollPhysics(),
@@ -107,11 +141,11 @@ class _FaqServiceCreateState extends State<FaqServiceCreate> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CommonHelper().labelCommon(
-                                      provider.faqList[index]['title'],
-                                      marginBotton: 1),
+                                      provider.includedList[index]['title'],
+                                      marginBotton: 0),
                                   CommonHelper().paragraphCommon(
-                                      provider.faqList[index]['desc'],
-                                      TextAlign.left),
+                                      "\$${provider.includedList[index]['price']}",
+                                      TextAlign.left)
                                 ],
                               )),
 
@@ -120,7 +154,7 @@ class _FaqServiceCreateState extends State<FaqServiceCreate> {
                                 margin: const EdgeInsets.only(left: 20),
                                 child: InkWell(
                                   onTap: () {
-                                    provider.removeFaq(index);
+                                    provider.removeIncludedList(index);
                                   },
                                   child: const Icon(
                                     Icons.delete_forever,

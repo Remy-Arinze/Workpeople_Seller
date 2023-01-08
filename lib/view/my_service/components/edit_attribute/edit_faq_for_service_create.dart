@@ -8,18 +8,17 @@ import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/custom_input.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 
-class AddPackageIncluded extends StatefulWidget {
-  const AddPackageIncluded({Key? key}) : super(key: key);
+class EditFaqForServiceCreate extends StatefulWidget {
+  const EditFaqForServiceCreate({Key? key}) : super(key: key);
 
   @override
-  State<AddPackageIncluded> createState() => _AddPackageIncludedState();
+  State<EditFaqForServiceCreate> createState() =>
+      _EditFaqForServiceCreateState();
 }
 
-class _AddPackageIncludedState extends State<AddPackageIncluded> {
+class _EditFaqForServiceCreateState extends State<EditFaqForServiceCreate> {
   final titleController = TextEditingController();
-  final priceController = TextEditingController();
-
-  bool isOnline = true;
+  final descController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -29,30 +28,10 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
         builder: (context, ln, child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //on off button
-            Row(
-              children: [
-                CommonHelper()
-                    .paragraphCommon('Online service', TextAlign.left),
-                Switch(
-                  // This bool value toggles the switch.
-                  value: isOnline,
-                  activeColor: cc.successColor,
-                  onChanged: (bool value) {
-                    isOnline = !isOnline;
-                    setState(() {});
-                  },
-                ),
-              ],
-            ),
-
-            sizedBoxCustom(5),
-
-            CommonHelper()
-                .titleCommon('What is Included In This Package', fontsize: 18),
+            CommonHelper().titleCommon('Faqs', fontsize: 18),
 
             sizedBoxCustom(18),
-            CommonHelper().labelCommon("Title"),
+            CommonHelper().labelCommon("Faq title"),
             CustomInput(
               controller: titleController,
               paddingHorizontal: 15,
@@ -60,22 +39,15 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
               textInputAction: TextInputAction.next,
             ),
 
-            if (!isOnline)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CommonHelper().labelCommon("Price"),
-                  CustomInput(
-                    controller: priceController,
-                    paddingHorizontal: 15,
-                    hintText: "Enter price",
-                    isNumberField: true,
-                    textInputAction: TextInputAction.next,
-                  ),
-                ],
-              ),
+            CommonHelper().labelCommon("Faq answer"),
+            CustomInput(
+              controller: descController,
+              paddingHorizontal: 15,
+              hintText: "Enter answer",
+              textInputAction: TextInputAction.next,
+            ),
 
-            //Add faq button
+            //Add button
             //=========>
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -83,22 +55,17 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
                 InkWell(
                   onTap: () {
                     if (titleController.text.trim().isEmpty) {
-                      OthersHelper().showSnackBar(context,
-                          ln.getString('Please enter a title'), Colors.red);
+                      OthersHelper().showSnackBar(
+                          context,
+                          ln.getString('Please type something first'),
+                          Colors.red);
                       return;
                     }
-                    if (priceController.text.trim().isEmpty && !isOnline) {
-                      OthersHelper().showSnackBar(context,
-                          ln.getString('Please enter a price'), Colors.red);
-                      return;
-                    }
-
-                    provider.addIncludedList(titleController.text,
-                        !isOnline ? priceController.text : '0');
+                    provider.addFaq(titleController.text, descController.text);
 
                     //clear
                     titleController.clear();
-                    priceController.clear();
+                    descController.clear();
                   },
                   child: Container(
                     color: cc.primaryColor,
@@ -115,11 +82,11 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
 
             //
             //--------->
-            if (provider.includedList.isNotEmpty)
+            if (provider.faqList.isNotEmpty)
               Column(
                 children: [
                   ListView.builder(
-                      itemCount: provider.includedList.length,
+                      itemCount: provider.faqList.length,
                       shrinkWrap: true,
                       scrollDirection: Axis.vertical,
                       physics: const NeverScrollableScrollPhysics(),
@@ -141,11 +108,11 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CommonHelper().labelCommon(
-                                      provider.includedList[index]['title'],
-                                      marginBotton: 0),
+                                      provider.faqList[index]['title'],
+                                      marginBotton: 1),
                                   CommonHelper().paragraphCommon(
-                                      "\$${provider.includedList[index]['price']}",
-                                      TextAlign.left)
+                                      provider.faqList[index]['desc'],
+                                      TextAlign.left),
                                 ],
                               )),
 
@@ -154,7 +121,7 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
                                 margin: const EdgeInsets.only(left: 20),
                                 child: InkWell(
                                   onTap: () {
-                                    provider.removeIncludedList(index);
+                                    provider.removeFaq(index);
                                   },
                                   child: const Icon(
                                     Icons.delete_forever,

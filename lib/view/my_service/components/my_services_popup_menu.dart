@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/my_services/attribute_service.dart';
 import 'package:qixer_seller/view/my_service/add_attribute_page.dart';
+import 'package:qixer_seller/view/my_service/edit_attribute_page.dart';
 import 'package:qixer_seller/view/my_service/show_attribute_page.dart';
 
 class MyServicesPopupMenu extends StatelessWidget {
@@ -28,14 +29,21 @@ class MyServicesPopupMenu extends StatelessWidget {
             for (int i = 0; i < popupMenuList.length; i++)
               PopupMenuItem(
                 onTap: () {
-                  Future.delayed(Duration.zero, () {
-                    navigate(i, context, serviceId: serviceId);
-                  });
+                  Future.delayed(
+                    Duration.zero,
+                    () {
+                      navigate(
+                        i,
+                        context,
+                        serviceId: serviceId,
+                      );
+                    },
+                  );
                 },
                 child: Text(popupMenuList[i]),
               ),
           ],
-        )
+        ),
       ],
     );
   }
@@ -51,6 +59,15 @@ class MyServicesPopupMenu extends StatelessWidget {
         context,
         MaterialPageRoute<void>(
           builder: (BuildContext context) => ShowAttributePage(
+            serviceId: serviceId,
+          ),
+        ),
+      );
+    } else if (i == 1) {
+      return Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => EditAttributePage(
             serviceId: serviceId,
           ),
         ),
