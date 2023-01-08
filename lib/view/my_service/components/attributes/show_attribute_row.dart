@@ -13,6 +13,10 @@ class ShowAttributeRow extends StatelessWidget {
     required this.qty,
     required this.attrId,
     this.isServiceBenefit = false,
+    this.deleteInclude = false,
+    this.deleteAdditional = false,
+    this.deleteBenefit = false,
+    required this.serviceId,
   }) : super(key: key);
 
   final title;
@@ -20,6 +24,11 @@ class ShowAttributeRow extends StatelessWidget {
   final qty;
   final attrId;
   final bool isServiceBenefit;
+  final serviceId;
+
+  final bool deleteInclude;
+  final bool deleteAdditional;
+  final bool deleteBenefit;
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +46,12 @@ class ShowAttributeRow extends StatelessWidget {
 
               InkWell(
                 onTap: () {
-                  AttributeHelper().deleteAttributePopup(context);
+                  AttributeHelper().deleteAttributePopup(context,
+                      attributeId: attrId,
+                      serviceId: serviceId,
+                      deleteBenefit: deleteBenefit,
+                      deleteAdditional: deleteAdditional,
+                      deleteInclude: deleteInclude);
                 },
                 child: Container(
                   padding:

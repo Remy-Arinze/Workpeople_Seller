@@ -75,6 +75,8 @@ class _ShowAttributePageState extends State<ShowAttributePage> {
                                             .attributes.includeServices.length;
                                     i++)
                                   ShowAttributeRow(
+                                      serviceId: widget.serviceId,
+                                      deleteInclude: true,
                                       attrId: provider
                                           .attributes.includeServices[i].id,
                                       title: provider
@@ -122,6 +124,8 @@ class _ShowAttributePageState extends State<ShowAttributePage> {
                                             .length;
                                     i++)
                                   ShowAttributeRow(
+                                      deleteAdditional: true,
+                                      serviceId: widget.serviceId,
                                       attrId: provider
                                           .attributes.additionalService[i].id,
                                       title: provider
@@ -168,6 +172,8 @@ class _ShowAttributePageState extends State<ShowAttributePage> {
                                             .attributes.serviceBenifit.length;
                                     i++)
                                   ShowAttributeRow(
+                                      deleteBenefit: true,
+                                      serviceId: widget.serviceId,
                                       attrId: provider
                                           .attributes.serviceBenifit[i].id,
                                       title: provider.attributes

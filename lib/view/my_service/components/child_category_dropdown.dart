@@ -16,7 +16,7 @@ class ChildCategoryDropdown extends StatelessWidget {
         builder: (context, provider, child) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CommonHelper().labelCommon("Sub category"),
+                CommonHelper().labelCommon("Child category"),
                 provider.childCategoryDropdownList.isNotEmpty
                     ? Container(
                         width: double.infinity,

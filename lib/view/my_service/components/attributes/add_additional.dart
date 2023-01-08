@@ -94,6 +94,8 @@ class _AddAdditionalState extends State<AddAdditional> {
 
                     //clear
                     titleController.clear();
+                    priceController.clear();
+                    qtyController.clear();
                   },
                   child: Container(
                     color: cc.primaryColor,

@@ -88,10 +88,11 @@ class AttributeService with ChangeNotifier {
     notifyListeners();
   }
 
-  loadAttributes(BuildContext context, {required serviceId}) async {
+  Future<bool> loadAttributes(BuildContext context,
+      {required serviceId}) async {
     //check internet connection
     var connection = await checkConnection();
-    if (!connection) return;
+    if (!connection) return false;
     //internet connection is on
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
@@ -115,8 +116,10 @@ class AttributeService with ChangeNotifier {
     if (response.statusCode == 201) {
       attributes = AttributesModel.fromJson(jsonDecode(response.body));
       notifyListeners();
+      return true;
     } else {
       OthersHelper().showToast('Something went wrong', Colors.black);
+      return false;
     }
   }
 
@@ -134,6 +137,17 @@ class AttributeService with ChangeNotifier {
     //check internet connection
     var connection = await checkConnection();
     if (!connection) return;
+
+    if (addAttrLoading) return;
+
+    if (includedList.isEmpty ||
+        additionalList.isEmpty ||
+        benefitsList.isEmpty) {
+      OthersHelper().showToast(
+          'Make sure you have added include, additional, benefits',
+          Colors.black);
+      return;
+    }
 
     // include service
     List incList = [];
@@ -188,15 +202,11 @@ class AttributeService with ChangeNotifier {
     print('service id $serviceId');
 
     var data = jsonEncode({
-      "all_include_service":
-          jsonEncode({"all_include_service": jsonEncode(incList)}),
-      "all_additional_service": jsonEncode(
-        {"all_additional_service": jsonEncode(addiList)},
-      ),
-      "service_benifits":
-          jsonEncode({"service_benifits": jsonEncode(beniList)}),
-      "online_service_faqs":
-          jsonEncode({"online_service_faqs": jsonEncode(fqList)}),
+      "all_include_service": jsonEncode({"all_include_service": incList}),
+      "all_additional_service":
+          jsonEncode({"all_additional_service": addiList}),
+      "service_benifits": jsonEncode({"service_benifits": beniList}),
+      "online_service_faqs": jsonEncode({"online_service_faqs": fqList}),
     });
 
     setAddAttrLodingStatus(true);
@@ -213,6 +223,8 @@ class AttributeService with ChangeNotifier {
     print(response.statusCode);
 
     if (response.statusCode == 201) {
+      Navigator.pop(context);
+      OthersHelper().showToast('Service attribute added', Colors.black);
     } else {
       OthersHelper().showToast('Something went wrong', Colors.black);
     }
@@ -228,13 +240,12 @@ class AttributeService with ChangeNotifier {
     notifyListeners();
   }
 
-  deleteAttribute(
-    BuildContext context, {
-    required attributeId,
-    bool deleteInclude = false,
-    bool deleteAdditional = false,
-    bool deleteBenefit = false,
-  }) async {
+  deleteAttribute(BuildContext context,
+      {required attributeId,
+      bool deleteInclude = false,
+      bool deleteAdditional = false,
+      bool deleteBenefit = false,
+      required serviceId}) async {
     //check internet connection
     var connection = await checkConnection();
     if (!connection) return;
@@ -247,10 +258,11 @@ class AttributeService with ChangeNotifier {
     if (deleteInclude) {
       apiLink = '$baseApi/seller/service/delete/include-service/$attributeId';
     } else if (deleteAdditional) {
-      apiLink = '';
+      apiLink =
+          '$baseApi/seller/service/delete/additional-service/$attributeId';
     } else {
       // delete benefit
-      apiLink = '';
+      apiLink = '$baseApi/seller/service/delete/benefits/$attributeId';
     }
 
     var header = {
@@ -260,17 +272,25 @@ class AttributeService with ChangeNotifier {
       "Authorization": "Bearer $token",
     };
 
-    setAttrLodingStatus(true);
+    setDeleteAttrLodingStatus(true);
 
-    var response = await http.get(
+    var response = await http.post(
       Uri.parse(apiLink),
       headers: header,
     );
 
-    setAttrLodingStatus(false);
+    print(response.body);
+    print(response.statusCode);
+
+    //refresh the page
+    await loadAttributes(context, serviceId: serviceId);
+
+    setDeleteAttrLodingStatus(false);
+    Navigator.pop(context);
 
     if (response.statusCode == 201) {
-      attributes = AttributesModel.fromJson(jsonDecode(response.body));
+      OthersHelper().showToast('Attribute deleted', Colors.black);
+
       notifyListeners();
     } else {
       OthersHelper().showToast('Something went wrong', Colors.black);

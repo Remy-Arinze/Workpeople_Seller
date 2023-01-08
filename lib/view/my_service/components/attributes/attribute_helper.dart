@@ -9,7 +9,14 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 class AttributeHelper {
   final cc = ConstantColors();
 
-  deleteAttributePopup(BuildContext context) {
+  deleteAttributePopup(
+    BuildContext context, {
+    required attributeId,
+    required serviceId,
+    bool deleteInclude = false,
+    bool deleteAdditional = false,
+    bool deleteBenefit = false,
+  }) {
     return Alert(
         context: context,
         style: AlertStyle(
@@ -62,9 +69,14 @@ class AttributeHelper {
                     Consumer<AttributeService>(
                       builder: (context, provider, child) => Expanded(
                           child: CommonHelper().buttonPrimary(
-                        asProvider.getString('Delete'),
-                        () {},
-                      )),
+                              asProvider.getString('Delete'), () {
+                        provider.deleteAttribute(context,
+                            attributeId: attributeId,
+                            serviceId: serviceId,
+                            deleteInclude: deleteInclude,
+                            deleteAdditional: deleteAdditional,
+                            deleteBenefit: deleteBenefit);
+                      }, isloading: provider.deleteAttrLoading)),
                     ),
                   ],
                 )

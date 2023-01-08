@@ -68,6 +68,7 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
 
                     //clear
                     titleController.clear();
+                    priceController.clear();
                   },
                   child: Container(
                     color: cc.primaryColor,
@@ -106,10 +107,17 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
                           child: Row(
                             children: [
                               Expanded(
-                                child: CommonHelper().labelCommon(
-                                    provider.includedList[index]['title'],
-                                    marginBotton: 0),
-                              ),
+                                  child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CommonHelper().labelCommon(
+                                      provider.includedList[index]['title'],
+                                      marginBotton: 0),
+                                  CommonHelper().paragraphCommon(
+                                      "\$${provider.includedList[index]['price']}",
+                                      TextAlign.left)
+                                ],
+                              )),
 
                               //icon
                               Container(

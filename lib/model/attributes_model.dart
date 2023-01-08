@@ -75,7 +75,9 @@ class AdditionalService {
         additionalServiceQuantity: json["additional_service_quantity"],
         additionalServiceImage: json["additional_service_image"],
         createdAt: json["created_at"],
-        updatedAt: DateTime.parse(json["updated_at"]),
+        updatedAt: json["updated_at"] != null
+            ? DateTime.parse(json["updated_at"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -112,15 +114,17 @@ class IncludeService {
   dynamic createdAt;
   DateTime? updatedAt;
 
-  factory IncludeService.fromJson(Map<String, dynamic> json) => IncludeService(
-        id: json["id"],
-        serviceId: json["service_id"],
-        sellerId: json["seller_id"],
-        includeServiceTitle: json["include_service_title"],
-        includeServicePrice: json["include_service_price"],
-        includeServiceQuantity: json["include_service_quantity"],
-        createdAt: json["created_at"],
-        updatedAt: DateTime.parse(json["updated_at"]),
+  factory IncludeService.fromJson(Map<String, dynamic>? json) => IncludeService(
+        id: json?["id"],
+        serviceId: json?["service_id"],
+        sellerId: json?["seller_id"],
+        includeServiceTitle: json?["include_service_title"],
+        includeServicePrice: json?["include_service_price"],
+        includeServiceQuantity: json?["include_service_quantity"],
+        createdAt: json?["created_at"],
+        updatedAt: json?["updated_at"] != null
+            ? DateTime.parse(json?["updated_at"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
@@ -158,7 +162,9 @@ class ServiceBenifit {
         sellerId: json["seller_id"],
         benifits: json["benifits"],
         createdAt: json["created_at"],
-        updatedAt: DateTime.parse(json["updated_at"]),
+        updatedAt: json["updated_at"] != null
+            ? DateTime.parse(json["updated_at"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
