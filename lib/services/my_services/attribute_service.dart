@@ -12,7 +12,7 @@ class AttributeService with ChangeNotifier {
   List includedList = [];
 
   addIncludedList(String title, String price) {
-    includedList.add({'title': title, 'price': price, 'qty': '1'});
+    includedList.add({'title': title, 'price': price, 'qty': '0'});
     notifyListeners();
   }
 
@@ -188,7 +188,6 @@ class AttributeService with ChangeNotifier {
       });
     }
 
-    //internet connection is on
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:qixer_seller/model/my_service_list_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
@@ -149,25 +148,6 @@ class MyServicesService with ChangeNotifier {
     }
   }
 
-  // ===========>
-  var pickedImage;
-  List<XFile>? galleryImages = [];
-
-  final ImagePicker _picker = ImagePicker();
-
-  Future pickMainImage(BuildContext context) async {
-    pickedImage = await _picker.pickImage(source: ImageSource.gallery);
-
-    notifyListeners();
-  }
-  // ===========>
-
-  Future pickGalleryImages(BuildContext context) async {
-    galleryImages = await _picker.pickMultiImage();
-
-    notifyListeners();
-  }
-
   //service on off
   //==============>
 
@@ -197,4 +177,7 @@ class MyServicesService with ChangeNotifier {
     if (response.statusCode == 201) {
     } else {}
   }
+
+  // Delete service
+  //===============>
 }

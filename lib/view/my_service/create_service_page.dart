@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
-import 'package:qixer_seller/services/my_services/my_services_service.dart';
+import 'package:qixer_seller/services/my_services/create_services_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/custom_input.dart';
+import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:qixer_seller/view/my_service/components/category_dropdown.dart';
 import 'package:qixer_seller/view/my_service/components/child_category_dropdown.dart';
 import 'package:qixer_seller/view/my_service/components/create_service_image_upload.dart';
 import 'package:qixer_seller/view/my_service/components/sub_category_dropdown.dart';
-import 'package:qixer_seller/view/my_service/add_attribute_page.dart';
 import 'package:qixer_seller/view/profile/components/textarea_field.dart';
 
 class CreateServicePage extends StatefulWidget {
@@ -32,6 +32,8 @@ class _CreateServicePageState extends State<CreateServicePage> {
   final videoUrlController = TextEditingController();
   final descController = TextEditingController();
 
+  bool isAvailableToAllCities = false;
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -43,7 +45,7 @@ class _CreateServicePageState extends State<CreateServicePage> {
       backgroundColor: cc.bgColor,
       body: SingleChildScrollView(
         physics: physicsCommon,
-        child: Consumer<MyServicesService>(
+        child: Consumer<CreateServicesService>(
           builder: (context, provider, child) => Consumer<AppStringService>(
             builder: (context, asProvider, child) => Container(
               padding:
@@ -62,9 +64,13 @@ class _CreateServicePageState extends State<CreateServicePage> {
                             TextAlign.left),
                         Switch(
                           // This bool value toggles the switch.
-                          value: false,
+                          value: isAvailableToAllCities,
                           activeColor: cc.successColor,
-                          onChanged: (bool value) {},
+                          onChanged: (bool value) {
+                            setState(() {
+                              isAvailableToAllCities = !isAvailableToAllCities;
+                            });
+                          },
                         ),
                       ],
                     ),
@@ -128,16 +134,37 @@ class _CreateServicePageState extends State<CreateServicePage> {
                     sizedBoxCustom(20),
 
                     CommonHelper().buttonPrimary('Next', () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                          builder: (BuildContext context) =>
-                              const AddAttributePage(
-                            isFromCreateService: true,
-                          ),
-                        ),
-                      );
-                    }),
+                      //
+                      if (descController.text.trim().isEmpty ||
+                          titleController.text.trim().isEmpty) {
+                        OthersHelper().showToast(
+                            'You must enter a title and description',
+                            Colors.black);
+                        return;
+                      }
+                      if (descController.text.length < 150) {
+                        OthersHelper().showToast(
+                            'Description must be at least 150 characters',
+                            Colors.black);
+                        return;
+                      }
+                      //
+                      provider.createService(context,
+                          isAvailableToAllCities: isAvailableToAllCities,
+                          description: descController.text,
+                          videoUrl: videoUrlController.text,
+                          title: titleController.text);
+
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute<void>(
+                      //     builder: (BuildContext context) =>
+                      //         const AddAttributePage(
+                      //       isFromCreateService: true,
+                      //     ),
+                      //   ),
+                      // );
+                    }, isloading: provider.createServiceLoading),
 
                     sizedBoxCustom(20),
 

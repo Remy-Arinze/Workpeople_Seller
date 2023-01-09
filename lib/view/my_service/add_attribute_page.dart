@@ -56,13 +56,8 @@ class _AddAttributePageState extends State<AddAttributePage> {
                   const BenefitsOfPackage(),
                   const FaqForServiceCreate(),
                   sizedBoxCustom(10),
-                  CommonHelper().buttonPrimary('Save and publish', () {
-                    if (widget.isFromCreateService) {
-                      //run create service api
-                    } else {
-                      provider.addAttribute(context,
-                          serviceId: widget.serviceId);
-                    }
+                  CommonHelper().buttonPrimary('Save', () {
+                    provider.addAttribute(context, serviceId: widget.serviceId);
                   }, isloading: provider.addAttrLoading),
                   sizedBoxCustom(40)
                 ],

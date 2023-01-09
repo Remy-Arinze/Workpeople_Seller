@@ -1,6 +1,12 @@
-import 'package:flutter/widgets.dart';
+import 'dart:convert';
+
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/my_services/attribute_service.dart';
+import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EditAttributeService with ChangeNotifier {
   List includedList = [];
@@ -105,7 +111,102 @@ class EditAttributeService with ChangeNotifier {
     // for (int i = 0; i < attributes.serviceBenifit.length; i++) {
     //   benefitsList.add({'title': attributes.serviceBenifit[i].benifits});
     // }
+  }
 
-    //
+  //Edit attributes of a service
+  // =================>
+
+  bool editAttrLoading = false;
+
+  setAddAttrLodingStatus(bool status) {
+    editAttrLoading = status;
+    notifyListeners();
+  }
+
+  editAttribute(BuildContext context, {required serviceId}) async {
+    //check internet connection
+    var connection = await checkConnection();
+    if (!connection) return;
+
+    if (editAttrLoading) return;
+
+    // include service
+    List incList = [];
+    List addiList = [];
+    List beniList = [];
+    List fqList = [];
+
+    for (int i = 0; i < includedList.length; i++) {
+      incList.add({
+        "service_id": serviceId,
+        "include_service_title": includedList[i]['title'],
+        "include_service_quantity": includedList[i]['qty'],
+        "include_service_price": includedList[i]['price'],
+      });
+    }
+
+    for (int i = 0; i < additionalList.length; i++) {
+      addiList.add({
+        "service_id": serviceId,
+        "additional_service_title": additionalList[i]['title'],
+        "additional_service_quantity": additionalList[i]['qty'],
+        "additional_service_price": additionalList[i]['price'],
+      });
+    }
+
+    for (int i = 0; i < benefitsList.length; i++) {
+      beniList.add({
+        "service_id": serviceId,
+        "benifits": benefitsList[i]['title'],
+      });
+    }
+
+    for (int i = 0; i < faqList.length; i++) {
+      fqList.add({
+        "service_id": serviceId,
+        "title": faqList[i]['title'],
+        "description": faqList[i]['desc'],
+      });
+    }
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    print('service id $serviceId');
+
+    var data = jsonEncode({
+      "all_include_service": jsonEncode({"all_include_service": incList}),
+      "all_additional_service":
+          jsonEncode({"all_additional_service": addiList}),
+      "service_benifits": jsonEncode({"service_benifits": beniList}),
+      "online_service_faqs": jsonEncode({"online_service_faqs": fqList}),
+    });
+
+    setAddAttrLodingStatus(true);
+
+    var response = await http.post(
+        Uri.parse(
+            '$baseApi/seller/service/update-service-attributes-by-id/$serviceId'),
+        headers: header,
+        body: data);
+
+    print(response.body);
+    print(response.statusCode);
+
+    setAddAttrLodingStatus(false);
+
+    if (response.statusCode == 201) {
+      Navigator.pop(context);
+      OthersHelper().showToast('Service attribute updated', Colors.black);
+    } else {
+      OthersHelper().showToast('Something went wrong', Colors.black);
+    }
   }
 }

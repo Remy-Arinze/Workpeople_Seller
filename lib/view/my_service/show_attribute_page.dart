@@ -69,6 +69,11 @@ class _ShowAttributePageState extends State<ShowAttributePage> {
                                   child: CommonHelper().dividerCommon(),
                                 ),
 
+                                if (provider.attributes.includeServices.isEmpty)
+                                  CommonHelper().paragraphCommon(
+                                      'No include service found',
+                                      TextAlign.left),
+
                                 for (int i = 0;
                                     i <
                                         provider
@@ -118,6 +123,12 @@ class _ShowAttributePageState extends State<ShowAttributePage> {
                                   child: CommonHelper().dividerCommon(),
                                 ),
 
+                                if (provider
+                                    .attributes.additionalService.isEmpty)
+                                  CommonHelper().paragraphCommon(
+                                      'No additional service found',
+                                      TextAlign.left),
+
                                 for (int i = 0;
                                     i <
                                         provider.attributes.additionalService
@@ -165,6 +176,11 @@ class _ShowAttributePageState extends State<ShowAttributePage> {
                                       const EdgeInsets.symmetric(vertical: 15),
                                   child: CommonHelper().dividerCommon(),
                                 ),
+
+                                if (provider.attributes.serviceBenifit.isEmpty)
+                                  CommonHelper().paragraphCommon(
+                                      'No service benefit found',
+                                      TextAlign.left),
 
                                 for (int i = 0;
                                     i <

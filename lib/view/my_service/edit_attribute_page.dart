@@ -53,33 +53,38 @@ class _EditAttributePageState extends State<EditAttributePage> {
       body: SingleChildScrollView(
         physics: physicsCommon,
         child: Consumer<AttributeService>(
-          builder: (context, provider, child) => Consumer<AppStringService>(
-            builder: (context, asProvider, child) =>
-                provider.attrLoading == false
-                    ? Container(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: screenPadding, vertical: 10),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            const EditPackageIncluded(),
-                            const EditAdditional(),
-                            sizedBoxCustom(15),
-                            const EditBenefitsOfPackage(),
-                            const EditFaqForServiceCreate(),
-                            sizedBoxCustom(10),
-                            CommonHelper().buttonPrimary('Edit', () {},
-                                isloading: provider.addAttrLoading),
-                            sizedBoxCustom(40)
-                          ],
+          builder: (context, provider, child) => Consumer<EditAttributeService>(
+            builder: (context, editProvider, child) =>
+                Consumer<AppStringService>(
+              builder: (context, asProvider, child) =>
+                  provider.attrLoading == false
+                      ? Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: screenPadding, vertical: 10),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const EditPackageIncluded(),
+                              const EditAdditional(),
+                              sizedBoxCustom(15),
+                              const EditBenefitsOfPackage(),
+                              const EditFaqForServiceCreate(),
+                              sizedBoxCustom(10),
+                              CommonHelper().buttonPrimary('Edit', () {
+                                editProvider.editAttribute(context,
+                                    serviceId: widget.serviceId);
+                              }, isloading: editProvider.editAttrLoading),
+                              sizedBoxCustom(40)
+                            ],
+                          ),
+                        )
+                      : Container(
+                          height: screenHeight(context) - 120,
+                          alignment: Alignment.center,
+                          child: OthersHelper().showLoading(cc.primaryColor),
                         ),
-                      )
-                    : Container(
-                        height: screenHeight(context) - 120,
-                        alignment: Alignment.center,
-                        child: OthersHelper().showLoading(cc.primaryColor),
-                      ),
+            ),
           ),
         ),
       ),
