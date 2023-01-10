@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/my_service_list_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
@@ -33,6 +34,16 @@ class MyServicesService with ChangeNotifier {
 
   setActiveStatus(bool status, int index) {
     myServiceListMap[index]['isServiceOn'] = status;
+    notifyListeners();
+  }
+
+  setDefault() {
+    myServiceListMap = [];
+    averageRateList = [];
+    imageList = [];
+    ratingCountList = [];
+
+    currentPage = 1;
     notifyListeners();
   }
 
@@ -180,4 +191,53 @@ class MyServicesService with ChangeNotifier {
 
   // Delete service
   //===============>
+
+  bool deleteLoading = false;
+
+  setDeleteLoadingStatus(bool status) {
+    deleteLoading = status;
+    notifyListeners();
+  }
+
+  deleteService(BuildContext context, {required serviceId}) async {
+    //check internet connection
+    var connection = await checkConnection();
+    if (!connection) return;
+    //internet connection is on
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+    var header = {
+      "Accept": "application/json",
+      // "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    setDeleteLoadingStatus(true);
+
+    var response = await http.post(
+      Uri.parse(
+          '$baseApi/seller/service/delete/service-with-all-attributes/$serviceId'),
+      headers: header,
+    );
+
+    setDeleteLoadingStatus(false);
+
+    print(response.body);
+    print(response.statusCode);
+
+    if (response.statusCode == 201) {
+      //Reload service list
+      Provider.of<MyServicesService>(context, listen: false).setDefault();
+      Provider.of<MyServicesService>(context, listen: false)
+          .fetchMyServiceList(context);
+
+      OthersHelper()
+          .showToast('Service deleted. Refreshing list.....', Colors.black);
+
+      Navigator.pop(context);
+    } else {
+      OthersHelper().showToast('Something went wrong', Colors.black);
+    }
+  }
 }

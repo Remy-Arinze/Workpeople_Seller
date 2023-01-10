@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/attributes_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
+import 'package:qixer_seller/services/my_services/my_services_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -132,17 +134,17 @@ class AttributeService with ChangeNotifier {
     notifyListeners();
   }
 
-  addAttribute(BuildContext context, {required serviceId}) async {
+  addAttribute(BuildContext context,
+      {required serviceId, bool isFromServiceCreatePage = false}) async {
     //check internet connection
     var connection = await checkConnection();
     if (!connection) return;
 
-    if (addAttrLoading) return;
+    // if (addAttrLoading) return;
 
     if (includedList.isEmpty ||
         additionalList.isEmpty ||
-        benefitsList.isEmpty ||
-        faqList.isEmpty) {
+        benefitsList.isEmpty) {
       OthersHelper().showToast(
           'Make sure you have added include, additional, benefits, faq',
           Colors.black);
@@ -219,9 +221,20 @@ class AttributeService with ChangeNotifier {
     setAddAttrLodingStatus(false);
 
     if (response.statusCode == 201) {
+      if (isFromServiceCreatePage) {
+        Navigator.pop(context);
+
+        //Reload service list
+        Provider.of<MyServicesService>(context, listen: false).setDefault();
+        Provider.of<MyServicesService>(context, listen: false)
+            .fetchMyServiceList(context);
+      }
+
       Navigator.pop(context);
-      OthersHelper().showToast('Service attribute added', Colors.black);
+      OthersHelper().showToast(
+          'Service attribute added, Refreshing list....', Colors.black);
     } else {
+      print(response.body);
       OthersHelper().showToast('Something went wrong', Colors.black);
     }
   }
@@ -289,6 +302,7 @@ class AttributeService with ChangeNotifier {
 
       notifyListeners();
     } else {
+      print(response.body);
       OthersHelper().showToast('Something went wrong', Colors.black);
     }
   }

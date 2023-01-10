@@ -13,7 +13,7 @@ import 'package:qixer_seller/view/my_service/components/attributes/faq_for_servi
 class AddAttributePage extends StatefulWidget {
   const AddAttributePage({
     Key? key,
-    this.serviceId,
+    required this.serviceId,
     this.isFromCreateService = false,
   }) : super(key: key);
 
@@ -57,7 +57,9 @@ class _AddAttributePageState extends State<AddAttributePage> {
                   const FaqForServiceCreate(),
                   sizedBoxCustom(10),
                   CommonHelper().buttonPrimary('Save', () {
-                    provider.addAttribute(context, serviceId: widget.serviceId);
+                    provider.addAttribute(context,
+                        serviceId: widget.serviceId,
+                        isFromServiceCreatePage: widget.isFromCreateService);
                   }, isloading: provider.addAttrLoading),
                   sizedBoxCustom(40)
                 ],

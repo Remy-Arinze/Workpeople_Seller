@@ -153,17 +153,8 @@ class _CreateServicePageState extends State<CreateServicePage> {
                           isAvailableToAllCities: isAvailableToAllCities,
                           description: descController.text,
                           videoUrl: videoUrlController.text,
-                          title: titleController.text);
-
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute<void>(
-                      //     builder: (BuildContext context) =>
-                      //         const AddAttributePage(
-                      //       isFromCreateService: true,
-                      //     ),
-                      //   ),
-                      // );
+                          title: titleController.text,
+                          isFromCreateService: true);
                     }, isloading: provider.createServiceLoading),
 
                     sizedBoxCustom(20),

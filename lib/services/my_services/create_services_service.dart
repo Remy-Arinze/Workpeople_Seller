@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -5,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/category_subcat_dropdown_service.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/my_service/add_attribute_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateServicesService with ChangeNotifier {
@@ -38,13 +41,12 @@ class CreateServicesService with ChangeNotifier {
     notifyListeners();
   }
 
-  createService(
-    BuildContext context, {
-    required bool isAvailableToAllCities,
-    required description,
-    required videoUrl,
-    required title,
-  }) async {
+  createService(BuildContext context,
+      {required bool isAvailableToAllCities,
+      required description,
+      required videoUrl,
+      required title,
+      required bool isFromCreateService}) async {
     //check internet connection
     var connection = await checkConnection();
     if (!connection) return false;
@@ -104,8 +106,20 @@ class CreateServicesService with ChangeNotifier {
     print(response.statusCode);
 
     if (response.statusCode == 201) {
-      //TODO
-      // pop and load service list again
+      //
+      var serviceId = response.data['id'];
+      //
+      OthersHelper().showToast('Service created', Colors.black);
+
+      Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+          builder: (BuildContext context) => AddAttributePage(
+            serviceId: serviceId,
+            isFromCreateService: true,
+          ),
+        ),
+      );
     } else {
       OthersHelper().showToast('Something went wrong', Colors.black);
     }

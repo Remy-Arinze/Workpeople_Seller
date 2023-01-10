@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/my_services/attribute_service.dart';
 import 'package:qixer_seller/view/my_service/add_attribute_page.dart';
+import 'package:qixer_seller/view/my_service/components/my_service_helper.dart';
 import 'package:qixer_seller/view/my_service/edit_attribute_page.dart';
 import 'package:qixer_seller/view/my_service/show_attribute_page.dart';
 
@@ -18,7 +19,8 @@ class MyServicesPopupMenu extends StatelessWidget {
     List popupMenuList = [
       'Show attributes',
       'Edit attributes',
-      'Add attributes'
+      'Add attributes',
+      'Delete service'
     ];
 
     return Row(
@@ -81,6 +83,9 @@ class MyServicesPopupMenu extends StatelessWidget {
           ),
         ),
       );
+    } else if (i == 3) {
+      //========>
+      MyServiceHelper().deleteServicePopup(context, serviceId: serviceId);
     }
   }
 }
