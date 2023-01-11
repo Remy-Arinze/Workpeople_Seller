@@ -5,14 +5,30 @@ import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 
-class CategoryDropdown extends StatelessWidget {
+class CategoryDropdown extends StatefulWidget {
   const CategoryDropdown({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    Provider.of<CategorySubCatDropdownService>(context, listen: false)
-        .fetchCategory();
+  State<CategoryDropdown> createState() => _CategoryDropdownState();
+}
 
+class _CategoryDropdownState extends State<CategoryDropdown> {
+  @override
+  void initState() {
+    super.initState();
+
+    fetch();
+  }
+
+  fetch() {
+    Future.delayed(const Duration(microseconds: 500), () {
+      Provider.of<CategorySubCatDropdownService>(context, listen: false)
+          .fetchCategory();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     ConstantColors cc = ConstantColors();
 
     return Consumer<CategorySubCatDropdownService>(

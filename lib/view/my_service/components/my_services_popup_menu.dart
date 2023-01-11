@@ -93,7 +93,9 @@ class MyServicesPopupMenu extends StatelessWidget {
       return Navigator.push(
         context,
         MaterialPageRoute<void>(
-          builder: (BuildContext context) => const EditServicePage(),
+          builder: (BuildContext context) => EditServicePage(
+            serviceId: serviceId,
+          ),
         ),
       );
     }

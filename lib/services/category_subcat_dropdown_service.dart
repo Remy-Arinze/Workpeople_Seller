@@ -28,10 +28,20 @@ class CategorySubCatDropdownService with ChangeNotifier {
     notifyListeners();
   }
 
+  defaultCategory() {
+    categoryDropdownList = [];
+    categoryDropdownIndexList = [];
+    selectedCategory = null;
+    selectedCategoryId = null;
+    notifyListeners();
+  }
+
 //==============>
 
   fetchCategory() async {
     if (categoryDropdownList.isNotEmpty) return;
+
+    defaultCategory();
 
     var connection = await checkConnection();
     if (!connection) return;
@@ -45,6 +55,8 @@ class CategorySubCatDropdownService with ChangeNotifier {
         categoryDropdownList.add(data.category[i].name);
         categoryDropdownIndexList.add(data.category[i].id);
       }
+
+      print(response.body);
 
       selectedCategory = data.category[0].name;
       selectedCategoryId = data.category[0].id;
@@ -92,6 +104,7 @@ class CategorySubCatDropdownService with ChangeNotifier {
   // sub category
   //==============>
   fetchSubCategory() async {
+    print('fetch category func called');
     var connection = await checkConnection();
     if (!connection) return;
 
@@ -107,6 +120,8 @@ class CategorySubCatDropdownService with ChangeNotifier {
         subCategoryDropdownList.add(data.subCategories[i].name!);
         subCategoryDropdownIndexList.add(data.subCategories[i].id!);
       }
+
+      print(response.body);
 
       selectedSubCategory = subCategoryDropdownList[0];
       selectedSubCategoryId = subCategoryDropdownIndexList[0];

@@ -7,7 +7,9 @@ import 'package:qixer_seller/services/my_services/create_services_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 
 class CreateServiceImageUpload extends StatelessWidget {
-  const CreateServiceImageUpload({Key? key}) : super(key: key);
+  const CreateServiceImageUpload({Key? key, this.imageLink}) : super(key: key);
+
+  final imageLink;
 
   @override
   Widget build(BuildContext context) {
@@ -21,33 +23,36 @@ class CreateServiceImageUpload extends StatelessWidget {
                       const SizedBox(
                         height: 10,
                       ),
-                      SizedBox(
-                        height: 80,
-                        child: ListView(
-                          clipBehavior: Clip.none,
-                          scrollDirection: Axis.horizontal,
-                          shrinkWrap: true,
-                          children: [
-                            InkWell(
-                              onTap: () {},
-                              child: Column(
+                      imageLink != null
+                          ? CommonHelper().profileImage(imageLink, 80, 80)
+                          : SizedBox(
+                              height: 80,
+                              child: ListView(
+                                clipBehavior: Clip.none,
+                                scrollDirection: Axis.horizontal,
+                                shrinkWrap: true,
                                 children: [
-                                  Container(
-                                    margin: const EdgeInsets.only(right: 10),
-                                    child: Image.file(
-                                      // File(provider.images[i].path),
-                                      File(provider.pickedImage.path),
-                                      height: 80,
-                                      width: 80,
-                                      fit: BoxFit.cover,
+                                  InkWell(
+                                    onTap: () {},
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          margin:
+                                              const EdgeInsets.only(right: 10),
+                                          child: Image.file(
+                                            // File(provider.images[i].path),
+                                            File(provider.pickedImage.path),
+                                            height: 80,
+                                            width: 80,
+                                            fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
                     ],
                   )
                 : Container(),

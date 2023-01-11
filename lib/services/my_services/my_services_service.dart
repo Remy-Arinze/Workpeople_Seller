@@ -1,8 +1,11 @@
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/my_service_list_model.dart';
+import 'package:qixer_seller/model/service_details_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:http/http.dart' as http;
@@ -238,6 +241,54 @@ class MyServicesService with ChangeNotifier {
       Navigator.pop(context);
     } else {
       OthersHelper().showToast('Something went wrong', Colors.black);
+    }
+  }
+
+  //service details
+  // ==============>
+
+  var serviceDetails;
+
+  bool detailsLoading = false;
+
+  setDetailsLoadingStatus(bool status) {
+    detailsLoading = status;
+    notifyListeners();
+  }
+
+  Future<bool> fetchServiceDetails({required serviceId}) async {
+    var connection = await checkConnection();
+    if (!connection) return false;
+
+    setDetailsLoadingStatus(true);
+
+    var header = {
+      "Accept": "application/json",
+      // "Content-Type": "application/json"
+    };
+
+    var response = await http
+        .get(Uri.parse('$baseApi/service-details/$serviceId'), headers: header);
+
+    setDetailsLoadingStatus(false);
+
+    print(response.body);
+    print('service id $serviceId');
+
+    if (response.statusCode == 201) {
+      // serviceAllDetails =
+      //     ServiceDetailsModel.fromJson(jsonDecode(response.body));
+      var data = ServiceDetailsModel.fromJson(jsonDecode(response.body));
+
+      serviceDetails = data;
+
+      notifyListeners();
+      return true;
+    } else {
+      OthersHelper().showToast('Error filling out fields', Colors.black);
+      notifyListeners();
+
+      return false;
     }
   }
 }
