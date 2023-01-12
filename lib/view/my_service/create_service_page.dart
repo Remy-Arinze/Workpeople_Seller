@@ -41,126 +41,136 @@ class _CreateServicePageState extends State<CreateServicePage> {
     return Scaffold(
       appBar: CommonHelper().appbarCommon('Create Service', context, () {
         Navigator.pop(context);
+        Provider.of<CreateServicesService>(context, listen: false)
+            .setImageNull();
       }),
       backgroundColor: cc.bgColor,
-      body: SingleChildScrollView(
-        physics: physicsCommon,
-        child: Consumer<CreateServicesService>(
-          builder: (context, provider, child) => Consumer<AppStringService>(
-            builder: (context, asProvider, child) => Container(
-              padding:
-                  EdgeInsets.symmetric(horizontal: screenPadding, vertical: 10),
-              child: Form(
-                key: _formKey,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //on off button
-                    Row(
-                      children: [
-                        CommonHelper().paragraphCommon(
-                            'Is available to all cities and area',
-                            TextAlign.left),
-                        Switch(
-                          // This bool value toggles the switch.
-                          value: isAvailableToAllCities,
-                          activeColor: cc.successColor,
-                          onChanged: (bool value) {
-                            setState(() {
-                              isAvailableToAllCities = !isAvailableToAllCities;
-                            });
-                          },
-                        ),
-                      ],
-                    ),
+      body: WillPopScope(
+        onWillPop: () {
+          Provider.of<CreateServicesService>(context, listen: false)
+              .setImageNull();
+          return Future.value(true);
+        },
+        child: SingleChildScrollView(
+          physics: physicsCommon,
+          child: Consumer<CreateServicesService>(
+            builder: (context, provider, child) => Consumer<AppStringService>(
+              builder: (context, asProvider, child) => Container(
+                padding: EdgeInsets.symmetric(
+                    horizontal: screenPadding, vertical: 10),
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //on off button
+                      Row(
+                        children: [
+                          CommonHelper().paragraphCommon(
+                              'Is available to all cities and area',
+                              TextAlign.left),
+                          Switch(
+                            // This bool value toggles the switch.
+                            value: isAvailableToAllCities,
+                            activeColor: cc.successColor,
+                            onChanged: (bool value) {
+                              setState(() {
+                                isAvailableToAllCities =
+                                    !isAvailableToAllCities;
+                              });
+                            },
+                          ),
+                        ],
+                      ),
 
-                    sizedBoxCustom(10),
-                    const CategoryDropdown(),
+                      sizedBoxCustom(10),
+                      const CategoryDropdown(),
 
-                    sizedBoxCustom(20),
+                      sizedBoxCustom(20),
 
-                    const SubCategoryDropdown(),
+                      const SubCategoryDropdown(),
 
-                    sizedBoxCustom(20),
+                      sizedBoxCustom(20),
 
-                    const ChildCategoryDropdown(),
+                      const ChildCategoryDropdown(),
 
-                    sizedBoxCustom(20),
+                      sizedBoxCustom(20),
 
-                    // Title
-                    //============>
-                    CommonHelper().labelCommon(asProvider.getString("Title")),
+                      // Title
+                      //============>
+                      CommonHelper().labelCommon(asProvider.getString("Title")),
 
-                    CustomInput(
-                      controller: titleController,
-                      validation: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter a title';
+                      CustomInput(
+                        controller: titleController,
+                        validation: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter a title';
+                          }
+                          return null;
+                        },
+                        hintText: asProvider.getString("Title"),
+                        paddingHorizontal: 15,
+                        textInputAction: TextInputAction.next,
+                      ),
+
+                      // Video URL
+                      //============>
+                      CommonHelper()
+                          .labelCommon(asProvider.getString("Video URL")),
+
+                      CustomInput(
+                        controller: videoUrlController,
+                        hintText: asProvider.getString("Youtube embed code"),
+                        paddingHorizontal: 15,
+                        textInputAction: TextInputAction.next,
+                      ),
+
+                      // Description
+                      //============>
+
+                      CommonHelper()
+                          .labelCommon(asProvider.getString('Description')),
+                      TextareaField(
+                        hintText: asProvider.getString('Description'),
+                        notesController: descController,
+                      ),
+
+                      sizedBoxCustom(10),
+
+                      const CreateServiceImageUpload(),
+
+                      sizedBoxCustom(20),
+
+                      CommonHelper().buttonPrimary('Next', () {
+                        //
+                        if (descController.text.trim().isEmpty ||
+                            titleController.text.trim().isEmpty) {
+                          OthersHelper().showToast(
+                              'You must enter a title and description',
+                              Colors.black);
+                          return;
                         }
-                        return null;
-                      },
-                      hintText: asProvider.getString("Title"),
-                      paddingHorizontal: 15,
-                      textInputAction: TextInputAction.next,
-                    ),
+                        if (descController.text.length < 150) {
+                          OthersHelper().showToast(
+                              'Description must be at least 150 characters',
+                              Colors.black);
+                          return;
+                        }
+                        //
+                        provider.createService(context,
+                            isAvailableToAllCities: isAvailableToAllCities,
+                            description: descController.text,
+                            videoUrl: videoUrlController.text,
+                            title: titleController.text,
+                            isFromCreateService: true);
+                      }, isloading: provider.createServiceLoading),
 
-                    // Video URL
-                    //============>
-                    CommonHelper()
-                        .labelCommon(asProvider.getString("Video URL")),
+                      sizedBoxCustom(20),
 
-                    CustomInput(
-                      controller: videoUrlController,
-                      hintText: asProvider.getString("Youtube embed code"),
-                      paddingHorizontal: 15,
-                      textInputAction: TextInputAction.next,
-                    ),
-
-                    // Description
-                    //============>
-
-                    CommonHelper()
-                        .labelCommon(asProvider.getString('Description')),
-                    TextareaField(
-                      hintText: asProvider.getString('Description'),
-                      notesController: descController,
-                    ),
-
-                    sizedBoxCustom(10),
-
-                    const CreateServiceImageUpload(),
-
-                    sizedBoxCustom(20),
-
-                    CommonHelper().buttonPrimary('Next', () {
                       //
-                      if (descController.text.trim().isEmpty ||
-                          titleController.text.trim().isEmpty) {
-                        OthersHelper().showToast(
-                            'You must enter a title and description',
-                            Colors.black);
-                        return;
-                      }
-                      if (descController.text.length < 150) {
-                        OthersHelper().showToast(
-                            'Description must be at least 150 characters',
-                            Colors.black);
-                        return;
-                      }
-                      //
-                      provider.createService(context,
-                          isAvailableToAllCities: isAvailableToAllCities,
-                          description: descController.text,
-                          videoUrl: videoUrlController.text,
-                          title: titleController.text,
-                          isFromCreateService: true);
-                    }, isloading: provider.createServiceLoading),
-
-                    sizedBoxCustom(20),
-
-                    //
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),

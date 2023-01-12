@@ -7,55 +7,60 @@ import 'package:qixer_seller/services/my_services/create_services_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 
 class CreateServiceImageUpload extends StatelessWidget {
-  const CreateServiceImageUpload({Key? key, this.imageLink}) : super(key: key);
+  const CreateServiceImageUpload(
+      {Key? key, this.imageLink, this.isFromEditServicePage = false})
+      : super(key: key);
 
   final imageLink;
+  final isFromEditServicePage;
 
   @override
   Widget build(BuildContext context) {
+    print('image link is======= $imageLink');
     return Consumer<CreateServicesService>(
       builder: (context, provider, child) => Consumer<AppStringService>(
         builder: (context, ln, child) => Column(
           children: [
-            provider.pickedImage != null
-                ? Column(
-                    children: [
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      imageLink != null
-                          ? CommonHelper().profileImage(imageLink, 80, 80)
-                          : SizedBox(
-                              height: 80,
-                              child: ListView(
-                                clipBehavior: Clip.none,
-                                scrollDirection: Axis.horizontal,
-                                shrinkWrap: true,
-                                children: [
-                                  InkWell(
-                                    onTap: () {},
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          margin:
-                                              const EdgeInsets.only(right: 10),
-                                          child: Image.file(
-                                            // File(provider.images[i].path),
-                                            File(provider.pickedImage.path),
-                                            height: 80,
-                                            width: 80,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
+            //
+            if (imageLink != null && provider.pickedImage == null)
+              CommonHelper().profileImage(imageLink, 80, 80),
+
+            //
+            if (provider.pickedImage != null)
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: 80,
+                    child: ListView(
+                      clipBehavior: Clip.none,
+                      scrollDirection: Axis.horizontal,
+                      shrinkWrap: true,
+                      children: [
+                        InkWell(
+                          onTap: () {},
+                          child: Column(
+                            children: [
+                              Container(
+                                margin: const EdgeInsets.only(right: 10),
+                                child: Image.file(
+                                  // File(provider.images[i].path),
+                                  File(provider.pickedImage.path),
+                                  height: 80,
+                                  width: 80,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                            ),
-                    ],
-                  )
-                : Container(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
 
             //pick image button =====>
             Column(
@@ -151,17 +156,23 @@ class CreateServiceImageUpload extends StatelessWidget {
                 : Container(),
 
             //pick gallery image button =====>
-            Column(
-              children: [
-                const SizedBox(
-                  height: 20,
-                ),
-                CommonHelper()
-                    .buttonPrimary(ln.getString('Upload gallery image'), () {
-                  provider.pickGalleryImages(context);
-                }),
-              ],
-            ),
+
+            //not showing gallery image pick button in edit
+            //service because, to do gallery , we need all gallery
+            //image first, api not giving that, neight accepting
+            //multiple image for gallery
+            if (isFromEditServicePage == false)
+              Column(
+                children: [
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  CommonHelper()
+                      .buttonPrimary(ln.getString('Upload gallery image'), () {
+                    provider.pickGalleryImages(context);
+                  }),
+                ],
+              ),
           ],
         ),
       ),

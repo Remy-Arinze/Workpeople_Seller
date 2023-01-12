@@ -17,6 +17,12 @@ class CreateServicesService with ChangeNotifier {
   // List<XFile>? galleryImages = [];
   var galleryImage;
 
+  setImageNull() {
+    pickedImage = null;
+    galleryImage = null;
+    notifyListeners();
+  }
+
   final ImagePicker _picker = ImagePicker();
 
   Future pickMainImage(BuildContext context) async {
