@@ -160,6 +160,7 @@ class ServiceDetails {
     this.id,
     this.categoryId,
     this.subcategoryId,
+    this.childCategoryId,
     this.sellerId,
     this.serviceCityId,
     this.title,
@@ -183,6 +184,7 @@ class ServiceDetails {
   int? id;
   int? categoryId;
   dynamic subcategoryId;
+  var childCategoryId;
   int? sellerId;
   int? serviceCityId;
   String? title;
@@ -206,6 +208,7 @@ class ServiceDetails {
         id: json["id"],
         categoryId: json["category_id"],
         subcategoryId: json["subcategory_id"],
+        childCategoryId: json["child_category_id"],
         sellerId: json["seller_id"],
         serviceCityId: json["service_city_id"],
         title: json["title"],
@@ -232,6 +235,7 @@ class ServiceDetails {
         "id": id,
         "category_id": categoryId,
         "subcategory_id": subcategoryId,
+        "child_category_id": childCategoryId,
         "seller_id": sellerId,
         "service_city_id": serviceCityId,
         "title": title,

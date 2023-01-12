@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
+import 'package:qixer_seller/services/cat_subcat_dropdown_service_for_edit_service.dart';
 import 'package:qixer_seller/services/my_services/create_services_service.dart';
 import 'package:qixer_seller/services/my_services/my_services_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
@@ -8,10 +9,10 @@ import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/custom_input.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
-import 'package:qixer_seller/view/my_service/components/category_dropdown.dart';
-import 'package:qixer_seller/view/my_service/components/child_category_dropdown.dart';
 import 'package:qixer_seller/view/my_service/components/create_service_image_upload.dart';
-import 'package:qixer_seller/view/my_service/components/sub_category_dropdown.dart';
+import 'package:qixer_seller/view/my_service/components/edit_service/category_dropdown_for_edit_service.dart';
+import 'package:qixer_seller/view/my_service/components/edit_service/child_category_dropdown_for_edit_service.dart';
+import 'package:qixer_seller/view/my_service/components/edit_service/sub_category_dropdown_for_edit_service.dart';
 import 'package:qixer_seller/view/profile/components/textarea_field.dart';
 
 class EditServicePage extends StatefulWidget {
@@ -47,8 +48,20 @@ class _EditServicePageState extends State<EditServicePage> {
 
       imageLink = provider.serviceDetails.serviceImage.imgUrl;
 
-      print('image link is $imageLink');
-      setState(() {});
+      //set existing cat subcat id
+      Provider.of<CatSubcatDropdownServiceForEditService>(context,
+              listen: false)
+          .setExistingCatSubcatValue(
+              categoryId: provider.serviceDetails.serviceDetails.categoryId,
+              subcategoryId:
+                  provider.serviceDetails.serviceDetails.subcategoryId,
+              childCategoryId:
+                  provider.serviceDetails.serviceDetails.childCategoryId);
+
+      //fetch cat
+      Provider.of<CatSubcatDropdownServiceForEditService>(context,
+              listen: false)
+          .fetchCategoryForEditService();
     }
   }
 
@@ -115,15 +128,15 @@ class _EditServicePageState extends State<EditServicePage> {
 
                                   sizedBoxCustom(10),
 
-                                  const CategoryDropdown(),
+                                  const CategoryDropdownForEditService(),
 
                                   sizedBoxCustom(20),
 
-                                  const SubCategoryDropdown(),
+                                  const SubCategoryDropdownForEditService(),
 
                                   sizedBoxCustom(20),
 
-                                  const ChildCategoryDropdown(),
+                                  const ChildCategoryDropdownForEditService(),
 
                                   sizedBoxCustom(20),
 
