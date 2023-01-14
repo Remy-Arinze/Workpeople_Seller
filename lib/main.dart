@@ -31,6 +31,7 @@ import 'package:qixer_seller/services/payments_service/payment_details_service.d
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/payout_details_service.dart';
 import 'package:qixer_seller/services/payout_history_service.dart';
+import 'package:qixer_seller/services/permissions_service.dart';
 import 'package:qixer_seller/services/profile_edit_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/services/profile_verify_service.dart';
@@ -108,6 +109,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AttributeService()),
         ChangeNotifierProvider(create: (_) => EditAttributeService()),
         ChangeNotifierProvider(create: (_) => CreateServicesService()),
+        ChangeNotifierProvider(create: (_) => PermissionsService()),
+
+        //
         ChangeNotifierProvider(
             create: (_) => CatSubcatDropdownServiceForEditService()),
       ],
