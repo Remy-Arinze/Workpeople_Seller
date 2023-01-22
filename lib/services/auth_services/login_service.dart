@@ -74,8 +74,10 @@ class LoginService with ChangeNotifier {
         var pusherInstance =
             Provider.of<PushNotificationService>(context, listen: false)
                 .pusherInstance;
-        await PusherBeams.instance.start(pusherInstance);
 
+        if (pusherInstance != null) {
+          await PusherBeams.instance.start(pusherInstance);
+        }
         //start stripe
         //============>
         var publishableKey = await StripeService().getStripeKey();

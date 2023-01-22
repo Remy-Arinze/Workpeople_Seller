@@ -83,7 +83,9 @@ class ChatBuyerList {
         dateHumanReadable: json["date_human_readable"],
         imageUrl: json["image_url"],
         senderProfileImage: json["sender_profile_image"],
-        buyerList: BuyerList.fromJson(json["buyer_list"]),
+        buyerList: json["buyer_list"] != null
+            ? BuyerList.fromJson(json["buyer_list"])
+            : null,
       );
 
   Map<String, dynamic> toJson() => {
