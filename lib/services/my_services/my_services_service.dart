@@ -77,7 +77,10 @@ class MyServicesService with ChangeNotifier {
         Uri.parse("$baseApi/seller/service/my-services?page=$currentPage"),
         headers: header);
 
-    if (response.statusCode == 201) {
+    print(response.body);
+
+    if (response.statusCode == 201 &&
+        jsonDecode(response.body)['my_services']['data'].isNotEmpty) {
       var data = MyServiceListModel.fromJson(jsonDecode(response.body));
 
       setTotalPage(data.myServices!.lastPage);

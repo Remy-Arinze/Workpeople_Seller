@@ -113,6 +113,7 @@ class CategorySubCatDropdownService with ChangeNotifier {
     var response = await http
         .get(Uri.parse('$baseApi/category/sub-category/$selectedCategoryId'));
 
+    print('sub category ${response.body}');
     if (response.statusCode == 200 &&
         jsonDecode(response.body)['sub_categories'].isNotEmpty) {
       var data = SubcategoryModel.fromJson(jsonDecode(response.body));
