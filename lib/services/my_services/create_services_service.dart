@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/cat_subcat_dropdown_service_for_edit_service.dart';
 import 'package:qixer_seller/services/category_subcat_dropdown_service.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/my_services/my_services_service.dart';
@@ -162,15 +163,18 @@ class CreateServicesService with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 
-    var categoryId =
-        Provider.of<CategorySubCatDropdownService>(context, listen: false)
-            .selectedCategoryId;
-    var subCategoryId =
-        Provider.of<CategorySubCatDropdownService>(context, listen: false)
-            .selectedSubCategoryId;
-    var childCategoryId =
-        Provider.of<CategorySubCatDropdownService>(context, listen: false)
-            .selectedChildCategoryId;
+    var categoryId = Provider.of<CatSubcatDropdownServiceForEditService>(
+            context,
+            listen: false)
+        .selectedCategoryId;
+    var subCategoryId = Provider.of<CatSubcatDropdownServiceForEditService>(
+            context,
+            listen: false)
+        .selectedSubCategoryId;
+    var childCategoryId = Provider.of<CatSubcatDropdownServiceForEditService>(
+            context,
+            listen: false)
+        .selectedChildCategoryId;
 
     setUpdateLodingStatus(true);
 

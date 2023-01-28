@@ -29,6 +29,7 @@ class _EditServicePageState extends State<EditServicePage> {
   void initState() {
     super.initState();
     fillInitialData();
+    print('service id ${widget.serviceId}');
   }
 
 //
