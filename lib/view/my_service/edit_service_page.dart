@@ -60,7 +60,7 @@ class _EditServicePageState extends State<EditServicePage> {
                   provider.serviceDetails.serviceDetails.childCategoryId);
 
       //fetch cat
-      Provider.of<CatSubcatDropdownServiceForEditService>(context,
+      await Provider.of<CatSubcatDropdownServiceForEditService>(context,
               listen: false)
           .fetchCategoryForEditService();
     }

@@ -59,14 +59,14 @@ class CatSubcatDropdownServiceForEditService with ChangeNotifier {
 
 //==============>
 
-  fetchCategoryForEditService() async {
+  Future<bool> fetchCategoryForEditService() async {
     defaultCategory();
 
     var connection = await checkConnection();
-    if (!connection) return;
+    if (!connection) return false;
 
     var response = await http.get(Uri.parse('$baseApi/category'));
-
+    print(response.body);
     if (response.statusCode == 201) {
       var data = CategoryModel.fromJson(jsonDecode(response.body));
 
@@ -75,24 +75,34 @@ class CatSubcatDropdownServiceForEditService with ChangeNotifier {
         categoryDropdownIndexList.add(data.category[i].id);
       }
 
-      print(response.body);
-
       //find the existing category id in all category index list
       //and show  existing data in dropdown
       int eId = categoryDropdownIndexList.indexOf(existingCategoryId);
 
-      selectedCategory = categoryDropdownList[eId];
-      selectedCategoryId = existingCategoryId;
+      print('existing category id $existingCategoryId');
+      print('existing category index $eId');
+      print('category dropdown length ${categoryDropdownList.length}');
+
+      if (existingCategoryId != null) {
+        selectedCategory = categoryDropdownList[eId];
+        selectedCategoryId = existingCategoryId;
+      } else {
+        selectedCategory = categoryDropdownList[0];
+        selectedCategoryId = categoryDropdownIndexList[0];
+      }
 
       fetchSubCategoryForEditService();
 
       notifyListeners();
+      return true;
     } else {
       //Something went wrong
       categoryDropdownList = ['Select Category'];
       categoryDropdownIndexList = [0];
       selectedCategory = 'Select Category';
       selectedCategoryId = 0;
+
+      return false;
     }
   }
 
@@ -149,8 +159,13 @@ class CatSubcatDropdownServiceForEditService with ChangeNotifier {
       //and show  existing data in dropdown
       int eId = subCategoryDropdownIndexList.indexOf(existingSubCatId);
 
-      selectedSubCategory = subCategoryDropdownList[eId];
-      selectedSubCategoryId = existingSubCatId;
+      if (existingSubCatId != null) {
+        selectedSubCategory = subCategoryDropdownList[eId];
+        selectedSubCategoryId = existingSubCatId;
+      } else {
+        selectedSubCategory = subCategoryDropdownList[0];
+        selectedSubCategoryId = subCategoryDropdownIndexList[0];
+      }
 
       fetchChildCategoryForEditService();
       notifyListeners();
@@ -234,7 +249,8 @@ class CatSubcatDropdownServiceForEditService with ChangeNotifier {
         selectedChildCategory = childCategoryDropdownList[eId];
         selectedChildCategoryId = existingChildCatId;
       } else {
-        setPlaceHolderChildCat();
+        selectedChildCategory = childCategoryDropdownList[0];
+        selectedChildCategoryId = childCategoryDropdownIndexList[0];
       }
 
       notifyListeners();
@@ -242,6 +258,9 @@ class CatSubcatDropdownServiceForEditService with ChangeNotifier {
       //Something went wrong
       setPlaceHolderChildCat();
     }
+
+    //set existing subcat null because, it will cause bug when user selects a new category
+    setExistingCatSubcatDefault();
   }
 
   setPlaceHolderChildCat() {
