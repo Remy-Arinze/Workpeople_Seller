@@ -244,8 +244,9 @@ class CatSubcatDropdownServiceForEditService with ChangeNotifier {
       //find the existing category id in all category index list
       //and show  existing data in dropdown
       if (existingChildCatId != null) {
-        int eId = childCategoryDropdownList.indexOf(existingChildCatId);
-
+        int eId = childCategoryDropdownIndexList.indexOf(existingChildCatId);
+        print('existing child cat id $existingChildCatId');
+        print('eid is $eId');
         selectedChildCategory = childCategoryDropdownList[eId];
         selectedChildCategoryId = existingChildCatId;
       } else {

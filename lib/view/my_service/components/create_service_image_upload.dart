@@ -16,7 +16,6 @@ class CreateServiceImageUpload extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print('image link is======= $imageLink');
     return Consumer<CreateServicesService>(
       builder: (context, provider, child) => Consumer<AppStringService>(
         builder: (context, ln, child) => Column(

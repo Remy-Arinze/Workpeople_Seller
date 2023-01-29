@@ -176,6 +176,11 @@ class CreateServicesService with ChangeNotifier {
             listen: false)
         .selectedChildCategoryId;
 
+    print('category id $categoryId');
+    print('sub cat id $subCategoryId');
+    print('child cat id $childCategoryId');
+    // return;
+
     setUpdateLodingStatus(true);
 
     FormData formData;
@@ -186,9 +191,9 @@ class CreateServicesService with ChangeNotifier {
 
     formData = FormData.fromMap({
       'service_id': serviceId,
-      'category_id': categoryId,
-      'subcategory_id': subCategoryId,
-      'child_category_id': childCategoryId,
+      'category': categoryId,
+      'subcategory': subCategoryId,
+      'child_category': childCategoryId,
       'title': title,
       'description': description,
       'image': pickedImage != null
