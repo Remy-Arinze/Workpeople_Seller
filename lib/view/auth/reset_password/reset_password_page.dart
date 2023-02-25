@@ -73,7 +73,7 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
                         ),
                         CommonHelper().paragraphCommon(
                             ln.getString(
-                                "Your new password be different from previously used passwords"),
+                                "Your new password should be different from previously used password"),
                             TextAlign.start),
 
                         const SizedBox(

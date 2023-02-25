@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/jobs/job_conversation_service.dart';
 import 'package:qixer_seller/services/jobs/job_details_service.dart';
 import 'package:qixer_seller/services/jobs/job_list_service.dart';
@@ -74,113 +75,119 @@ class _AppliedJobsPageState extends State<JobRequestPage> {
         child: SingleChildScrollView(
           physics: physicsCommon,
           child: Consumer<JobListService>(
-              builder: (context, provider, child) => Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: screenPadding, vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        if (provider.isloading == false &&
-                            provider.jobReqList.isEmpty)
-                          OthersHelper().showError(context,
-                              message: 'You didn\'t apply to any job'),
-                        for (int i = 0; i < provider.jobReqList.length; i++)
-                          Container(
-                            margin: const EdgeInsets.only(bottom: 16),
-                            width: double.infinity,
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 16),
-                            decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(9)),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CommonHelper().titleCommon(
-                                            provider.jobReqList[i].job.title ??
-                                                '',
-                                            fontsize: 15),
-                                        sizedBoxCustom(6),
-                                        CommonHelper().paragraphCommon(
-                                            'Buyer budget: \$${provider.jobReqList[i].job.price ?? ''}',
-                                            TextAlign.left),
-                                        sizedBoxCustom(7),
-                                        CommonHelper().paragraphCommon(
-                                            'Your offer: \$${provider.jobReqList[i].expectedSalary ?? ''}',
-                                            TextAlign.left,
-                                            color: cc.primaryColor),
-                                      ]),
-                                ),
-                                PopupMenuButton(
-                                  itemBuilder: (BuildContext context) =>
-                                      <PopupMenuEntry>[
-                                    PopupMenuItem(
-                                      onTap: () {
-                                        Future.delayed(Duration.zero, () {
-                                          Provider.of<JobDetailsService>(
-                                                  context,
-                                                  listen: false)
-                                              .setOrderDetailsLoadingStatus(
-                                                  true);
+              builder: (context, provider, child) => Consumer<AppStringService>(
+                    builder: (context, ln, child) => Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: screenPadding, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          if (provider.isloading == false &&
+                              provider.jobReqList.isEmpty)
+                            OthersHelper().showError(context,
+                                message: ln
+                                    .getString('You did not apply to any job')),
+                          for (int i = 0; i < provider.jobReqList.length; i++)
+                            Container(
+                              margin: const EdgeInsets.only(bottom: 16),
+                              width: double.infinity,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 16),
+                              decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(9)),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          CommonHelper().titleCommon(
+                                              provider.jobReqList[i].job
+                                                      .title ??
+                                                  '',
+                                              fontsize: 15),
+                                          sizedBoxCustom(6),
+                                          CommonHelper().paragraphCommon(
+                                              '${ln.getString("Buyer budget")}: \$${provider.jobReqList[i].job.price ?? ''}',
+                                              TextAlign.left),
+                                          sizedBoxCustom(7),
+                                          CommonHelper().paragraphCommon(
+                                              '${ln.getString("Your offer")}: \$${provider.jobReqList[i].expectedSalary ?? ''}',
+                                              TextAlign.left,
+                                              color: cc.primaryColor),
+                                        ]),
+                                  ),
+                                  PopupMenuButton(
+                                    itemBuilder: (BuildContext context) =>
+                                        <PopupMenuEntry>[
+                                      PopupMenuItem(
+                                        onTap: () {
+                                          Future.delayed(Duration.zero, () {
+                                            Provider.of<JobDetailsService>(
+                                                    context,
+                                                    listen: false)
+                                                .setOrderDetailsLoadingStatus(
+                                                    true);
 
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute<void>(
-                                              builder: (BuildContext context) =>
-                                                  JobDetailsPage(
-                                                imageLink: placeHolderUrl,
-                                                isFromNewJobPage: false,
-                                                jobId: provider
-                                                    .jobReqList[i].job.id,
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        JobDetailsPage(
+                                                  imageLink: placeHolderUrl,
+                                                  isFromNewJobPage: false,
+                                                  jobId: provider
+                                                      .jobReqList[i].job.id,
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        });
-                                      },
-                                      child: Text(menuNames[0]),
-                                    ),
-                                    PopupMenuItem(
-                                      onTap: () {
-                                        Future.delayed(Duration.zero, () {
-                                          //fetch message
-                                          Provider.of<JobConversationService>(
-                                                  context,
-                                                  listen: false)
-                                              .fetchMessages(
-                                                  jobRequestId: provider
-                                                      .jobReqList[i].id);
+                                            );
+                                          });
+                                        },
+                                        child: Text(menuNames[0]),
+                                      ),
+                                      PopupMenuItem(
+                                        onTap: () {
+                                          Future.delayed(Duration.zero, () {
+                                            //fetch message
+                                            Provider.of<JobConversationService>(
+                                                    context,
+                                                    listen: false)
+                                                .fetchMessages(
+                                                    jobRequestId: provider
+                                                        .jobReqList[i].id);
 
-                                          print(
-                                              'buyer id ${provider.jobReqList[i].buyerId}');
+                                            print(
+                                                'buyer id ${provider.jobReqList[i].buyerId}');
 
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute<void>(
-                                              builder: (BuildContext context) =>
-                                                  JobConversationPage(
-                                                title: provider
-                                                    .jobReqList[i].job.title,
-                                                jobRequestId:
-                                                    provider.jobReqList[i].id,
-                                                buyerId: provider
-                                                    .jobReqList[i].buyerId,
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute<void>(
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        JobConversationPage(
+                                                  title: provider
+                                                      .jobReqList[i].job.title,
+                                                  jobRequestId:
+                                                      provider.jobReqList[i].id,
+                                                  buyerId: provider
+                                                      .jobReqList[i].buyerId,
+                                                ),
                                               ),
-                                            ),
-                                          );
-                                        });
-                                      },
-                                      child: Text(menuNames[1]),
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                            );
+                                          });
+                                        },
+                                        child: Text(menuNames[1]),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                      ],
+                        ],
+                      ),
                     ),
                   )),
         ),

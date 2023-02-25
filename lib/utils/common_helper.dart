@@ -37,22 +37,24 @@ class CommonHelper {
       {isloading = false, bgColor, double paddingVertical = 18}) {
     return InkWell(
       onTap: pressed,
-      child: Container(
-          width: double.infinity,
-          alignment: Alignment.center,
-          padding: EdgeInsets.symmetric(vertical: paddingVertical),
-          decoration: BoxDecoration(
-              color: bgColor ?? cc.primaryColor,
-              borderRadius: BorderRadius.circular(8)),
-          child: isloading == false
-              ? Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 14,
-                  ),
-                )
-              : OthersHelper().showLoading(Colors.white)),
+      child: Consumer<AppStringService>(
+        builder: (context, ln, child) => Container(
+            width: double.infinity,
+            alignment: Alignment.center,
+            padding: EdgeInsets.symmetric(vertical: paddingVertical),
+            decoration: BoxDecoration(
+                color: bgColor ?? cc.primaryColor,
+                borderRadius: BorderRadius.circular(8)),
+            child: isloading == false
+                ? Text(
+                    ln.getString(title),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                    ),
+                  )
+                : OthersHelper().showLoading(Colors.white)),
+      ),
     );
   }
 

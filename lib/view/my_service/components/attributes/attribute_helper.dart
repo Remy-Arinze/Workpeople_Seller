@@ -47,10 +47,10 @@ class AttributeHelper {
             ],
           ),
           child: Consumer<AppStringService>(
-            builder: (context, asProvider, child) => Column(
+            builder: (context, ln, child) => Column(
               children: [
                 Text(
-                  '${asProvider.getString('Are you sure')}?',
+                  '${ln.getString('Are you sure')}?',
                   style: TextStyle(color: cc.greyPrimary, fontSize: 17),
                 ),
                 const SizedBox(
@@ -59,8 +59,8 @@ class AttributeHelper {
                 Row(
                   children: [
                     Expanded(
-                        child: CommonHelper().borderButtonPrimary(
-                            asProvider.getString('Cancel'), () {
+                        child: CommonHelper()
+                            .borderButtonPrimary(ln.getString('Cancel'), () {
                       Navigator.pop(context);
                     })),
                     const SizedBox(
@@ -68,8 +68,8 @@ class AttributeHelper {
                     ),
                     Consumer<AttributeService>(
                       builder: (context, provider, child) => Expanded(
-                          child: CommonHelper().buttonPrimary(
-                              asProvider.getString('Delete'), () {
+                          child: CommonHelper()
+                              .buttonPrimary(ln.getString('Delete'), () {
                         provider.deleteAttribute(context,
                             attributeId: attributeId,
                             serviceId: serviceId,

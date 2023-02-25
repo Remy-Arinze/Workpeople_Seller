@@ -27,22 +27,22 @@ class _FaqForServiceCreateState extends State<FaqForServiceCreate> {
         builder: (context, ln, child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CommonHelper().titleCommon('Faqs', fontsize: 18),
+            CommonHelper().titleCommon(ln.getString('Faqs'), fontsize: 18),
 
             sizedBoxCustom(18),
-            CommonHelper().labelCommon("Faq title"),
+            CommonHelper().labelCommon(ln.getString("Faq title")),
             CustomInput(
               controller: titleController,
               paddingHorizontal: 15,
-              hintText: "Enter title",
+              hintText: ln.getString("Enter title"),
               textInputAction: TextInputAction.next,
             ),
 
-            CommonHelper().labelCommon("Faq answer"),
+            CommonHelper().labelCommon(ln.getString("Faq answer")),
             CustomInput(
               controller: descController,
               paddingHorizontal: 15,
-              hintText: "Enter answer",
+              hintText: ln.getString("Enter answer"),
               textInputAction: TextInputAction.next,
             ),
 

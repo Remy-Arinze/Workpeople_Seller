@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/jobs/job_details_service.dart';
 import 'package:qixer_seller/services/jobs/new_jobs_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
@@ -69,73 +70,75 @@ class _NewJobsPageState extends State<NewJobsPage> {
         },
         child: SingleChildScrollView(
           physics: physicsCommon,
-          child: Consumer<NewJobsService>(
-            builder: (context, provider, child) => provider
-                    .newJobsList.isNotEmpty
-                ? Container(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: screenPadding, vertical: 10),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        for (int i = 0; i < provider.newJobsList.length; i++)
-                          InkWell(
-                            onTap: () {
-                              Provider.of<JobDetailsService>(context,
-                                      listen: false)
-                                  .setOrderDetailsLoadingStatus(true);
+          child: Consumer<AppStringService>(
+            builder: (context, ln, child) => Consumer<NewJobsService>(
+              builder: (context, provider, child) => provider
+                      .newJobsList.isNotEmpty
+                  ? Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: screenPadding, vertical: 10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          for (int i = 0; i < provider.newJobsList.length; i++)
+                            InkWell(
+                              onTap: () {
+                                Provider.of<JobDetailsService>(context,
+                                        listen: false)
+                                    .setOrderDetailsLoadingStatus(true);
 
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute<void>(
-                                  builder: (BuildContext context) =>
-                                      JobDetailsPage(
-                                    imageLink: provider.imageList[i],
-                                    isFromNewJobPage: true,
-                                    jobId: provider.newJobsList[i].id,
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute<void>(
+                                    builder: (BuildContext context) =>
+                                        JobDetailsPage(
+                                      imageLink: provider.imageList[i],
+                                      isFromNewJobPage: true,
+                                      jobId: provider.newJobsList[i].id,
+                                    ),
                                   ),
+                                );
+                              },
+                              child: Container(
+                                margin: const EdgeInsets.only(bottom: 16),
+                                width: double.infinity,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 20, vertical: 16),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.circular(9)),
+                                child: Row(
+                                  children: [
+                                    CommonHelper().profileImage(
+                                        provider.imageList[i], 65, 65),
+                                    const SizedBox(
+                                      width: 15,
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            CommonHelper().titleCommon(
+                                                provider.newJobsList[i].title ??
+                                                    '',
+                                                fontsize: 15),
+                                            sizedBoxCustom(8),
+                                            CommonHelper().paragraphCommon(
+                                                '${ln.getString("Buyer budget")}: \$${provider.newJobsList[i].price}',
+                                                TextAlign.left)
+                                          ]),
+                                    ),
+                                  ],
                                 ),
-                              );
-                            },
-                            child: Container(
-                              margin: const EdgeInsets.only(bottom: 16),
-                              width: double.infinity,
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 20, vertical: 16),
-                              decoration: BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius: BorderRadius.circular(9)),
-                              child: Row(
-                                children: [
-                                  CommonHelper().profileImage(
-                                      provider.imageList[i], 65, 65),
-                                  const SizedBox(
-                                    width: 15,
-                                  ),
-                                  Expanded(
-                                    child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          CommonHelper().titleCommon(
-                                              provider.newJobsList[i].title ??
-                                                  '',
-                                              fontsize: 15),
-                                          sizedBoxCustom(8),
-                                          CommonHelper().paragraphCommon(
-                                              'Buyer budget: \$${provider.newJobsList[i].price}',
-                                              TextAlign.left)
-                                        ]),
-                                  ),
-                                ],
                               ),
                             ),
-                          ),
-                      ],
-                    ),
-                  )
-                : OthersHelper()
-                    .showError(context, message: 'No new jobs found'),
+                        ],
+                      ),
+                    )
+                  : OthersHelper().showError(context,
+                      message: ln.getString('No new jobs found')),
+            ),
           ),
         ),
       ),

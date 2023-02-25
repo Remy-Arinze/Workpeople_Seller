@@ -32,8 +32,8 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
             //on off button
             Row(
               children: [
-                CommonHelper()
-                    .paragraphCommon('Online service', TextAlign.left),
+                CommonHelper().paragraphCommon(
+                    ln.getString('Online service'), TextAlign.left),
                 Switch(
                   // This bool value toggles the switch.
                   value: isOnline,
@@ -48,15 +48,16 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
 
             sizedBoxCustom(5),
 
-            CommonHelper()
-                .titleCommon('What is Included In This Package', fontsize: 18),
+            CommonHelper().titleCommon(
+                ln.getString('What is Included In This Package'),
+                fontsize: 18),
 
             sizedBoxCustom(18),
             CommonHelper().labelCommon("Title"),
             CustomInput(
               controller: titleController,
               paddingHorizontal: 15,
-              hintText: "Enter title",
+              hintText: ln.getString("Enter title"),
               textInputAction: TextInputAction.next,
             ),
 
@@ -64,11 +65,11 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CommonHelper().labelCommon("Price"),
+                  CommonHelper().labelCommon(ln.getString("Price")),
                   CustomInput(
                     controller: priceController,
                     paddingHorizontal: 15,
-                    hintText: "Enter price",
+                    hintText: ln.getString("Enter price"),
                     isNumberField: true,
                     textInputAction: TextInputAction.next,
                   ),

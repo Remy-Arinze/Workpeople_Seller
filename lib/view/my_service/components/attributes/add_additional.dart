@@ -31,36 +31,37 @@ class _AddAdditionalState extends State<AddAdditional> {
         builder: (context, ln, child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CommonHelper().titleCommon('Add Additional Services', fontsize: 18),
+            CommonHelper().titleCommon(ln.getString('Add Additional Services'),
+                fontsize: 18),
 
             sizedBoxCustom(18),
 
             //
-            CommonHelper().labelCommon("Title"),
+            CommonHelper().labelCommon(ln.getString("Title")),
             CustomInput(
               controller: titleController,
               paddingHorizontal: 15,
-              hintText: "Enter title",
+              hintText: ln.getString("Enter title"),
               textInputAction: TextInputAction.next,
             ),
 
             //
-            CommonHelper().labelCommon("Unit price"),
+            CommonHelper().labelCommon(ln.getString("Unit price")),
             CustomInput(
               controller: priceController,
               paddingHorizontal: 15,
               isNumberField: true,
-              hintText: "Enter price",
+              hintText: ln.getString("Enter price"),
               textInputAction: TextInputAction.next,
             ),
 
 //
-            CommonHelper().labelCommon("Quantity"),
+            CommonHelper().labelCommon(ln.getString("Quantity")),
             CustomInput(
               controller: qtyController,
               paddingHorizontal: 15,
               isNumberField: true,
-              hintText: "Enter quantity",
+              hintText: ln.getString("Enter quantity"),
               textInputAction: TextInputAction.next,
             ),
 
@@ -69,12 +70,6 @@ class _AddAdditionalState extends State<AddAdditional> {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                //pick image
-                // const SizedBox(
-                //   width: 160,
-                //   child: AddAdditionalImageUpload(),
-                // ),
-
                 InkWell(
                   onTap: () {
                     if (titleController.text.trim().isEmpty ||

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer_seller/intro/splash.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/auth_services/change_pass_service.dart';
 import 'package:qixer_seller/services/auth_services/email_verify_service.dart';
@@ -45,7 +46,6 @@ import 'package:qixer_seller/services/ticket_services/support_messages_service.d
 import 'package:qixer_seller/services/ticket_services/support_ticket_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
 import 'package:qixer_seller/services/withdraw_service.dart';
-import 'package:qixer_seller/view/intro/splash.dart';
 
 import 'services/payments_service/payment_gateway_list_service.dart';
 

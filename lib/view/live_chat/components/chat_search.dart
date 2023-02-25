@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/app_string_service.dart';
 
 import 'package:qixer_seller/services/live_chat/chat_list_service.dart';
 
@@ -8,6 +9,7 @@ class ChatSearch extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var ln = Provider.of<AppStringService>(context, listen: false);
     final searchController = TextEditingController();
     return Consumer<ChatListService>(
       builder: (context, provider, child) => Container(
@@ -27,13 +29,13 @@ class ChatSearch extends StatelessWidget {
               }
             },
             style: const TextStyle(fontSize: 14),
-            decoration: const InputDecoration(
+            decoration: InputDecoration(
                 border: InputBorder.none,
-                prefixIcon: Icon(Icons.search),
-                hintText: 'Search',
-                hintStyle: TextStyle(color: Colors.grey),
+                prefixIcon: const Icon(Icons.search),
+                hintText: ln.getString('Search'),
+                hintStyle: const TextStyle(color: Colors.grey),
                 contentPadding:
-                    EdgeInsets.symmetric(horizontal: 8, vertical: 15)),
+                    const EdgeInsets.symmetric(horizontal: 8, vertical: 15)),
           )),
     );
   }

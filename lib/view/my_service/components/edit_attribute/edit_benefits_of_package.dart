@@ -26,14 +26,15 @@ class _EditBenefitsOfPackageState extends State<EditBenefitsOfPackage> {
         builder: (context, ln, child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CommonHelper().titleCommon('Benefit Of This Package', fontsize: 18),
+            CommonHelper().titleCommon(ln.getString('Benefit Of This Package'),
+                fontsize: 18),
 
             sizedBoxCustom(18),
 
             CustomInput(
               controller: titleController,
               paddingHorizontal: 15,
-              hintText: "Type here",
+              hintText: ln.getString("Type here"),
               textInputAction: TextInputAction.next,
             ),
 
