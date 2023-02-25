@@ -2,13 +2,18 @@
 
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'package:pusher_beams/pusher_beams.dart';
+import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/view/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/constant_colors.dart';
 import '../../utils/others_helper.dart';
 import '../common_service.dart';
+import '../payments_service/gateway_services/stripe_service.dart';
 
 class LoginService with ChangeNotifier {
   bool isloading = false;
@@ -49,13 +54,6 @@ class LoginService with ChangeNotifier {
         // }
         setLoadingFalse();
 
-        Navigator.pushReplacement<void, void>(
-          context,
-          MaterialPageRoute<void>(
-            builder: (BuildContext context) => const Homepage(),
-          ),
-        );
-
         String token = jsonDecode(response.body)['token'];
         int userId = jsonDecode(response.body)['users']['id'];
         String state = jsonDecode(response.body)['users']['state'].toString();
@@ -69,6 +67,29 @@ class LoginService with ChangeNotifier {
         }
 
         print(response.body);
+        //start pusher
+        //============>
+        await Provider.of<PushNotificationService>(context, listen: false)
+            .fetchPusherCredential();
+        var pusherInstance =
+            Provider.of<PushNotificationService>(context, listen: false)
+                .pusherInstance;
+
+        if (pusherInstance != null) {
+          await PusherBeams.instance.start(pusherInstance);
+        }
+        //start stripe
+        //============>
+        var publishableKey = await StripeService().getStripeKey();
+        Stripe.publishableKey = publishableKey;
+        Stripe.instance.applySettings();
+
+        Navigator.pushReplacement<void, void>(
+          context,
+          MaterialPageRoute<void>(
+            builder: (BuildContext context) => const Homepage(),
+          ),
+        );
 
         return true;
       } else {

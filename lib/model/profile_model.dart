@@ -20,7 +20,9 @@ class ProfileModel {
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) => ProfileModel(
         userDetails: UserDetails.fromJson(json["user_details"]),
-        profileImage: ProfileImage.fromJson(json["profile_image"]),
+        profileImage: json["profile_image"] is List
+            ? null
+            : ProfileImage.fromJson(json["profile_image"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -91,7 +93,7 @@ class UserDetails {
   Country country;
   City city;
   Area area;
-  SellerVerify sellerVerify;
+  SellerVerify? sellerVerify;
 
   factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
         id: json["id"],
@@ -109,7 +111,7 @@ class UserDetails {
         country: Country.fromJson(json["country"]),
         city: City.fromJson(json["city"]),
         area: Area.fromJson(json["area"]),
-        sellerVerify: SellerVerify.fromJson(json["seller_verify"]),
+        sellerVerify: SellerVerify?.fromJson(json["seller_verify"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -128,7 +130,7 @@ class UserDetails {
         "country": country.toJson(),
         "city": city.toJson(),
         "area": area.toJson(),
-        "seller_verify": sellerVerify.toJson()
+        "seller_verify": sellerVerify?.toJson()
       };
 }
 
@@ -187,12 +189,12 @@ class SellerVerify {
   var address;
   int? status;
 
-  factory SellerVerify.fromJson(Map<String, dynamic> json) => SellerVerify(
-        id: json["id"],
-        sellerId: json["seller_id"],
-        nationalId: json["national_id"],
-        address: json["address"],
-        status: json["status"],
+  factory SellerVerify.fromJson(Map<String, dynamic>? json) => SellerVerify(
+        id: json?["id"],
+        sellerId: json?["seller_id"],
+        nationalId: json?["national_id"],
+        address: json?["address"],
+        status: json?["status"],
       );
 
   Map<String, dynamic> toJson() => {

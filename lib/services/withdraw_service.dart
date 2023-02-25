@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/dashboard_service.dart';
-import 'package:qixer_seller/services/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payout_history_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:http/http.dart' as http;
@@ -107,6 +107,66 @@ class WithdrawService with ChangeNotifier {
         //error fetching min max amount
         print('error fetching min and max amount' + response.body);
       }
+    }
+  }
+
+  // =================>
+  //gateway list for withdraw
+  // =============>
+
+  var paymentDropdownList = [];
+  var paymentDropdownIndexList = [];
+  var selectedPayment;
+  var selectedPaymentId;
+
+  setgatewayValue(value) {
+    selectedPayment = value;
+    notifyListeners();
+  }
+
+  setSelectedgatewayId(value) {
+    selectedPaymentId = value;
+    notifyListeners();
+  }
+
+  Future fetchGatewayList() async {
+    //if payment list already loaded, then don't load again
+    if (paymentDropdownList.isNotEmpty) {
+      return;
+    }
+
+    var connection = await checkConnection();
+    if (connection) {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var token = prefs.getString('token');
+
+      var header = {
+        //if header type is application/json then the data should be in jsonEncode method
+        "Accept": "application/json",
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token",
+      };
+
+      var response = await http.post(
+          Uri.parse('$baseApi/user/payment-gateway-list'),
+          headers: header);
+
+      if (response.statusCode == 201) {
+        var gatewayList = jsonDecode(response.body)['gateway_list'];
+        for (int i = 0; i < gatewayList.length; i++) {
+          paymentDropdownList.add(removeUnderscore(gatewayList[i]['name']));
+          paymentDropdownIndexList.add(gatewayList[i]['name']);
+        }
+        selectedPayment = removeUnderscore(gatewayList[0]['name']);
+        selectedPaymentId = gatewayList[0]['name'];
+        notifyListeners();
+      } else {
+        //something went wrong
+        print('payment gateway list fetching error' + response.body);
+      }
+    } else {
+      //internet off
+      return false;
     }
   }
 }

@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
+import 'package:qixer_seller/services/orders_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/view/orders/booking_helper.dart';
+import 'package:qixer_seller/view/orders/components/amount_details.dart';
+import 'package:qixer_seller/view/orders/components/buyer_details.dart';
+import 'package:qixer_seller/view/orders/components/date_schedule.dart';
+import 'package:qixer_seller/view/orders/components/decline_history.dart';
+import 'package:qixer_seller/view/orders/components/order_extras.dart';
+import 'package:qixer_seller/view/orders/components/order_status.dart';
+import 'package:qixer_seller/view/orders/orders_helper.dart';
 import '../../utils/others_helper.dart';
 
 class OrderDetailsPage extends StatefulWidget {
@@ -33,288 +41,117 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
         body: SafeArea(
           child: SingleChildScrollView(
             physics: physicsCommon,
-            child: Consumer<OrderDetailsService>(
-              builder: (context, provider, child) => provider.isLoading == false
-                  ? provider.orderDetails != 'error'
-                      ? Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 15),
-                          child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  height: 10,
-                                ),
-                                //Service name
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 25),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 20),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(9)),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CommonHelper()
-                                            .titleCommon('Ordered service'),
-                                        const SizedBox(
-                                          height: 15,
-                                        ),
-                                        //Service row
-
-                                        Column(
+            child: Consumer<AppStringService>(
+              builder: (context, ln, child) => Consumer<OrderDetailsService>(
+                builder: (context, provider, child) => provider.isLoading ==
+                        false
+                    ? provider.orderDetails != 'error'
+                        ? Consumer<OrdersService>(
+                            builder: (context, oProvider, child) => Container(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 15),
+                              child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    //Service name
+                                    Container(
+                                      width: double.infinity,
+                                      margin: const EdgeInsets.only(bottom: 25),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 20, vertical: 20),
+                                      decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius:
+                                              BorderRadius.circular(9)),
+                                      child: Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
-                                            // CommonHelper().profileImage(
-                                            //     'https://cdn.pixabay.com/photo/2022/07/13/22/27/butterfly-7320158__340.jpg',
-                                            //     50,
-                                            //     50),
-                                            Text(
-                                              "Service ID: ${provider.orderDetails.id}",
-                                              style: TextStyle(
-                                                color: cc.primaryColor,
-                                                fontSize: 14,
-                                                height: 1.4,
-                                              ),
-                                            ),
+                                            CommonHelper().titleCommon(ln
+                                                .getString('Ordered service')),
                                             const SizedBox(
-                                              height: 4,
+                                              height: 15,
                                             ),
-                                            Text(
-                                              provider.orderedServiceTitle,
-                                              style: TextStyle(
-                                                color: cc.greyThree,
-                                                fontSize: 14,
-                                                height: 1.4,
-                                              ),
+                                            //Service row
+
+                                            Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                // CommonHelper().profileImage(
+                                                //     'https://cdn.pixabay.com/photo/2022/07/13/22/27/butterfly-7320158__340.jpg',
+                                                //     50,
+                                                //     50),
+                                                Text(
+                                                  ln.getString("Order ID:") +
+                                                      " ${provider.orderDetails.id}",
+                                                  style: TextStyle(
+                                                    color: cc.primaryColor,
+                                                    fontSize: 14,
+                                                    height: 1.4,
+                                                  ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 4,
+                                                ),
+                                                Text(
+                                                  provider.orderedServiceTitle,
+                                                  style: TextStyle(
+                                                    color: cc.greyThree,
+                                                    fontSize: 14,
+                                                    height: 1.4,
+                                                  ),
+                                                )
+                                              ],
                                             )
-                                          ],
-                                        )
-                                      ]),
-                                ),
+                                          ]),
+                                    ),
 
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 25),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 20),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(9)),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CommonHelper()
-                                            .titleCommon('Buyer Details'),
-                                        const SizedBox(
-                                          height: 25,
-                                        ),
-                                        //Service row
+                                    //Buyer details
+                                    const BuyerDetails(),
 
-                                        Container(
-                                          child: BookingHelper().bRow(
-                                              'null',
-                                              'Name',
-                                              provider.orderDetails.buyerDetails
-                                                  .name),
-                                        ),
+                                    // Date and schedule
+                                    const DateSchedule(),
 
-                                        Container(
-                                          child: BookingHelper().bRow(
-                                              'null',
-                                              'Email',
-                                              provider.orderDetails.buyerDetails
-                                                      .email ??
-                                                  ''),
-                                        ),
+                                    //Amount details
+                                    const AmountDetails(),
 
-                                        Container(
-                                          child: BookingHelper().bRow(
-                                              'null',
-                                              'Phone',
-                                              provider.orderDetails.buyerDetails
-                                                      .phone ??
-                                                  ''),
-                                        ),
-                                        provider.orderDetails.isOrderOnline == 0
-                                            ? Container(
-                                                child: BookingHelper().bRow(
-                                                    'null',
-                                                    'Post code',
-                                                    provider
-                                                            .orderDetails
-                                                            .buyerDetails
-                                                            .postCode ??
-                                                        ''),
-                                              )
-                                            : Container(),
-                                        provider.orderDetails.isOrderOnline == 0
-                                            ? Container(
-                                                child: BookingHelper().bRow(
-                                                    'null',
-                                                    'Address',
-                                                    provider
-                                                            .orderDetails
-                                                            .buyerDetails
-                                                            .address ??
-                                                        '',
-                                                    lastBorder: false),
-                                              )
-                                            : Container(),
-                                      ]),
-                                ),
+                                    // Order status
+                                    const OrderStatus(),
 
-                                // Date and schedule
-                                provider.orderDetails.isOrderOnline == 0
-                                    ? Container(
-                                        margin:
-                                            const EdgeInsets.only(bottom: 25),
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 20, vertical: 20),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(9)),
-                                        child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              CommonHelper().titleCommon(
-                                                  'Date & Schedule'),
-                                              const SizedBox(
-                                                height: 25,
-                                              ),
-                                              //Service row
+                                    const DeclineHistory(),
 
-                                              Container(
-                                                child: BookingHelper().bRow(
-                                                    'null',
-                                                    'Date',
-                                                    provider.orderDetails
-                                                            .date ??
-                                                        ''),
-                                              ),
+                                    OrderExtras(
+                                      orderId: provider.orderDetails.id,
+                                    ),
 
-                                              Container(
-                                                child: BookingHelper().bRow(
-                                                    'null',
-                                                    'Schedule',
-                                                    provider.orderDetails
-                                                            .schedule ??
-                                                        '',
-                                                    lastBorder: false),
-                                              ),
-                                            ]),
-                                      )
-                                    : Container(),
+                                    if (provider.orderDetails.paymentStatus ==
+                                            'complete' &&
+                                        provider.orderStatus != 'Completed')
+                                      CommonHelper().buttonPrimary('Add extra',
+                                          () {
+                                        OrdersHelper().addExtraPopup(
+                                            context, provider.orderDetails.id);
+                                      }),
 
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 25),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 20),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(9)),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CommonHelper()
-                                            .titleCommon('Amount Details'),
-                                        const SizedBox(
-                                          height: 25,
-                                        ),
-                                        //Service row
+                                    const SizedBox(
+                                      height: 30,
+                                    ),
 
-                                        Container(
-                                          child: BookingHelper().bRow(
-                                              'null',
-                                              'Package fee',
-                                              provider.orderDetails.packageFee
-                                                  .toString()),
-                                        ),
-
-                                        Container(
-                                          child: BookingHelper().bRow(
-                                              'null',
-                                              'Extra service',
-                                              provider.orderDetails.extraService
-                                                  .toString()),
-                                        ),
-
-                                        Container(
-                                          child: BookingHelper().bRow(
-                                              'null',
-                                              'Sub total',
-                                              provider.orderDetails.subTotal
-                                                  .toString()),
-                                        ),
-
-                                        Container(
-                                          child: BookingHelper().bRow(
-                                              'null',
-                                              'Tax',
-                                              provider.orderDetails.tax
-                                                  .toString()),
-                                        ),
-
-                                        Container(
-                                          child: BookingHelper().bRow(
-                                              'null',
-                                              'Total',
-                                              provider.orderDetails.total
-                                                  .toString()),
-                                        ),
-
-                                        Container(
-                                          child: BookingHelper().bRow(
-                                              'null',
-                                              'Payment status',
-                                              provider.orderDetails
-                                                      .paymentStatus ??
-                                                  '',
-                                              lastBorder: false),
-                                        ),
-                                      ]),
-                                ),
-
-                                // Order status
-                                Container(
-                                  margin: const EdgeInsets.only(bottom: 25),
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 20),
-                                  decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(9)),
-                                  child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        CommonHelper()
-                                            .titleCommon('Order Status'),
-                                        const SizedBox(
-                                          height: 25,
-                                        ),
-                                        Container(
-                                          child: BookingHelper().bRow(
-                                              'null',
-                                              'Order status',
-                                              provider.orderStatus ?? "",
-                                              lastBorder: false),
-                                        ),
-                                      ]),
-                                ),
-
-                                //
-                              ]),
-                        )
-                      : CommonHelper().nothingfound(context, "No details found")
-                  : Container(
-                      alignment: Alignment.center,
-                      height: MediaQuery.of(context).size.height - 120,
-                      child: OthersHelper().showLoading(cc.primaryColor)),
+                                    //
+                                  ]),
+                            ),
+                          )
+                        : CommonHelper().nothingfound(
+                            context, ln.getString("No details found"))
+                    : Container(
+                        alignment: Alignment.center,
+                        height: MediaQuery.of(context).size.height - 120,
+                        child: OthersHelper().showLoading(cc.primaryColor)),
+              ),
             ),
           ),
         ));

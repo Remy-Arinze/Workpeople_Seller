@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/app_string_service.dart';
 
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
@@ -11,10 +13,12 @@ class CommonHelper {
     return AppBar(
       centerTitle: true,
       iconTheme: IconThemeData(color: cc.greyPrimary),
-      title: Text(
-        title,
-        style: TextStyle(
-            color: cc.greyPrimary, fontSize: 16, fontWeight: FontWeight.w600),
+      title: Consumer<AppStringService>(
+        builder: (context, ln, child) => Text(
+          ln.getString(title),
+          style: TextStyle(
+              color: cc.greyPrimary, fontSize: 16, fontWeight: FontWeight.w600),
+        ),
       ),
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -30,13 +34,13 @@ class CommonHelper {
 
   //common orange button =======>
   buttonPrimary(String title, VoidCallback pressed,
-      {isloading = false, bgColor}) {
+      {isloading = false, bgColor, double paddingVertical = 18}) {
     return InkWell(
       onTap: pressed,
       child: Container(
           width: double.infinity,
           alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(vertical: 18),
+          padding: EdgeInsets.symmetric(vertical: paddingVertical),
           decoration: BoxDecoration(
               color: bgColor ?? cc.primaryColor,
               borderRadius: BorderRadius.circular(8)),
@@ -72,38 +76,47 @@ class CommonHelper {
     );
   }
 
-  labelCommon(String title) {
+  labelCommon(String title,
+      {double lineHeight = 1.3, double marginBotton = 15}) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 15),
+      margin: EdgeInsets.only(bottom: marginBotton),
       child: Text(
         title,
         style: TextStyle(
           color: cc.greyThree,
           fontSize: 14,
+          height: lineHeight,
           fontWeight: FontWeight.w600,
         ),
       ),
     );
   }
 
-  paragraphCommon(String title, TextAlign textAlign) {
+  paragraphCommon(String title, TextAlign textAlign,
+      {color,
+      double fontsize = 14,
+      fontweight = FontWeight.w400,
+      double lineHeight = 1.4}) {
     return Text(
       title,
       textAlign: textAlign,
       style: TextStyle(
-        color: cc.greyParagraph,
-        height: 1.4,
-        fontSize: 14,
-        fontWeight: FontWeight.w400,
+        color: color ?? cc.greyParagraph,
+        height: lineHeight,
+        fontSize: fontsize,
+        fontWeight: fontweight,
       ),
     );
   }
 
-  titleCommon(String title) {
+  titleCommon(String title, {double fontsize = 18, lineheight = 1.5, color}) {
     return Text(
       title,
       style: TextStyle(
-          color: cc.greyPrimary, fontSize: 18, fontWeight: FontWeight.bold),
+          color: color ?? cc.greyPrimary,
+          fontSize: fontsize,
+          height: lineheight,
+          fontWeight: FontWeight.bold),
     );
   }
 

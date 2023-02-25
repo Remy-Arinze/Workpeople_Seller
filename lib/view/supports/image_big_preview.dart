@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:qixer_seller/utils/responsive.dart';
 
 class ImageBigPreviewPage extends StatelessWidget {
   const ImageBigPreviewPage({Key? key, this.networkImgLink, this.assetImgLink})
@@ -12,7 +11,8 @@ class ImageBigPreviewPage extends StatelessWidget {
   final assetImgLink;
   @override
   Widget build(BuildContext context) {
-    print('network image $networkImgLink');
+    var screenWidth = MediaQuery.of(context).size.height;
+    var screenHeight = MediaQuery.of(context).size.height;
     GlobalKey<ScaffoldState> _bigPagekey = GlobalKey<ScaffoldState>();
     return Scaffold(
       key: _bigPagekey,

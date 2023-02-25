@@ -1,9 +1,9 @@
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:qixer_seller/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../utils/others_helper.dart';
-import '../../view/auth/login/login.dart';
 import '../common_service.dart';
 
 class LogoutService with ChangeNotifier {
@@ -24,11 +24,8 @@ class LogoutService with ChangeNotifier {
     if (connection) {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var token = prefs.getString('token');
-
       var header = {
-        //if header type is application/json then the data should be in jsonEncode method
         "Accept": "application/json",
-        // "Content-Type": "application/json",
         "Authorization": "Bearer $token",
       };
 
@@ -45,16 +42,10 @@ class LogoutService with ChangeNotifier {
         Navigator.pushAndRemoveUntil<dynamic>(
           context,
           MaterialPageRoute<dynamic>(
-            builder: (BuildContext context) => const LoginPage(),
+            builder: (BuildContext context) => const MyApp(),
           ),
           (route) => false,
         );
-
-        // clear profile data =====>
-        // Future.delayed(const Duration(microseconds: 5500), () {
-        //   Provider.of<ProfileService>(context, listen: false)
-        //       .setEverythingToDefault();
-        // });
 
         clear();
       } else {

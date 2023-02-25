@@ -14,11 +14,11 @@ class OthersHelper with ChangeNotifier {
     );
   }
 
-  showError(BuildContext context) {
+  showError(BuildContext context, {String message = "Something went wrong"}) {
     return Container(
         height: MediaQuery.of(context).size.height - 180,
         alignment: Alignment.center,
-        child: const Text("Something went wrong"));
+        child: Text(message));
   }
 
   void showToast(String msg, Color? color) {
@@ -56,40 +56,11 @@ class OthersHelper with ChangeNotifier {
   }
 }
 
+String placeHolderUrl = 'https://i.postimg.cc/3RKkSRDb/placeholder.png';
+
+String userPlaceHolderUrl =
+    'https://i.postimg.cc/ZYQp5Xv1/blank-profile-picture-gb26b7fbdf-1280.png';
+
 String baseApi = 'https://bytesed.com/laravel/qixer/api/v1';
 
-List colors = [
-  const Color(0xffFF6B2C),
-  const Color(0xff65C18C),
-  const Color(0xffFFC300),
-  const Color(0xff64BA10)
-];
-
-getCategoryIconColor(int i) {}
-
-getLineAwsome(String lineIcon) {
-  var a = lineIcon.split(' ');
-  var splitLa = a[1].substring(3);
-  var b = 'LineAwesomeIcons.$splitLa';
-
-  // print(b);
-  // print(LineAwesomeIcons.accessible_icon.codePoint);
-}
-
-// categoryIconList(int i) {
-//   List icons = [
-//     LineAwesomeIcons.charging_station,
-//     LineAwesomeIcons.toilet,
-//     LineAwesomeIcons.people_carry,
-//     LineAwesomeIcons.paint_roller,
-//     LineAwesomeIcons.scissors__hand_,
-//     LineAwesomeIcons.accessible_icon,
-//   ];
-//   if (i < icons.length) {
-//     return icons[i];
-//   } else {
-//     return LineAwesomeIcons.accessible_icon;
-//   }
-// }
-
-String placeHolderUrl = 'https://i.postimg.cc/3RKkSRDb/placeholder.png';
+// String baseApi = 'https://beefinder.es/api/v1';

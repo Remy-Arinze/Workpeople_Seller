@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/payout_history_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
@@ -101,12 +100,5 @@ class PayoutHistoryService with ChangeNotifier {
     }
 
     notifyListeners();
-  }
-
-  formatDate(inputDate) {
-    var outputFormat = DateFormat('MM/dd/yyyy');
-    var outputDate = outputFormat.format(inputDate);
-    print(outputDate);
-    return outputDate;
   }
 }

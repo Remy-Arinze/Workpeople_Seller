@@ -1,11 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:qixer_seller/model/chart_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 
 class ChartService with ChangeNotifier {
   List chartDataListMap = [];
@@ -74,9 +74,8 @@ class ChartService with ChangeNotifier {
   calculateSaleWithinSix(constValue, dataList) {
     for (int i = 0; i < dataList.length; i++) {
       var newData = dataList[i].totalOrder / constValue;
-      print('new value' + newData.toString());
-      if (newData < 0) {
-        newData = 0;
+      if (newData < 0 || newData.toString() == 'NaN') {
+        newData = 0.0;
       }
       chartDataListMap
           .add({'monthName': dataList[i].monthName, 'orders': newData});
@@ -98,7 +97,6 @@ class ChartService with ChangeNotifier {
         smallestGeekValue = data[i].totalOrder;
       }
     }
-    print('largest value' + largestGeekValue.toString());
     return largestGeekValue;
   }
 }

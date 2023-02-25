@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 import 'package:qixer_seller/utils/constant_styles.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
-import 'package:qixer_seller/view/orders/booking_helper.dart';
+import 'package:qixer_seller/view/orders/payment_helper.dart';
 import 'package:qixer_seller/view/profile/profile_edit.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -35,192 +36,196 @@ class _ProfilePageState extends State<ProfilePage> {
             physics: physicsCommon,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: screenPadding),
-              child: Consumer<ProfileService>(
-                builder: (context, profileProvider, child) => profileProvider
-                            .profileDetails !=
-                        null
-                    ? profileProvider.profileDetails != 'error'
-                        ? Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: screenPadding),
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      //profile image, name ,desc
-                                      Container(
-                                        alignment: Alignment.center,
-                                        width: double.infinity,
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          children: [
-                                            const SizedBox(
-                                              height: 10,
-                                            ),
-                                            //Profile image section =======>
-                                            InkWell(
-                                              highlightColor:
-                                                  Colors.transparent,
-                                              splashColor: Colors.transparent,
-                                              onTap: () {
-                                                Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute<void>(
-                                                    builder: (BuildContext
-                                                            context) =>
-                                                        const ProfileEditPage(),
-                                                  ),
-                                                );
-                                              },
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  profileProvider
-                                                              .profileImage !=
-                                                          null
-                                                      ? CommonHelper()
-                                                          .profileImage(
-                                                              profileProvider
-                                                                  .profileImage
-                                                                  .imgUrl,
-                                                              62,
-                                                              62)
-                                                      : ClipRRect(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(8),
-                                                          child: Image.asset(
-                                                            'assets/images/avatar.png',
-                                                            height: 62,
-                                                            width: 62,
-                                                            fit: BoxFit.cover,
-                                                          ),
-                                                        ),
-
-                                                  const SizedBox(
-                                                    height: 12,
-                                                  ),
-
-                                                  //user name
-                                                  CommonHelper().titleCommon(
-                                                      profileProvider
-                                                              .profileDetails
-                                                              .name ??
-                                                          ''),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  //phone
-                                                  CommonHelper()
-                                                      .paragraphCommon(
-                                                          profileProvider
-                                                              .profileDetails
-                                                              .phone
-                                                              .toString(),
-                                                          TextAlign.center),
-                                                  const SizedBox(
-                                                    height: 5,
-                                                  ),
-                                                  CommonHelper().paragraphCommon(
-                                                      profileProvider
-                                                              .profileDetails
-                                                              .about ??
-                                                          '',
-                                                      TextAlign.center)
-                                                ],
+              child: Consumer<AppStringService>(
+                builder: (context, ln, child) => Consumer<ProfileService>(
+                  builder: (context, profileProvider, child) => profileProvider
+                              .profileDetails !=
+                          null
+                      ? profileProvider.profileDetails != 'error'
+                          ? Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenPadding),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        //profile image, name ,desc
+                                        Container(
+                                          alignment: Alignment.center,
+                                          width: double.infinity,
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            children: [
+                                              const SizedBox(
+                                                height: 10,
                                               ),
-                                            ),
+                                              //Profile image section =======>
+                                              InkWell(
+                                                highlightColor:
+                                                    Colors.transparent,
+                                                splashColor: Colors.transparent,
+                                                onTap: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute<void>(
+                                                      builder: (BuildContext
+                                                              context) =>
+                                                          const ProfileEditPage(),
+                                                    ),
+                                                  );
+                                                },
+                                                child: Column(
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.center,
+                                                  children: [
+                                                    profileProvider
+                                                                .profileImage !=
+                                                            null
+                                                        ? CommonHelper()
+                                                            .profileImage(
+                                                                profileProvider
+                                                                    .profileImage
+                                                                    .imgUrl,
+                                                                62,
+                                                                62)
+                                                        : ClipRRect(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        8),
+                                                            child: Image.asset(
+                                                              'assets/images/avatar.png',
+                                                              height: 62,
+                                                              width: 62,
+                                                              fit: BoxFit.cover,
+                                                            ),
+                                                          ),
 
-                                            //Grid cards
-                                          ],
+                                                    const SizedBox(
+                                                      height: 12,
+                                                    ),
+
+                                                    //user name
+                                                    CommonHelper().titleCommon(
+                                                        profileProvider
+                                                                .profileDetails
+                                                                .name ??
+                                                            ''),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    //phone
+                                                    CommonHelper()
+                                                        .paragraphCommon(
+                                                            profileProvider
+                                                                .profileDetails
+                                                                .phone
+                                                                .toString(),
+                                                            TextAlign.center),
+                                                    const SizedBox(
+                                                      height: 5,
+                                                    ),
+                                                    CommonHelper().paragraphCommon(
+                                                        profileProvider
+                                                                .profileDetails
+                                                                .about ??
+                                                            '',
+                                                        TextAlign.center)
+                                                  ],
+                                                ),
+                                              ),
+
+                                              //Grid cards
+                                            ],
+                                          ),
                                         ),
-                                      ),
 
-                                      //
-                                    ]),
-                              ),
+                                        //
+                                      ]),
+                                ),
 
-                              const SizedBox(
-                                height: 10,
-                              ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
 
-                              // Personal information ==========>
-                              Container(
-                                padding: EdgeInsets.symmetric(
-                                    horizontal: screenPadding),
-                                child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      const SizedBox(
-                                        height: 25,
-                                      ),
-                                      BookingHelper().bRow(
-                                          'null',
-                                          'Email',
-                                          profileProvider
-                                                  .profileDetails.email ??
-                                              ''),
-                                      BookingHelper().bRow(
-                                          'null',
-                                          'City',
-                                          profileProvider.profileDetails.city
-                                                  .serviceCity ??
-                                              ''),
-                                      BookingHelper().bRow(
-                                          'null',
-                                          'Area',
-                                          profileProvider.profileDetails.area
-                                                  .serviceArea ??
-                                              ''),
-                                      BookingHelper().bRow(
-                                          'null',
-                                          'Country',
-                                          profileProvider.profileDetails.country
-                                                  .country ??
-                                              ''),
-                                      BookingHelper().bRow(
-                                          'null',
-                                          'Post Code',
-                                          profileProvider
-                                                  .profileDetails.postCode ??
-                                              ''),
-                                      BookingHelper().bRow(
-                                          'null',
-                                          'Address',
-                                          profileProvider
-                                                  .profileDetails.address ??
-                                              '',
-                                          lastBorder: false),
-                                    ]),
-                              ),
+                                // Personal information ==========>
+                                Container(
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: screenPadding),
+                                  child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        const SizedBox(
+                                          height: 25,
+                                        ),
+                                        PaymentHelper().bRow(
+                                            'null',
+                                            ln.getString('Email'),
+                                            profileProvider
+                                                    .profileDetails.email ??
+                                                ''),
+                                        PaymentHelper().bRow(
+                                            'null',
+                                            ln.getString('City'),
+                                            profileProvider.profileDetails.city
+                                                    .serviceCity ??
+                                                ''),
+                                        PaymentHelper().bRow(
+                                            'null',
+                                            ln.getString('Area'),
+                                            profileProvider.profileDetails.area
+                                                    .serviceArea ??
+                                                ''),
+                                        PaymentHelper().bRow(
+                                            'null',
+                                            ln.getString('Country'),
+                                            profileProvider.profileDetails
+                                                    .country.country ??
+                                                ''),
+                                        PaymentHelper().bRow(
+                                            'null',
+                                            ln.getString('Post Code'),
+                                            profileProvider
+                                                    .profileDetails.postCode ??
+                                                ''),
+                                        PaymentHelper().bRow(
+                                            'null',
+                                            ln.getString('Address'),
+                                            profileProvider
+                                                    .profileDetails.address ??
+                                                '',
+                                            lastBorder: false),
+                                      ]),
+                                ),
 
-                              const SizedBox(
-                                height: 30,
-                              ),
+                                const SizedBox(
+                                  height: 30,
+                                ),
 
-                              CommonHelper().buttonPrimary('Edit Profile', () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute<void>(
-                                    builder: (BuildContext context) =>
-                                        const ProfileEditPage(),
-                                  ),
-                                );
-                              })
-                            ],
-                          )
-                        : OthersHelper().showError(context)
-                    : Container(
-                        alignment: Alignment.center,
-                        height: MediaQuery.of(context).size.height - 150,
-                        child: OthersHelper().showLoading(cc.primaryColor),
-                      ),
+                                CommonHelper().buttonPrimary(
+                                    ln.getString('Edit Profile'), () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute<void>(
+                                      builder: (BuildContext context) =>
+                                          const ProfileEditPage(),
+                                    ),
+                                  );
+                                })
+                              ],
+                            )
+                          : OthersHelper().showError(context)
+                      : Container(
+                          alignment: Alignment.center,
+                          height: MediaQuery.of(context).size.height - 150,
+                          child: OthersHelper().showLoading(cc.primaryColor),
+                        ),
+                ),
               ),
             ),
           ),

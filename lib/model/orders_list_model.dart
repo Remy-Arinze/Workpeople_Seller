@@ -157,7 +157,7 @@ class Datum {
   int? couponAmount;
   String? commissionType;
   int? commissionCharge;
-  double? commissionAmount;
+  var commissionAmount;
   String? paymentGateway;
   String? paymentStatus;
   int? status;
@@ -170,46 +170,46 @@ class Datum {
   DateTime? updatedAt;
   String? manualPaymentImage;
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
-        id: json["id"],
-        serviceId: json["service_id"],
-        sellerId: json["seller_id"],
-        buyerId: json["buyer_id"],
-        name: json["name"],
-        email: json["email"],
-        phone: json["phone"],
-        postCode: json["post_code"],
-        address: json["address"],
-        city: json["city"],
-        area: json["area"],
-        country: json["country"],
-        date: json["date"],
-        schedule: json["schedule"],
-        packageFee: json["package_fee"].toDouble(),
-        extraService: json["extra_service"],
-        subTotal: json["sub_total"].toDouble(),
-        tax: json["tax"].toDouble(),
-        total: json["total"].toDouble(),
-        couponCode: json["coupon_code"],
-        couponType: json["coupon_type"],
-        couponAmount: json["coupon_amount"],
-        commissionType: json["commission_type"],
-        commissionCharge: json["commission_charge"],
-        commissionAmount: json["commission_amount"].toDouble(),
-        paymentGateway: json["payment_gateway"],
-        paymentStatus: json["payment_status"],
-        status: json["status"],
-        isOrderOnline: json["is_order_online"],
-        orderCompleteRequest: json["order_complete_request"],
-        cancelOrderMoneyReturn: json["cancel_order_money_return"],
-        transactionId: json["transaction_id"],
-        orderNote: json["order_note"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        manualPaymentImage: json["manual_payment_image"],
+  factory Datum.fromJson(Map<String, dynamic>? json) => Datum(
+        id: json?["id"],
+        serviceId: json?["service_id"],
+        sellerId: json?["seller_id"],
+        buyerId: json?["buyer_id"],
+        name: json?["name"],
+        email: json?["email"],
+        phone: json?["phone"],
+        postCode: json?["post_code"],
+        address: json?["address"],
+        city: json?["city"],
+        area: json?["area"],
+        country: json?["country"],
+        date: json?["date"],
+        schedule: json?["schedule"],
+        packageFee: json?["package_fee"].toDouble(),
+        extraService: json?["extra_service"],
+        subTotal: json?["sub_total"].toDouble(),
+        tax: json?["tax"].toDouble(),
+        total: json?["total"].toDouble(),
+        couponCode: json?["coupon_code"],
+        couponType: json?["coupon_type"],
+        couponAmount: json?["coupon_amount"],
+        commissionType: json?["commission_type"],
+        commissionCharge: json?["commission_charge"],
+        commissionAmount: json?["commission_amount"]?.toDouble(),
+        paymentGateway: json?["payment_gateway"],
+        paymentStatus: json?["payment_status"],
+        status: json?["status"],
+        isOrderOnline: json?["is_order_online"],
+        orderCompleteRequest: json?["order_complete_request"],
+        cancelOrderMoneyReturn: json?["cancel_order_money_return"],
+        transactionId: json?["transaction_id"],
+        orderNote: json?["order_note"],
+        createdAt: DateTime.parse(json?["created_at"]),
+        updatedAt: DateTime.parse(json?["updated_at"]),
+        manualPaymentImage: json?["manual_payment_image"],
       );
 
-  Map<String, dynamic> toJson() => {
+  Map<String?, dynamic>? toJson() => {
         "id": id,
         "service_id": serviceId,
         "seller_id": sellerId,
@@ -242,10 +242,10 @@ class Datum {
         "order_complete_request": orderCompleteRequest,
         "cancel_order_money_return": cancelOrderMoneyReturn,
         "transaction_id": transactionId,
-        "order_note": orderNote ?? null,
+        "order_note": orderNote,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-        "manual_payment_image": manualPaymentImage ?? null,
+        "manual_payment_image": manualPaymentImage,
       };
 }
 

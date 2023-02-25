@@ -1,10 +1,13 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/orders_list_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
+import 'package:qixer_seller/services/order_details_service.dart';
+import 'package:qixer_seller/services/profile_service.dart';
+import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,6 +16,12 @@ class OrdersService with ChangeNotifier {
 
   late int totalPages;
   int currentPage = 1;
+
+  setDefault() {
+    currentPage = 1;
+    allOrdersList = [];
+    notifyListeners();
+  }
 
   setCurrentPage(newValue) {
     currentPage = newValue;
@@ -92,5 +101,227 @@ class OrdersService with ChangeNotifier {
     }
 
     notifyListeners();
+  }
+
+  // request buyer to mark order complete
+  // =====================>
+
+  bool markLoading = false;
+
+  setMarkLoadingStatus(bool status) {
+    markLoading = status;
+    notifyListeners();
+  }
+
+  requestToComplete(BuildContext context,
+      {required orderId, required buyerId}) async {
+    //get user id
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var connection = await checkConnection();
+    if (!connection) return;
+
+    setMarkLoadingStatus(true);
+
+    var data = jsonEncode({'status': 2, 'order_id': orderId});
+
+    var response = await http.post(
+        Uri.parse('$baseApi/seller/my-orders/status/complete/request'),
+        headers: header,
+        body: data);
+
+    final decodedData = jsonDecode(response.body);
+
+    if (response.statusCode == 201) {
+      //Send notification
+      var username = Provider.of<ProfileService>(context, listen: false)
+              .profileDetails
+              .name ??
+          '';
+
+      PushNotificationService().sendNotificationToBuyer(context,
+          buyerId: buyerId,
+          title: '$username requested to mark his order complete.',
+          body: "Order id: $orderId");
+
+      setMarkLoadingStatus(false);
+
+      OthersHelper().showToast(decodedData['msg'], Colors.black);
+    } else {
+      setMarkLoadingStatus(false);
+
+      if (decodedData.containsKey('msg')) {
+        OthersHelper().showToast(decodedData['msg'], Colors.black);
+      } else {
+        OthersHelper().showToast('Something went wrong', Colors.black);
+      }
+    }
+  }
+
+  //make payment status complete
+  // ==============>
+
+  bool payLoadingStatus = false;
+
+  setPayLoadingStatus(bool status) {
+    payLoadingStatus = status;
+    notifyListeners();
+  }
+
+  makePaymentStatusComplete(BuildContext context, {required orderId}) async {
+    //get user id
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var connection = await checkConnection();
+    if (!connection) return;
+
+    setPayLoadingStatus(true);
+
+    var data = jsonEncode({'id': orderId});
+
+    var response = await http.post(
+        Uri.parse('$baseApi/seller/my-orders/order/change-payment-status'),
+        headers: header,
+        body: data);
+
+    final decodedData = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      await Provider.of<OrderDetailsService>(context, listen: false)
+          .fetchOrderDetails(orderId, context);
+
+      setPayLoadingStatus(false);
+
+      Navigator.pop(context);
+
+      OthersHelper().showToast(decodedData['msg'], Colors.black);
+    } else {
+      setPayLoadingStatus(false);
+
+      if (decodedData.containsKey('msg')) {
+        OthersHelper().showToast(decodedData['msg'], Colors.black);
+      } else {
+        OthersHelper().showToast('Something went wrong', Colors.black);
+      }
+    }
+  }
+
+  // decline history
+  // =====================>
+
+  var declineHistory;
+
+  bool loadingDeclineHistory = false;
+
+  setLoadingDeclineHistoryStatus(bool status) {
+    loadingDeclineHistory = status;
+    notifyListeners();
+  }
+
+  fetchDeclineHistory(BuildContext context, {required orderId}) async {
+    //get user id
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      // "Accept": "application/json",
+      // "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var connection = await checkConnection();
+    if (!connection) return;
+
+    setLoadingDeclineHistoryStatus(true);
+
+    var response = await http.get(
+      Uri.parse(
+          '$baseApi/seller/my-orders/order/request/complete/decline/history?order_id=$orderId'),
+      headers: header,
+    );
+
+    setLoadingDeclineHistoryStatus(false);
+
+    final decodedData = jsonDecode(response.body);
+
+    if (response.statusCode == 201) {
+      declineHistory = decodedData;
+      notifyListeners();
+    } else {
+      //error
+
+      declineHistory = null;
+      notifyListeners();
+    }
+  }
+
+  //Cancel order
+  // ===========>
+
+  bool cancelLoading = false;
+
+  setCancelLoadingStatus(bool status) {
+    cancelLoading = status;
+    notifyListeners();
+  }
+
+  cancelOrder(BuildContext context, {required orderId}) async {
+    //get user id
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var token = prefs.getString('token');
+
+    var header = {
+      //if header type is application/json then the data should be in jsonEncode method
+      "Accept": "application/json",
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token",
+    };
+
+    var data = jsonEncode({"id": orderId});
+
+    var connection = await checkConnection();
+    if (!connection) return;
+
+    setCancelLoadingStatus(true);
+
+    var response = await http.post(
+        Uri.parse('$baseApi/seller/my-orders/order/change-status'),
+        headers: header,
+        body: data);
+
+    print(response.body);
+    print(response.statusCode);
+
+    setCancelLoadingStatus(false);
+
+    if (response.statusCode == 500) {
+      OthersHelper().showToast('Order cancelled', Colors.black);
+
+      setDefault();
+
+      fetchAllOrders(context);
+
+      Navigator.pop(context);
+    } else {
+      OthersHelper()
+          .showSnackBar(context, 'Something went wrong', Colors.black);
+    }
   }
 }

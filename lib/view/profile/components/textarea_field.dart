@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
 
 class TextareaField extends StatelessWidget {
-  const TextareaField({Key? key, this.notesController, this.hintText})
+  const TextareaField(
+      {Key? key, required this.notesController, required this.hintText})
       : super(key: key);
   final notesController;
   final hintText;

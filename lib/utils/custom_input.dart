@@ -12,6 +12,7 @@ class CustomInput extends StatelessWidget {
   final bool isNumberField;
   final String? icon;
   final double paddingHorizontal;
+  final double marginBottom;
   TextEditingController? controller;
 
   CustomInput(
@@ -25,13 +26,14 @@ class CustomInput extends StatelessWidget {
       this.controller,
       this.validation,
       this.icon,
-      this.paddingHorizontal = 8.0})
+      this.paddingHorizontal = 8.0,
+      this.marginBottom = 19})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-        margin: const EdgeInsets.only(bottom: 19),
+        margin: EdgeInsets.only(bottom: marginBottom),
         decoration: BoxDecoration(
             // color: const Color(0xfff2f2f2),
             borderRadius: BorderRadius.circular(10)),

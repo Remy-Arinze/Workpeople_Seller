@@ -64,7 +64,7 @@ class DashboardService with ChangeNotifier {
         dashboardDataList.add(data.pendingOrder);
         dashboardDataList.add(data.completedOrder);
         dashboardDataList.add(data.totalWithdrawnMoney);
-        dashboardDataList.add(data.remainingBalance);
+        dashboardDataList.add(data.remainingBalance.toStringAsFixed(2));
 
         notifyListeners();
       } else {

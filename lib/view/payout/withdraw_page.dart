@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/services/payment_gateway_list_service.dart';
+import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/withdraw_service.dart';
 import 'package:qixer_seller/utils/common_helper.dart';
 import 'package:qixer_seller/utils/constant_colors.dart';
@@ -29,8 +29,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
 
   @override
   Widget build(BuildContext context) {
-    Provider.of<PaymentGatewayListService>(context, listen: false)
-        .fetchGatewayList();
+    Provider.of<WithdrawService>(context, listen: false).fetchGatewayList();
 
     Provider.of<WithdrawService>(context, listen: false)
         .getMinMaxAmount(context);
@@ -55,8 +54,8 @@ class _WithdrawPageState extends State<WithdrawPage> {
             },
             child: SingleChildScrollView(
               physics: physicsCommon,
-              child: Consumer<PaymentGatewayListService>(
-                builder: (context, provider, child) => Form(
+              child: Consumer<AppStringService>(
+                builder: (context, ln, child) => Form(
                   key: _formKey,
                   child: Container(
                     padding: EdgeInsets.symmetric(
@@ -70,8 +69,9 @@ class _WithdrawPageState extends State<WithdrawPage> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CommonHelper().labelCommon("Gateway"),
-                                provider.paymentDropdownList.isNotEmpty
+                                CommonHelper()
+                                    .labelCommon(ln.getString("Gateway")),
+                                wProvider.paymentDropdownList.isNotEmpty
                                     ? Container(
                                         width: double.infinity,
                                         padding: const EdgeInsets.symmetric(
@@ -86,7 +86,7 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                           child: DropdownButton<String>(
                                             // menuMaxHeight: 200,
                                             // isExpanded: true,
-                                            value: provider.selectedPayment,
+                                            value: wProvider.selectedPayment,
                                             icon: Icon(
                                                 Icons
                                                     .keyboard_arrow_down_rounded,
@@ -96,16 +96,18 @@ class _WithdrawPageState extends State<WithdrawPage> {
                                             style:
                                                 TextStyle(color: cc.greyFour),
                                             onChanged: (newValue) {
-                                              provider
+                                              wProvider
                                                   .setgatewayValue(newValue);
 
                                               //setting the id of selected value
-                                              provider.setSelectedgatewayId(provider
-                                                      .paymentDropdownIndexList[
-                                                  provider.paymentDropdownList
-                                                      .indexOf(newValue!)]);
+                                              wProvider.setSelectedgatewayId(
+                                                  wProvider
+                                                          .paymentDropdownIndexList[
+                                                      wProvider
+                                                          .paymentDropdownList
+                                                          .indexOf(newValue!)]);
                                             },
-                                            items: provider.paymentDropdownList
+                                            items: wProvider.paymentDropdownList
                                                 .map<DropdownMenuItem<String>>(
                                                     (value) {
                                               return DropdownMenuItem(
@@ -132,17 +134,17 @@ class _WithdrawPageState extends State<WithdrawPage> {
                               ],
                             ),
 
-                            sizedBox20(),
-                            CommonHelper().labelCommon("Amount"),
+                            sizedBoxCustom(20),
+                            CommonHelper().labelCommon(ln.getString("Amount")),
                             CustomInput(
                               controller: amountController,
                               validation: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter an amount';
+                                  return ln.getString('Please enter an amount');
                                 }
                                 return null;
                               },
-                              hintText: "Amount",
+                              hintText: ln.getString("Amount"),
                               isNumberField: true,
                               // icon: 'assets/icons/user.png',
                               paddingHorizontal: 18,
@@ -151,16 +153,18 @@ class _WithdrawPageState extends State<WithdrawPage> {
                             const SizedBox(
                               height: 7,
                             ),
-                            CommonHelper().labelCommon("Note"),
+                            CommonHelper().labelCommon(ln.getString("Note")),
 
                             TextareaField(
-                              hintText: 'Note',
+                              hintText: ln.getString('Note'),
                               notesController: noteController,
                             ),
 
-                            sizedBox20(),
+                            sizedBoxCustom(20),
                             Text(
-                              'You can make a request only if your remaining balance in a range set by the site admin. Like admin set minimum request amount ${wProvider.minAmount} and maximum request amount ${wProvider.maxAmount}. then you can request a payment between ${wProvider.minAmount} to ${wProvider.maxAmount}.',
+                              ln.getString(
+                                      'You can make a request only if your remaining balance in a range set by the site admin. Like admin set minimum request amount') +
+                                  ' ${wProvider.minAmount} ${ln.getString("and maximum request amount")} ${wProvider.maxAmount}. ${ln.getString("then you can request a payment between")} ${wProvider.minAmount} ${ln.getString("to")} ${wProvider.maxAmount}.',
                               style: const TextStyle(
                                   color: Colors.red, fontSize: 13, height: 1.4),
                             ),
@@ -171,10 +175,12 @@ class _WithdrawPageState extends State<WithdrawPage> {
                               height: 30,
                             ),
 
-                            CommonHelper().buttonPrimary('Withdraw', () {
+                            CommonHelper().buttonPrimary(
+                                ln.getString('Withdraw'), () {
                               if (noteController.text.isEmpty) {
                                 OthersHelper().showToast(
-                                    'Please enter a note', Colors.black);
+                                    ln.getString('Please enter a note'),
+                                    Colors.black);
                                 return;
                               }
                               if (_formKey.currentState!.validate()) {
