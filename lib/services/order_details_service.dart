@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/model/order_details_model.dart';
 import 'package:qixer_seller/model/order_extra_model.dart';
 import 'package:qixer_seller/services/orders_service.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import 'common_service.dart';

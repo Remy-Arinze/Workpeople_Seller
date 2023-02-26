@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/splash_service.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 
-import '../../utils/responsive.dart';
+import '../view/utils/responsive.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);

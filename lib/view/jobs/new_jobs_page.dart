@@ -4,10 +4,10 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/jobs/job_details_service.dart';
 import 'package:qixer_seller/services/jobs/new_jobs_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:qixer_seller/view/jobs/job_details_page.dart';
 
 class NewJobsPage extends StatefulWidget {

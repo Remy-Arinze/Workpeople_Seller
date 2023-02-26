@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
 
 class OthersHelper with ChangeNotifier {
   ConstantColors cc = ConstantColors();

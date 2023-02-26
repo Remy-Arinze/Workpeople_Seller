@@ -6,7 +6,7 @@ import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/dashboard_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payout_history_service.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 

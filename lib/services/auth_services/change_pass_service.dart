@@ -3,10 +3,10 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:qixer_seller/services/auth_services/signup_service.dart';
 import 'package:qixer_seller/services/common_service.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../utils/others_helper.dart';
+import '../../view/utils/others_helper.dart';
 
 class ChangePassService with ChangeNotifier {
   bool isloading = false;

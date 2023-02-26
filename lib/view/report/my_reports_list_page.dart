@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/report_services/report_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
 
 class MyReportsListPage extends StatefulWidget {
   const MyReportsListPage({Key? key}) : super(key: key);
@@ -77,8 +77,7 @@ class _MyReportsListPageState extends State<MyReportsListPage> {
             child: SingleChildScrollView(
               physics: physicsCommon,
               child: Consumer<AppStringService>(
-                builder: (context, asProvider, child) => Consumer<
-                        ReportService>(
+                builder: (context, ln, child) => Consumer<ReportService>(
                     builder: (context, provider, child) => provider
                             .reportList.isNotEmpty
                         ? Container(
@@ -114,7 +113,7 @@ class _MyReportsListPageState extends State<MyReportsListPage> {
                                                 // width: screenWidth - 200,
                                                 child:
                                                     CommonHelper().labelCommon(
-                                                  'Report id: ' +
+                                                  '${ln.getString("Report id")}: ' +
                                                       provider.reportList[i]
                                                               ['id']
                                                           .toString(),
@@ -137,7 +136,7 @@ class _MyReportsListPageState extends State<MyReportsListPage> {
                                           ),
 
                                           CommonHelper().labelCommon(
-                                            'Order id: ' +
+                                            '${ln.getString("Order id")}: ' +
                                                 provider.reportList[i]
                                                         ['orderId']
                                                     .toString(),
@@ -147,8 +146,8 @@ class _MyReportsListPageState extends State<MyReportsListPage> {
                               ],
                             ),
                           )
-                        : CommonHelper().nothingfound(
-                            context, asProvider.getString('No Report'))),
+                        : CommonHelper()
+                            .nothingfound(context, ln.getString('No Report'))),
               ),
             ),
           ),

@@ -7,7 +7,7 @@ import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:http/http.dart' as http;
 

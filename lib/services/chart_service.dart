@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:qixer_seller/model/chart_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChartService with ChangeNotifier {
@@ -63,7 +63,6 @@ class ChartService with ChangeNotifier {
       } else {
         print("error fetching chart data " + response.body);
         //Login unsuccessful ==========>
-
       }
     } else {
       //internet off

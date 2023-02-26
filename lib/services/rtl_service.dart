@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 
 class RtlService with ChangeNotifier {
   /// RTL support

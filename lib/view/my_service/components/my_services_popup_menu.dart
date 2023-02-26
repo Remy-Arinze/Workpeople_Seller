@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/my_services/attribute_service.dart';
 import 'package:qixer_seller/view/my_service/add_attribute_page.dart';
 import 'package:qixer_seller/view/my_service/components/my_service_helper.dart';
@@ -44,7 +45,9 @@ class MyServicesPopupMenu extends StatelessWidget {
                     },
                   );
                 },
-                child: Text(popupMenuList[i]),
+                child: Consumer<AppStringService>(
+                    builder: (context, ln, child) =>
+                        Text(ln.getString(popupMenuList[i]))),
               ),
           ],
         ),

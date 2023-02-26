@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 
-import '../../../utils/constant_colors.dart';
+import '../../utils/constant_colors.dart';
 
 class SectionTitle extends StatelessWidget {
   const SectionTitle({

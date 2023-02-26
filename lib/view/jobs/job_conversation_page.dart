@@ -6,9 +6,9 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/jobs/job_conversation_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class JobConversationPage extends StatefulWidget {

@@ -13,9 +13,9 @@ import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/live_chat/chat_message_service.dart';
 import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 
 class ChatMessagePage extends StatefulWidget {
   const ChatMessagePage({

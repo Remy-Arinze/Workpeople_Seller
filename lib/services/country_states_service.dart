@@ -8,7 +8,7 @@ import 'package:qixer_seller/model/area_dropdown_model.dart';
 import 'package:qixer_seller/model/country_dropdown_model.dart';
 import 'package:qixer_seller/model/states_dropdown_model.dart';
 import 'package:qixer_seller/services/profile_service.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 
 class CountryStatesService with ChangeNotifier {
   var countryDropdownList = [];

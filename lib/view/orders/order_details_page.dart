@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
 import 'package:qixer_seller/services/orders_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/orders/components/amount_details.dart';
 import 'package:qixer_seller/view/orders/components/buyer_details.dart';
 import 'package:qixer_seller/view/orders/components/date_schedule.dart';
@@ -13,7 +13,7 @@ import 'package:qixer_seller/view/orders/components/decline_history.dart';
 import 'package:qixer_seller/view/orders/components/order_extras.dart';
 import 'package:qixer_seller/view/orders/components/order_status.dart';
 import 'package:qixer_seller/view/orders/orders_helper.dart';
-import '../../utils/others_helper.dart';
+import '../utils/others_helper.dart';
 
 class OrderDetailsPage extends StatefulWidget {
   const OrderDetailsPage({
@@ -86,8 +86,8 @@ class _OrdersDetailsPageState extends State<OrderDetailsPage> {
                                                 //     50,
                                                 //     50),
                                                 Text(
-                                                  ln.getString("Order ID:") +
-                                                      " ${provider.orderDetails.id}",
+                                                  ln.getString("Order ID") +
+                                                      ": ${provider.orderDetails.id}",
                                                   style: TextStyle(
                                                     color: cc.primaryColor,
                                                     fontSize: 14,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
 
 class TextareaField extends StatelessWidget {
   const TextareaField(

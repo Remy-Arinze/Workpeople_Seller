@@ -8,11 +8,11 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/auth_services/email_verify_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
 
 import '../../../../services/auth_services/reset_password_service.dart';
-import '../../../../utils/others_helper.dart';
+import '../../../utils/others_helper.dart';
 
 class EmailVerifyPage extends StatefulWidget {
   const EmailVerifyPage(

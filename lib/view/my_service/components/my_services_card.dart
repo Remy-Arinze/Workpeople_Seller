@@ -3,9 +3,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
 
 class MyServicesCardContent extends StatelessWidget {
   const MyServicesCardContent({
@@ -36,7 +36,7 @@ class MyServicesCardContent extends StatelessWidget {
     final cc = ConstantColors();
 
     return Consumer<AppStringService>(
-      builder: (context, asProvider, child) => Row(
+      builder: (context, ln, child) => Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CommonHelper().profileImage(imageLink, 75, 78),
@@ -128,7 +128,7 @@ class MyServicesCardContent extends StatelessWidget {
                           color: Colors.green.withOpacity(.17),
                           borderRadius: BorderRadius.circular(4)),
                       child: CommonHelper().paragraphCommon(
-                        "Queue: $queued",
+                        "${ln.getString("Queue")}: $queued",
                         TextAlign.left,
                         // color: Colors.black,
                         fontsize: 13,
@@ -144,7 +144,7 @@ class MyServicesCardContent extends StatelessWidget {
                           color: Colors.orange.withOpacity(.17),
                           borderRadius: BorderRadius.circular(4)),
                       child: CommonHelper().paragraphCommon(
-                        "Completed: $completed",
+                        "${ln.getString("Completed")}: $completed",
                         TextAlign.left,
                         // color: Colors.black,
                         fontsize: 13,
@@ -166,7 +166,7 @@ class MyServicesCardContent extends StatelessWidget {
                           color: Colors.red.withOpacity(.17),
                           borderRadius: BorderRadius.circular(4)),
                       child: CommonHelper().paragraphCommon(
-                        "Cancelled: $cancelled",
+                        "${ln.getString("Cancelled")}: $cancelled",
                         TextAlign.left,
                         // color: Colors.black,
                         fontsize: 13,

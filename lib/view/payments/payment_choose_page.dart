@@ -10,10 +10,10 @@ import 'package:qixer_seller/services/payments_service/payment_details_service.d
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:qixer_seller/view/orders/payment_helper.dart';
 import 'package:qixer_seller/view/wallet/components/deposite_amount_section.dart';
 

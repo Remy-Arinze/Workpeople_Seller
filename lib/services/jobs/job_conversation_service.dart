@@ -9,8 +9,8 @@ import 'package:qixer_seller/model/job_conversation_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/services/push_notification_service.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class JobConversationService with ChangeNotifier {

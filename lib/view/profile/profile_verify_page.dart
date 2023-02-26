@@ -5,9 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/services/profile_verify_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
 
 class ProfileVerifyPage extends StatefulWidget {
   const ProfileVerifyPage({Key? key}) : super(key: key);

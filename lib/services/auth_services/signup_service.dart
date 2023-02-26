@@ -2,9 +2,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 
-import '../../utils/constant_colors.dart';
+import '../../view/utils/constant_colors.dart';
 import '../../view/auth/signup/components/email_verify_page.dart';
 import '../common_service.dart';
 import '../country_states_service.dart';

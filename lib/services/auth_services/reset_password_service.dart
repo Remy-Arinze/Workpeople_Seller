@@ -4,7 +4,7 @@ import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 
 import '../../view/auth/login/login.dart';
 import '../../view/auth/reset_password/reset_pass_otp_page.dart';

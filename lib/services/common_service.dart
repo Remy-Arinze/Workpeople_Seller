@@ -9,7 +9,7 @@ import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/services/subscription_service.dart';
 
-import '../utils/others_helper.dart';
+import '../view/utils/others_helper.dart';
 
 formatDate(inputDate) {
   var outputFormat = DateFormat('MM/dd/yyyy');

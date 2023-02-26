@@ -6,10 +6,10 @@ import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
 import 'package:qixer_seller/services/orders_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:qixer_seller/view/orders/order_details_page.dart';
 
 import 'orders_helper.dart';
@@ -115,8 +115,8 @@ class _AllOrdersPageState extends State<AllOrdersPage> {
                                               MainAxisAlignment.spaceBetween,
                                           children: [
                                             AutoSizeText(
-                                              ln.getString('Order id:') +
-                                                  ' ' +
+                                              ln.getString('Order ID') +
+                                                  ': ' +
                                                   provider.allOrdersList[i].id
                                                       .toString(),
                                               maxLines: 1,

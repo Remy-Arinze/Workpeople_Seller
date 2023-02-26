@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PushNotificationService with ChangeNotifier {

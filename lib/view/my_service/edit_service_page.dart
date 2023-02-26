@@ -4,11 +4,11 @@ import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/cat_subcat_dropdown_service_for_edit_service.dart';
 import 'package:qixer_seller/services/my_services/create_services_service.dart';
 import 'package:qixer_seller/services/my_services/my_services_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/custom_input.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/custom_input.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:qixer_seller/view/my_service/components/create_service_image_upload.dart';
 import 'package:qixer_seller/view/my_service/components/edit_service/category_dropdown_for_edit_service.dart';
 import 'package:qixer_seller/view/my_service/components/edit_service/child_category_dropdown_for_edit_service.dart';
@@ -96,142 +96,136 @@ class _EditServicePageState extends State<EditServicePage> {
           physics: physicsCommon,
           child: Consumer<CreateServicesService>(
             builder: (context, provider, child) => Consumer<MyServicesService>(
-              builder: (context, mProvider, child) =>
-                  Consumer<AppStringService>(
-                      builder: (context, asProvider, child) => Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: screenPadding, vertical: 10),
-                            child: Form(
-                              key: _formKey,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                crossAxisAlignment: CrossAxisAlignment.start,
+              builder: (context, mProvider, child) => Consumer<
+                      AppStringService>(
+                  builder: (context, ln, child) => Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: screenPadding, vertical: 10),
+                        child: Form(
+                          key: _formKey,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              //on off button
+                              Row(
                                 children: [
-                                  //on off button
-                                  Row(
-                                    children: [
-                                      CommonHelper().paragraphCommon(
-                                          'Is available to all cities and area',
-                                          TextAlign.left),
-                                      Switch(
-                                        // This bool value toggles the switch.
-                                        value: isAvailableToAllCities,
-                                        activeColor: cc.successColor,
-                                        onChanged: (bool value) {
-                                          setState(() {
-                                            isAvailableToAllCities =
-                                                !isAvailableToAllCities;
-                                          });
-                                        },
-                                      ),
-                                    ],
-                                  ),
-
-                                  sizedBoxCustom(10),
-
-                                  const CategoryDropdownForEditService(),
-
-                                  sizedBoxCustom(20),
-
-                                  const SubCategoryDropdownForEditService(),
-
-                                  sizedBoxCustom(20),
-
-                                  const ChildCategoryDropdownForEditService(),
-
-                                  sizedBoxCustom(20),
-
-                                  // Title
-                                  //============>
-                                  CommonHelper().labelCommon(
-                                      asProvider.getString("Title")),
-
-                                  CustomInput(
-                                    controller: titleController,
-                                    validation: (value) {
-                                      if (value == null || value.isEmpty) {
-                                        return 'Please enter a title';
-                                      }
-                                      return null;
+                                  CommonHelper().paragraphCommon(
+                                      ln.getString(
+                                          'Is available to all cities and area'),
+                                      TextAlign.left),
+                                  Switch(
+                                    // This bool value toggles the switch.
+                                    value: isAvailableToAllCities,
+                                    activeColor: cc.successColor,
+                                    onChanged: (bool value) {
+                                      setState(() {
+                                        isAvailableToAllCities =
+                                            !isAvailableToAllCities;
+                                      });
                                     },
-                                    hintText: asProvider.getString("Title"),
-                                    paddingHorizontal: 15,
-                                    textInputAction: TextInputAction.next,
                                   ),
-
-                                  // Video URL
-                                  //============>
-                                  CommonHelper().labelCommon(
-                                      asProvider.getString("Video URL")),
-
-                                  CustomInput(
-                                    controller: videoUrlController,
-                                    hintText: asProvider
-                                        .getString("Youtube embed code"),
-                                    paddingHorizontal: 15,
-                                    textInputAction: TextInputAction.next,
-                                  ),
-
-                                  // Description
-                                  //============>
-
-                                  CommonHelper().labelCommon(
-                                      asProvider.getString('Description')),
-                                  TextareaField(
-                                    hintText:
-                                        asProvider.getString('Description'),
-                                    notesController: descController,
-                                  ),
-
-                                  sizedBoxCustom(10),
-
-                                  CreateServiceImageUpload(
-                                    imageLink: imageLink,
-                                    isFromEditServicePage: true,
-                                  ),
-
-                                  sizedBoxCustom(20),
-
-                                  CommonHelper().buttonPrimary('Next', () {
-                                    //
-                                    if (descController.text.trim().isEmpty ||
-                                        titleController.text.trim().isEmpty) {
-                                      OthersHelper().showToast(
-                                          'You must enter a title and description',
-                                          Colors.black);
-                                      return;
-                                    }
-                                    if (descController.text.length < 150) {
-                                      OthersHelper().showToast(
-                                          'Description must be at least 150 characters',
-                                          Colors.black);
-                                      return;
-                                    }
-                                    //
-                                    provider.updateService(
-                                      context,
-                                      isAvailableToAllCities:
-                                          isAvailableToAllCities,
-                                      description: descController.text,
-                                      videoUrl: videoUrlController.text,
-                                      title: titleController.text,
-                                      serviceId: widget.serviceId,
-                                    );
-                                  }, isloading: provider.updateServiceLoading),
-
-                                  sizedBoxCustom(20),
-
-                                  //
                                 ],
                               ),
-                            ),
-                          )
-                      // : Container(
-                      //     alignment: Alignment.center,
-                      //     height: screenHeight(context) - 120,
-                      //     child: OthersHelper().showLoading(cc.primaryColor),
-                      //   ),
-                      ),
+
+                              sizedBoxCustom(10),
+
+                              const CategoryDropdownForEditService(),
+
+                              sizedBoxCustom(20),
+
+                              const SubCategoryDropdownForEditService(),
+
+                              sizedBoxCustom(20),
+
+                              const ChildCategoryDropdownForEditService(),
+
+                              sizedBoxCustom(20),
+
+                              // Title
+                              //============>
+                              CommonHelper().labelCommon(ln.getString("Title")),
+
+                              CustomInput(
+                                controller: titleController,
+                                validation: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return ln.getString('Please enter a title');
+                                  }
+                                  return null;
+                                },
+                                hintText: ln.getString("Title"),
+                                paddingHorizontal: 15,
+                                textInputAction: TextInputAction.next,
+                              ),
+
+                              // Video URL
+                              //============>
+                              CommonHelper()
+                                  .labelCommon(ln.getString("Video URL")),
+
+                              CustomInput(
+                                controller: videoUrlController,
+                                hintText: ln.getString("Youtube embed code"),
+                                paddingHorizontal: 15,
+                                textInputAction: TextInputAction.next,
+                              ),
+
+                              // Description
+                              //============>
+
+                              CommonHelper()
+                                  .labelCommon(ln.getString('Description')),
+                              TextareaField(
+                                hintText: ln.getString('Description'),
+                                notesController: descController,
+                              ),
+
+                              sizedBoxCustom(10),
+
+                              CreateServiceImageUpload(
+                                imageLink: imageLink,
+                                isFromEditServicePage: true,
+                              ),
+
+                              sizedBoxCustom(20),
+
+                              CommonHelper().buttonPrimary('Next', () {
+                                //
+                                if (descController.text.trim().isEmpty ||
+                                    titleController.text.trim().isEmpty) {
+                                  OthersHelper().showToast(
+                                      ln.getString(
+                                          'You must enter a title and description'),
+                                      Colors.black);
+                                  return;
+                                }
+                                if (descController.text.length < 150) {
+                                  OthersHelper().showToast(
+                                      ln.getString(
+                                          'Description must be at least 150 characters'),
+                                      Colors.black);
+                                  return;
+                                }
+                                //
+                                provider.updateService(
+                                  context,
+                                  isAvailableToAllCities:
+                                      isAvailableToAllCities,
+                                  description: descController.text,
+                                  videoUrl: videoUrlController.text,
+                                  title: titleController.text,
+                                  serviceId: widget.serviceId,
+                                );
+                              }, isloading: provider.updateServiceLoading),
+
+                              sizedBoxCustom(20),
+
+                              //
+                            ],
+                          ),
+                        ),
+                      )),
             ),
           ),
         ),

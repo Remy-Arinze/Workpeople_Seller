@@ -9,7 +9,7 @@ import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 
 class CashfreeService {
   getTokenAndPay(BuildContext context,

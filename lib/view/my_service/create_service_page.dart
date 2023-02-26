@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/my_services/create_services_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/custom_input.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/custom_input.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:qixer_seller/view/my_service/components/category_dropdown.dart';
 import 'package:qixer_seller/view/my_service/components/child_category_dropdown.dart';
 import 'package:qixer_seller/view/my_service/components/create_service_image_upload.dart';
@@ -55,7 +55,7 @@ class _CreateServicePageState extends State<CreateServicePage> {
           physics: physicsCommon,
           child: Consumer<CreateServicesService>(
             builder: (context, provider, child) => Consumer<AppStringService>(
-              builder: (context, asProvider, child) => Container(
+              builder: (context, ln, child) => Container(
                 padding: EdgeInsets.symmetric(
                     horizontal: screenPadding, vertical: 10),
                 child: Form(
@@ -68,7 +68,8 @@ class _CreateServicePageState extends State<CreateServicePage> {
                       Row(
                         children: [
                           CommonHelper().paragraphCommon(
-                              'Is available to all cities and area',
+                              ln.getString(
+                                  'Is available to all cities and area'),
                               TextAlign.left),
                           Switch(
                             // This bool value toggles the switch.
@@ -99,29 +100,28 @@ class _CreateServicePageState extends State<CreateServicePage> {
 
                       // Title
                       //============>
-                      CommonHelper().labelCommon(asProvider.getString("Title")),
+                      CommonHelper().labelCommon(ln.getString("Title")),
 
                       CustomInput(
                         controller: titleController,
                         validation: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please enter a title';
+                            return ln.getString('Please enter a title');
                           }
                           return null;
                         },
-                        hintText: asProvider.getString("Title"),
+                        hintText: ln.getString("Title"),
                         paddingHorizontal: 15,
                         textInputAction: TextInputAction.next,
                       ),
 
                       // Video URL
                       //============>
-                      CommonHelper()
-                          .labelCommon(asProvider.getString("Video URL")),
+                      CommonHelper().labelCommon(ln.getString("Video URL")),
 
                       CustomInput(
                         controller: videoUrlController,
-                        hintText: asProvider.getString("Youtube embed code"),
+                        hintText: ln.getString("Youtube embed code"),
                         paddingHorizontal: 15,
                         textInputAction: TextInputAction.next,
                       ),
@@ -129,10 +129,9 @@ class _CreateServicePageState extends State<CreateServicePage> {
                       // Description
                       //============>
 
-                      CommonHelper()
-                          .labelCommon(asProvider.getString('Description')),
+                      CommonHelper().labelCommon(ln.getString('Description')),
                       TextareaField(
-                        hintText: asProvider.getString('Description'),
+                        hintText: ln.getString('Description'),
                         notesController: descController,
                       ),
 
@@ -147,13 +146,15 @@ class _CreateServicePageState extends State<CreateServicePage> {
                         if (descController.text.trim().isEmpty ||
                             titleController.text.trim().isEmpty) {
                           OthersHelper().showToast(
-                              'You must enter a title and description',
+                              ln.getString(
+                                  'You must enter a title and description'),
                               Colors.black);
                           return;
                         }
                         if (descController.text.length < 150) {
                           OthersHelper().showToast(
-                              'Description must be at least 150 characters',
+                              ln.getString(
+                                  'Description must be at least 150 characters'),
                               Colors.black);
                           return;
                         }

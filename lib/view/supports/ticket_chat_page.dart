@@ -7,9 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/services/ticket_services/support_messages_service.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:qixer_seller/view/supports/image_big_preview.dart';
 
 class TicketChatPage extends StatefulWidget {
@@ -73,20 +73,6 @@ class _TicketChatPageState extends State<TicketChatPage> {
                   const SizedBox(
                     width: 2,
                   ),
-                  // CircleAvatar(
-                  //   backgroundColor: Colors.white,
-                  //   child: Container(
-                  //     padding: const EdgeInsets.all(5),
-                  //     decoration: const BoxDecoration(
-                  //         shape: BoxShape.circle, color: Colors.white),
-                  //     child: ClipRRect(
-                  //       child: Image.asset(
-                  //         'assets/images/logo.png',
-                  //       ),
-                  //     ),
-                  //   ),
-                  //   maxRadius: 22,
-                  // ),
                   const SizedBox(
                     width: 12,
                   ),
@@ -113,10 +99,6 @@ class _TicketChatPageState extends State<TicketChatPage> {
                       ],
                     ),
                   ),
-                  // Icon(
-                  //   Icons.settings,
-                  //   color: Colors.black54,
-                  // ),
                 ],
               ),
             ),
@@ -381,7 +363,7 @@ class _TicketChatPageState extends State<TicketChatPage> {
                           child: TextField(
                             controller: sendMessageController,
                             decoration: InputDecoration(
-                                hintText: ln.getString("Write message..."),
+                                hintText: ln.getString("Write message") + '...',
                                 hintStyle:
                                     const TextStyle(color: Colors.black54),
                                 border: InputBorder.none),

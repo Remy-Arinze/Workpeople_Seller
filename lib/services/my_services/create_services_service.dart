@@ -8,7 +8,7 @@ import 'package:qixer_seller/services/cat_subcat_dropdown_service_for_edit_servi
 import 'package:qixer_seller/services/category_subcat_dropdown_service.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/my_services/my_services_service.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:qixer_seller/view/my_service/add_attribute_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

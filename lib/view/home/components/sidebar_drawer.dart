@@ -4,8 +4,8 @@ import 'package:qixer_seller/services/auth_services/logout_service.dart';
 import 'package:qixer_seller/services/live_chat/chat_list_service.dart';
 import 'package:qixer_seller/services/permissions_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:qixer_seller/view/jobs/jobs_request_page.dart';
 import 'package:qixer_seller/view/jobs/new_jobs_page.dart';
 import 'package:qixer_seller/view/live_chat/chat_list_page.dart';
@@ -21,7 +21,7 @@ import 'package:qixer_seller/view/subscription/subscription_history_page.dart';
 import 'package:qixer_seller/view/supports/my_tickets_page.dart';
 import 'package:qixer_seller/view/wallet/wallet_page.dart';
 
-import '../../../utils/common_helper.dart';
+import '../../utils/common_helper.dart';
 
 class SidebarDrawer extends StatelessWidget {
   const SidebarDrawer({Key? key}) : super(key: key);

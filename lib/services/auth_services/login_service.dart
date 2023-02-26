@@ -10,8 +10,8 @@ import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/view/home/home.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../utils/constant_colors.dart';
-import '../../utils/others_helper.dart';
+import '../../view/utils/constant_colors.dart';
+import '../../view/utils/others_helper.dart';
 import '../common_service.dart';
 import '../payments_service/gateway_services/stripe_service.dart';
 

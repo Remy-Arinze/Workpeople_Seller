@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:qixer_seller/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../utils/others_helper.dart';
+import '../../view/utils/others_helper.dart';
 import '../common_service.dart';
 
 class LogoutService with ChangeNotifier {

@@ -3,9 +3,9 @@ import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/ticket_services/support_ticket_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/orders/orders_helper.dart';
 import 'package:qixer_seller/view/supports/components/support_status_change.dart';
 
@@ -120,18 +120,10 @@ class _MyTicketsPageState extends State<MyTicketsPage> {
                                                 children: [
                                                   Column(
                                                     children: [
-                                                      //   Text(
-                                                      //   "Order ID: ${rProvider.recentOrdersData.recentOrders[index].id}",
-                                                      //   style: TextStyle(
-                                                      //     color: cc.primaryColor,
-                                                      //     fontSize: 12,
-                                                      //     height: 1.4,
-                                                      //   ),
-                                                      // ),
-
                                                       Text(
                                                         ln.getString(
-                                                                'Ticket ID:') +
+                                                                'Ticket ID') +
+                                                            ':' +
                                                             ' ${provider.ticketList[i]['id']}',
                                                         maxLines: 1,
                                                         overflow: TextOverflow

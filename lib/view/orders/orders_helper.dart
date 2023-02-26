@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
 import 'package:qixer_seller/services/orders_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/orders/components/add_extras_popup.dart';
 import 'package:qixer_seller/view/report/write_report_page.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
@@ -173,10 +173,10 @@ class OrdersHelper {
             ],
           ),
           child: Consumer<AppStringService>(
-            builder: (context, asProvider, child) => Column(
+            builder: (context, ln, child) => Column(
               children: [
                 Text(
-                  '${asProvider.getString('Are you sure')}?',
+                  '${ln.getString('Are you sure')}?',
                   style: TextStyle(color: cc.greyPrimary, fontSize: 17),
                 ),
                 const SizedBox(
@@ -185,8 +185,8 @@ class OrdersHelper {
                 Row(
                   children: [
                     Expanded(
-                        child: CommonHelper().borderButtonPrimary(
-                            asProvider.getString('Cancel'), () {
+                        child: CommonHelper()
+                            .borderButtonPrimary(ln.getString('Cancel'), () {
                       Navigator.pop(context);
                     })),
                     const SizedBox(
@@ -194,8 +194,8 @@ class OrdersHelper {
                     ),
                     Consumer<OrderDetailsService>(
                       builder: (context, provider, child) => Expanded(
-                          child: CommonHelper().buttonPrimary(
-                              asProvider.getString('Delete'), () {
+                          child: CommonHelper()
+                              .buttonPrimary(ln.getString('Delete'), () {
                         if (provider.isLoading == false) {
                           provider.deleteOrderExtra(context,
                               extraId: extraId, orderId: orderId);
@@ -242,18 +242,18 @@ class OrdersHelper {
             ],
           ),
           child: Consumer<AppStringService>(
-            builder: (context, asProvider, child) => Column(
+            builder: (context, ln, child) => Column(
               children: [
                 Text(
-                  '${asProvider.getString('Are you sure?')}',
+                  '${ln.getString('Are you sure?')}',
                   style: TextStyle(color: cc.greyPrimary, fontSize: 17),
                 ),
                 sizedBoxCustom(35),
                 Row(
                   children: [
                     Expanded(
-                        child: CommonHelper().borderButtonPrimary(
-                            asProvider.getString('Cancel'), () {
+                        child: CommonHelper()
+                            .borderButtonPrimary(ln.getString('Cancel'), () {
                       Navigator.pop(context);
                     })),
                     const SizedBox(
@@ -262,7 +262,7 @@ class OrdersHelper {
                     Consumer<OrdersService>(
                       builder: (context, provider, child) => Expanded(
                           child: CommonHelper()
-                              .buttonPrimary(asProvider.getString('Yes'), () {
+                              .buttonPrimary(ln.getString('Yes'), () {
                         if (provider.payLoadingStatus == false) {
                           provider.makePaymentStatusComplete(context,
                               orderId: orderId);
@@ -313,10 +313,10 @@ class OrdersHelper {
             ],
           ),
           child: Consumer<AppStringService>(
-            builder: (context, asProvider, child) => Column(
+            builder: (context, ln, child) => Column(
               children: [
                 Text(
-                  '${asProvider.getString('Are you sure')}?',
+                  '${ln.getString('Are you sure')}?',
                   style: TextStyle(color: cc.greyPrimary, fontSize: 17),
                 ),
                 const SizedBox(
@@ -325,8 +325,8 @@ class OrdersHelper {
                 Row(
                   children: [
                     Expanded(
-                        child: CommonHelper().borderButtonPrimary(
-                            asProvider.getString('No'), () {
+                        child: CommonHelper()
+                            .borderButtonPrimary(ln.getString('No'), () {
                       Navigator.pop(context);
                     })),
                     const SizedBox(
@@ -335,7 +335,7 @@ class OrdersHelper {
                     Consumer<OrdersService>(
                       builder: (context, provider, child) => Expanded(
                           child: CommonHelper()
-                              .buttonPrimary(asProvider.getString('Yes'), () {
+                              .buttonPrimary(ln.getString('Yes'), () {
                         if (provider.cancelLoading == false) {
                           provider.cancelOrder(context, orderId: orderId);
                         }

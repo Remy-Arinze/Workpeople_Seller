@@ -9,7 +9,7 @@ import 'package:qixer_seller/services/auth_services/login_service.dart';
 import 'package:qixer_seller/services/auth_services/reset_password_service.dart';
 import 'package:qixer_seller/view/home/home.dart';
 
-import '../../utils/others_helper.dart';
+import '../../view/utils/others_helper.dart';
 
 class EmailVerifyService with ChangeNotifier {
   bool isloading = false;

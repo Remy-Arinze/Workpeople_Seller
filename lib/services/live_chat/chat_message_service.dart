@@ -11,7 +11,7 @@ import 'package:qixer_seller/model/chat_messages_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/profile_service.dart';
 import 'package:qixer_seller/services/push_notification_service.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ChatMessagesService with ChangeNotifier {

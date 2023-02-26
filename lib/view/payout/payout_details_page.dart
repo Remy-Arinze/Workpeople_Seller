@@ -5,11 +5,11 @@ import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/payout_details_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/orders/payment_helper.dart';
-import '../../utils/others_helper.dart';
+import '../utils/others_helper.dart';
 
 class PayoutDetailsPage extends StatefulWidget {
   const PayoutDetailsPage({

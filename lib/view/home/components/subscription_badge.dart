@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/subscription_service.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/subscription/subscription_details_page.dart';
 
 class SubscriptionBadge extends StatelessWidget {

@@ -10,7 +10,7 @@ import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/dashboard_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_gateway_list_service.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:qixer_seller/view/home/home.dart';
 import 'package:qixer_seller/view/wallet/wallet_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';

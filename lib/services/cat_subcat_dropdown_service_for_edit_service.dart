@@ -8,7 +8,7 @@ import 'package:qixer_seller/model/categoryModel.dart';
 import 'package:qixer_seller/model/child_category_model.dart';
 import 'package:qixer_seller/model/sub_category_model.dart';
 import 'package:qixer_seller/services/common_service.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CatSubcatDropdownServiceForEditService with ChangeNotifier {

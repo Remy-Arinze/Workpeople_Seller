@@ -7,9 +7,9 @@ import 'package:intl_phone_field/intl_phone_field.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/profile_edit_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:qixer_seller/view/auth/signup/signup_helper.dart';
 import 'package:qixer_seller/view/profile/components/textarea_field.dart';
 
@@ -19,8 +19,8 @@ import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import '../../services/country_states_service.dart';
 import '../../services/profile_service.dart';
 import '../../services/rtl_service.dart';
-import '../../utils/constant_styles.dart';
-import '../../utils/custom_input.dart';
+import '../utils/constant_styles.dart';
+import '../utils/custom_input.dart';
 import '../auth/signup/components/country_states_dropdowns.dart';
 
 class ProfileEditPage extends StatefulWidget {

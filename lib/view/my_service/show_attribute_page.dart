@@ -3,10 +3,10 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/my_services/attribute_service.dart';
-import 'package:qixer_seller/utils/common_helper.dart';
-import 'package:qixer_seller/utils/constant_colors.dart';
-import 'package:qixer_seller/utils/constant_styles.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/constant_colors.dart';
+import 'package:qixer_seller/view/utils/constant_styles.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:qixer_seller/view/my_service/components/attributes/show_attribute_row.dart';
 
 class ShowAttributePage extends StatefulWidget {
@@ -37,7 +37,7 @@ class _ShowAttributePageState extends State<ShowAttributePage> {
       body: SingleChildScrollView(
         physics: physicsCommon,
         child: Consumer<AppStringService>(
-          builder: (context, asProvider, child) => Container(
+          builder: (context, ln, child) => Container(
             padding:
                 EdgeInsets.symmetric(horizontal: screenPadding, vertical: 10),
             child: Consumer<AttributeService>(
@@ -60,8 +60,8 @@ class _ShowAttributePageState extends State<ShowAttributePage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CommonHelper()
-                                    .titleCommon('Include Service Attributes'),
+                                CommonHelper().titleCommon(
+                                    ln.getString('Include Service Attributes')),
                                 //
                                 Container(
                                   margin:
@@ -71,7 +71,7 @@ class _ShowAttributePageState extends State<ShowAttributePage> {
 
                                 if (provider.attributes.includeServices.isEmpty)
                                   CommonHelper().paragraphCommon(
-                                      'No include service found',
+                                      ln.getString('No include service found'),
                                       TextAlign.left),
 
                                 for (int i = 0;
@@ -114,8 +114,8 @@ class _ShowAttributePageState extends State<ShowAttributePage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CommonHelper().titleCommon(
-                                    'Additional Service Attributes'),
+                                CommonHelper().titleCommon(ln.getString(
+                                    'Additional Service Attributes')),
                                 //
                                 Container(
                                   margin:
@@ -126,7 +126,8 @@ class _ShowAttributePageState extends State<ShowAttributePage> {
                                 if (provider
                                     .attributes.additionalService.isEmpty)
                                   CommonHelper().paragraphCommon(
-                                      'No additional service found',
+                                      ln.getString(
+                                          'No additional service found'),
                                       TextAlign.left),
 
                                 for (int i = 0;
@@ -169,7 +170,8 @@ class _ShowAttributePageState extends State<ShowAttributePage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CommonHelper().titleCommon('Service Benefit'),
+                                CommonHelper().titleCommon(
+                                    ln.getString('Service Benefit')),
                                 //
                                 Container(
                                   margin:
@@ -179,7 +181,7 @@ class _ShowAttributePageState extends State<ShowAttributePage> {
 
                                 if (provider.attributes.serviceBenifit.isEmpty)
                                   CommonHelper().paragraphCommon(
-                                      'No service benefit found',
+                                      ln.getString('No service benefit found'),
                                       TextAlign.left),
 
                                 for (int i = 0;

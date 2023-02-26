@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/payments_service/payment_service.dart';
 import 'package:qixer_seller/services/subscription_service.dart';
 import 'package:qixer_seller/services/wallet_service.dart';
-import 'package:qixer_seller/utils/others_helper.dart';
+import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 class ZitopayPaymentPage extends StatefulWidget {
