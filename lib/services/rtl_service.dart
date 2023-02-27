@@ -12,6 +12,7 @@ class RtlService with ChangeNotifier {
 
   String currency = '\$';
   String currencyDirection = 'left';
+  bool showCommission = false;
 
   bool alreadyCurrencyLoaded = false;
   bool alreadyRtlLoaded = false;

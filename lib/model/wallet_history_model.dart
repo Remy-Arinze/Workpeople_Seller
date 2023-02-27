@@ -2,6 +2,8 @@
 //
 //     final walletHistoryModel = walletHistoryModelFromJson(jsonString);
 
+// ignore_for_file: prefer_typing_uninitialized_variables
+
 import 'dart:convert';
 
 WalletHistoryModel walletHistoryModelFromJson(String str) =>
@@ -37,11 +39,11 @@ class History {
     this.amount,
   });
 
-  int? id;
-  int? buyerId;
+  var id;
+  var buyerId;
   String? paymentGateway;
   String? paymentStatus;
-  int? amount;
+  var amount;
 
   factory History.fromJson(Map<String, dynamic> json) => History(
         id: json["id"],

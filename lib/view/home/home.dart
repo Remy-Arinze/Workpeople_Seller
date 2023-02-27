@@ -7,6 +7,7 @@ import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/dashboard_service.dart';
 import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/services/recent_orders_service.dart';
+import 'package:qixer_seller/services/rtl_service.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/utils/others_helper.dart';
@@ -109,98 +110,103 @@ class _HomepageState extends State<Homepage> {
             child: SafeArea(
               child: SingleChildScrollView(
                 physics: physicsCommon,
-                child: Container(
-                  padding: EdgeInsets.symmetric(horizontal: screenPadding),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        //profile image and name ========>
-                        // const NameImage(),
-
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            InkWell(
-                                onTap: () {
-                                  _scaffoldKey.currentState?.openDrawer();
-                                },
-                                child: Container(
-                                    padding: const EdgeInsets.only(
-                                        top: 10, right: 40, bottom: 12),
-                                    child: Icon(
-                                      Icons.menu,
-                                      color: cc.greyFour,
-                                    ))),
-                            Consumer<ProfileService>(
-                              builder: (context, profileProvider, child) =>
-                                  profileProvider.profileDetails != null
-                                      ? InkWell(
-                                          onTap: () {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute<void>(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        const ProfilePage(),
-                                              ),
-                                            );
-                                          },
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
-                                            children: [
-                                              Text(
-                                                ln.getString('Welcome!'),
-                                                style: TextStyle(
-                                                  color: cc.greyParagraph,
-                                                  fontSize: 12,
+                child: Consumer<RtlService>(
+                  builder: (context, rtlP, child) => Container(
+                    padding: EdgeInsets.symmetric(horizontal: screenPadding),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              InkWell(
+                                  onTap: () {
+                                    _scaffoldKey.currentState?.openDrawer();
+                                  },
+                                  child: Container(
+                                      padding: const EdgeInsets.only(
+                                          top: 10, right: 40, bottom: 12),
+                                      child: Icon(
+                                        Icons.menu,
+                                        color: cc.greyFour,
+                                      ))),
+                              Consumer<ProfileService>(
+                                builder: (context, profileProvider, child) =>
+                                    profileProvider.profileDetails != null
+                                        ? InkWell(
+                                            onTap: () {
+                                              Navigator.push(
+                                                context,
+                                                MaterialPageRoute<void>(
+                                                  builder:
+                                                      (BuildContext context) =>
+                                                          const ProfilePage(),
                                                 ),
-                                              ),
-                                              const SizedBox(
-                                                height: 5,
-                                              ),
-                                              Text(
-                                                profileProvider
-                                                        .profileDetails.name ??
-                                                    '',
-                                                style: TextStyle(
-                                                  color: cc.greyFour,
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.bold,
+                                              );
+                                            },
+                                            child: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.end,
+                                              children: [
+                                                Text(
+                                                  ln.getString('Welcome!'),
+                                                  style: TextStyle(
+                                                    color: cc.greyParagraph,
+                                                    fontSize: 12,
+                                                  ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        )
-                                      : Container(),
-                            )
-                          ],
-                        ),
+                                                const SizedBox(
+                                                  height: 5,
+                                                ),
+                                                Text(
+                                                  profileProvider.profileDetails
+                                                          .name ??
+                                                      '',
+                                                  style: TextStyle(
+                                                    color: cc.greyFour,
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.bold,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          )
+                                        : Container(),
+                              )
+                            ],
+                          ),
 
-                        sizedBoxCustom(16),
-                        //subscription details
-                        const SubscriptionBadge(),
-                        sizedBoxCustom(5),
+                          //subscription details
+                          if (rtlP.showCommission)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                sizedBoxCustom(16),
+                                const SubscriptionBadge(),
+                                sizedBoxCustom(5),
+                              ],
+                            ),
 
-                        //Home cards
-                        //==============>
-                        const HomeCards(),
+                          //Home cards
+                          //==============>
+                          const HomeCards(),
 
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        const ChartDashboard(),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          const ChartDashboard(),
 
-                        const SizedBox(
-                          height: 20,
-                        ),
+                          const SizedBox(
+                            height: 20,
+                          ),
 
-                        //Recent orders
-                        const RecentOrders(),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                      ]),
+                          //Recent orders
+                          const RecentOrders(),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                        ]),
+                  ),
                 ),
               ),
             ),

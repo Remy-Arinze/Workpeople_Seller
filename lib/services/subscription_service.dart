@@ -35,7 +35,6 @@ class SubscriptionService with ChangeNotifier {
     setLoadingStatus(true);
 
     var header = {
-      //if header type is application/json then the data should be in jsonEncode method
       "Accept": "application/json",
       // "Content-Type": "application/json"
       "Authorization": "Bearer $token",
@@ -71,7 +70,6 @@ class SubscriptionService with ChangeNotifier {
     setLoadingStatus(true);
 
     var header = {
-      //if header type is application/json then the data should be in jsonEncode method
       "Accept": "application/json",
       // "Content-Type": "application/json"
       "Authorization": "Bearer $token",
