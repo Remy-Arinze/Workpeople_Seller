@@ -73,7 +73,7 @@ var appStrings = {
   'Schedule': 'Schedule',
   'Billed': 'Billed',
   'Ordered service': 'Ordered service',
-  "Service ID:": "Service ID:",
+  "Service ID": "Service ID",
   'Buyer Details': 'Buyer Details',
   'Name': 'Name',
   'Post code': 'Post code',
@@ -94,7 +94,6 @@ var appStrings = {
   'ID': 'ID',
   'Amount': 'Amount',
   'Payment Gateway': 'Payment Gateway',
-  'Request Date': 'Request Date',
   'Seller Note': 'Seller Note',
   'Admin Note': 'Admin Note',
   'Status': 'Status',
@@ -104,8 +103,8 @@ var appStrings = {
   "Gateway": "Gateway",
   'Please enter an amount': 'Please enter an amount',
   "Note": "Note",
-  'You can make a request only if your remaining balance in a range set by the site admin. Like admin set minimum request amount':
-      'You can make a request only if your remaining balance in a range set by the site admin. Like admin set minimum request amount',
+  'You can make a request only if your remaining balance in a range set by the site admin. Admin can set minimum request amount':
+      'You can make a request only if your remaining balance in a range set by the site admin. Admin can set minimum request amount',
   "and maximum request amount": "and maximum request amount",
   "then you can request a payment between":
       "then you can request a payment between",
@@ -132,7 +131,6 @@ var appStrings = {
   'City': 'City',
   'Area': 'Area',
   'Country': 'Country',
-  'Post Code': 'Post Code',
   'Edit Profile': 'Edit Profile',
   'Address document image': 'Address document image',
   'Choose address images': 'Choose address images',
@@ -214,7 +212,6 @@ var appStrings = {
   'Description must be at least 150 characters':
       'Description must be at least 150 characters',
   'Edit': 'Edit',
-  'Edit Service': 'Edit Service',
   'Starts from': 'Starts from',
   'On/Off': 'On/Off',
   'No service found': 'No service found',
@@ -233,7 +230,6 @@ var appStrings = {
   'Make payment status complete': 'Make payment status complete',
   'Decline history': 'Decline history',
   "Decline reason": "Decline reason",
-  "Buyer details": "Buyer details",
   'Extras': 'Extras',
   'Request buyer to mark this order complete':
       'Request buyer to mark this order complete',
