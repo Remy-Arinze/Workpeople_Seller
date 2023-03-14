@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/auth/signup/components/country_states_dropdowns.dart';
 import 'package:qixer_seller/view/auth/signup/pages/signup_phone_pass.dart';
@@ -108,8 +109,8 @@ class _SignupPageState extends State<SignupPage> {
                             const SizedBox(
                               height: 33,
                             ),
-                            CommonHelper()
-                                .titleCommon(ln.getString("Register")),
+                            CommonHelper().titleCommon(
+                                ln.getString(ConstString.register)),
                             const SizedBox(
                               height: 33,
                             ),
@@ -148,8 +149,7 @@ class _SignupPageState extends State<SignupPage> {
                                 padding:
                                     const EdgeInsets.symmetric(vertical: 5),
                                 child: Text(
-                                  ln.getString(
-                                      "I agree with the terms and conditons"),
+                                  ln.getString(ConstString.iAgreeTerms),
                                   style: TextStyle(
                                       color: ConstantColors().greyFour,
                                       fontWeight: FontWeight.w400,
@@ -168,22 +168,22 @@ class _SignupPageState extends State<SignupPage> {
                             const SizedBox(
                               height: 10,
                             ),
-                            CommonHelper().buttonPrimary("Sign up", () {
+                            CommonHelper().buttonPrimary(ConstString.signUp,
+                                () {
                               if (_formKey.currentState!.validate()) {
                                 if (termsAgree == false) {
                                   OthersHelper().showToast(
                                       ln.getString(
-                                          'You must agree with the terms and conditions to register'),
+                                          ConstString.mustAgreeTermsToRegister),
                                       Colors.black);
                                 } else if (passwordController.text !=
                                     confirmPasswordController.text) {
                                   OthersHelper().showToast(
-                                      ln.getString('Password did not match'),
+                                      ln.getString(ConstString.passDidntMatch),
                                       Colors.black);
                                 } else if (passwordController.text.length < 6) {
                                   OthersHelper().showToast(
-                                      ln.getString(
-                                          'Password must be at least 6 characters'),
+                                      ln.getString(ConstString.passMustBeSix),
                                       Colors.black);
                                 } else {
                                   if (provider.isloading == false) {
@@ -210,7 +210,7 @@ class _SignupPageState extends State<SignupPage> {
                                 RichText(
                                   text: TextSpan(
                                     text: ln.getString(
-                                            'Already have an account?') +
+                                            ConstString.alreadyHaveAccount) +
                                         '  ',
                                     style: const TextStyle(
                                         color: Color(0xff646464), fontSize: 14),
@@ -224,7 +224,7 @@ class _SignupPageState extends State<SignupPage> {
                                                       builder: (context) =>
                                                           const LoginPage()));
                                             },
-                                          text: 'Login',
+                                          text: ln.getString(ConstString.login),
                                           style: TextStyle(
                                             fontWeight: FontWeight.w600,
                                             fontSize: 14,

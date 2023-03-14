@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 
 import '../../../../services/country_states_service.dart';
@@ -36,7 +37,8 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                   ),
 
                   // Country dropdown ===============>
-                  CommonHelper().labelCommon(ln.getString("Choose country")),
+                  CommonHelper()
+                      .labelCommon(ln.getString(ConstString.chooseCountry)),
                   provider.countryDropdownList.isNotEmpty
                       ? Container(
                           width: double.infinity,
@@ -93,7 +95,8 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                     height: 25,
                   ),
                   // States dropdown ===============>
-                  CommonHelper().labelCommon(ln.getString("Choose states")),
+                  CommonHelper()
+                      .labelCommon(ln.getString(ConstString.chooseStates)),
                   provider.statesDropdownList.isNotEmpty
                       ? Container(
                           width: double.infinity,
@@ -155,7 +158,8 @@ class _CountryStatesDropdownsState extends State<CountryStatesDropdowns> {
                   ),
 
                   // Area dropdown ===============>
-                  CommonHelper().labelCommon(ln.getString("Choose area")),
+                  CommonHelper()
+                      .labelCommon(ln.getString(ConstString.chooseArea)),
                   provider.areaDropdownList.isNotEmpty
                       ? Container(
                           width: double.infinity,

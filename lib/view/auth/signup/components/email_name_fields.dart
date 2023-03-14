@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/custom_input.dart';
 
 class EmailNameFields extends StatelessWidget {
@@ -29,17 +30,17 @@ class EmailNameFields extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           //Name ============>
-          CommonHelper().labelCommon(ln.getString("Full name")),
+          CommonHelper().labelCommon(ln.getString(ConstString.fullName)),
 
           CustomInput(
             controller: fullNameController,
             validation: (value) {
               if (value == null || value.isEmpty) {
-                return ln.getString('Please enter your full name');
+                return ln.getString(ConstString.plzEnterFullName);
               }
               return null;
             },
-            hintText: ln.getString("Enter your full name"),
+            hintText: ln.getString(ConstString.enterFullName),
             icon: 'assets/icons/user.png',
             textInputAction: TextInputAction.next,
           ),
@@ -48,17 +49,17 @@ class EmailNameFields extends StatelessWidget {
           ),
 
           //User name ============>
-          CommonHelper().labelCommon(ln.getString("Username")),
+          CommonHelper().labelCommon(ln.getString(ConstString.userName)),
 
           CustomInput(
             controller: userNameController,
             validation: (value) {
               if (value == null || value.isEmpty) {
-                return ln.getString('Please enter your username');
+                return ln.getString(ConstString.plzEnterUsername);
               }
               return null;
             },
-            hintText: ln.getString("Enter your username"),
+            hintText: ln.getString(ConstString.enterUsername),
             icon: 'assets/icons/user.png',
             textInputAction: TextInputAction.next,
           ),
@@ -67,17 +68,17 @@ class EmailNameFields extends StatelessWidget {
           ),
 
           //Email ============>
-          CommonHelper().labelCommon(ln.getString("Email")),
+          CommonHelper().labelCommon(ln.getString(ConstString.email)),
 
           CustomInput(
             controller: emailController,
             validation: (value) {
               if (value == null || value.isEmpty) {
-                return ln.getString('Please enter your email');
+                return ln.getString(ConstString.plzEnterEmail);
               }
               return null;
             },
-            hintText: ln.getString("Enter your email"),
+            hintText: ln.getString(ConstString.enterEmail),
             icon: 'assets/icons/email-grey.png',
             textInputAction: TextInputAction.next,
           ),

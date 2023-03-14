@@ -4,6 +4,7 @@ import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/order_details_service.dart';
 import 'package:qixer_seller/services/recent_orders_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/others_helper.dart';
 import 'package:qixer_seller/view/home/components/section_title.dart';
@@ -27,7 +28,7 @@ class RecentOrders extends StatelessWidget {
                         if (rProvider.recentOrdersData.recentOrders.isNotEmpty)
                           SectionTitle(
                             cc: cc,
-                            title: ln.getString('Recent Orders'),
+                            title: ln.getString(ConstString.recentOrders),
                             pressed: () {
                               Navigator.push(
                                 context,
@@ -77,7 +78,7 @@ class RecentOrders extends StatelessWidget {
                                                 CrossAxisAlignment.start,
                                             children: [
                                               Text(
-                                                "${ln.getString("Order ID:")} ${rProvider.recentOrdersData.recentOrders[index].id}",
+                                                "${ln.getString(ConstString.orderId)} ${rProvider.recentOrdersData.recentOrders[index].id}",
                                                 style: TextStyle(
                                                   color: cc.primaryColor,
                                                   fontSize: 12,

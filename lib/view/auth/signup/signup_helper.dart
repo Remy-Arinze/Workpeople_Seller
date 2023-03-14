@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/auth/login/login.dart';
 
@@ -14,7 +15,7 @@ class SignupHelper {
         children: [
           RichText(
             text: TextSpan(
-              text: ln.getString('Have an account?') + '  ',
+              text: ln.getString(ConstString.haveAccount) + '  ',
               style: const TextStyle(color: Color(0xff646464), fontSize: 14),
               children: <TextSpan>[
                 TextSpan(
@@ -25,7 +26,7 @@ class SignupHelper {
                             MaterialPageRoute(
                                 builder: (context) => const LoginPage()));
                       },
-                    text: ln.getString('Sign in'),
+                    text: ln.getString(ConstString.signIn),
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       fontSize: 14,

@@ -13,7 +13,7 @@ class ConstString {
   static const String register = "Register";
   static const String resetPass = "Reset password";
   static const String enterEmailToGetInstruction =
-      "Enter the email you used to creat account and we will send instruction for restting password";
+      "Enter the email you used to create account and we will send instruction for restting password";
   static const String enterEmail = "Enter Email";
   static const String sendInstruction = "Send Instructions";
   static const String enterFourDigit = "Enter the 4 digit code";
@@ -46,7 +46,16 @@ class ConstString {
   static const String retypePass = "Retype password";
   static const String haveAccount = "Have an account?";
   static const String signIn = "Sign in";
+  static const String signUp = "Sign up";
+  static const String noPermissionToAccess =
+      "You don't have permission to access this feature";
   static const String phoneNumber = "Phone Number";
+  static const String profile = 'Profile';
+  static const String profileVerify = 'Profile verify';
+  static const String wallet = 'Wallet';
+  static const String services = 'Services';
+  static const String myReportList = 'My Report list';
+  static const String logout = 'Logout';
   static const String enterPhoneNumber = "Enter phone number";
   static const String iAgreeTerms = "I agree with the terms and conditons";
   static const String mustAgreeTermsToRegister =
@@ -62,7 +71,6 @@ class ConstString {
   static const String totalWithdraw = "Total Withdraw";
   static const String remainingBalance = "Remaining Balance";
   static const String recentOrders = "Recent Orders";
-  static const String orderId = "Order ID";
   static const String houseCleaningService = "House Cleaning Service";
   static const String repairingServices = "Repairing Services";
   static const String homeShiftingService = "Home Shifting Service";
@@ -90,7 +98,6 @@ class ConstString {
   static const String payoutReqDetails = "Payout Request Details";
   static const String id = "ID";
   static const String amount = "Amount";
-  static const String paymentGateway = "Payment Gateway";
   static const String sellerNote = "Seller Note";
   static const String adminNote = "Admin Note";
   static const String status = "Status";
@@ -100,7 +107,7 @@ class ConstString {
   static const String gateway = "Gateway";
   static const String plzEnterAmount = "Please enter an amount";
   static const String note = "Note";
-  static const String youCanMakeReqIfHasMinBalance =
+  static const String canMakeReqIfHasMinBalance =
       "You can make a request only if your remaining balance in a range set by the site admin. Admin can set minimum request amount";
   static const String andMaxReqAmount = "and maximum request amount";
   static const String thenYouCanReqBetween =
@@ -121,10 +128,11 @@ class ConstString {
   static const String about = "About";
   static const String save = "Save";
   static const String addressFieldRequired = "Address field is required";
-  static const String phoneRequired = "Phone field is required";
+  static const String phoneFieldRequired = "Phone field is required";
   static const String updatingProfileMayTakeFewSec =
       "Updating profile...It may take few seconds";
   static const String city = "City";
+  static const String offerPrice = "Offer price";
   static const String area = "Area";
   static const String country = "Country";
   static const String editProfile = "Edit Profile";
@@ -150,14 +158,14 @@ class ConstString {
   static const String budget = "Budget";
   static const String deadline = "Deadline";
   static const String appliedJobs = "Applied jobs";
-  static const String youDidntApplyToAnyJob = "You did not apply to any job";
+  static const String didntApplyToAnyJob = "You did not apply to any job";
   static const String buyerBudget = "Buyer budget";
   static const String yourOffer = "Your offer";
   static const String newJobs = "New jobs";
   static const String noNewJobsFound = "No new jobs found";
   static const String search = "Search";
   static const String conversations = "Conversations";
-  static const String youDontHaveActiveConversation =
+  static const String noActiveConversation =
       "You do not have any active conversation";
   static const String addAdditionalServices = "Add Additional Services";
   static const String title = "Title";
@@ -227,8 +235,43 @@ class ConstString {
   static const String declineHistory = "Decline history";
   static const String declineReason = "Decline reason";
   static const String buyerDetails = "Buyer details";
-  static const String phone = "Phone";
-  static const String phone = "Phone";
+  static const String extras = "Extras";
+  static const String reqBuyerToMarkComplete =
+      "Request buyer to mark this order complete";
+  static const String allOrders = "All Orders";
+  static const String yes = "Yes";
+  static const String no = "No";
+  static const String details = "Details";
+  static const String deactivateAccount = "Deactivate account";
+  static const String reportId = "Report id";
+  static const String chatAdmin = "Chat admin";
+  static const String orderId = "Order id";
+  static const String noReport = "No Report";
+  static const String report = "Report";
+  static const String whatWentWrong = "What went wrong";
+  static const String writeIssue = "Write the issue";
+  static const String submitReport = "Submit Report";
+  static const String mustWriteReportToSubmit =
+      "You must write a report to submit";
+  static const String success = "Success";
+  static const String subsReniwed = "Subscription renewed";
+  static const String subsDetails = "Subscription details";
+  static const String pendingConnectWillBeAdded =
+      "Note: Pending connect will be added to available connect only if the payment status is completed";
+  static const String subscription = "subscription";
+  static const String type = "Type";
+  static const String expireDate = "Expire date";
+  static const String connectDetails = "Connect details";
+  static const String availableConnect = "Available connect";
+  static const String pendingConnect = "Pending connect";
+  static const String paymentDetails = "Payment details";
+  static const String paymentGateway = "Payment gateway";
+  static const String reniewSubs = "Reniew Subscription";
+  static const String subscriptions = "Subscriptions";
+  static const String startDate = "Start date";
+  static const String noHistoryFound = "No history found";
+  static const String supportTicket = "Support ticket";
+  static const String noTicket = "No ticket";
 
   // static const String welcome = "Welcome";
 }

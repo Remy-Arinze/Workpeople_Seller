@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/utils/custom_input.dart';
@@ -77,26 +78,26 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(
                           height: 33,
                         ),
-                        CommonHelper()
-                            .titleCommon(ln.getString("Welcome back! Login")),
+                        CommonHelper().titleCommon(
+                            ln.getString(ConstString.welcomeBackLogin)),
 
                         const SizedBox(
                           height: 33,
                         ),
 
                         //Name ============>
-                        CommonHelper()
-                            .labelCommon(ln.getString("Email or username")),
+                        CommonHelper().labelCommon(
+                            ln.getString(ConstString.emailOrUsername)),
 
                         CustomInput(
                           controller: emailController,
                           validation: (value) {
                             if (value == null || value.isEmpty) {
-                              return ln.getString('Please enter your email');
+                              return ln.getString(ConstString.plzEnterEmail);
                             }
                             return null;
                           },
-                          hintText: ln.getString("Email"),
+                          hintText: ln.getString(ConstString.email),
                           icon: 'assets/icons/user.png',
                           textInputAction: TextInputAction.next,
                         ),
@@ -106,7 +107,8 @@ class _LoginPageState extends State<LoginPage> {
                         ),
 
                         //password ===========>
-                        CommonHelper().labelCommon(ln.getString("Password")),
+                        CommonHelper()
+                            .labelCommon(ln.getString(ConstString.password)),
 
                         Container(
                             margin: const EdgeInsets.only(bottom: 19),
@@ -120,8 +122,7 @@ class _LoginPageState extends State<LoginPage> {
                               style: const TextStyle(fontSize: 14),
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return ln
-                                      .getString('Please enter your password');
+                                  return ln.getString(ConstString.plzEnterPass);
                                 }
                                 return null;
                               },
@@ -175,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
                                       borderSide: BorderSide(
                                           color:
                                               ConstantColors().primaryColor)),
-                                  hintText: ln.getString('Enter password'),
+                                  hintText: ln.getString(ConstString.enterPass),
                                   contentPadding: const EdgeInsets.symmetric(
                                       horizontal: 8, vertical: 18)),
                             )),
@@ -194,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
                                   padding:
                                       const EdgeInsets.symmetric(vertical: 5),
                                   child: Text(
-                                    ln.getString("Remember me"),
+                                    ln.getString(ConstString.rememberMe),
                                     style: TextStyle(
                                         color: ConstantColors().greyFour,
                                         fontWeight: FontWeight.w400,
@@ -229,7 +230,7 @@ class _LoginPageState extends State<LoginPage> {
                                 width: 122,
                                 height: 40,
                                 child: Text(
-                                  ln.getString("Forgot Password?"),
+                                  ln.getString(ConstString.forgotPass),
                                   style: TextStyle(
                                       color: cc.primaryColor,
                                       fontSize: 13,
@@ -247,7 +248,8 @@ class _LoginPageState extends State<LoginPage> {
 
                         Consumer<LoginService>(
                           builder: (context, provider, child) => CommonHelper()
-                              .buttonPrimary(ln.getString("Login"), () {
+                              .buttonPrimary(ln.getString(ConstString.login),
+                                  () {
                             if (provider.isloading == false) {
                               if (_formKey.currentState!.validate()) {
                                 provider.login(
@@ -278,8 +280,9 @@ class _LoginPageState extends State<LoginPage> {
                           children: [
                             RichText(
                               text: TextSpan(
-                                text: ln.getString('Do not have an account?') +
-                                    ' ',
+                                text:
+                                    ln.getString(ConstString.donotHaveAccount) +
+                                        ' ',
                                 style: const TextStyle(
                                     color: Color(0xff646464), fontSize: 14),
                                 children: <TextSpan>[
@@ -292,7 +295,7 @@ class _LoginPageState extends State<LoginPage> {
                                                   builder: (context) =>
                                                       const SignupPage()));
                                         },
-                                      text: ln.getString('Register'),
+                                      text: ln.getString(ConstString.register),
                                       style: TextStyle(
                                         fontWeight: FontWeight.w600,
                                         fontSize: 14,
