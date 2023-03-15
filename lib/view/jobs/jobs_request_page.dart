@@ -6,6 +6,7 @@ import 'package:qixer_seller/services/jobs/job_conversation_service.dart';
 import 'package:qixer_seller/services/jobs/job_details_service.dart';
 import 'package:qixer_seller/services/jobs/job_list_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/utils/others_helper.dart';
@@ -27,7 +28,7 @@ class _AppliedJobsPageState extends State<JobRequestPage> {
 
   ConstantColors cc = ConstantColors();
 
-  List menuNames = ['View details', 'Conversation'];
+  List menuNames = [ConstString.viewDetails, ConstString.conversation];
 
   final RefreshController refreshController =
       RefreshController(initialRefresh: true);
@@ -35,7 +36,7 @@ class _AppliedJobsPageState extends State<JobRequestPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonHelper().appbarCommon('Applied jobs', context, () {
+      appBar: CommonHelper().appbarCommon(ConstString.appliedJobs, context, () {
         Navigator.pop(context);
       }),
       backgroundColor: cc.bgColor,
@@ -86,7 +87,7 @@ class _AppliedJobsPageState extends State<JobRequestPage> {
                               provider.jobReqList.isEmpty)
                             OthersHelper().showError(context,
                                 message: ln
-                                    .getString('You did not apply to any job')),
+                                    .getString(ConstString.didntApplyToAnyJob)),
                           for (int i = 0; i < provider.jobReqList.length; i++)
                             Container(
                               margin: const EdgeInsets.only(bottom: 16),
@@ -110,11 +111,11 @@ class _AppliedJobsPageState extends State<JobRequestPage> {
                                               fontsize: 15),
                                           sizedBoxCustom(6),
                                           CommonHelper().paragraphCommon(
-                                              '${ln.getString("Buyer budget")}: \$${provider.jobReqList[i].job.price ?? ''}',
+                                              '${ln.getString(ConstString.buyerBudget)}: \$${provider.jobReqList[i].job.price ?? ''}',
                                               TextAlign.left),
                                           sizedBoxCustom(7),
                                           CommonHelper().paragraphCommon(
-                                              '${ln.getString("Your offer")}: \$${provider.jobReqList[i].expectedSalary ?? ''}',
+                                              '${ln.getString(ConstString.yourOffer)}: \$${provider.jobReqList[i].expectedSalary ?? ''}',
                                               TextAlign.left,
                                               color: cc.primaryColor),
                                         ]),

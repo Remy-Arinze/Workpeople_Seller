@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/my_services/edit_attribute_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/utils/custom_input.dart';
@@ -28,22 +29,23 @@ class _EditFaqForServiceCreateState extends State<EditFaqForServiceCreate> {
         builder: (context, ln, child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CommonHelper().titleCommon(ln.getString('Faqs'), fontsize: 18),
+            CommonHelper()
+                .titleCommon(ln.getString(ConstString.faqs), fontsize: 18),
 
             sizedBoxCustom(18),
-            CommonHelper().labelCommon(ln.getString("Faq title")),
+            CommonHelper().labelCommon(ln.getString(ConstString.faqTitle)),
             CustomInput(
               controller: titleController,
               paddingHorizontal: 15,
-              hintText: ln.getString("Enter title"),
+              hintText: ln.getString(ConstString.enterTitle),
               textInputAction: TextInputAction.next,
             ),
 
-            CommonHelper().labelCommon(ln.getString("Faq answer")),
+            CommonHelper().labelCommon(ln.getString(ConstString.faqAns)),
             CustomInput(
               controller: descController,
               paddingHorizontal: 15,
-              hintText: ln.getString("Enter answer"),
+              hintText: ln.getString(ConstString.enterAns),
               textInputAction: TextInputAction.next,
             ),
 
@@ -57,7 +59,7 @@ class _EditFaqForServiceCreateState extends State<EditFaqForServiceCreate> {
                     if (titleController.text.trim().isEmpty) {
                       OthersHelper().showSnackBar(
                           context,
-                          ln.getString('Please type something first'),
+                          ln.getString(ConstString.plzTypeSomethingFirst),
                           Colors.red);
                       return;
                     }

@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/my_services/create_services_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 
 class CreateServiceImageUpload extends StatelessWidget {
   const CreateServiceImageUpload(
@@ -67,8 +68,8 @@ class CreateServiceImageUpload extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                CommonHelper().buttonPrimary(ln.getString('Upload main image'),
-                    () {
+                CommonHelper()
+                    .buttonPrimary(ln.getString(ConstString.uploadMainImg), () {
                   provider.pickMainImage(context);
                 }),
               ],
@@ -166,8 +167,8 @@ class CreateServiceImageUpload extends StatelessWidget {
                   const SizedBox(
                     height: 20,
                   ),
-                  CommonHelper()
-                      .buttonPrimary(ln.getString('Upload gallery image'), () {
+                  CommonHelper().buttonPrimary(
+                      ln.getString(ConstString.uploadGalleryImg), () {
                     provider.pickGalleryImages(context);
                   }),
                 ],

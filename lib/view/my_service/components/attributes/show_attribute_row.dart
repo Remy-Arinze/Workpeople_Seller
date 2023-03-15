@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/my_service/components/attributes/attribute_helper.dart';
 
@@ -72,14 +73,15 @@ class ShowAttributeRow extends StatelessWidget {
                 children: [
                   if (price != 0)
                     CommonHelper().paragraphCommon(
-                        '${ln.getString("Unit price")}: \$$price',
+                        '${ln.getString(ConstString.unitPrice)}: \$$price',
                         TextAlign.left),
                   const SizedBox(
                     width: 10,
                   ),
                   if (qty != 0)
                     CommonHelper().paragraphCommon(
-                        '${ln.getString("Quantity")}: $qty', TextAlign.left),
+                        '${ln.getString(ConstString.quantity)}: $qty',
+                        TextAlign.left),
                 ],
               ),
             sizedBoxCustom(15)

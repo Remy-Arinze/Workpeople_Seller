@@ -5,6 +5,7 @@ import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/jobs/job_details_service.dart';
 import 'package:qixer_seller/services/jobs/new_jobs_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/utils/others_helper.dart';
@@ -31,7 +32,7 @@ class _NewJobsPageState extends State<NewJobsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonHelper().appbarCommon('New jobs', context, () {
+      appBar: CommonHelper().appbarCommon(ConstString.newJobs, context, () {
         Navigator.pop(context);
       }),
       backgroundColor: cc.bgColor,
@@ -125,7 +126,7 @@ class _NewJobsPageState extends State<NewJobsPage> {
                                                 fontsize: 15),
                                             sizedBoxCustom(8),
                                             CommonHelper().paragraphCommon(
-                                                '${ln.getString("Buyer budget")}: \$${provider.newJobsList[i].price}',
+                                                '${ln.getString(ConstString.buyerBudget)}: \$${provider.newJobsList[i].price}',
                                                 TextAlign.left)
                                           ]),
                                     ),
@@ -137,7 +138,7 @@ class _NewJobsPageState extends State<NewJobsPage> {
                       ),
                     )
                   : OthersHelper().showError(context,
-                      message: ln.getString('No new jobs found')),
+                      message: ln.getString(ConstString.noNewJobsFound)),
             ),
           ),
         ),

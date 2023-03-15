@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/my_services/attribute_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/my_service/components/attributes/add_additional.dart';
@@ -35,7 +36,7 @@ class _AddAttributePageState extends State<AddAttributePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CommonHelper().appbarCommon('Add attributes', context, () {
+      appBar: CommonHelper().appbarCommon(ConstString.addAttrs, context, () {
         Navigator.pop(context);
       }),
       backgroundColor: cc.bgColor,
@@ -56,7 +57,7 @@ class _AddAttributePageState extends State<AddAttributePage> {
                   const BenefitsOfPackage(),
                   const FaqForServiceCreate(),
                   sizedBoxCustom(10),
-                  CommonHelper().buttonPrimary('Save', () {
+                  CommonHelper().buttonPrimary(ConstString.save, () {
                     provider.addAttribute(context,
                         serviceId: widget.serviceId,
                         isFromServiceCreatePage: widget.isFromCreateService);

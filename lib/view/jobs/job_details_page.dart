@@ -8,6 +8,7 @@ import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/common_service.dart';
 import 'package:qixer_seller/services/jobs/job_details_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/utils/others_helper.dart';
@@ -150,7 +151,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                         Row(
                           children: [
                             OverviewBox(
-                              title: ln.getString('Budget'),
+                              title: ln.getString(ConstString.budget),
                               subtitle: '\$${provider.jobDetails.price}',
                             ),
                             const SizedBox(
@@ -158,7 +159,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                             ),
 
                             OverviewBox(
-                              title: ln.getString('Deadline'),
+                              title: ln.getString(ConstString.deadline),
                               subtitle:
                                   '${getDate(provider.jobDetails.deadLine)}',
                             ),
@@ -199,7 +200,7 @@ class _JobDetailsPageState extends State<JobDetailsPage> {
                         sizedBoxCustom(25),
                         if (widget.isFromNewJobPage == true)
                           CommonHelper().buttonPrimary(
-                            'Apply',
+                            ConstString.apply,
                             () {
                               JobHelper().applyJobPopup(context);
                             },

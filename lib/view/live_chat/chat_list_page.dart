@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/live_chat/chat_list_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/utils/others_helper.dart';
@@ -48,7 +49,7 @@ class _ChatListPageState extends State<ChatListPage> {
                                     child: const Icon(Icons.arrow_back_ios)),
                               ),
                               Text(
-                                ln.getString("Conversations"),
+                                ln.getString(ConstString.conversations),
                                 style: const TextStyle(
                                     fontSize: 27, fontWeight: FontWeight.bold),
                               ),
@@ -179,7 +180,7 @@ class _ChatListPageState extends State<ChatListPage> {
                                       height: screenHeight - 200,
                                       alignment: Alignment.center,
                                       child: Text(ln.getString(
-                                          'You do not have any active conversation')))
+                                          ConstString.noActiveConversation)))
                               : SizedBox(
                                   height: screenHeight - 200,
                                   child: OthersHelper()

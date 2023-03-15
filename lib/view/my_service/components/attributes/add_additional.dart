@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/my_services/attribute_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/utils/custom_input.dart';
@@ -31,37 +32,38 @@ class _AddAdditionalState extends State<AddAdditional> {
         builder: (context, ln, child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CommonHelper().titleCommon(ln.getString('Add Additional Services'),
+            CommonHelper().titleCommon(
+                ln.getString(ConstString.addAdditionalServices),
                 fontsize: 18),
 
             sizedBoxCustom(18),
 
             //
-            CommonHelper().labelCommon(ln.getString("Title")),
+            CommonHelper().labelCommon(ln.getString(ConstString.title)),
             CustomInput(
               controller: titleController,
               paddingHorizontal: 15,
-              hintText: ln.getString("Enter title"),
+              hintText: ln.getString(ConstString.enterTitle),
               textInputAction: TextInputAction.next,
             ),
 
             //
-            CommonHelper().labelCommon(ln.getString("Unit price")),
+            CommonHelper().labelCommon(ln.getString(ConstString.unitPrice)),
             CustomInput(
               controller: priceController,
               paddingHorizontal: 15,
               isNumberField: true,
-              hintText: ln.getString("Enter price"),
+              hintText: ln.getString(ConstString.enterPrice),
               textInputAction: TextInputAction.next,
             ),
 
 //
-            CommonHelper().labelCommon(ln.getString("Quantity")),
+            CommonHelper().labelCommon(ln.getString(ConstString.quantity)),
             CustomInput(
               controller: qtyController,
               paddingHorizontal: 15,
               isNumberField: true,
-              hintText: ln.getString("Enter quantity"),
+              hintText: ln.getString(ConstString.enterQuantity),
               textInputAction: TextInputAction.next,
             ),
 
@@ -77,7 +79,7 @@ class _AddAdditionalState extends State<AddAdditional> {
                         qtyController.text.trim().isEmpty) {
                       OthersHelper().showSnackBar(
                           context,
-                          ln.getString('Please fill out all fields'),
+                          ln.getString(ConstString.plzFillOutAllFields),
                           Colors.red);
                       return;
                     }

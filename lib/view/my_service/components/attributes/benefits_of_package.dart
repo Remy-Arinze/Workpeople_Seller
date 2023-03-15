@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/my_services/attribute_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/utils/custom_input.dart';
@@ -26,7 +27,8 @@ class _BenefitsOfPackageState extends State<BenefitsOfPackage> {
         builder: (context, ln, child) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CommonHelper().titleCommon(ln.getString('Benefit Of This Package'),
+            CommonHelper().titleCommon(
+                ln.getString(ConstString.benefitOfPackage),
                 fontsize: 18),
 
             sizedBoxCustom(18),
@@ -34,7 +36,7 @@ class _BenefitsOfPackageState extends State<BenefitsOfPackage> {
             CustomInput(
               controller: titleController,
               paddingHorizontal: 15,
-              hintText: ln.getString("Type here"),
+              hintText: ln.getString(ConstString.typeHere),
               textInputAction: TextInputAction.next,
             ),
 
@@ -48,7 +50,7 @@ class _BenefitsOfPackageState extends State<BenefitsOfPackage> {
                     if (titleController.text.trim().isEmpty) {
                       OthersHelper().showSnackBar(
                           context,
-                          ln.getString('Please type something first'),
+                          ln.getString(ConstString.plzTypeSomethingFirst),
                           Colors.red);
                       return;
                     }

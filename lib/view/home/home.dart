@@ -8,6 +8,7 @@ import 'package:qixer_seller/services/dashboard_service.dart';
 import 'package:qixer_seller/services/push_notification_service.dart';
 import 'package:qixer_seller/services/recent_orders_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/utils/others_helper.dart';
@@ -102,7 +103,7 @@ class _HomepageState extends State<Homepage> {
                       const Duration(seconds: 2)) {
                 currentBackPressTime = now;
                 OthersHelper().showToast(
-                    ln.getString("Press again to exit"), Colors.black);
+                    ln.getString(ConstString.pressAgainToExit), Colors.black);
                 return Future.value(false);
               }
               return Future.value(true);
@@ -149,7 +150,8 @@ class _HomepageState extends State<Homepage> {
                                                   CrossAxisAlignment.end,
                                               children: [
                                                 Text(
-                                                  ln.getString('Welcome!'),
+                                                  ln.getString(
+                                                      ConstString.welcome),
                                                   style: TextStyle(
                                                     color: cc.greyParagraph,
                                                     fontSize: 12,

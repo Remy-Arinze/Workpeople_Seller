@@ -2,6 +2,7 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/my_service/create_service_page.dart';
 
@@ -16,7 +17,7 @@ class MyServiceListAppbar extends StatelessWidget {
       iconTheme: IconThemeData(color: cc.greyPrimary),
       title: Consumer<AppStringService>(
         builder: (context, ln, child) => Text(
-          ln.getString('My services'),
+          ln.getString(ConstString.myServices),
           style: TextStyle(
               color: cc.greyPrimary, fontSize: 16, fontWeight: FontWeight.w600),
         ),
@@ -58,7 +59,7 @@ class MyServiceListAppbar extends StatelessWidget {
                       color: cc.successColor,
                       borderRadius: BorderRadius.circular(8)),
                   child: AutoSizeText(
-                    ln.getString('Create'),
+                    ln.getString(ConstString.create),
                     maxLines: 1,
                     style: const TextStyle(
                       color: Colors.white,

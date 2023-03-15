@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/jobs/job_conversation_service.dart';
 import 'package:qixer_seller/services/rtl_service.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/utils/others_helper.dart';
@@ -97,7 +98,7 @@ class _JobConversationPageState extends State<JobConversationPage> {
                             height: 4,
                           ),
                           Text(
-                            "${ln.getString("Job Request ID")}: #${widget.jobRequestId}",
+                            "${ln.getString(ConstString.jobReqId)}: #${widget.jobRequestId}",
                             style:
                                 TextStyle(color: cc.primaryColor, fontSize: 13),
                           ),
@@ -105,10 +106,6 @@ class _JobConversationPageState extends State<JobConversationPage> {
                       ),
                     ),
                   ),
-                  // Icon(
-                  //   Icons.settings,
-                  //   color: Colors.black54,
-                  // ),
                 ],
               ),
             ),
@@ -375,7 +372,8 @@ class _JobConversationPageState extends State<JobConversationPage> {
                           child: TextField(
                             controller: sendMessageController,
                             decoration: InputDecoration(
-                                hintText: "${ln.getString("Write message")}...",
+                                hintText:
+                                    "${ln.getString(ConstString.writeMessage)}...",
                                 hintStyle:
                                     const TextStyle(color: Colors.black54),
                                 border: InputBorder.none),
@@ -416,7 +414,8 @@ class _JobConversationPageState extends State<JobConversationPage> {
                               });
                             } else {
                               OthersHelper().showToast(
-                                  ln.getString('Please write a message first'),
+                                  ln.getString(
+                                      ConstString.plzWriteMessageFirst),
                                   Colors.black);
                             }
                           },

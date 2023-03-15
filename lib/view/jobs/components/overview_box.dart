@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
-import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 
 class OverviewBox extends StatelessWidget {
@@ -15,8 +14,6 @@ class OverviewBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ConstantColors cc = ConstantColors();
-
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 8),
       decoration: BoxDecoration(

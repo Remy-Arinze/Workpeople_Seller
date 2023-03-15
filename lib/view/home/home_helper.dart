@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 
 class HomeHelper {
   List cardColors = [
@@ -11,9 +12,9 @@ class HomeHelper {
   ];
 
   List cardTitles = [
-    'Order Pending',
-    'Order Completed',
-    'Total Withdraw',
-    'Remaining Balance'
+    ConstString.orderPending,
+    ConstString.orderCompleted,
+    ConstString.totalWithdraw,
+    ConstString.remainingBalance
   ];
 }

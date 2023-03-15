@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/category_subcat_dropdown_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/others_helper.dart';
 
@@ -35,7 +36,7 @@ class _CategoryDropdownState extends State<CategoryDropdown> {
         builder: (context, provider, child) => Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CommonHelper().labelCommon("Category"),
+                CommonHelper().labelCommon(ConstString.category),
                 provider.categoryDropdownList.isNotEmpty
                     ? Container(
                         width: double.infinity,

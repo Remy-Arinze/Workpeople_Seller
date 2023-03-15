@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/jobs/job_details_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/utils/custom_input.dart';
 import 'package:qixer_seller/view/utils/others_helper.dart';
@@ -30,11 +31,11 @@ class ApplyJobPopup extends StatelessWidget {
               controller: priceController,
               validation: (value) {
                 if (value == null || value.isEmpty) {
-                  return ln.getString('Please enter a price');
+                  return ln.getString(ConstString.plzEnterPrice);
                 }
                 return null;
               },
-              hintText: ln.getString('Offer price'),
+              hintText: ln.getString(ConstString.offerPrice),
               paddingHorizontal: 20,
               textInputAction: TextInputAction.next,
             ),
@@ -43,19 +44,19 @@ class ApplyJobPopup extends StatelessWidget {
             ),
 
             TextareaField(
-              hintText: ln.getString('Cover letter'),
+              hintText: ln.getString(ConstString.coverLetter),
               notesController: coverController,
             ),
 
             sizedBoxCustom(20),
 
-            CommonHelper().buttonPrimary('Apply', () {
+            CommonHelper().buttonPrimary(ConstString.apply, () {
               if (provider.applyLoading == true) return;
 
               if (double.tryParse(priceController.text.trim()) == null) {
                 //if not integer value
                 OthersHelper().showToast(
-                    ln.getString(ln.getString('You must enter a valid price')),
+                    ln.getString(ln.getString(ConstString.mustEnterValidPrice)),
                     Colors.black);
                 return;
               }

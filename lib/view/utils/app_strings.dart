@@ -259,4 +259,6 @@ var appStrings = {
   ConstString.services: ConstString.services,
   ConstString.myReportList: ConstString.myReportList,
   ConstString.logout: ConstString.logout,
+  ConstString.viewDetails: ConstString.viewDetails,
+  ConstString.uploadGalleryImg: ConstString.uploadGalleryImg,
 };

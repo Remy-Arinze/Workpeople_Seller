@@ -187,6 +187,7 @@ class ConstString {
   static const String typeHere = "Type here";
   static const String plzTypeSomethingFirst = "Please type something first";
   static const String faqs = "Faqs";
+  static const String uploadGalleryImg = 'Upload gallery image';
   static const String faqTitle = "Faq title";
   static const String faqAns = "Faq answer";
   static const String enterAns = "Enter answer";
@@ -272,6 +273,8 @@ class ConstString {
   static const String noHistoryFound = "No history found";
   static const String supportTicket = "Support ticket";
   static const String noTicket = "No ticket";
+  static const String viewDetails = 'View details';
+  static const String conversation = 'Conversation';
 
   // static const String welcome = "Welcome";
 }

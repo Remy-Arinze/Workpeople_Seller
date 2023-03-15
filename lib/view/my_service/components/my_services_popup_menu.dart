@@ -7,6 +7,7 @@ import 'package:qixer_seller/view/my_service/components/my_service_helper.dart';
 import 'package:qixer_seller/view/my_service/edit_attribute_page.dart';
 import 'package:qixer_seller/view/my_service/edit_service_page.dart';
 import 'package:qixer_seller/view/my_service/show_attribute_page.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 
 class MyServicesPopupMenu extends StatelessWidget {
   const MyServicesPopupMenu({
@@ -19,11 +20,11 @@ class MyServicesPopupMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List popupMenuList = [
-      'Show attributes',
-      'Edit attributes',
-      'Add attributes',
-      'Delete service',
-      'Edit service'
+      ConstString.showAttrs,
+      ConstString.editAttrs,
+      ConstString.addAttrs,
+      ConstString.deleteService,
+      ConstString.editService
     ];
 
     return Row(

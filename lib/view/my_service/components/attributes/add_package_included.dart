@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/my_services/attribute_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 import 'package:qixer_seller/view/utils/custom_input.dart';
@@ -33,7 +34,7 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
             Row(
               children: [
                 CommonHelper().paragraphCommon(
-                    ln.getString('Online service'), TextAlign.left),
+                    ln.getString(ConstString.onlineService), TextAlign.left),
                 Switch(
                   // This bool value toggles the switch.
                   value: isOnline,
@@ -49,15 +50,15 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
             sizedBoxCustom(5),
 
             CommonHelper().titleCommon(
-                ln.getString('What is Included In This Package'),
+                ln.getString(ConstString.whatsIncludedInPackage),
                 fontsize: 18),
 
             sizedBoxCustom(18),
-            CommonHelper().labelCommon("Title"),
+            CommonHelper().labelCommon(ConstString.title),
             CustomInput(
               controller: titleController,
               paddingHorizontal: 15,
-              hintText: ln.getString("Enter title"),
+              hintText: ln.getString(ConstString.enterTitle),
               textInputAction: TextInputAction.next,
             ),
 
@@ -65,11 +66,11 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CommonHelper().labelCommon(ln.getString("Price")),
+                  CommonHelper().labelCommon(ln.getString(ConstString.price)),
                   CustomInput(
                     controller: priceController,
                     paddingHorizontal: 15,
-                    hintText: ln.getString("Enter price"),
+                    hintText: ln.getString(ConstString.enterPrice),
                     isNumberField: true,
                     textInputAction: TextInputAction.next,
                   ),
@@ -85,12 +86,12 @@ class _AddPackageIncludedState extends State<AddPackageIncluded> {
                   onTap: () {
                     if (titleController.text.trim().isEmpty) {
                       OthersHelper().showSnackBar(context,
-                          ln.getString('Please enter a title'), Colors.red);
+                          ln.getString(ConstString.plzEnterTitle), Colors.red);
                       return;
                     }
                     if (priceController.text.trim().isEmpty && !isOnline) {
                       OthersHelper().showSnackBar(context,
-                          ln.getString('Please enter a price'), Colors.red);
+                          ln.getString(ConstString.plzEnterPrice), Colors.red);
                       return;
                     }
 

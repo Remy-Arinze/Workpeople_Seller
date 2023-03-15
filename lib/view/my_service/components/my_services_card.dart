@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:qixer_seller/view/utils/constant_styles.dart';
 
@@ -128,7 +129,7 @@ class MyServicesCardContent extends StatelessWidget {
                           color: Colors.green.withOpacity(.17),
                           borderRadius: BorderRadius.circular(4)),
                       child: CommonHelper().paragraphCommon(
-                        "${ln.getString("Queue")}: $queued",
+                        "${ln.getString(ConstString.queue)}: $queued",
                         TextAlign.left,
                         // color: Colors.black,
                         fontsize: 13,
@@ -144,7 +145,7 @@ class MyServicesCardContent extends StatelessWidget {
                           color: Colors.orange.withOpacity(.17),
                           borderRadius: BorderRadius.circular(4)),
                       child: CommonHelper().paragraphCommon(
-                        "${ln.getString("Completed")}: $completed",
+                        "${ln.getString(ConstString.completed)}: $completed",
                         TextAlign.left,
                         // color: Colors.black,
                         fontsize: 13,
@@ -166,7 +167,7 @@ class MyServicesCardContent extends StatelessWidget {
                           color: Colors.red.withOpacity(.17),
                           borderRadius: BorderRadius.circular(4)),
                       child: CommonHelper().paragraphCommon(
-                        "${ln.getString("Cancelled")}: $cancelled",
+                        "${ln.getString(ConstString.cancelled)}: $cancelled",
                         TextAlign.left,
                         // color: Colors.black,
                         fontsize: 13,

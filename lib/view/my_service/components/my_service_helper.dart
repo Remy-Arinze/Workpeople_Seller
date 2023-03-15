@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:qixer_seller/services/app_string_service.dart';
 import 'package:qixer_seller/services/my_services/my_services_service.dart';
 import 'package:qixer_seller/view/utils/common_helper.dart';
+import 'package:qixer_seller/view/utils/const_strings.dart';
 import 'package:qixer_seller/view/utils/constant_colors.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
@@ -44,7 +45,7 @@ class MyServiceHelper with ChangeNotifier {
             builder: (context, ln, child) => Column(
               children: [
                 Text(
-                  '${ln.getString('Are you sure')}?',
+                  '${ln.getString(ConstString.areYouSure)}?',
                   style: TextStyle(color: cc.greyPrimary, fontSize: 17),
                 ),
                 const SizedBox(
@@ -53,8 +54,8 @@ class MyServiceHelper with ChangeNotifier {
                 Row(
                   children: [
                     Expanded(
-                        child: CommonHelper()
-                            .borderButtonPrimary(ln.getString('Cancel'), () {
+                        child: CommonHelper().borderButtonPrimary(
+                            ln.getString(ConstString.cancel), () {
                       Navigator.pop(context);
                     })),
                     const SizedBox(
@@ -62,8 +63,8 @@ class MyServiceHelper with ChangeNotifier {
                     ),
                     Consumer<MyServicesService>(
                       builder: (context, provider, child) => Expanded(
-                          child: CommonHelper()
-                              .buttonPrimary(ln.getString('Delete'), () {
+                          child: CommonHelper().buttonPrimary(
+                              ln.getString(ConstString.delete), () {
                         if (provider.deleteLoading == false) {
                           provider.deleteService(context, serviceId: serviceId);
                         }
